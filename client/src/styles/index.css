@@ -1,0 +1,30 @@
+/* Main Screen */
+#main_screen {
+    max-width: calc(100vw - 170px);
+    width: 100%;
+    min-height: calc(100vh - 70px);
+    height: 100%;
+    position: relative;
+    left: 170px;
+    top: 70px;
+    background: #E4E9F7;
+}
+#main_screen.nav_is_closed {
+    max-width: calc(100vw - 4.25rem);
+    left: 4.25rem;
+}
+
+
+
+/* SIDE NAVIGATION MENU */
+@import url('./components/SideBar/sideBar.css');
+
+
+
+/* COURSES PAGE */
+@import url('./components/Course/coureseMainPage.css');
+
+
+
+/* ========== COMPONENTS ========== */
+@import url('./components/Avatar/avatar.css');

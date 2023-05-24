@@ -1,0 +1,95 @@
+/* Navbar Vertical (Side Navigation Menu) */
+.navbar-vertical {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    z-index: 1020;
+    max-width: 10.625rem;
+    width: 100%;
+    max-height: 100vh;
+    height: 100%;
+    padding: 10px 14px;
+    background: #fff;
+}
+
+.navbar-close{
+    max-width: 4.25rem;
+}
+.navbar-close .nav-text{
+    opacity: 0;
+}
+
+.navbar-close~#main_screen{
+    width: calc(100vw - 4.25rem);
+}
+
+.navbar-vertical .navbar-vertical-content{
+    height: calc(100% - 50px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.navbar-vertical .navbar-top-content{
+    margin-top: 20px;
+}
+.navbar-vertical .navbar-top-content,
+.navbar-vertical .navbar-bottom-content{
+    width: 100%;
+}
+.navbar-vertical .nav-item {
+    padding-left: 10px;
+}
+
+.navbar-vertical .nav-item a {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #000000;
+}
+.navbar-vertical .nav-item .nav-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.0125em;
+    text-align: center;
+}
+
+/* Top Navigation Bar */
+
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    z-index: 1019;
+    width: 100%;
+    height: 70px;
+    padding: 10px 14px;
+    background: #fff;
+}
+
+.top-navbar .navbar-right {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.top-navbar .dropdown-menu {
+    position: absolute;
+    top: 60px;
+    left: 0px;
+}
+
+.top-navbar .nav-item .nav-icon{
+    color: #000000;
+}
+
+
+/* Reusable */
+.nav-item .nav-icon svg {
+    font-size: 20px;
+}

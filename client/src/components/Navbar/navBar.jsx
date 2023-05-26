@@ -56,7 +56,7 @@ const NavBar = ({sideBarStats, changeState}) => {
       </nav>
 
       <div className="navbar top-navbar">
-        <ul className="navbar-right navbar-nav flex-row ms-auto">
+        <ul className="navbar-right navbar-nav flex-row me-3">
           <li className="nav-item px-2">
             <Link to={"/"}>
               <span className='nav-icon'><BiBell/></span>

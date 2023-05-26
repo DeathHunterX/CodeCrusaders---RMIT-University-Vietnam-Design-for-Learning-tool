@@ -7,7 +7,7 @@ const CourseMainPage = () => {
   return (
     <div className='course_wrapper '>
         <div className='course_container'>
-            <div className="course_title ms-5 my-3">
+            <div className="course_title ms-5 mb-3">
                 <h2 className="text-uppercase">Courses</h2>
             </div>
 
@@ -15,9 +15,12 @@ const CourseMainPage = () => {
                 <div className="course_list_container row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <div className="mb-4 course_item course_create_btn">
                         <Link to="/create_course">
-                            <div className="course_create_btn_layout">
-                                <IoIosAddCircleOutline/>
+                            <div className="card">
+                                <div className="course_create_btn_layout">
+                                    <IoIosAddCircleOutline/>
+                                </div>
                             </div>
+                            
                         </Link>
                     </div>
                     <CourseCard/>
@@ -42,8 +45,6 @@ const CourseMainPage = () => {
                     <CourseCard/>
                     <CourseCard/>
                     <CourseCard/>
-
-
                 </div>
             </div>
         </div>

@@ -1,17 +1,25 @@
 /* Main Screen */
 #main_screen {
-    max-width: calc(100vw - 170px);
+    max-width: calc(100vw - 187px);
     width: 100%;
-    min-height: calc(100vh - 70px);
+    min-height: 100vh;
     height: 100%;
+    
     position: relative;
     left: 170px;
     top: 70px;
     background: #E4E9F7;
 }
+
 #main_screen.nav_is_closed {
-    max-width: calc(100vw - 4.25rem);
-    left: 4.25rem;
+    max-width: calc(100vw - 87px);
+    left: 70px;
+}
+
+#main_screen>*,
+#main_screen.nav_is_closed>* {
+    width: 100%;
+    height: 100%;
 }
 
 

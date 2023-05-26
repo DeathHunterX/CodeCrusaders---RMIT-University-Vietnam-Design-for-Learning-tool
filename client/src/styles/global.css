@@ -31,11 +31,11 @@
   width: 100%;
   min-height: 100vh;
   height: 100%;
-  overflow: hidden
+  /* overflow: hidden */
 };
 
-a {
-  text-decoration: none;
+a{
+  text-decoration: none !important;
 }
 
 p {

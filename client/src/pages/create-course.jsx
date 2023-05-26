@@ -1,8 +1,11 @@
 import React from 'react'
+import CourseCreated from '../components/Course/CourseCreated/CourseCreated'
 
 const CreateCourse = () => {
   return (
-    <div>CreateCourse</div>
+    <>
+      <CourseCreated/>
+    </>
   )
 }
 

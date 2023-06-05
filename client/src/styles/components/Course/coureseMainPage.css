@@ -9,6 +9,7 @@
 
 .course_wrapper .course_list_wrapper .course_item .card {
     height: 266px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 #main_screen.nav_is_closed .course_wrapper .course_list_container {

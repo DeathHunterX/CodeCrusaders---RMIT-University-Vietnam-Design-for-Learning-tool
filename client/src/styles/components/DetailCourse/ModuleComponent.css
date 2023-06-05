@@ -1,0 +1,34 @@
+/* .module_component {} */
+
+.module_component .popup_form .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    display: none;
+}
+
+.module_component .popup_form .form_content {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 50%) scale(0);
+    background: #fff;
+    width: 450px;
+    height: 200px;
+    padding: 25px;
+    z-index: 2001;
+    text-align: center;
+}
+
+.module_component .popup_form.active .overlay {
+    display: block;
+}
+
+.module_component .popup_form.active .form_content {
+    transition: all 500ms ease-in-out;
+    transform: translate(-50%, 50%) scale(1);
+}

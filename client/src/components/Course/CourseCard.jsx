@@ -7,7 +7,7 @@ import {BsShareFill} from 'react-icons/bs'
 const CourseCard = () => {
   return (
       <div className="mb-4 course_item">
-        <Link to="/course/01" className="text-decoration-none">
+        <Link to="/course/01/home" className="text-decoration-none">
           <div className="card h-100">
               <img src={CourseImgBg} className="card-img-top" alt='' />
               <div className="card-body">

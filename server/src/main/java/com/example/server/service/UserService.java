@@ -1,2 +1,5 @@
-package com.example.server.service;public interface UserService {
+package com.example.server.service;
+
+public interface UserService {
+
 }

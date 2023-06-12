@@ -25,6 +25,12 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<Assignment> assignmentList = new ArrayList<>();
 
+    private void updateCourse(Course newCourse) {
+        this.courseName = newCourse.getCourseName();
+        this.semester = newCourse.getSemester();
+        this.clos = newCourse.getClos();
+        this.assignmentList = newCourse.getAssignmentList();
+    }
 
 
 }

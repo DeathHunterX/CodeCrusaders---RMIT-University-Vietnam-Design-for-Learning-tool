@@ -1,2 +1,4 @@
-package com.example.server.service;public interface AssignmentService {
+package com.example.server.service;
+
+public interface AssignmentService {
 }

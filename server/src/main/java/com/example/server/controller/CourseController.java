@@ -24,6 +24,7 @@ public class CourseController {
   @Autowired
   private CourseService courseService;
 
+
   @GetMapping("/all-courses")
   public List<Course> getAllCourses() {
     return courseService.getAllCourses();
@@ -45,7 +46,7 @@ public class CourseController {
   }
 
   @DeleteMapping("/delete-course/{id}")
-  public  String deleteCourse(@PathVariable("id") Long id) {
+  public String deleteCourse(@PathVariable("id") Long id) {
     courseService.deleteCourse(id);
     return "";
   }

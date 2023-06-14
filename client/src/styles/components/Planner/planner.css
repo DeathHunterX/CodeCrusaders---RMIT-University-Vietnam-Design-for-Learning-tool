@@ -1,0 +1,81 @@
+.planner_component {
+    height: 90vh !important;
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.planner_component .planner_left_side {
+    margin-left: 20px;
+}
+
+.planner_component .planner_left_side .activity_section {
+    width: 380px;
+    max-height: 90vh;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #e0e0e0;
+}
+.activity_section .activity_wrapper {
+    padding: 10px 0px 10px 10px;
+}
+
+.activity_section .activity_wrapper .activity_wrapper_inner {
+    padding-top: 10px;
+}
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background: rgb(88, 57, 246);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+.class_activity {
+    padding: 0 10px 10px 0;
+}
+.class_activity .activity_card {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+
+    word-wrap: break-word;
+
+    background-color: #fff;
+}
+
+.activity_card .activity_symbols {
+    min-width: 54px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+.activity_card .activity_symbols>*{
+    font-size: 2.225rem;
+}
+
+.activity_card .content_body {
+    margin: 6px;
+}
+
+.content_body .activity_name {
+    text-align: left;
+    font-weight: 700;
+    color: #737373;
+
+    margin: 0 0 10px;
+    font-size: 1rem;
+}
+
+.content_body .activity_desc {
+    font-size: 0.8rem;
+    color: #737373;
+    font-weight: 700;
+}

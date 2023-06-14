@@ -1,12 +1,17 @@
 package com.example.server.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.*;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class Course {
 
     @Id
@@ -30,6 +35,12 @@ public class Course {
         this.semester = newCourse.getSemester();
         this.clos = newCourse.getClos();
         this.assignmentList = newCourse.getAssignmentList();
+    }
+
+    public Course(String courseName, String semester, List<String> clos) {
+        this.courseName = courseName;
+        this.semester = semester;
+        this.clos = clos;
     }
 
 

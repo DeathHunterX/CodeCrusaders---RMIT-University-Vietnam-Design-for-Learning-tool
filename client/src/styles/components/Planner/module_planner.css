@@ -1,0 +1,73 @@
+.module_planner {
+    /* padding: 1em 1em 0 1em; */
+    padding: 1em;
+    height: 100%;
+}
+
+/* .module_planner .activity_box {
+    border: 1px solid #e0e0e0;
+    display: flex;
+    flex-grow: 1;
+    overflow-y: auto;
+    text-align: center;
+    border-radius: 6px;
+    flex-direction: column;
+} */
+
+.module_planner .tabs_container {
+    background: #fff;
+    height: 100%;
+}
+
+.tabs_container .tabs_header {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #bbb;
+}
+
+.tabs_container .tabs_header .tabs {
+    position: relative;
+    padding: 0px 20px;
+    height: 60px;
+    line-height: 50px;
+    z-index: 2;
+    cursor: pointer;
+    color: #222;
+    font-weight: 600;
+}
+
+.tabs_container .tabs_header .tabs::before {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    width: 25px;
+    height: 5px;
+    background: #888;
+    border-radius: 10px;
+}
+
+.tabs_container .tabs_header .tabs.active_tabs {
+    color: #4439f1;
+    border: 1px solid #bbb;
+    border-bottom: none;
+    box-shadow: 0px 1px 0px #fff;
+}
+
+.tabs_container .tabs_header .tabs.active_tabs::before {
+    background: #4439f1;   
+}
+
+.tabs_container .tabs_body {
+    /* padding: 30px 20px; */
+    position: relative;
+    max-height: 75vh;
+    height: 100%;
+}
+.tabs_container .tabs_body>* {
+    height: 100%;
+}
+.tabs_body .col-9 {
+    border: 1px solid gray;
+}
+

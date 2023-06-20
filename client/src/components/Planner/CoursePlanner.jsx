@@ -5,7 +5,7 @@ const CoursePlanner = ({items, onDragEnd}) => {
   const [activeTabs, setActiveTabs] = useState(0)
 
   const configMap = [
-    {header: 'Pre-class', component: <PlannerDescription items={items} onDragEnd={onDragEnd}/>}, 
+    {header: 'Pre-class', component: <PlannerDescription/>}, 
     {header: 'In-class', component: <PlannerDescription/>}, 
     {header: 'Post-class', component: <PlannerDescription/>}
   ]

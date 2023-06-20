@@ -8,6 +8,7 @@
     margin-left: 20px;
 }
 
+/* LEFT SIDE */
 .planner_component .planner_left_side .activity_section {
     width: 380px;
     max-height: 90vh;
@@ -33,6 +34,8 @@
     background: #fff;
 }
 
+
+/* CARD - Reuse */
 .class_activity {
     padding: 0 10px 10px 0;
 }
@@ -78,4 +81,39 @@
     font-size: 0.8rem;
     color: #737373;
     font-weight: 700;
+}
+
+
+/* RIGHT SIDE */
+.right_board {}
+
+.right_board .activity_board_container {
+    border: 1px solid #e0e0e0;
+    display: flex;
+    flex-grow: 1;
+    overflow-y: auto;
+    text-align: center;
+    border-radius: 6px;
+    flex-direction: column;
+}
+
+.right_board .activity_board_container .activity_board_inner_container {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.activity_board_inner_container .activity_time_list {
+    margin: 0 10px 0 0;
+    padding: 10px 0 0 0;
+    min-width: 60px;
+    list-style-type: none;
+}
+
+.activity_board_inner_container .activity_list{
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 10px 0 0 0;
+    min-width: 340px;
+    list-style-type: none;
 }

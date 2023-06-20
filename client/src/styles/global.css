@@ -38,5 +38,9 @@ p {
   margin-bottom: 0;
 }
 
+*>ul {
+  list-style: none
+}
+
 /* Using other CSS File in here */
 @import url('./index.css');

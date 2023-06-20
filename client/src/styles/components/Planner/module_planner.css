@@ -59,7 +59,7 @@
 }
 
 .tabs_container .tabs_body {
-    /* padding: 30px 20px; */
+    padding: 10px 5px;
     position: relative;
     max-height: 75vh;
     height: 100%;

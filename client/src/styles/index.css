@@ -22,6 +22,11 @@
 /* SIDE NAVIGATION MENU */
 @import url('./components/SideBar/sideBar.css');
 
+/* ========== LOGIN PAGE ========== */
+@import url('./components/Login/Login.css');
+
+/* ========== REGISTER PAGE ========== */
+@import url('./components/Register/Register.css');
 
 
 /* COURSES PAGE */

@@ -23,16 +23,12 @@
 }
 
 .main {
-  background: red;
-}
-
-.App {
-  max-width: 100vw;
-  width: 100%;
+  background: #E4E9F7;
   min-height: 100vh;
   height: 100%;
-  /* overflow: hidden */
-};
+  max-width: 100vw;
+  width: 100%;
+}
 
 a{
   text-decoration: none !important;
@@ -40,6 +36,10 @@ a{
 
 p {
   margin-bottom: 0;
+}
+
+*>ul {
+  list-style: none
 }
 
 /* Using other CSS File in here */

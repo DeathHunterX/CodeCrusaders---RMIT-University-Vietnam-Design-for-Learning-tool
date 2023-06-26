@@ -1,0 +1,119 @@
+.planner_component {
+    height: 90vh !important;
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.planner_component .planner_left_side {
+    margin-left: 20px;
+}
+
+/* LEFT SIDE */
+.planner_component .planner_left_side .activity_section {
+    width: 380px;
+    max-height: 90vh;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #e0e0e0;
+}
+.activity_section .activity_wrapper {
+    padding: 10px 0px 10px 10px;
+}
+
+.activity_section .activity_wrapper .activity_wrapper_inner {
+    padding-top: 10px;
+}
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background: rgb(88, 57, 246);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+
+/* CARD - Reuse */
+.class_activity {
+    padding: 0 10px 10px 0;
+}
+.class_activity .activity_card {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+
+    word-wrap: break-word;
+
+    background-color: #fff;
+}
+
+.activity_card .activity_symbols {
+    min-width: 54px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+.activity_card .activity_symbols>*{
+    font-size: 2.225rem;
+}
+
+.activity_card .content_body {
+    margin: 6px;
+}
+
+.content_body .activity_name {
+    text-align: left;
+    font-weight: 700;
+    color: #737373;
+
+    margin: 0 0 10px;
+    font-size: 1rem;
+}
+
+.content_body .activity_desc {
+    font-size: 0.8rem;
+    color: #737373;
+    font-weight: 700;
+}
+
+
+/* RIGHT SIDE */
+.right_board {}
+
+.right_board .activity_board_container {
+    border: 1px solid #e0e0e0;
+    display: flex;
+    flex-grow: 1;
+    overflow-y: auto;
+    text-align: center;
+    border-radius: 6px;
+    flex-direction: column;
+}
+
+.right_board .activity_board_container .activity_board_inner_container {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.activity_board_inner_container .activity_time_list {
+    margin: 0 10px 0 0;
+    padding: 10px 0 0 0;
+    min-width: 60px;
+    list-style-type: none;
+}
+
+.activity_board_inner_container .activity_list{
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 10px 0 0 0;
+    min-width: 340px;
+    list-style-type: none;
+}

@@ -12,9 +12,8 @@ import AvatarImg from '../../images/Avatar/avatar.jpg'
 import Avatar from '../Avatar'
 
 const NavBar = ({sideBarStats, changeState}) => {
-
   return (
-    <section className="navigation-bar">
+    <>
       <nav className={`navbar navbar-vertical navbar-light navbar-expand-xl ${sideBarStats === true ? 'navbar-close' : ''}`}>
           <div className="d-flex align-items-center">
             <button className='btn btn-default btn-circle-hover me-2' onClick={changeState}>
@@ -82,7 +81,7 @@ const NavBar = ({sideBarStats, changeState}) => {
       </div>
 
       
-    </section>
+    </>
 
   )
 }

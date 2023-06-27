@@ -1,17 +1,18 @@
-//package com.example.server.service;
-//
-//import org.springframework.http.ResponseEntity;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//public interface ModuleService {
-//  List<Module> getAllAssignments();
-//  Optional<Module> getAssignmentById(Long id);
-//
-//  Module createAssignment(Module assignment);
-//  void deleteAssignment(Long id);
-//
-//  ResponseEntity<Module> updateCourse(Module newAssignment, Long id);
-//}
-//
+package com.example.server.service;
+
+import com.example.server.model.Module;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface ModuleService {
+  List<Module> getAllModules();
+  Optional<Module> getModuleById(Long id);
+
+  Module createModule(Module module);
+  void deleteModule(Long id);
+
+  ResponseEntity<Module> updateModule(Module newAssignment, Long id);
+}
+

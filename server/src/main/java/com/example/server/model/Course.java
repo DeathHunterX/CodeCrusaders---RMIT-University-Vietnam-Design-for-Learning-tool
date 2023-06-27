@@ -32,12 +32,9 @@ public class Course {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
     private List<Assignment> assignmentList = new ArrayList<>();
 
-    private void updateCourse(Course newCourse) {
-        this.courseName = newCourse.getCourseName();
-        this.semester = newCourse.getSemester();
-        this.clos = newCourse.getClos();
-        this.assignmentList = newCourse.getAssignmentList();
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
+    private List<Module> moduleList = new ArrayList<>();
+
 
     public Course(String courseName, String semester, List<String> clos) {
         this.courseName = courseName;

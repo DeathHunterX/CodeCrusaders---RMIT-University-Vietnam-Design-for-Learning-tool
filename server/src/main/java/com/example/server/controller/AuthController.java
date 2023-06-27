@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("v1/api/auth")
@@ -53,6 +50,5 @@ public class AuthController {
         userDetails.getUser().getId(),
         userDetails.getUsername(),
         userDetails.getUser().getName()));
-//    return ResponseEntity.ok(null);
   }
 }

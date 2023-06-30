@@ -4,7 +4,7 @@ import {BiBookBookmark} from 'react-icons/bi'
 import {GoCommentDiscussion} from 'react-icons/go'
 
 import {MdOutlineAddBox} from 'react-icons/md'
-export const ModuleMap = [
+export const ActivityCardList = [
     // Activity 01
     {
         activityID:'activity-01',

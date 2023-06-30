@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 import { useDrag} from 'react-dnd';
-import { ItemTypes } from '../ItemTypes';
+import { ActivityTypes } from '../ActivityTypes';
 
 const ActivityCard = ({id, index, data, moveCard}) => {
     const [itemStats, setItemStats] = useState({x: 0, y: 0, width: 0, height: 0});
-
+    const ref = useRef(null)
     const [{ isDragging }, drag, preview] = useDrag({
-        type: ItemTypes.ACTIVITY, 
+        type: ActivityTypes.ACTIVITY, 
         item: {
-            id: id, 
-            index: index, 
-            data: data, 
+            activityID: id, 
+            index: index,  
             itemStats: itemStats
         },
         collect: (monitor) => ({
@@ -29,9 +28,10 @@ const ActivityCard = ({id, index, data, moveCard}) => {
         setItemStats({x: rect.left, y: rect.top, width: rect.width, height: rect.height})
     };
     
+    drag(ref)
     
     return (
-        <li ref={drag}
+        <li ref={ref}
             style={{cursor: 'grab', opacity: isDragging ? 0.5 : 1 }} 
             onDragStart={handleDragStart}
         > 

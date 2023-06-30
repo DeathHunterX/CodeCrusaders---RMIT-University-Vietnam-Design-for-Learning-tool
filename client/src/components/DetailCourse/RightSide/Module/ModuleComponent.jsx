@@ -1,36 +1,70 @@
 import React, { useState } from 'react'
 import {IoAdd, IoClose} from 'react-icons/io5'
 
+import {RiDeleteBin6Line} from 'react-icons/ri'
+import {AiOutlineLink} from 'react-icons/ai'
+import { IconSetting } from '../../../../utils/IconSetting'
+
 import { Link } from 'react-router-dom'
+
 const ModulesComponent = () => {
+  const [moduleList, setModuleList] = useState([
+    'Introduction', 'Indexing', 'Partitioning', 'Query Optimization', 
+    'Database Security', 'Transaction and Concurrency Management', 'View & Stored Procedures',
+    'Functions & Triggers', 'NoSQL Basics', 'NoSQL Data Model'
+  ])
+
   const [popUpStat, setPopUpStat] = useState(false)
   const [moduleName, setModuleName] = useState('')
 
   const handleSubmitForm = (e) => {
     e.preventDefault()
-    console.log(moduleName)
+    setModuleList((prevItm) => prevItm.concat(moduleName))
 
     setPopUpStat(false)
   }
+
+  const handleDeleteModule = (idx) => {
+    if (idx >= 0 && idx < moduleList.length) {
+      const updatedList = [...moduleList];
+      updatedList.splice(idx, 1);
+      setModuleList(updatedList);
+      console.log("Item deleted successfully.");
+    } else {
+      console.log("Invalid index. No item deleted.");
+    }
+  }
+
+
+  
   return (
-    <div className="module_component">
+    <div className="module_component ms-4 me-4">
       <div className="d-flex justify-content-end">
         <button className="btn btn-primary" onClick={() => setPopUpStat(true)}><IoAdd /> Module</button>
       </div>
 
-      <div className="module_table">
+      <div className="module_table mt-2">
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">No.</th>
-              <th scope="col">Module</th>
+              <th scope="col" className="week_col">Week No.</th>
+              <th scope="col" className="module_col">Module</th>
+              <th scope="col" className="action_col">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td> <Link to="/course/01/planner/02">Intro to Capstone Project</Link></td>
-            </tr>
+            {
+              moduleList.map((moduleItm, idx) => (
+                <tr className="fw-normal" key={idx}>
+                  <th scope="row">{idx + 1}</th>
+                  <td> <Link to="/course/01/planner/02">{moduleItm}</Link></td>
+                  <td>
+                    <span className="me-4" onClick={() => handleDeleteModule(idx)}>{IconSetting(<RiDeleteBin6Line/>,"red")}</span>
+                    <span>{IconSetting(<AiOutlineLink/>)}</span>
+                  </td>
+                </tr>
+              ))
+            }
           </tbody>
         </table>
       </div>

@@ -29,7 +29,7 @@
 @import url('./components/Register/Register.css');
 
 
-/* COURSES PAGE */
+/* ========== COURSES PAGE ========== */
 @import url('./components/Course/coureseMainPage.css');
 
 /* ========== DETAIL COURSE PAGE ========== */
@@ -39,6 +39,10 @@
 /* ===RIGHT SIDE=== */
 /* MODULE PAGE*/
 @import url('./components/DetailCourse/ModuleComponent.css');
+/* SETTINGS PAGE */
+@import url('./components/DetailCourse/SettingComponent.css');
+
+
 
 
 /* ========== COURSE PLANNER PAGE ========== */
@@ -54,3 +58,5 @@
 @import url('./components/TextEditor/TextEditor.css');
 
 @import url('./components/ResizableBox/ResizableBox.css');
+
+@import url('./components/Tabs/Tabs.css');

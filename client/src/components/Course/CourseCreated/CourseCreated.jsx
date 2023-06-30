@@ -21,23 +21,29 @@ const CourseCreated = () => {
     
 
     const [courseData, setCourseData] = useState(initialCourseState)
-    const {courseId, courseName, CLOs, assignment, assignmentName, startDate, endDate} = courseData
+    const {courseId, courseName, courseSemester, CLOs, assignment} = courseData
 
 
     const handleInput = (e) => {
         const {name, value} = e.target
-        setCourseData({...courseData, [name]: value})
+        setCourseData((prevState) => ({...prevState, [name]: value}))
     }
 
     const handleInputAssignment = (e, idx) => {
         const {name, value} = e.target
-        const assignmentList = [...assignment]
-        assignmentList[idx][name] = value
-        setCourseData({...courseData, assignment: assignmentList})
+        setCourseData((prevState) => {
+            const updatedAssignments = [...prevState.assignment]
+            updatedAssignments[idx] = {...updatedAssignments[idx], [name]: value};
+
+            return {
+                ...prevState,
+                assignment: updatedAssignments
+            };
+        })
     }
 
     const handleTextEditor = (value) => {
-        setCourseData({...courseData, CLOs: value})
+        setCourseData((prevState) => ({...prevState, CLOs: value}))
     }
 
     const semesterInAnArray = []
@@ -87,14 +93,12 @@ const CourseCreated = () => {
                                     </div>
 
                                     <div className="mb-3">
-                                        <label htmlFor="courseSemesterInput" className="form-label">Semester</label>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <select className="form-select w-75" aria-label="courseSemesterInput" 
-                                            name='courseSemester' onChange={handleInput}>
-                                                <option value="">-- Select Semester --</option>
-                                                {semesterInAnArray}
-                                            </select>
-                                        </div>
+                                        <label htmlFor="courseSemesterInput" className="form-label">Semester</label>                      
+                                        <select className="form-select w-75" aria-label="courseSemesterInput" 
+                                        name='courseSemester' value={courseSemester} onChange={handleInput}>
+                                            <option value="">-- Select Semester --</option>
+                                            {semesterInAnArray}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -118,18 +122,18 @@ const CourseCreated = () => {
                                                 <div className="mb-3 w-100">
                                                     <label htmlFor="assignmentName01" className="form-label">Name Assignment </label>
                                                     <input type="text" className="form-control" id="assignmentName01" aria-describedby="assignmentName01" 
-                                                    name='assignmentName' value={assignmentName} onChange={(e) => handleInputAssignment(e, idx)}/>
+                                                    name='assignmentName' value={item.assignmentName} onChange={(e) => handleInputAssignment(e, idx)}/>
                                                 </div>
                                                 <div className="d-flex ms-4">
                                                     <div className="mb-3">
                                                         <label htmlFor="assignmentStartDate01" className="form-label">Star Date</label>
                                                         <input type="date" className="form-control" id="assignmentStartDate01"
-                                                        name='startDate' value={startDate} onChange={(e) => handleInputAssignment(e, idx)}/>
+                                                        name='startDate' value={item.startDate} onChange={(e) => handleInputAssignment(e, idx)}/>
                                                     </div>
                                                     <div className="mb-3 ms-4">
                                                         <label htmlFor="assignmentEndDate01" className="form-label">End Date</label>
                                                         <input type="date" className="form-control" id="assignmentEndDate01"
-                                                        name='endDate' value={endDate} onChange={(e) => handleInputAssignment(e, idx)}/>
+                                                        name='endDate' value={item.endDate} onChange={(e) => handleInputAssignment(e, idx)}/>
                                                     </div>
                                                 </div>
                                                 

@@ -73,8 +73,8 @@ const NavBar = ({sideBarStats, changeState}) => {
               </div>
             </div>
             <div className="dropdown-menu avatar-menu" aria-labelledby="navbarDropdown">
-                <Link className="dropdown-item" to={`/user/profile`} >My Profile</Link>
-                <Link className="dropdown-item" to={`/user/settings/`} >Settings</Link>
+                <Link className="dropdown-item" to={`/user/01/profile`} >My Profile</Link>
+                <Link className="dropdown-item" to={`/user/01/settings/`} >Settings</Link>
             </div>
           </li>
         </ul>

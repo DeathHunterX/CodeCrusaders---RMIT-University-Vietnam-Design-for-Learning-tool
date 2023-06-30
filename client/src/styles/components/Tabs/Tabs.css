@@ -1,0 +1,16 @@
+.tabs_container .tabs_header {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #bbb;
+}
+
+.tabs_container .tabs_header .tabs {
+    position: relative;
+    padding: 0px 20px;
+    height: 60px;
+    line-height: 50px;
+    z-index: 2;
+    cursor: pointer;
+    color: #222;
+    font-weight: 600;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDragLayer } from 'react-dnd';
+import { ActivityCardList } from '../Planner/Activity/Map/ActivityCardList';
 
 const CustomDragCardLayer = () => {
   const { item, isDragging, currentOffset } = useDragLayer((monitor) => ({
@@ -13,6 +14,10 @@ const CustomDragCardLayer = () => {
     return null;
   }
 
+  // console.log(item)
+  const filter = ActivityCardList.filter((activity) => item.activityID === activity.activityID)
+  
+  // console.log(filter)
 
   return (
     <div style={{
@@ -40,17 +45,17 @@ const CustomDragCardLayer = () => {
         // boxShadow: '0px 0px 10px gray',
       }}>
         
-        { item && 
+        { filter && 
           <div className="class_activity" style={{height: '100px', position:'relative'}}>
         
             <div className="activity_card mb-3" style={{userSelect: 'none', boxShadow: 'rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px',}}>
-                <div className="activity_symbols" style={{backgroundColor: `${item.data.activityIconBg}`}}>
-                    {item.data.activityIcon}
+                <div className="activity_symbols" style={{backgroundColor: `${filter[0].activityIconBg}`}}>
+                    {filter[0].activityIcon}
                 </div>
                 <div className="activity_content">
                     <div className="content_body">
-                        <h5 className="activity_name">{item.data.activityName}</h5>
-                        <p className="activity_desc">{item.data.activityDescription}</p>     
+                        <h5 className="activity_name">{filter[0].activityName}</h5>
+                        <p className="activity_desc">{filter[0].activityDescription}</p>     
                     </div>
                 </div>
             </div>

@@ -14,7 +14,6 @@ const LeftSide = () => {
 
                     return(
                         <li className={`section_item ${subPage === itemLinkSplit[itemLinkSplit.length - 1] ? 'active': ''}`} key={item.itemNo}>
-                            {}
                             <Link to={item.itemLink}>{item.itemName}</Link>
                         </li>
                     )

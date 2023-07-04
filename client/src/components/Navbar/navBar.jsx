@@ -12,9 +12,8 @@ import AvatarImg from '../../images/Avatar/avatar.jpg'
 import Avatar from '../Avatar'
 
 const NavBar = ({sideBarStats, changeState}) => {
-
   return (
-    <section className="navigation-bar">
+    <>
       <nav className={`navbar navbar-vertical navbar-light navbar-expand-xl ${sideBarStats === true ? 'navbar-close' : ''}`}>
           <div className="d-flex align-items-center">
             <button className='btn btn-default btn-circle-hover me-2' onClick={changeState}>
@@ -74,15 +73,15 @@ const NavBar = ({sideBarStats, changeState}) => {
               </div>
             </div>
             <div className="dropdown-menu avatar-menu" aria-labelledby="navbarDropdown">
-                <Link className="dropdown-item" to={`/user/profile`} >My Profile</Link>
-                <Link className="dropdown-item" to={`/user/settings/`} >Settings</Link>
+                <Link className="dropdown-item" to={`/user/01/profile`} >My Profile</Link>
+                <Link className="dropdown-item" to={`/user/01/setting/`} >Settings</Link>
             </div>
           </li>
         </ul>
       </div>
 
       
-    </section>
+    </>
 
   )
 }

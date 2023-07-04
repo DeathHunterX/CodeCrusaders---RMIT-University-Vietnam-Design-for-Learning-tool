@@ -1,0 +1,85 @@
+.register_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #e4e9f7;
+  }
+.register_container .register_inner-container {
+    display: flex;
+    justify-content: center;
+}
+.register_container .right-side {
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px 20px 20px 0px;
+}
+.register_container .signUp-form {
+    text-align: center;
+    padding-left: 40px;
+    padding-right: 40px;
+    width: 500px;
+}
+.register_container .signUp-form input {
+    display: block;
+    margin-bottom: 14px;
+    padding: 10px;
+    border: 1px solid #dae1e1;
+    border-radius: 12px;
+    outline: none;
+    background-color: #f5f5f5;
+    width: 100%;
+}
+.register_container .name {
+    display: inline-flex;
+    width: 100%;
+}
+.register_container .password {
+    display: inline-flex;
+    width: 100%;
+}
+.register_container .signUp-form button {
+    background-color: #e60028;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+    margin-bottom: 50px;
+}
+  
+.register_container .login-form button:hover {
+    background-color: #d70225;
+}
+  
+.register_container .login {
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+.register_container .heading {
+    color: #6762f5;
+    margin-top: 50px;
+}
+.register_container .space {
+    margin-right: 12px;
+}
+.register_container .privacy {
+    text-align: left !important;
+    font-size: 10px;
+    font-size: 11px;
+    margin: 4px 4px;
+}
+.register_container .left-side {
+    background-image: url(../../../images/Logo/passionplanner-86b0283fd91346c18d03c4e6ea3f9feb.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 500px;
+    height: auto;
+    border-radius: 20px 0px 0px 20px;
+}
+  

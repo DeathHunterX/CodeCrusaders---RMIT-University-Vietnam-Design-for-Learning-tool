@@ -1,19 +1,13 @@
 /* Main Screen */
 #main_screen {
-    max-width: calc(100vw - 187px);
     width: 100%;
-    min-height: 100vh;
-    height: 100%;
-    
     position: relative;
-    left: 170px;
-    top: 70px;
     background: #E4E9F7;
+    padding-left: 170px;
 }
 
 #main_screen.nav_is_closed {
-    max-width: calc(100vw - 87px);
-    left: 70px;
+    padding-left: 70px;
 }
 
 #main_screen>*,
@@ -25,24 +19,49 @@
 
 
 
-/* SIDE NAVIGATION MENU */
-@import url('./components/SideBar/sideBar.css');
+/* ========== LOGIN PAGE ========== */
+@import url('./components/Login/Login.css');
 
+/* ========== REGISTER PAGE ========== */
+@import url('./components/Register/Register.css');
 
+/* ========== USER PAGE ========== */
+@import url('./components/User/user.css');
 
-/* COURSES PAGE */
+/* ========== COURSES PAGE ========== */
 @import url('./components/Course/coureseMainPage.css');
 
-/* ========== DETAIL COURSE PAGE ==========*/
+/* ========== DETAIL COURSE PAGE ========== */
 /* ===LEFT SIDE=== */
 @import url('./components/DetailCourse/DetailCourse.css');
 
 /* ===RIGHT SIDE=== */
 /* MODULE PAGE*/
 @import url('./components/DetailCourse/ModuleComponent.css');
+/* SETTINGS PAGE */
+@import url('./components/DetailCourse/SettingComponent.css');
+
+
+
+
+/* ========== COURSE PLANNER PAGE ========== */
+@import url('./components/Planner/planner.css');
+
+@import url('./components/Planner/module_planner.css');
+
+@import url('./components/Planner/ActivityWindow/ActivityWindow.css');
 
 
 /* ========== COMPONENTS ========== */
+
+/* Side navigation bar */
+@import url('./components/SideBar/sideBar.css');
+
+/* Avatar */
 @import url('./components/Avatar/avatar.css');
 
+/* Text Editor */
 @import url('./components/TextEditor/TextEditor.css');
+
+/* Tabs */
+@import url('./components/Tabs/Tabs.css');

@@ -1,124 +1,114 @@
 import React from 'react'
 
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-
-import {Doughnut} from 'react-chartjs-2'
-import "chartjs-plugin-doughnut-innertext"
+import {ResponsivePie} from '@nivo/pie'
 
 import { ActivityCardList } from './Activity/Map/ActivityCardList';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChart = ({dataset}) => {
-    const uniqueActivityIDs = [];
+const DoughnutChart = ({dataset, durationTime}) => {
+    let formattedData = dataset.length > 0 ? Object.values(    
+        dataset.reduce((acc, item) => {
+            // Find matching activity in ActivityCardList based on activityID
+            const matchingActivity = ActivityCardList.find(activity => activity.activityID === item.activityID);
 
-    const activityCounts = [];
+            // If the activity already exists in the accumulator, add the duration
+            if (acc[item.activityID]) {
+                acc[item.activityID].duration += item.itemDescription.durationTime;
+            } 
+            else {
+            // If the activity doesn't exist in the accumulator, create a new entry
+                acc[item.activityID] = {
+                activityID: item.activityID,
+                activityName: matchingActivity.activityName,
+                activityIconBg: matchingActivity.activityIconBg,
+                duration: item.itemDescription.durationTime
+            };
+          }
+          return acc;
+        }, {})
+        // Formatted data into the data can use in chart
+    ).map(({ activityName, duration, activityIconBg }) => ({
+        id: activityName,
+        label: activityName,
+        value: duration,
+        color: activityIconBg
+    })) : [];
 
-    const activityNameList = [];
-    const activityColorList = [];
+    const totalDuration = formattedData.reduce((total, item) => total + item.value, 0);
 
-    
-    if(dataset.length > 0) {
-        // const activityIDs = [];
-        
+    const additionalItem = {
+        id: 'Remaining Time',
+        label: 'Remaining Time',
+        value: durationTime - totalDuration,
+        color: '#808080'
+    };
+      
+    const updatedFormattedData = durationTime > 0 ? [...formattedData, additionalItem] : [...formattedData];
 
-        // Count activityID and extract into two different arrays
-        dataset.forEach(item => {
-            if (!uniqueActivityIDs.includes(item.activityID)) {
-                uniqueActivityIDs.push(item.activityID);
-            }
-            const { activityID } = item;
-
-            // Check if the activityID is already in the activityCounts array
-            const existingCountIndex = activityCounts.findIndex(countItem => countItem.activityID === activityID);
-            
-            if (existingCountIndex !== -1) {
-                // Increment the count if the activityID already exists
-                activityCounts[existingCountIndex].count++;
+    const displayTime = (time) => {
+        if (time >= 15) {
+            const timeRemain = durationTime - totalDuration
+            if (timeRemain >= 0) {
+                return (
+                <>
+                    <h5>{timeRemain}'</h5>
+                    <h5>left</h5>
+                </>
+                )
             } else {
-                // Add a new entry if the activityID doesn't exist
-                activityCounts.push({ activityID, count: 1 });
+                return (
+                    <>
+                        <h5>{Math.abs(timeRemain)}'</h5>
+                        <h5>over</h5>
+                    </>
+                )
             }
-        });
-    };
-
-    const countsArray = activityCounts.map(countItem => countItem.count);
+        } 
+    }
     
-    // console.log('Unique Activity IDs:', uniqueActivityIDs);
-    // console.log('Activity IDs Count:', countsArray);
 
-    uniqueActivityIDs.forEach(activityItm => {
-        const activityFilter = ActivityCardList.filter((activity) => activityItm === activity.activityID);
-        activityNameList.push(activityFilter[0].activityName)
-        activityColorList.push(activityFilter[0].activityIconBg);
-    });
-
-    // console.log(activityColorList)
-
-    const chartData = {
-        labels: activityNameList,
-        datasets: [
-            {
-                data: countsArray,
-                backgroundColor: activityColorList,
-                hoverBackgroundColor: activityColorList,
-            },
-        ],
-    };
-
-    const options = {
-        plugins: {
-            datalabels: {
-              display: true,
-              backgroundColor: '#ccc',
-              borderRadius: 3,
-              font: {
-                color: 'red',
-                weight: 'bold',
-              },
-            },
-            doughnutlabel: {
-              labels: [
-                {
-                  text: '550',
-                  font: {
-                    size: 20,
-                    weight: 'bold',
-                  },
-                },
-                {
-                  text: 'total',
-                },
-              ],
-            },
-        },
-    }
-
-    const textCenter = {
-        id: 'textCenter',
-        beforeDraw(chart) {
-            const { width } = chart;
-            const { height } = chart;
-            const { ctx } = chart;
-
-            ctx.restore();
-            var fontSize = (height / 300).toFixed(2);
-            ctx.font = fontSize + "em sans-serif";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            var text = "2.44%"
-            const textX = Math.round((width - ctx.measureText(text).width) / 2);
-            const textY = height / 2;
-            ctx.fillText(text, textX, textY);
-            ctx.save();
-        },
-           
-    }
-
-
+    // console.log(formattedData)
+    // console.log(durationTime)
 
     return (    
-        <Doughnut data={chartData} options={options} plugins={[textCenter]}/>   
+        <div className="position-relative" style={{width:'100%' ,height: "425px"}}>
+            <ResponsivePie
+                data={updatedFormattedData}
+                margin={{ top: 40, right: 125, bottom: 80, left: 75 }}
+                innerRadius={0.75}
+                padAngle={1}
+                cornerRadius={3}
+                activeOuterRadiusOffset={8}
+                colors={{ datum: "data.color" }}
+                borderWidth={1}
+                borderColor={{ theme: 'background' }}
+                enableArcLinkLabels={false}
+                arcLinkLabelsSkipAngle={10}
+                arcLinkLabelsTextColor="#333333"
+                arcLinkLabelsThickness={2}
+                arcLinkLabelsColor={{ from: 'color' }}
+                arcLabelsSkipAngle={10}
+                arcLabelsTextColor="#fff"
+                legends={[
+                    {
+                        anchor: 'top-right',
+                        direction: 'column',
+                        justify: false,
+                        translateX: 75,
+                        translateY: 0,
+                        itemWidth: 100,
+                        itemHeight: 30,
+                        itemsSpacing: 0,
+                        symbolSize: 20,
+                        itemDirection: 'left-to-right'
+                    }
+                ]}
+            />
+
+            <div className="chart_text_center">
+                {displayTime(durationTime)}  
+            </div>
+        </div>
     );
 }
 

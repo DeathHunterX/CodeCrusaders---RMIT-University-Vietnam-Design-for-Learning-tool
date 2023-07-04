@@ -1,10 +1,10 @@
 import React from 'react'
 import UserComponent from '../../../components/User/UserComponent'
 
-const ProfilePage = () => {
+const Setting = () => {
   return (
     <UserComponent />
   )
 }
 
-export default ProfilePage
+export default Setting

@@ -4,9 +4,6 @@ import NavBar from './components/Navbar/navBar';
 import HomePage from './components/Home/home';
 import PageRender from "./customRouter/PageRender";
 
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-
 // import Login from "./pages/login";
 // import RegisterPage from "./pages/register";
 
@@ -17,8 +14,6 @@ function App() {
   }
 
   return (
-    <DndProvider backend={HTML5Backend}>
-
       <Router>
         <div className="App">
           <div className='main'>
@@ -39,7 +34,6 @@ function App() {
           </div>
         </div>
       </Router>
-    </DndProvider>
   );
 }
 

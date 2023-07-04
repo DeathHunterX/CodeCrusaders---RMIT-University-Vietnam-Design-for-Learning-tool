@@ -1,7 +1,5 @@
 .module_planner {
-    /* padding: 1em 1em 0 1em; */
     height: 100%;
-    overflow: hidden;
 }
 
 /* .module_planner .activity_box {
@@ -43,10 +41,10 @@
 }
 
 .module_planner .tabs_container .tabs_body {
+    max-height: 590px;
+    height: 100%;
     padding: 10px 5px;
     position: relative;
-    max-height: 81vh;
-    height: 100%;
 }
 .module_planner .tabs_container .tabs_body>* {
     height: 100%;
@@ -54,4 +52,3 @@
 .module_planner .tabs_body .col-9 {
     border: 1px solid gray;
 }
-

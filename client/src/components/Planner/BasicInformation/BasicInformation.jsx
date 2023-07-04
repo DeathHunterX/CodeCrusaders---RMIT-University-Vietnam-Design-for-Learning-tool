@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {AiOutlineQuestionCircle} from 'react-icons/ai'
 
 const BasicInformation = () => {
+    const initialState = {
+        moduleName: '', moduleWeek: '', 
+    }
+    const [moduleInfo, setModuleInfo] = useState(initialState)
   return (
     <div>
         <div className="">
@@ -34,7 +38,7 @@ const BasicInformation = () => {
                             </label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
+                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"  />
                             <label className="form-check-label" htmlFor="flexRadioDefault2">
                                 Online
                             </label>

@@ -2,6 +2,7 @@ package com.example.server.controller;
 
 import com.example.server.model.Course;
 import com.example.server.service.CourseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,12 +19,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("v1/course")
+@RequestMapping("v1/api/course")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequiredArgsConstructor
 public class CourseController {
-  @Autowired
-  private CourseService courseService;
-
+  private final CourseService courseService;
 
   @GetMapping("/all-courses")
   public List<Course> getAllCourses() {

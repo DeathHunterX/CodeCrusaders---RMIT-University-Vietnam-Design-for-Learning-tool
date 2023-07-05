@@ -1,5 +1,6 @@
 package com.example.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,7 @@ import java.util.*;
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String courseName;
@@ -25,17 +26,15 @@ public class Course {
     private List<String> clos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "courses")
+    @JsonIgnore
     private Set<User> userSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
     private List<Assignment> assignmentList = new ArrayList<>();
 
-    private void updateCourse(Course newCourse) {
-        this.courseName = newCourse.getCourseName();
-        this.semester = newCourse.getSemester();
-        this.clos = newCourse.getClos();
-        this.assignmentList = newCourse.getAssignmentList();
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
+    private List<Module> moduleList = new ArrayList<>();
+
 
     public Course(String courseName, String semester, List<String> clos) {
         this.courseName = courseName;

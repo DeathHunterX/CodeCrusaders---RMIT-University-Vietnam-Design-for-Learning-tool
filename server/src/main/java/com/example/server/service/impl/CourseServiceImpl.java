@@ -3,6 +3,7 @@ package com.example.server.service.impl;
 import com.example.server.model.Course;
 import com.example.server.repository.CourseRepository;
 import com.example.server.service.CourseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
-  @Autowired
-  private CourseRepository courseRepository;
+  private final CourseRepository courseRepository;
   @Override
   public List<Course> getAllCourses() {
     return courseRepository.findAll();

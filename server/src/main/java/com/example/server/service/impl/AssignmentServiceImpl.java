@@ -4,6 +4,7 @@ import com.example.server.model.Assignment;
 import com.example.server.model.Course;
 import com.example.server.repository.AssignmentRepository;
 import com.example.server.service.AssignmentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AssignmentServiceImpl implements AssignmentService {
-  @Autowired
-  private AssignmentRepository assignmentRepository;
+  private final AssignmentRepository assignmentRepository;
   @Override
   public List<Assignment> getAllAssignments() {
     return assignmentRepository.findAll();

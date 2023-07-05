@@ -2,6 +2,7 @@ package com.example.server.security;
 
 
 import com.example.server.security.service.UserDetailsServiceImpl;
+import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,18 +56,27 @@ public class WebSecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
+//  public Filter validationFilter() {
+//    return new ValidationFilter();
+//  }
+
+
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
         .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-//        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth ->
-            auth.requestMatchers("v1/api/auth/**").permitAll()
-                .requestMatchers("v1/api/test/**").permitAll()
+            auth
+                .requestMatchers("/v1/api/auth/**").permitAll()
+                .requestMatchers("/v1/api/test/**").permitAll()
                 .anyRequest().authenticated()
+
+
         );
+//    http.addFilterBefore(validationFilter(), UsernamePasswordAuthenticationFilter.class);
     http.authenticationProvider(authenticationProvider());
-    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterAfter(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
 }

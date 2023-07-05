@@ -8,6 +8,7 @@ import com.example.server.repository.AssignmentRepository;
 import com.example.server.repository.CourseRepository;
 import com.example.server.repository.ModuleRepository;
 import com.example.server.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,21 +25,17 @@ import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
+@RequiredArgsConstructor
 public class ServerApplication implements CommandLineRunner {
-  @Autowired
-  private CourseRepository courseRepository;
+  private final CourseRepository courseRepository;
 
-  @Autowired
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
-  @Autowired
-  private AssignmentRepository assignmentRepository;
+  private final AssignmentRepository assignmentRepository;
 
-  @Autowired
-  private PasswordEncoder bCryptPasswordEncoder;
+  private final PasswordEncoder bCryptPasswordEncoder;
 
-  @Autowired
-  private ModuleRepository moduleRepository;
+  private final ModuleRepository moduleRepository;
 
   public static void main(String[] args) {
     SpringApplication.run(ServerApplication.class, args);

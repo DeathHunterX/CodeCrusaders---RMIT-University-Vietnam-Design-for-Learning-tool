@@ -2,6 +2,7 @@ package com.example.server.controller;
 
 import com.example.server.model.Module;
 import com.example.server.service.ModuleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,10 +20,10 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("v1/module")
+@RequestMapping("v1/api/module")
+@RequiredArgsConstructor
 public class ModuleController {
-  @Autowired
-  private ModuleService moduleService;
+  private final ModuleService moduleService;
 
   @GetMapping("/all-modules")
   public List<Module> getAllModules() {

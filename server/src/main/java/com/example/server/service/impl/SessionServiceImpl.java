@@ -4,6 +4,7 @@ import com.example.server.model.Module;
 import com.example.server.model.Session;
 import com.example.server.repository.SessionRepository;
 import com.example.server.service.SessionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class SessionServiceImpl implements SessionService {
-  @Autowired
-  private SessionRepository sessionRepository;
+  private final SessionRepository sessionRepository;
   @Override
   public List<Session> getAllSession() {
     return sessionRepository.findAll();

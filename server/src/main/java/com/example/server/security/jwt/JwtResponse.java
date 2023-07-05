@@ -1,4 +1,4 @@
-package com.example.server.model;
+package com.example.server.security.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

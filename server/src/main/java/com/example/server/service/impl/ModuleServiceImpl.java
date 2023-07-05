@@ -4,6 +4,7 @@ import com.example.server.model.Course;
 import com.example.server.model.Module;
 import com.example.server.repository.ModuleRepository;
 import com.example.server.service.ModuleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ModuleServiceImpl implements ModuleService {
 
-  @Autowired
-  private ModuleRepository moduleRepository;
+  private final ModuleRepository moduleRepository;
   @Override
   public List<Module> getAllModules() {
     return moduleRepository.findAll();

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PlannerDescription from './PlannerDescription'
+import PlannerDescription from './ModulePlanner/PlannerDescription'
 
 const CoursePlanner = ({items, onDragEnd}) => {
   const [activeTabs, setActiveTabs] = useState(0)

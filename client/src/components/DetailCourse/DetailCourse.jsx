@@ -7,7 +7,7 @@ import RightSide from './RightSide/RightSide'
 const DetailCourse = () => {
   return (
     <div className="detail_course">
-        <div className="detail_course_title ps-4 pt-3 pb-3"> 
+        <div className="detail_course_header ps-4 pt-3 pb-3"> 
             <h5>
                 <div aria-label="breadcrumb">
                     <ol className="breadcrumb">
@@ -17,12 +17,12 @@ const DetailCourse = () => {
                 </div>
             </h5>
         </div>
-        <div className="d-flex flex-wrap">
-            <div className="course_sidebar col-1">
+        <div className="detail_course_body d-flex flex-wrap">
+            <div className="left_side course_sidebar col-1">
                  <LeftSide />
             </div>
 
-            <div className="col-11">
+            <div className="right_side col-11">
                 <RightSide />
             </div>
         </div>

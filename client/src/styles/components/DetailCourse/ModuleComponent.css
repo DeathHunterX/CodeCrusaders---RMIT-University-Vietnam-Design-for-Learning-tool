@@ -32,3 +32,14 @@
     transition: all 500ms ease-in-out;
     transform: translate(-50%, 50%) scale(1);
 }
+
+/* Table */
+.module_component .module_table .week_col {
+    min-width: 200px;
+}
+.module_component .module_table .module_col {
+    min-width: 800px;
+}
+.module_component .module_table .action_col {
+    min-width: 160px;
+}

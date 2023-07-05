@@ -1,0 +1,13 @@
+.course_info {
+  background-color: white;
+  border-radius: 20px;
+}
+
+.assessment {
+  margin-top: 32px;
+  background-color: white;
+  border-radius: 20px;
+}
+.course_form h2 {
+  font-weight: bold;
+}

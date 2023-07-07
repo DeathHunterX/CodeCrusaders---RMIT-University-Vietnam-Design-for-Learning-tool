@@ -1,7 +1,6 @@
 package com.example.server.service;
 
 import com.example.server.model.Assignment;
-import com.example.server.model.Course;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

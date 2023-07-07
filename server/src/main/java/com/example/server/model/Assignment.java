@@ -1,5 +1,6 @@
 package com.example.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,8 +28,9 @@ public class Assignment {
     @Column(columnDefinition = "DATE")
     private LocalDate endDate;
 
-    @ManyToOne
-    @JoinTable(name="courseId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Course course;
 
     public Assignment(String name, String description, LocalDate startDate, LocalDate endDate) {

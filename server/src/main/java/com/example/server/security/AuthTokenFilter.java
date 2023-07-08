@@ -1,14 +1,12 @@
 package com.example.server.security;
 
 import com.example.server.security.jwt.JwtUtils;
-import com.example.server.security.service.CustomUserDetails;
-import com.example.server.security.service.UserDetailsServiceImpl;
+import com.example.server.service.impl.CustomUserDetails;
+import com.example.server.service.impl.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,10 +35,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     String jwt = getJwtFromRequest(request);
     if(!StringUtils.isEmpty(jwt)){
       jwtUtils.validateToken(jwt);
-      String userName = jwtUtils.getUserIdFromToken(jwt);
+      String userName = jwtUtils.getUsernameFromToken(jwt);
       UserDetails userDetails = profileService.loadUserByUsername(userName);
 
-      if(userDetails instanceof CustomUserDetails){
+      if(jwtUtils.isTokenValid(jwt,userDetails)){
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);

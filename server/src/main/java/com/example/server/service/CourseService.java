@@ -1,5 +1,6 @@
 package com.example.server.service;
 
+import com.example.server.api.response.CourseResponse;
 import com.example.server.model.Course;
 import org.springframework.http.ResponseEntity;
 

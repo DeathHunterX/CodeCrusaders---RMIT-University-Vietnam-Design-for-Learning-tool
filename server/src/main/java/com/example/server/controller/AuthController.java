@@ -4,13 +4,12 @@ import com.example.server.api.request.SignupRequest;
 import com.example.server.api.response.MessageResponse;
 import com.example.server.model.User;
 import com.example.server.repository.UserRepository;
-import com.example.server.security.jwt.JwtResponse;
 import com.example.server.api.request.LoginRequest;
+import com.example.server.security.jwt.JwtResponse;
 import com.example.server.security.jwt.JwtUtils;
-import com.example.server.security.service.CustomUserDetails;
+import com.example.server.service.impl.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +17,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,22 +38,13 @@ public class AuthController {
   public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginRequest loginRequest) {
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-    System.out.println(loginRequest.getPassword());
     SecurityContextHolder.getContext().setAuthentication(authentication);
-//    String jwt = jwtUtils.createToken(authentication);
-//    System.out.println(jwt);
-//
+    String jwt = jwtUtils.createToken(authentication);
     CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-    log.debug(userDetails.getUsername());
-//
-//    return ResponseEntity.ok(new JwtResponse(jwt,
-//        userDetails.getUser().getId(),
-//        userDetails.getUsername(),
-//        userDetails.getUser().getName()));
-
-    return ResponseEntity.ok("Happy");
-
-
+    return ResponseEntity.ok(new JwtResponse(jwt,
+        userDetails.getUser().getId(),
+        userDetails.getUsername(),
+        userDetails.getUser().getName()));
   }
 
   @PostMapping("/sign-up")

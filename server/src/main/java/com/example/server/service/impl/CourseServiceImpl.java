@@ -1,9 +1,12 @@
 package com.example.server.service.impl;
 
+import com.example.server.api.response.CourseResponse;
 import com.example.server.model.Course;
 import com.example.server.repository.CourseRepository;
 import com.example.server.service.CourseService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +19,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
   private final CourseRepository courseRepository;
+//  private final ModelMapper modelMapper;
   @Override
   public List<Course> getAllCourses() {
-    return courseRepository.findAll();
+    List<Course> courseList = courseRepository.findAll();
+//    List<CourseResponse> courseResponses = courseList.stream().map(course -> modelMapper.map(course, CourseResponse.class)).toList();
+    System.out.println(courseList);
+    return courseList;
   }
 
   @Override

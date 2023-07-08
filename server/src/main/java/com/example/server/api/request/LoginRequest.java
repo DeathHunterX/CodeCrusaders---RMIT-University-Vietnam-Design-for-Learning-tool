@@ -10,21 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignupRequest {
-  @Valid
+public class LoginRequest {
+
   @NotBlank(message="Username should not be empty")
   private String username;
 
-  @NotBlank(message="First name should not be empty")
-  private String firstName;
-
-  @NotBlank(message="Last name should not be empty")
-  private String lastName;
-
-  @NotBlank
+  @NotBlank(message="Password should not be empty")
   @Size(min = 8, message = "password should have at least 8 characters")
   private String password;
-
-
-
 }

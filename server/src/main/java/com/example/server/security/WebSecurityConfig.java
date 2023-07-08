@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -25,7 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 //    // securedEnabled = true,
 //    // jsr250Enabled = true,
 //    prePostEnabled = true)
-public class WebSecurityConfig {
+public class WebSecurityConfig  {
   @Autowired
   UserDetailsServiceImpl userDetailsService;
 
@@ -39,11 +40,8 @@ public class WebSecurityConfig {
 
 
   @Bean
-  public DaoAuthenticationProvider authenticationProvider() {
-    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-    authProvider.setUserDetailsService(userDetailsService);
-    authProvider.setPasswordEncoder(passwordEncoder());
-    return authProvider;
+  public AuthenticationProvider authenticationProvider() {
+   return new DefaultAuthenticationProvider(passwordEncoder(),userDetailsService);
   }
 
   @Bean
@@ -52,13 +50,10 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
+  public BCryptPasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder(8);
   }
 
-//  public Filter validationFilter() {
-//    return new ValidationFilter();
-//  }
 
 
   @Bean
@@ -74,9 +69,8 @@ public class WebSecurityConfig {
 
 
         );
-//    http.addFilterBefore(validationFilter(), UsernamePasswordAuthenticationFilter.class);
     http.authenticationProvider(authenticationProvider());
-    http.addFilterAfter(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
 }

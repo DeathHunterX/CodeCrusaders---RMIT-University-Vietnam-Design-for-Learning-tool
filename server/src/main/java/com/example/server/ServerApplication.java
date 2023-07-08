@@ -33,7 +33,7 @@ public class ServerApplication implements CommandLineRunner {
 
   private final AssignmentRepository assignmentRepository;
 
-  private final PasswordEncoder bCryptPasswordEncoder;
+  private final BCryptPasswordEncoder passwordEncoder;
 
   private final ModuleRepository moduleRepository;
 
@@ -87,7 +87,7 @@ public class ServerApplication implements CommandLineRunner {
     User user1 = new User();
     user1.setName("Khang");
     user1.setUsername("khang123");
-    user1.setPassword(bCryptPasswordEncoder.encode("123"));
+    user1.setPassword(passwordEncoder.encode("12345678"));
     Set<Course> courses = new HashSet<>(List.of(course1,course2));
     user1.setCourses(courses);
 

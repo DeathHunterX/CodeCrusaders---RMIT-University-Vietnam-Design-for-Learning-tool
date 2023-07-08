@@ -34,7 +34,13 @@ public class JwtUtils {
   }
 
   public String getUserIdFromToken(String token) {
-    return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    String res = null;
+    try {
+      res =  Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    } catch (SignatureException e) {
+      logger.error("JWT signature does not match locally computed signature", e.getMessage());
+    }
+    return res;
   }
 
   public void validateToken(String authToken) {

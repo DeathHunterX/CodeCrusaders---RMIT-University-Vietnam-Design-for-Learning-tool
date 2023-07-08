@@ -2,6 +2,8 @@ package com.example.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +25,9 @@ public class User implements UserDetails {
     private Long id;
 
     private String username;
+
+    @NotNull
+    @Size(min = 8, message = "password should have at least 8 characters")
     private String password;
     private String name;
 

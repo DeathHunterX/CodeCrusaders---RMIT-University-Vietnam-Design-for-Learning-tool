@@ -17,9 +17,6 @@ import java.util.Collections;
 @NoArgsConstructor
 public class CustomUserDetails implements UserDetails {
   private User user;
-  public static CustomUserDetails build(User user) {
-    return new CustomUserDetails(user);
-  }
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return Collections.emptyList();
@@ -27,8 +24,16 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public String getPassword() {
-    return this.user.getPassword();
+    if (user == null) {
+      return "No user found!";
+    }
+    String password = this.user.getPassword();
+    if(password == null) {
+      return "Password is null!";
+    }
+    return password;
   }
+
 
   @Override
   public String getUsername() {

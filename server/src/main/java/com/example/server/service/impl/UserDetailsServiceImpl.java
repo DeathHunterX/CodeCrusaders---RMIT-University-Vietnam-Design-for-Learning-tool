@@ -1,7 +1,5 @@
-package com.example.server.security.service;
+package com.example.server.service.impl;
 
-import com.example.server.api.request.LoginRequest;
-import com.example.server.exception.InvalidUserCredentialsException;
 import com.example.server.model.User;
 import com.example.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +16,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Override
   public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = userRepository.findByUsername(username);
-//    if (user == null) {
-//      log.debug("Invalid username or password!");
-//      throw new UsernameNotFoundException("Invalid username or password!");
-//    }
+    log.debug("TEST!");
+    if (user == null) {
+      log.debug("Invalid username or password!");
+      throw new UsernameNotFoundException("Invalid username or password!");
+    }
     return new CustomUserDetails(user);
   }
+
 }

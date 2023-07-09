@@ -1,6 +1,8 @@
 package com.example.server.exception;
 
-public class InvalidRequestException extends Exception{
+import org.springframework.security.authentication.BadCredentialsException;
+
+public class InvalidRequestException extends BadCredentialsException {
   public InvalidRequestException(String message) {
     super(message);
   }

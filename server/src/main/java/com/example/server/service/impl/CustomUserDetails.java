@@ -1,4 +1,4 @@
-package com.example.server.security.service;
+package com.example.server.service.impl;
 
 import com.example.server.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;

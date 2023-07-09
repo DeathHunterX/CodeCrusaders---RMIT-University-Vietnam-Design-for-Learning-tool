@@ -2,17 +2,15 @@ package com.example.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.*;
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Getter
+@Setter
 public class Course {
 
     @Id
@@ -22,7 +20,7 @@ public class Course {
     private String courseName;
     private String semester;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> clos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "courses")

@@ -18,24 +18,28 @@ public class Course {
     private Long id;
 
     private String courseName;
+
+    private String courseCode;
+
     private String semester;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> clos = new ArrayList<>();
+    private List<String> clos;
 
     @ManyToMany(mappedBy = "courses")
     @JsonIgnore
-    private Set<User> userSet = new HashSet<>();
+    private Set<User> userSet;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
-    private List<Assignment> assignmentList = new ArrayList<>();
+    private List<Assignment> assignmentList;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
-    private List<Module> moduleList = new ArrayList<>();
+    private List<Module> moduleList;
 
 
-    public Course(String courseName, String semester, List<String> clos) {
+    public Course(String courseName, String courseCode, String semester, List<String> clos) {
         this.courseName = courseName;
+        this.courseCode = courseCode;
         this.semester = semester;
         this.clos = clos;
     }

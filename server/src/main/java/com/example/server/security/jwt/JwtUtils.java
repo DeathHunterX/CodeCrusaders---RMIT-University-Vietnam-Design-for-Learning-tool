@@ -1,6 +1,6 @@
 package com.example.server.security.jwt;
 
-import com.example.server.service.impl.CustomUserDetails;
+import com.example.server.model.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

@@ -1,4 +1,4 @@
-package com.example.server.service.impl;
+package com.example.server.model;
 
 import com.example.server.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,20 +25,23 @@ public class CustomUserDetails implements UserDetails {
   @Override
   public String getPassword() {
     if (user == null) {
-      return "No user found!";
+      throw new IllegalStateException("No user found!");
     }
-    String password = this.user.getPassword();
-    if(password == null) {
-      return "Password is null!";
+
+    String password = user.getPassword();
+    if (password == null) {
+      throw new IllegalStateException("Password is null!");
     }
+
     return password;
   }
-
-
   @Override
   public String getUsername() {
-    return this.user.getUsername();
-  }
+    if (user == null) {
+      throw new IllegalStateException("No user found!");
+    }
+
+    return user.getUsername();  }
 
   @Override
   public boolean isAccountNonExpired() {

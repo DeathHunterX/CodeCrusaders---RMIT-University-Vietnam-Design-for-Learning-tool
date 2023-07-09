@@ -64,11 +64,11 @@ public class ServerApplication implements CommandLineRunner {
     Module module3 = new Module("module3",Arrays.asList("los5","los6","los7"));
 
 
-    Course course1 = new Course("Machine Learning","Semester A 2020",clos1);
-    Course course2 = new Course("Object Oriented Programming","Semester A 2021",clos2);
-    Course course3 = new Course("Computer Vision","Semester C 2022",clos3);
-    Course course4 = new Course("Python","Semester B 2023",clos3);
-    Course course5 = new Course("ReactJS","Semester A 2019",clos2);
+    Course course1 = new Course("Machine Learning","CA","Semester A 2020",clos1);
+    Course course2 = new Course("Object Oriented Programming","OOP","Semester A 2021",clos2);
+    Course course3 = new Course("Computer Vision","CV","Semester C 2022",clos3);
+    Course course4 = new Course("Python","PY","Semester B 2023",clos3);
+    Course course5 = new Course("ReactJS","RJ","Semester A 2019",clos2);
 
     assignment1.setCourse(course1);
     assignment1.setCourse(course3);

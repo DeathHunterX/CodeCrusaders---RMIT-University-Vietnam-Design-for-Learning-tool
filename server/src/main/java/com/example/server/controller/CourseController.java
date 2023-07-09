@@ -1,10 +1,14 @@
 package com.example.server.controller;
 
 //import com.example.server.api.response.CourseResponse;
+import com.example.server.api.request.CourseRequest;
+import com.example.server.api.response.CourseResponse;
 import com.example.server.model.Course;
 import com.example.server.service.CourseService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.internal.asm.commons.SimpleRemapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,25 +24,34 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("v1/api/course")
+@RequestMapping("v1/api")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 public class CourseController {
   private final CourseService courseService;
 
-  @GetMapping("/all-courses")
-  public List<Course> getAllCourses() {
+  @GetMapping("courses")
+  public List<CourseResponse> getAllCourses() {
     return courseService.getAllCourses();
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("courses/{id}")
   public Optional<Course> getCourseById(@PathVariable("id") Long id) {
     return courseService.getCourseById(id);
   }
 
+  @GetMapping("courses/{course_id}/modules")
+  public ResponseEntity<?> getAllModulesByCourseId(@PathVariable Long course_id) {
+    Optional<Course> courseOptional = courseService.getCourseById(course_id);
+    if (!courseOptional.isPresent()) {
+      return new ResponseEntity<>("Course does not exist", HttpStatus.NOT_FOUND);
+    }
+    Course course = courseOptional.get();
+    return new ResponseEntity<>(course.getModuleList(),HttpStatus.OK);
+  }
   @PostMapping("/create-course")
-  public ResponseEntity<Course> createCourse(@RequestBody Course course) {
-    return ResponseEntity.ok(courseService.createCourse(course));
+  public ResponseEntity<Course> createCourse(@RequestBody CourseRequest courseRequest) {
+    return ResponseEntity.ok(courseService.createCourse(courseRequest));
   }
 
   @PutMapping("/update-course/{id}")

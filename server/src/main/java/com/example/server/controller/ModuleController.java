@@ -1,9 +1,13 @@
 package com.example.server.controller;
 
+import com.example.server.api.response.ModuleNameResponse;
+import com.example.server.model.Course;
 import com.example.server.model.Module;
+import com.example.server.service.CourseService;
 import com.example.server.service.ModuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,17 +24,22 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("v1/api/module")
+@RequestMapping("v1/api")
 @RequiredArgsConstructor
 public class ModuleController {
   private final ModuleService moduleService;
+  private final CourseService courseService;
 
-  @GetMapping("/all-modules")
+  @GetMapping("modules")
   public List<Module> getAllModules() {
     return moduleService.getAllModules();
   }
 
-  @GetMapping("/{id}")
+//  @GetMapping("courses/{course_id}/module-names")
+//  public List<ModuleNameResponse> getAllModuleNamesByCourseId(@PathVariable Long course_id) {
+//  }
+
+  @GetMapping("modules/{id}")
   public Optional<Module> getModuleById(@PathVariable("id") Long id) {
     return moduleService.getModuleById(id);
   }

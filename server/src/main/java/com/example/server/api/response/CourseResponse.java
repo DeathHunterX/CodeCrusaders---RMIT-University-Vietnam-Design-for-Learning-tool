@@ -18,5 +18,4 @@ public class CourseResponse {
     private Long id;
     private String courseName;
     private String semester;
-    private List<String> clos = new ArrayList<>();
 }

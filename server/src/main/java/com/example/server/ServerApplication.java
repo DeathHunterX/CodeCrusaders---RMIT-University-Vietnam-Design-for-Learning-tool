@@ -87,6 +87,7 @@ public class ServerApplication implements CommandLineRunner {
     User user1 = new User();
     user1.setName("Khang");
     user1.setUsername("khang123");
+
     user1.setPassword(passwordEncoder.encode("12345678"));
     Set<Course> courses = new HashSet<>(List.of(course1,course2));
     user1.setCourses(courses);

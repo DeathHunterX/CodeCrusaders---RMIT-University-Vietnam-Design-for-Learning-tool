@@ -27,6 +27,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     }
     log.debug("Get rest authentication exception");
     httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
-    httpServletResponse.setStatus(httpServletResponse.SC_UNAUTHORIZED);
+    httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+
   }
 }

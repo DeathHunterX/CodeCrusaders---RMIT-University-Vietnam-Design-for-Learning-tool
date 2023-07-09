@@ -20,7 +20,7 @@ public class Course {
     private String courseName;
     private String semester;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> clos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "courses")

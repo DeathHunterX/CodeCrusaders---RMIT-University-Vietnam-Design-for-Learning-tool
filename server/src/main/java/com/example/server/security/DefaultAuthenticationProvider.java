@@ -40,12 +40,12 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
       throw new InvalidRequestException("Invalid request!");
     }
     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-    if(userDetails == null) {
-      throw new InvalidUserCredentialsException("Invalid user credential!");
-    }
-    if(!passwordEncoder.matches(password,userDetails.getPassword())) {
-      throw new InvalidUserCredentialsException("Invalid user credential!");
-    }
+//    if(userDetails == null) {
+//      throw new InvalidUserCredentialsException("Invalid user credential!");
+//    }
+//    if(!passwordEncoder.matches(password,userDetails.getPassword())) {
+//      throw new InvalidUserCredentialsException("Invalid user credential!");
+//    }
     return userDetails;
   }
 

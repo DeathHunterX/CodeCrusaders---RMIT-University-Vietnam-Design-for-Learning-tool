@@ -1,26 +1,84 @@
 import React from 'react'
+import { ActivityCardList, ActivityTypeMap } from '../Map/ActivityCardList'
+import { RiDeleteBin5Fill } from 'react-icons/ri'
+import { BiEditAlt } from 'react-icons/bi'
 
 
-const ActivityCard = ({id, index, data, moveCard}) => {
+
+const ActivityCard = ({isEditable=false, data, setData, activityType, setActivityType, setActivityWindow, setEditedItm, setDeleteItm, tabName}) => {
+    const ActivityFilter = ActivityCardList.find((activity) => data.activityID === activity.activityID)
     
-    return (
-        <li> 
-            <div className="class_activity" style={{height: '100px', position:'relative'}}>
-                <div className="activity_card mb-3" style={{userSelect: 'none'}}>
-                    <div className="activity_symbols" style={{backgroundColor: `${data.activityIconBg}`}}>
-                        {data.activityIcon}
-                    </div>
-                    <div className="activity_content">
-                        <div className="content_body">
-                            <h5 className="activity_name">{data.activityName}</h5>
-                            <p className="activity_desc">{data.activityDescription}</p>     
+    const getCardData = (item) => {
+        const activityTypeResult = ActivityTypeMap.find((activity) => item === activity.activityID)
+
+        setData((state) => ({
+            ...state,
+            activityID: item,
+            activityType: activityTypeResult.activityType ? activityTypeResult.activityType[0].activityTypeID : '',
+            option: activityTypeResult.activityType[0].activityTypeFill === "option" ? activityTypeResult.activityType[0].activityTypeOption[0].optionID : ""
+        }))
+    }
+
+    const openAddEditDialog = (id) => {
+        console.log(activityType)
+        setActivityWindow((state) => !state)
+        if (activityType === 'add') {
+            setActivityType('edit')
+        }
+        setEditedItm(id)
+    }
+
+    if (isEditable) {
+        return (
+            <li> 
+                <div className="class_activity" style={{height: '100px', position:'relative'}}>
+                    <div className="activity_card mb-3" style={{userSelect: 'none', boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"}}>
+                        <div className="activity_duration" style={{backgroundColor: `${ActivityFilter.activityIconBg}`}}>
+                            <div className="activity_duration_box">
+                                <span>{data.activityDuration}</span>
+                                <span>minutes</span>
+                            </div>
+                        </div>
+                        <div className="activity_content">
+                            <div className="content_body">
+                                <h5 className="activity_name">{ActivityFilter.activityName}</h5>
+                                <p className="activity_desc">{data.activityType}</p>     
+                            </div>
+                            <div className="content_status me-3">
+                                <div className="edit_status me-2" onClick={() => openAddEditDialog(data.id)}>
+                                    <BiEditAlt/>
+                                </div>
+                                <div className="delete_status" onClick={() => tabName? setDeleteItm(tabName, data.id) : setDeleteItm(data.id)}>
+                                    <RiDeleteBin5Fill />
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
-                
-            </div>
-        </li>
-    )
+            </li>
+        )
+    } else {
+        return (
+            <li> 
+                <div className="class_activity" style={{height: '100px', position:'relative', cursor: 'pointer'}} onClick={() => getCardData(data.activityID)}>
+                    <div className="activity_card mb-3" style={{userSelect: 'none'}}>
+                        <div className="activity_symbols" style={{backgroundColor: `${data.activityIconBg}`}}>
+                            {data.activityIcon}
+                        </div>
+                        <div className="activity_content">
+                            <div className="content_body">
+                                <h5 className="activity_name">{data.activityName}</h5>
+                                <p className="activity_desc">{data.activityDescription}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </li>
+        )
+    }
+    
 }
 
 export default ActivityCard

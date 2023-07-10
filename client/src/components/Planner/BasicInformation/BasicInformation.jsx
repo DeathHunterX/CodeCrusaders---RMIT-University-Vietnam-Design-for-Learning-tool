@@ -48,25 +48,9 @@ const BasicInformation = () => {
                 </div>
 
                 <div className="mb-3">
-                    <div className="d-flex">
-                        <label htmlFor="exampleFormControlTextarea1" className="form-label me-4">Objective Summary</label>
-                        <AiOutlineQuestionCircle />
-                    </div>
-                    <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div>
-
-                <div className="mb-3">
-                    <div className="d-flex">
-                        <label htmlFor="exampleFormControlTextarea1" className="form-label me-4">Preparation</label>
-                        <AiOutlineQuestionCircle />
-                    </div>
-                    <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div>
-
-                <div className="mb-3">
                     <div className="">
                         <label htmlFor="exampleFormControlTextarea1" className="form-label me-4">Learning Object</label>
-
+                        <AiOutlineQuestionCircle />
                     </div>
                 </div>
 

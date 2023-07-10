@@ -13,7 +13,7 @@ const DoughnutChart = ({dataset, durationTime}) => {
 
             // If the activity already exists in the accumulator, add the duration
             if (acc[item.activityID]) {
-                acc[item.activityID].duration += item.itemDescription.durationTime;
+                acc[item.activityID].duration += item.activityDuration;
             } 
             else {
             // If the activity doesn't exist in the accumulator, create a new entry
@@ -21,7 +21,7 @@ const DoughnutChart = ({dataset, durationTime}) => {
                 activityID: item.activityID,
                 activityName: matchingActivity.activityName,
                 activityIconBg: matchingActivity.activityIconBg,
-                duration: item.itemDescription.durationTime
+                duration: item.activityDuration
             };
           }
           return acc;
@@ -74,7 +74,7 @@ const DoughnutChart = ({dataset, durationTime}) => {
         <div className="position-relative" style={{width:'100%' ,height: "425px"}}>
             <ResponsivePie
                 data={updatedFormattedData}
-                margin={{ top: 40, right: 125, bottom: 80, left: 75 }}
+                margin={{ top: 40, right: 205, bottom: 80, left: 0 }}
                 innerRadius={0.75}
                 padAngle={1}
                 cornerRadius={3}

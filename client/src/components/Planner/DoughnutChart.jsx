@@ -13,7 +13,7 @@ const DoughnutChart = ({dataset, durationTime}) => {
 
             // If the activity already exists in the accumulator, add the duration
             if (acc[item.activityID]) {
-                acc[item.activityID].duration += item.activityDuration;
+                acc[item.activityID].duration += item.duration;
             } 
             else {
             // If the activity doesn't exist in the accumulator, create a new entry
@@ -21,7 +21,7 @@ const DoughnutChart = ({dataset, durationTime}) => {
                 activityID: item.activityID,
                 activityName: matchingActivity.activityName,
                 activityIconBg: matchingActivity.activityIconBg,
-                duration: item.activityDuration
+                duration: item.duration
             };
           }
           return acc;

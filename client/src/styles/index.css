@@ -1,11 +1,11 @@
-#main_screen {
+.main_screen {
   width: 100%;
   position: relative;
   background: #e4e9f7;
   padding-left: 170px;
 }
 
-#main_screen.nav_is_closed {
+.main_screen.nav_is_closed {
   padding-left: 70px;
 }
 
@@ -38,12 +38,16 @@
 /* SETTINGS PAGE */
 @import url("./components/DetailCourse/SettingComponent.css");
 
-/* ========== COURSE PLANNER PAGE ========== */
-@import url("./components/Planner/planner.css");
 
-@import url("./components/Planner/module_planner.css");
 
-@import url("./components/Planner/ActivityWindow/ActivityWindow.css");
+/* ========== MODULE PLANNER PAGE ========== */
+@import url("./components/Planner/plannerPage.css");
+
+
+/* Activity Planner Page */
+@import url("./components/Planner/ModuleInfo/info.css");
+@import url("./components/Planner/ActivityPlanner/ActivityPlanner.css");
+@import url("./components/Planner/ActivityPlanner/ActivityWindow.css");
 
 /* ========== COMPONENTS ========== */
 

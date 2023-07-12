@@ -1,28 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
-import {v4 as uuidv4} from 'uuid'
-
 import { AiOutlineClose } from 'react-icons/ai'
 import { ActivityCardList} from '../Map/ActivityCardList'
 import ActivityCard from '../Card/ActivityCard'
-
 import ActivityTypeList from './ActivityTypeList'
 
+
 const ActivityWindow = ({type, leftActivities, setLeftActivities, setRightActivities, setActivityWindow, editedData, tabName}) => {
-
-  const activityCardData = {
-    id: uuidv4(),
-    activityID: '',
-    activityDuration: 10,
-    activityType: '',
-    option: '',
-    activityInstruction: "",
-    activityInput: []
-  }
-
-  const [activityData, setActivityData] = useState(activityCardData)
+  const [activityData, setActivityData] = useState({})
+  
   const {id, activityID} = activityData
-  console.log(activityData)
 
   useEffect(() => {
     if (type === 'edit' && editedData) {
@@ -30,10 +17,10 @@ const ActivityWindow = ({type, leftActivities, setLeftActivities, setRightActivi
     }
   }, [editedData, type])
   
-  // console.log(activityCardData)
 
   const removeActivityFromDroppable = () => {
-    setActivityData((state) => ({...state, activityID: ''}));
+
+    setActivityData({});
   };
 
   const handleCreateActivity = () => {
@@ -47,7 +34,6 @@ const ActivityWindow = ({type, leftActivities, setLeftActivities, setRightActivi
   }
 
   const handleSaveActivity = () => {
-    
     if (leftActivities.find((item) => item.id === id)) {
       setLeftActivities(prevLeftActivities => {
         return prevLeftActivities.map((board) => board.id === id ? activityData : board)

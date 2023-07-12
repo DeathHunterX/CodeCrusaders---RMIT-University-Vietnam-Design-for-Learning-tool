@@ -1,22 +1,57 @@
 import React from 'react'
-import { ActivityCardList, ActivityTypeMap } from '../Map/ActivityCardList'
+
+import {v4 as uuidv4} from 'uuid'
+
+import { ActivityCardList, ActivityTypeMap} from '../Map/ActivityCardList'
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 import { BiEditAlt } from 'react-icons/bi'
-
-
 
 const ActivityCard = ({isEditable=false, data, setData, activityType, setActivityType, setActivityWindow, setEditedItm, setDeleteItm, tabName}) => {
     const ActivityFilter = ActivityCardList.find((activity) => data.activityID === activity.activityID)
     
+    const findActivityType = (ActivityTypeMap.find((activity) => data.activityID === activity.activityID))?.activityType.find((type) => data.activityType === type.activityTypeID)
+    
     const getCardData = (item) => {
-        const activityTypeResult = ActivityTypeMap.find((activity) => item === activity.activityID)
-
-        setData((state) => ({
-            ...state,
-            activityID: item,
-            activityType: activityTypeResult.activityType ? activityTypeResult.activityType[0].activityTypeID : '',
-            option: activityTypeResult.activityType[0].activityTypeFill === "option" ? activityTypeResult.activityType[0].activityTypeOption[0].optionID : ""
-        }))
+        // handle state data base on activityID
+            const activityTypeResult = ActivityTypeMap.find((activity) => item === activity.activityID)
+            switch (item) {
+                case 'activity-01':
+                    setData({
+                        id: uuidv4(), 
+                        duration: 10,
+                        activityID: item,
+                        activityType: activityTypeResult.activityType[0].activityTypeID,
+                        engagementOption: activityTypeResult.activityType[0].activityTypeOption[0].optionID
+                    })
+                    break;
+                case 'activity-02':
+                    setData({
+                        id: uuidv4(), 
+                        duration: 10,
+                        activityID: item,
+                        activityType: activityTypeResult.activityType[0].activityTypeID ,
+                        activityInstruction: ""
+                    })
+                    break;
+                case 'activity-03':
+                    setData({
+                        id: uuidv4(), 
+                        duration: 10,
+                        activityID: item,
+                        activityType: activityTypeResult.activityType[0].activityTypeID ,
+                        activityInput: []
+                    })
+                    break;
+                default:
+                    setData({
+                        id: uuidv4(), 
+                        duration: 10,
+                        activityID: item,
+                        activityType: activityTypeResult.activityType[0].activityTypeID ,
+                        })
+                    break;
+            }
+        
     }
 
     const openAddEditDialog = (id) => {
@@ -35,14 +70,14 @@ const ActivityCard = ({isEditable=false, data, setData, activityType, setActivit
                     <div className="activity_card mb-3" style={{userSelect: 'none', boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"}}>
                         <div className="activity_duration" style={{backgroundColor: `${ActivityFilter.activityIconBg}`}}>
                             <div className="activity_duration_box">
-                                <span>{data.activityDuration}</span>
+                                <span>{data.duration}</span>
                                 <span>minutes</span>
                             </div>
                         </div>
                         <div className="activity_content">
                             <div className="content_body">
                                 <h5 className="activity_name">{ActivityFilter.activityName}</h5>
-                                <p className="activity_desc">{data.activityType}</p>     
+                                <p className="activity_desc">{findActivityType.activityTypeName}</p>     
                             </div>
                             <div className="content_status me-3">
                                 <div className="edit_status me-2" onClick={() => openAddEditDialog(data.id)}>

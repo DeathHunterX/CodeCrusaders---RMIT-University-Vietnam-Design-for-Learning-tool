@@ -12,7 +12,7 @@ const PlannerDescription = ({data, tabName, rightActivities, activityType, setAc
   const [handleDuration, setHandleDuration] = useState(0)
 
   const [timeline, setTimeline] = useState([])
-  console.log(timeline)
+  
   //handle set timeline base on rightActivities length
   useEffect(() => {
     const getDataLength = (rightActivities.find((board) => board.name === tabName) || { data: [] }).data.length
@@ -45,7 +45,7 @@ const PlannerDescription = ({data, tabName, rightActivities, activityType, setAc
   }
 
   return (
-    <div className="right_board d-flex">
+    <div className="activity_planner_inner_container d-flex">
       <div className="col-5 d-flex">
         <div className="activity_board_container">
           <div className="activity_board_inner_container">

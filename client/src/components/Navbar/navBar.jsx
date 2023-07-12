@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import {Link, useLocation} from 'react-router-dom'
+import React from 'react'
+import {Link, useNavigate, useLocation} from 'react-router-dom'
 import {RxHamburgerMenu} from 'react-icons/rx'
 
 import {BiLogOut, BiBell} from 'react-icons/bi'
@@ -10,14 +10,25 @@ import { NavBarData } from './navBarData'
 
 import AvatarImg from '../../images/Avatar/avatar.jpg'
 import Avatar from '../Avatar'
+import { useDispatch, useSelector } from 'react-redux'
+import { logoutUser, reset } from '../../redux/slices/authSlice'
 
 
-const NavBar = ({sideBarStats, changeState, getPathname}) => {
+const NavBar = ({sideBarStats, changeState}) => {
   const {pathname} = useLocation()
 
-  useEffect(() => {
-    getPathname(pathname)
-  }, [getPathname, pathname])
+  const navigate = useNavigate()
+
+  const { user } = useSelector(state => state.auth)
+  console.log(user)
+  const dispatch = useDispatch()
+
+  const logOut = () => {
+    dispatch(reset())
+    dispatch(logoutUser())
+    navigate('/login')
+  }
+
   return (
     <>
     {(pathname !== "/login" && pathname !== "/register") && (
@@ -51,11 +62,9 @@ const NavBar = ({sideBarStats, changeState, getPathname}) => {
               <div className="navbar-bottom-content">
                 <ul className='navbar-nav flex-column mb-4'>
                   <li className='nav-item'> <hr /></li>
-                  <li className='nav-item'>
-                      <Link to='/'>
-                        <span className='nav-icon'><BiLogOut/></span>
-                        <span className='nav-text ms-3'>Log out</span>
-                      </Link>
+                  <li className='nav-item pe-auto' onClick={logOut}>
+                      <span className='nav-icon'><BiLogOut/></span>
+                      <span className='nav-text ms-3'>Log out</span>
                     </li>
                 </ul>
               </div>

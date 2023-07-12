@@ -10,7 +10,6 @@ import ActivityWindow from './Activity/ActivityWindow/ActivityWindow'
 
 
 const PlannerComponent = () => {
-
     const initialState = [
         { name: 'Pre-class', data: [] },
         { name: 'In-class', data: [] },
@@ -26,7 +25,6 @@ const PlannerComponent = () => {
     const [editedItm, setEditedItm] = useState('')
     
     const [tabName, setTabName] = useState('')
-    // console.log(tabName)
 
     const openAddEditDialog = () => {
         setActivityWindow((state) => !state)
@@ -38,7 +36,6 @@ const PlannerComponent = () => {
     const handleEditedData = leftActivities.find((item) => item.id === editedItm) ? leftActivities.find((item) => item.id === editedItm)
     : (rightActivities.find((board) => board.name === tabName) || { data: [] }).data.find((activity) => activity.id === editedItm)
         
-    // console.log(handleEditedData)
 
     const deleteLeftCard = (id) => {
         setLeftActivities(leftActivities.filter((item) => item.id !== id))
@@ -59,7 +56,6 @@ const PlannerComponent = () => {
         setRightActivities(updatedRightActivities);
 
     }
-
 
     const configMap = [
         {

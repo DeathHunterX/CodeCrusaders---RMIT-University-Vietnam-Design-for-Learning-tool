@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {postDataAPI} from '../../utils/fetchData'
 
+const user = JSON.parse(localStorage.getItem('userInfo'))
+
 const initialState = {
-  user: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
+  user: user ? user : '',
   isError: null,
   isSuccess: null,
   isLoading: null,
@@ -12,10 +14,13 @@ const initialState = {
 // Register user
 export const registerUser = createAsyncThunk('auth/register', async(userData, thunkAPI) => {
   try {
-    const res = await postDataAPI('/register', userData)
+    const res = await postDataAPI('auth/sign-up', userData)
     if(res.data) {
       localStorage.setItem('userInfo', JSON.stringify(res.data))
     }
+
+    return res.data
+    
   } catch (err) {
     const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
       return thunkAPI.rejectWithValue(message)
@@ -25,10 +30,13 @@ export const registerUser = createAsyncThunk('auth/register', async(userData, th
 // Login user
 export const loginUser = createAsyncThunk('auth/login', async(userData, thunkAPI) => {
   try {
-    const res = await postDataAPI('/login', userData)
+    const res = await postDataAPI('auth/sign-in', userData)
+    console.log(res)
     if(res.data) {
       localStorage.setItem('userInfo', JSON.stringify(res.data))
     }
+    return res.data
+
   } catch (err) {
     const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
       return thunkAPI.rejectWithValue(message)
@@ -54,35 +62,36 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
       builder
         .addCase(registerUser.pending, (state) => {
-          state.isLoading = true
+          state.isLoading = true;
         })
         .addCase(registerUser.fulfilled, (state, action) => {
-          state.isLoading = false
-          state.isSuccess = true
+          state.isLoading = false;
+          state.isSuccess = true;
           state.user = action.payload
         })
         .addCase(registerUser.rejected, (state, action) => {
-          state.isLoading = false
-          state.isError = true
-          state.message = action.payload
-          state.user = null
+          state.isLoading = false;
+          state.isError = true;
+          state.message = action.payload;
+          state.user = ''
         })
         .addCase(loginUser.pending, (state) => {
-          state.isLoading = true
+          state.isLoading = true;
         })
         .addCase(loginUser.fulfilled, (state, action) => {
-          state.isLoading = false
-          state.isSuccess = true
-          state.user = action.payload
+          console.log(action)
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.user = action.payload;
         })
         .addCase(loginUser.rejected, (state, action) => {
-          state.isLoading = false
-          state.isError = true
-          state.message = action.payload
-          state.user = null
+          state.isLoading = false;
+          state.isError = true;
+          state.message = action.payload;
+          state.user = '';
         })
         .addCase(logoutUser.fulfilled, (state) => {
-          state.user = null
+          state.user = '';
         })
     },
 })

@@ -8,11 +8,11 @@ import { usePreventAccess } from "../../hook/usePreventAccess";
 
 const SignIn = () => {
   const SignInState = {
-    email: '',
+    username: '',
     password: '',
   }
   const [loginData, setLoginData] = useState(SignInState)
-  const {email, password} = loginData
+  const {username, password} = loginData
 
   const {user, isError, isSuccess, isLoading, message} = useSelector(state => state.auth)
   const dispatch = useDispatch()
@@ -57,9 +57,9 @@ const SignIn = () => {
               <h5 className="heading-form">Sign into your account</h5>
               <input
                 type="text"
-                name="email"
-                value={email}
-                placeholder="RMIT or email address"
+                name="username"
+                value={username}
+                placeholder="RMIT or Personal username"
                 required
                 onChange={handleChangeInput}
               />

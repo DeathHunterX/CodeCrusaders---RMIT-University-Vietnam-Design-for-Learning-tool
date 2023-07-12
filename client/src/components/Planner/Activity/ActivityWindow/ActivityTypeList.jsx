@@ -7,20 +7,55 @@ import { GoCheckCircleFill } from 'react-icons/go'
 
 
 const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) => {
-    const {activityID, activityType, activityDuration, option} = data
+    const {activityID, duration, activityType, engagementOption, activityInstruction, activityInput} = data
 
     const activityTypeResult = useMemo(() => ActivityTypeMap.find((activity) => activityID === activity.activityID), [activityID])
 
     const activityCardData = useMemo(() => ActivityCardList.find((card) => activityTypeResult.activityID === card.activityID), [activityTypeResult])
     
     const handleChangeOption = (id) => {
-        setData((state) => ({
-            ...state,
-            activityType: id,
-            option: activityTypeResult.activityType.find((item) => id === item.activityTypeID).activityTypeFill === "option" ?
-            activityTypeResult.activityType.find((item) => id === item.activityTypeID).activityTypeOption[0].optionID : ""
-        }))
+        if (activityID === 'activity-01'){
+            setData((state) => ({
+                ...state,
+                activityType: id,
+                engagementOption: activityTypeResult.activityType.find((item) => id === item.activityTypeID).activityTypeOption[0].optionID 
+            }))
+        }
+        else {
+            setData((state) => ({
+                ...state,
+                activityType: id
+            }))
+        }
     }
+
+    const handleInputArrayChange = (e, activityTypeID, formID) => {
+        const { value } = e.target;
+        setData((prevState) => {
+            let inputArr = [...activityInput];
+            const existingIndex = inputArr.findIndex((item) => item.activityTypeID === activityTypeID && item.formID === formID);
+            if (existingIndex !== -1) {
+                // Update existing item
+                inputArr[existingIndex].formValue = value
+            } else {
+                // Create new item
+                const newItem = {
+                    formID: formID,
+                    formValue: value,
+                    activityTypeID: activityTypeID,
+                };
+                inputArr = [...inputArr, newItem];
+            }
+            console.log(inputArr)
+      
+            return {
+              ...prevState,
+              activityInput: inputArr,
+            }
+        });
+    };
+
+
 
     return (
         <div className="right_activity">
@@ -82,7 +117,7 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
                                     <span className="duration_text">Total Duration:</span>
                                     <div className="duration_box">
                                     <input type="number" className="duration_input" min={5} max={480} aria-label='min'
-                                    name='activityDuration' value={activityDuration}
+                                    name='duration' value={duration}
                                     onChange={(e) => setData((state) => ({...state, [e.target.name]: parseInt(e.target.value)}))}/>
                                     <div className="duration_subtitle_box">
                                         <p className="duration_subtitle">mins</p>
@@ -101,7 +136,7 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
                                             <div className="activity_grid_inner">
                                                 {
                                                 item.activityTypeOption.map((subItm) => (
-                                                    <button className={`grid_btn ${option === subItm.optionID && 'selected'}`} 
+                                                    <button className={`grid_btn ${engagementOption === subItm.optionID && 'selected'}`} 
                                                     onClick={() => setData((state) => ({...state, option: subItm.optionID}))}
                                                     key={subItm.optionID}
                                                     >
@@ -123,7 +158,13 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
                                                     <div className="" key={subItm.formID}>
                                                         <span className="subsection_text">{subItm.formName}</span>
                                                         <div className="form-floating mb-3">
-                                                            <input type="text" className="form-control" id="floatingInput" placeholder={subItm.formDesc} />
+                                                            <input type="text" className="form-control" id={subItm.formID} 
+                                                            placeholder={subItm.formDesc} 
+                                                            name={subItm.formID}
+                                                            value={activityInput ? activityInput.find((type) => (type.activityTypeID === item.activityTypeID 
+                                                            && type.formID === subItm.formID))?.formValue : ""}
+                                                            onChange={(e) => handleInputArrayChange(e, item.activityTypeID, subItm.formID)
+                                                            }/>
                                                             <label htmlFor="floatingInput">{subItm.formDesc}</label>
                                                         </div>
                                                     </div>
@@ -143,10 +184,16 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
                                                 <span style={{color: 'red'}}>*</span>
                                                 :    
                                                 </span>
-                                                <textarea className="subsection_textarea" name="" id="" rows="8"
-                                                placeholder="What is the task or exercise you want learners to work on or think about now?"></textarea>
-                                                <div className="">
-
+                                                <textarea className="subsection_textarea" 
+                                                name="activityInstruction" 
+                                                id="activityInstruction" 
+                                                rows="8"
+                                                placeholder="What is the task or exercise you want learners to work on or think about now?" 
+                                                value={activityInstruction}
+                                                onChange={(e) => setData((state) => ({...state, [e.target.name]: e.target.value}))}
+                                                />
+                                                <div className="d-flex justify-content-end text-danger">
+                                                    <small className="">{activityInstruction.length ? activityInstruction.length : 0} / 100</small>
                                                 </div>
                                             </div>
 

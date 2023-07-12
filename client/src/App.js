@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/Navbar/navBar";
 import HomePage from "./components/Home/home";
@@ -13,22 +13,26 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const [sideBarStats, setSideBarStats] = useState(true);
-  const [pathname, setPathname] = useState('')
 
   function handleState() {
     setSideBarStats(!sideBarStats);
   }
 
+  const [user, setUser] = useState(false);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('userInfo');
+    setUser(storedUser ? true : false);
+  }, []);
+
   return (
     <Router>
       <div className="App">
         <div className="main">
-          <NavBar sideBarStats={sideBarStats} changeState={handleState} getPathname={setPathname} />
+          <NavBar sideBarStats={sideBarStats} changeState={handleState} />
 
           <section
-            id="main_screen"
-            className={`${sideBarStats === true ? "nav_is_closed" : ""}`}
-            style={{paddingLeft: `${(pathname === "/login" || pathname === "/register") && 0 }`}}
+            className={`${user && 'main_screen'} ${sideBarStats === true ? "nav_is_closed" : ""}`}
           >
             <Routes>
               {/* Authentication an Authorization */}

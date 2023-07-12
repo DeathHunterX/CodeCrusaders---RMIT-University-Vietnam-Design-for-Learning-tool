@@ -7,19 +7,22 @@ import { registerUser, reset } from '../../redux/slices/authSlice'
 
 import { usePreventAccess } from "../../hook/usePreventAccess";
 
+
 const SignUp = () => {
 
     const SignUpState = {
-        email: '',
-        fName: '',
-        lName: '',
+        username: '',
+        firstName: '',
+        lastName: '',
         password: ''
     }
 
     const [registerData, setRegisterData] = useState(SignUpState)
-    const {email, fName, lName, password} = useState(registerData)
+    const {username, firstName, lastName} = useState(registerData)
 
+    const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    console.log(confirmPassword)
 
     const navigate = useNavigate()
     const {user, isError, isSuccess, isLoading, message} = useSelector(state => state.auth)
@@ -32,7 +35,8 @@ const SignUp = () => {
             toast.error(message)
         }
         if(isSuccess || user) {
-            navigate('/')
+            toast.success("Your account is successfully created. Please go to login page to enter website")
+            navigate('/login')
         }
 
         dispatch(reset())
@@ -49,8 +53,9 @@ const SignUp = () => {
 
     const handleRegister = (e) => {
         e.preventDefault()
-
         if (password === confirmPassword) {
+            setRegisterData((prevState) => ({...prevState, password: password}))
+
             dispatch(registerUser(registerData))
         } else {
             toast.error("Password does not match")
@@ -70,18 +75,18 @@ const SignUp = () => {
                     <div className="signUp-form">
                     <form onSubmit={handleRegister}>
                         <input
-                        type="email"
-                        name="email"
-                        value={email}
-                        placeholder="RMIT or email address"
+                        type="text"
+                        name="username"
+                        value={username}
+                        placeholder="RMIT or Personal Username"
                         required
                         onChange={handleChangeInput}
                         />
                         <div className="name">
                         <input
                             type="text"
-                            name="fname"
-                            value={fName}
+                            name="firstName"
+                            value={firstName}
                             placeholder="First Name"
                             required
                             onChange={handleChangeInput}
@@ -89,8 +94,8 @@ const SignUp = () => {
                         <div className="space"></div>
                         <input
                             type="text"
-                            name="lname"
-                            value={lName}
+                            name="lastName"
+                            value={lastName}
                             placeholder="Last Name"
                             required
                             onChange={handleChangeInput}
@@ -103,7 +108,7 @@ const SignUp = () => {
                             value={password}
                             placeholder="Password"
                             required
-                            onChange={handleChangeInput}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                         <div className="space"></div>
                         <input

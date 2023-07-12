@@ -83,15 +83,6 @@ export const ActivityCardList = [
         activityIconBg: '#455A64',
         activityUsedFor: '',
     },
-    // Activity 08
-    // {
-    //     activityID:'activity-08',
-    //     activityName: 'Custom',
-    //     activityDescription: 'Create a new learning activity.',
-    //     activityIcon: <MdOutlineAddBox/>,
-    //     activityIconBg: '#616161',
-    //     activityUsedFor: '',
-    // },
 ]
 
 export const ActivityTypeMap = [

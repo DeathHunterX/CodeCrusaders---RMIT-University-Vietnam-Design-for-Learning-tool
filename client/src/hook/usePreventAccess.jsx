@@ -5,7 +5,7 @@ export function usePreventAccess() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const hasItem = localStorage.getItem('firstLogin');
+    const hasItem = localStorage.getItem('userInfo');
     if (hasItem) {
       navigate(-1); // Redirect to the dashboard or another protected route
     }

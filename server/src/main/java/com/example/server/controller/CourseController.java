@@ -36,17 +36,13 @@ public class CourseController {
   }
 
   @GetMapping("courses/{id}")
-  public Optional<Course> getCourseById(@PathVariable("id") Long id) {
+  public Course getCourseById(@PathVariable("id") Long id) {
     return courseService.getCourseById(id);
   }
 
   @GetMapping("courses/{course_id}/modules")
   public ResponseEntity<?> getAllModulesByCourseId(@PathVariable Long course_id) {
-    Optional<Course> courseOptional = courseService.getCourseById(course_id);
-    if (!courseOptional.isPresent()) {
-      return new ResponseEntity<>("Course does not exist", HttpStatus.NOT_FOUND);
-    }
-    Course course = courseOptional.get();
+    Course course = courseService.getCourseById(course_id);
     return new ResponseEntity<>(course.getModuleList(),HttpStatus.OK);
   }
   @PostMapping("/create-course")

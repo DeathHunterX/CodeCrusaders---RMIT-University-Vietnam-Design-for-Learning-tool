@@ -1,13 +1,18 @@
 package com.example.server.service.impl;
 
+import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
+import com.example.server.api.response.SessionDetailsResponse;
+import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
+import com.example.server.model.Session;
 import com.example.server.repository.CourseRepository;
 import com.example.server.repository.ModuleRepository;
 import com.example.server.service.ModuleService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +29,7 @@ public class ModuleServiceImpl implements ModuleService {
 
   private final ModuleRepository moduleRepository;
   private final CourseRepository courseRepository;
+  private final ModelMapper modelMapper;
   @Override
   @Transactional
   public List<Module> getAllModules() {
@@ -41,8 +48,16 @@ public class ModuleServiceImpl implements ModuleService {
   }
 
   @Override
-  public Optional<Module> getModuleById(Long id) {
-    return moduleRepository.findById(id);
+  public ResponseEntity<ModuleDetailsResponse> getModuleDetailsById(Long id) {
+    Optional<Module> module = moduleRepository.findById(id);
+    if(!module.isPresent()) {
+      return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    }
+    Module _module = module.get();
+    List<Session> sessionList = _module.getSessionList();
+    List<SessionDetailsResponse> sessionDetailsResponses = sessionList.stream().map(e->new SessionDetailsResponse(e.getSessionType(),e.getGroupingType(),e.getSessionOption(),e.getHasLecturer())).collect(Collectors.toList());
+    ModuleDetailsResponse moduleDetailsResponse = new ModuleDetailsResponse(_module.getName(),_module.getLos(),sessionDetailsResponses);
+    return new ResponseEntity<>(moduleDetailsResponse,HttpStatus.OK);
   }
 
   @Override

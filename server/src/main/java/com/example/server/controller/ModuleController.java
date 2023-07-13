@@ -1,5 +1,6 @@
 package com.example.server.controller;
 
+import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -35,13 +37,16 @@ public class ModuleController {
     return moduleService.getAllModules();
   }
 
-//  @GetMapping("courses/{course_id}/module-names")
-//  public List<ModuleNameResponse> getAllModuleNamesByCourseId(@PathVariable Long course_id) {
-//  }
+  @GetMapping("courses/{course_id}/module-names")
+  public List<ModuleNameResponse> getAllModuleNamesByCourseId(@PathVariable Long course_id) {
+    Course course = courseService.getCourseById(course_id);
+    List<Module> moduleList = course.getModuleList();
+    return moduleList.stream().map(e->new ModuleNameResponse(e.getId(),e.getName())).collect(Collectors.toList());
+  }
 
   @GetMapping("modules/{id}")
-  public Optional<Module> getModuleById(@PathVariable("id") Long id) {
-    return moduleService.getModuleById(id);
+  public ResponseEntity<ModuleDetailsResponse> getModuleById(@PathVariable("id") Long id) {
+    return moduleService.getModuleDetailsById(id);
   }
 
   @PostMapping("/create-module")

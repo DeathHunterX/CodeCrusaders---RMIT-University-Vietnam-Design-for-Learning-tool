@@ -19,32 +19,32 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("v1/api/session")
+@RequestMapping("v1/api")
 @RequiredArgsConstructor
 public class SessionController {
   private final SessionService sessionService;
 
-  @GetMapping("/all-sessions")
+  @GetMapping("sessions")
   public List<Session> getAllSessions() {
     return sessionService.getAllSession();
   }
 
-  @GetMapping("/{id}")
-  public Optional<Session> getSessionById(@PathVariable("id") Long id) {
+  @GetMapping("sessions/{id}")
+  public Session getSessionById(@PathVariable("id") Long id) {
     return sessionService.getSessionById(id);
   }
 
-  @PostMapping("/create-session")
+  @PostMapping("sessions/create-session")
   public ResponseEntity<Session> createSession(@RequestBody Session session) {
     return ResponseEntity.ok(sessionService.createSession(session));
   }
 
-  @PutMapping("/update-session/{id}")
+  @PutMapping("sessions/update-session/{id}")
   public ResponseEntity<Session> updateSession(@PathVariable("id") Long id, @RequestBody Session sessionInfo) {
     return sessionService.updateSession(sessionInfo,id);
   }
 
-  @DeleteMapping("/delete-session/{id}")
+  @DeleteMapping("sessions/delete-session/{id}")
   public String deleteSession(@PathVariable("id") Long id) {
     sessionService.deleteSession(id);
     return "";

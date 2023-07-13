@@ -1,5 +1,6 @@
 package com.example.server.service;
 
+import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
 import com.example.server.model.Module;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ public interface ModuleService {
   List<Module> getAllModules();
 
   List<ModuleNameResponse> getAllModuleNamesByCourseId(Long id);
-  Optional<Module> getModuleById(Long id);
+  ResponseEntity<ModuleDetailsResponse> getModuleDetailsById(Long id);
 
   Module createModule(Module module);
   void deleteModule(Long id);

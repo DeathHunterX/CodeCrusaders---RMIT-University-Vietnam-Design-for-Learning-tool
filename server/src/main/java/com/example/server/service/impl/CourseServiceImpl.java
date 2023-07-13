@@ -2,6 +2,7 @@ package com.example.server.service.impl;
 
 import com.example.server.api.request.CourseRequest;
 import com.example.server.api.response.CourseResponse;
+import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Assignment;
 import com.example.server.model.Course;
 import com.example.server.repository.CourseRepository;
@@ -29,8 +30,9 @@ public class CourseServiceImpl implements CourseService {
   }
 
   @Override
-  public Optional<Course> getCourseById(Long id) {
-    return courseRepository.findById(id);
+  public Course getCourseById(Long id) {
+    return courseRepository.findById(id)
+            .orElseThrow(()-> new ObjectNotFoundException("Course", "id"));
   }
 
   @Override

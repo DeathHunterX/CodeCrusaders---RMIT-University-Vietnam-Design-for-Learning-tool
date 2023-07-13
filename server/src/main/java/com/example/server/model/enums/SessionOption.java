@@ -1,6 +1,7 @@
 package com.example.server.model.enums;
 
-public enum ActivityOption {
+public enum SessionOption {
   F2F,
-  ONLINE
+  ONLINE,
+  HYBRID
 }

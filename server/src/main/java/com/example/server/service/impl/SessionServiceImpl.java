@@ -1,5 +1,6 @@
 package com.example.server.service.impl;
 
+import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Module;
 import com.example.server.model.Session;
 import com.example.server.repository.SessionRepository;
@@ -23,8 +24,9 @@ public class SessionServiceImpl implements SessionService {
   }
 
   @Override
-  public Optional<Session> getSessionById(Long id) {
-    return sessionRepository.findById(id);
+  public Session getSessionById(Long id) {
+    return sessionRepository.findById(id)
+            .orElseThrow(()-> new ObjectNotFoundException("Session", "id"));
   }
 
   @Override

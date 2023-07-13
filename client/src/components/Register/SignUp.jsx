@@ -22,7 +22,6 @@ const SignUp = () => {
 
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    console.log(confirmPassword)
 
     const navigate = useNavigate()
     const {user, isError, isSuccess, isLoading, message} = useSelector(state => state.auth)
@@ -35,7 +34,7 @@ const SignUp = () => {
             toast.error(message)
         }
         if(isSuccess || user) {
-            toast.success("Your account is successfully created. Please go to login page to enter website")
+            // toast.success("Your account is successfully created. Please go to login page to enter website")
             navigate('/login')
         }
 
@@ -46,6 +45,7 @@ const SignUp = () => {
     
     }
 
+    console.log(registerData)
     const handleChangeInput = (e) => {
         const {name, value} = e.target
         setRegisterData((state) => ({...state, [name]: value}))

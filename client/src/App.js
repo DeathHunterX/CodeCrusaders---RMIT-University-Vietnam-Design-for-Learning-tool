@@ -31,8 +31,8 @@ function App() {
         <div className="main">
           <NavBar sideBarStats={sideBarStats} changeState={handleState} />
 
-          <section
-            className={`${user && 'main_screen'} ${sideBarStats === true ? "nav_is_closed" : ""}`}
+          <section id="mainScreen"
+            className={`${sideBarStats === true ? "nav_is_closed" : ""}`}
           >
             <Routes>
               {/* Authentication an Authorization */}

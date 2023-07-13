@@ -62,7 +62,7 @@ const NavBar = ({sideBarStats, changeState}) => {
               <div className="navbar-bottom-content">
                 <ul className='navbar-nav flex-column mb-4'>
                   <li className='nav-item'> <hr /></li>
-                  <li className='nav-item pe-auto' onClick={logOut}>
+                  <li className='nav-item' style={{cursor: 'pointer'}} onClick={logOut}>
                       <span className='nav-icon'><BiLogOut/></span>
                       <span className='nav-text ms-3'>Log out</span>
                     </li>

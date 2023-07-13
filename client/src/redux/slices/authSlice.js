@@ -14,7 +14,9 @@ const initialState = {
 // Register user
 export const registerUser = createAsyncThunk('auth/register', async(userData, thunkAPI) => {
   try {
+    console.log(userData)
     const res = await postDataAPI('auth/sign-up', userData)
+    console.log(res)
     if(res.data) {
       localStorage.setItem('userInfo', JSON.stringify(res.data))
     }

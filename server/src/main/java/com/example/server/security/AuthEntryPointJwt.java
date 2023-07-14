@@ -3,8 +3,8 @@ package com.example.server.security;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -12,15 +12,21 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
-  private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
-
   @Override
   public void commence(HttpServletRequest httpServletRequest,
                        HttpServletResponse httpServletResponse,
-                       AuthenticationException e) throws IOException {
-    logger.error("Responding with unauthorized error. Message - {}", e.getMessage());
-    httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-        e.getLocalizedMessage());
+                       AuthenticationException exception) throws IOException {
+    if (log.isDebugEnabled()) {
+      log.info(exception.getMessage());
+      log.info(exception.toString());
+      log.info(httpServletRequest.getHeader("Authorization"));
+    }
+    log.info("Get rest authentication exception");
+    httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    String responseBody = "{\"status\": 401, \"error\": \"Unauthorized\"}";
+    httpServletResponse.getWriter().write(responseBody);
   }
 }

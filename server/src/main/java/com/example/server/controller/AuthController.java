@@ -4,18 +4,21 @@ import com.example.server.api.request.SignupRequest;
 import com.example.server.api.response.MessageResponse;
 import com.example.server.model.User;
 import com.example.server.repository.UserRepository;
+import com.example.server.api.request.LoginRequest;
 import com.example.server.security.jwt.JwtResponse;
-import com.example.server.model.LoginRequest;
 import com.example.server.security.jwt.JwtUtils;
-import com.example.server.security.service.CustomUserDetails;
+import com.example.server.model.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,33 +29,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("v1/api/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
   private final AuthenticationManager authenticationManager;
   private final UserRepository userRepository;
   private final JwtUtils jwtUtils;
-  private final PasswordEncoder passwordEncoder;
+  private final BCryptPasswordEncoder passwordEncoder;
 
   @PostMapping("/sign-in")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
-    Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-    String jwt = jwtUtils.createToken(authentication);
-    System.out.println(jwt);
-
-    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-    System.out.println(userDetails.getUsername());
-
-    return ResponseEntity.ok(new JwtResponse(jwt,
-        userDetails.getUser().getId(),
-        userDetails.getUsername(),
-        userDetails.getUser().getName()));
+  public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginRequest loginRequest) throws Exception {
+    try {
+      log.info("Start authenticate...");
+      Authentication authentication = authenticationManager.authenticate(
+              new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+      SecurityContextHolder.getContext().setAuthentication(authentication);
+      String jwt = jwtUtils.createToken(authentication);
+      CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+      return ResponseEntity.ok(new JwtResponse(jwt,
+              userDetails.getUser().getId(),
+              userDetails.getUsername(),
+              userDetails.getUser().getName()));
+    }catch (BadCredentialsException e) {
+      return new ResponseEntity<>("Invalid username or password!",HttpStatus.UNAUTHORIZED);
+    }
   }
 
   @PostMapping("/sign-up")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+  public ResponseEntity<?> registerUser(@RequestBody @Valid SignupRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
           .badRequest()

@@ -1,8 +1,8 @@
 package com.example.server.model;
 
-//import com.example.server.model.enums.ActivityType;
-import com.example.server.model.enums.ActivityOption;
+import com.example.server.model.enums.ActivityType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -16,6 +16,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -25,21 +28,17 @@ public abstract class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Enumerated(EnumType.STRING)
-//    private ActivityType activityType;
-
-    private Integer duration;
-    private String lecturer;
-    private String description;
-    private String instructions;
-
     @Enumerated(EnumType.STRING)
-    private ActivityOption activityOption;
+    private ActivityType activityType;
+    private Integer duration;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id")
     @JsonIgnore
     private Session session;
+
+    @ElementCollection
+    private List<String> activityDescription= new ArrayList<>();
 
 
 }

@@ -1,6 +1,6 @@
 package com.example.server.security.jwt;
 
-import com.example.server.security.service.CustomUserDetails;
+import com.example.server.model.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -33,8 +34,14 @@ public class JwtUtils {
         .compact();
   }
 
-  public String getUserIdFromToken(String token) {
-    return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+  public String getUsernameFromToken(String token) {
+    String res = null;
+    try {
+      res =  Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    } catch (SignatureException e) {
+      logger.error("JWT signature does not match locally computed signature", e.getMessage());
+    }
+    return res;
   }
 
   public void validateToken(String authToken) {
@@ -52,5 +59,10 @@ public class JwtUtils {
     } catch (IllegalArgumentException e) {
       logger.error("JWT claims string is empty: {}", e.getMessage());
     }
+  }
+
+  public Boolean isTokenValid(String token, UserDetails userDetails) {
+    final String username = getUsernameFromToken(token);
+    return username.equals(userDetails.getUsername());
   }
 }

@@ -1,33 +1,43 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PlannerDescription from './ModulePlanner/PlannerDescription'
 
-const CoursePlanner = ({items, onDragEnd}) => {
-  const [activeTabs, setActiveTabs] = useState(0)
+const CoursePlanner = ({rightActivities, activityType, setActivityType, setActivityWindow, setEditedItm, setDeleteItm, setTabName}) => {
+  const [activeTabs, setActiveTabs] = useState('Pre-class')
 
-  const configMap = [
-    {header: 'Pre-class', component: <PlannerDescription/>}, 
-    {header: 'In-class', component: <PlannerDescription/>}, 
-    {header: 'Post-class', component: <PlannerDescription/>}
-  ]
+  const filteredBoards = rightActivities.filter((board) => board.name === activeTabs);
+
+  useEffect(() => {
+    setTabName(activeTabs)
+  }, [activeTabs, setTabName])
   return (
     <div className="module_planner">
 
       <div className="tabs_container">
         <div className="tabs_header">
           {
-            configMap.map((entry,idx) => (
+            rightActivities.map((entry,idx) => (
               <div
-                className={`tabs ${activeTabs === idx ? "active_tabs" : ""}`}
-                onClick={() => setActiveTabs(idx)} key={idx}
+                className={`tabs ${activeTabs === entry.name ? "active_tabs" : ""}`}
+                onClick={() => setActiveTabs(entry.name)} key={idx}
               >
-                {entry.header}
+                {entry.name}
               </div>
             ))
           }
         </div>
 
         <div className="tabs_body">
-          {configMap[activeTabs].component}
+          {filteredBoards.map((board, idx) => (
+            <PlannerDescription data={board} key={idx}
+              tabName={activeTabs}
+              rightActivities={rightActivities}
+              activityType={activityType}
+              setActivityType={setActivityType}
+              setActivityWindow={setActivityWindow}
+              setEditedItm={setEditedItm}
+              setDeleteItm={setDeleteItm}
+            />
+          ))}
         </div>
       </div>
   

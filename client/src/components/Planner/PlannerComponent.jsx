@@ -225,7 +225,7 @@ const PlannerComponent = () => {
                             activeSection === 1 &&
                             (
 
-                                <div className="activity_container">
+                                <div className="activity_container" style={{padding: "0 5px"}}>
                                     <div className="">
                                         <button className="btn btn-outline-info w-100" 
                                         onClick={() => openAddEditDialog()}
@@ -234,7 +234,7 @@ const PlannerComponent = () => {
                                         </button>
                                     </div>
 
-                                    <div className="activity_section" style={{maxHeight: "85vh", height: "100%"}}>
+                                    <div className="activity_section" style={{maxHeight: "83vh", height: "100%", border: "1px solid darkgray"}}>
                                         <div className="activity_wrapper">
                                             <div className="activity_wrapper_inner">
                                                 <Droppable droppableId='left_board'>

@@ -2,12 +2,8 @@
   width: 100%;
   position: relative;
   background: #e4e9f7;
-  padding-left: 170px;
 }
 
-#mainScreen.nav_is_closed {
-  padding-left: 70px;
-}
 
 #mainScreen > *,
 #mainScreen.nav_is_closed > * {

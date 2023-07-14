@@ -2,26 +2,45 @@ import React, { useState } from 'react'
 import {AiOutlineQuestionCircle} from 'react-icons/ai'
 import TextEditor from '../../TextEditor/TextEditor'
 
+const RadioButtonsList = ({ options, selectedOption, onChange }) => {
+    return (
+        <div className="d-flex justify-content-evenly form-check">
+          {options.map((option) => (
+            <>
+                <label key={option}>
+                    <input className="form-check-input"
+                        type="radio" 
+                        value={option}
+                        checked={selectedOption === option}
+                        onChange={onChange}
+                    />
+                    {option} 
+                </label>
+            </>
+          ))}
+        </div>
+    );
+}
 const BasicInformation = () => {
     const initialState = {
         moduleName: "",
         moduleClos: "",
-        session: [
+        sessions: [
             {
                 sessionName: "Pre-class",
-                sessionModality1: "F2F",            //  F2F, Online, Hybrid
+                sessionModality: "F2F",            //  F2F, Online, Hybrid
                 grouping: "",                   //  Individual, Class
                 lectureAvailability: ""         //  Yes, no
             },
             {
                 sessionName: "In-class",
-                sessionModality2: "Online",            //  F2F, Online, Hybrid
+                sessionModality: "Online",            //  F2F, Online, Hybrid
                 grouping: "",                   //  Individual, Class
                 lectureAvailability: ""         //  Yes, no
             },
             {
                 sessionName: "Post-class",
-                sessionModality3: "Hybrid",            //  F2F, Online, Hybrid
+                sessionModality: "Hybrid",            //  F2F, Online, Hybrid
                 grouping: "",                   //  Individual, Class
                 lectureAvailability: ""         //  Yes, no
             },
@@ -32,32 +51,20 @@ const BasicInformation = () => {
 
     console.log(moduleInfo)
 
-    const classList = ["Pre-class", "In-class", "Post-class"]
-
     const handleChangeInput = (e) => {
         const {name, value} = e.target
 
         setModuleInfo((prevState) => ({...prevState, [name]: value}))
     }
 
-    const handleChangeOption = (e, session) => {
-        const {name, value} = e.target
-        setModuleInfo((prevState) => {
-            let inputArr = [...moduleInfo.session];
-            const existingIndex = inputArr.findIndex((item) => item.sessionName === session);
-        
-            if (existingIndex !== -1) {
-                // Update existing item
-                inputArr[existingIndex][name] = value
-            }
-            console.log(inputArr)
-      
-            return {
-              ...prevState,
-              session: inputArr,
-            }
-        });
-    }
+    const handleOptionChange = (sessionName, key, value) => {
+        setModuleInfo((prevState) => ({
+            ...prevState,
+            sessions: prevState.sessions.map((session) =>
+                session.sessionName === sessionName ? { ...session, [key]: value } : session
+            ),
+        }));
+      };
 
     const handleTextEditor = (value) => {
         setModuleInfo((prevState) => ({ ...prevState, moduleClos: value }));
@@ -90,76 +97,31 @@ const BasicInformation = () => {
                         </thead>
                         <tbody>
                             {
-                            moduleInfo.session.map((classItm, idx) => (
+                            moduleInfo.sessions.map((classItm, idx) => (
                                 <tr className="fw-normal" key={idx}>
-                                    <th scope="row" className="p-2">{classItm.sessionName}</th>
-                                    <td> 
-                                        <div className="d-flex justify-content-evenly">
-                                            <div className="form-check p-2">
-                                                <input className="form-check-input" type="radio" id={`sessionModalityRadio${classItm.sessionName}`} 
-                                                name="sessionModality" 
-                                                value="F2F"
-                                                checked={classItm.sessionModality === "F2F"}
-                                                onChange={(e) => handleChangeOption(e, classItm.sessionName)}/>
-                                                <label className="form-check-label" htmlFor={`sessionModalityRadio${classItm.sessionName}`}>
-                                                    Face-to-face
-                                                </label>
-                                            </div>
-                                            <div className="form-check p-2">
-                                                <input className="form-check-input" type="radio" id={`sessionModalityRadio${classItm.sessionName}`} 
-                                                name="sessionModality" 
-                                                value="Online"
-                                                checked={classItm.sessionModality === "Online"}
-                                                onChange={(e) => handleChangeOption(e, classItm.sessionName)}/>
-                                                <label className="form-check-label" htmlFor={`sessionModalityRadio${classItm.sessionName}`}>
-                                                    Online
-                                                </label>
-                                            </div>
-                                            <div className="form-check p-2">
-                                                <input className="form-check-input" type="radio" id={`sessionModalityRadio${classItm.sessionName}`} 
-                                                name="sessionModality" 
-                                                value="Hybrid"
-                                                checked={classItm.sessionModality === "Hybrid"}
-                                                onChange={(e) => handleChangeOption(e, classItm.sessionName)}/>
-                                                <label className="form-check-label" htmlFor={`sessionModalityRadio${classItm.sessionName}`}>
-                                                    Hybrid
-                                                </label>
-                                            </div>
-                                        </div>
+                                    <td className="p-2">{classItm.sessionName}</td>
+                                    <td>
+                                        <RadioButtonsList
+                                            options={['F2F', 'Online', 'Hybrid']}
+                                            selectedOption={classItm.sessionModality}
+                                            onChange={(event) =>handleOptionChange(classItm.sessionName, 'sessionModality', event.target.value)}
+                                        />
                                     </td>
 
                                     <td>
-                                        <div className="d-flex justify-content-evenly">
-                                            <div className="form-check p-2">
-                                                <input className="form-check-input" type="radio" name="grouping" id="groupingRadio" />
-                                                <label className="form-check-label" htmlFor="grouping">
-                                                    Individual
-                                                </label>
-                                            </div>
-                                            <div className="form-check p-2">
-                                                <input className="form-check-input" type="radio" name="grouping" id="groupingRadio"  />
-                                                <label className="form-check-label" htmlFor="grouping">
-                                                    Class
-                                                </label>
-                                            </div>
-                                        </div>
+                                        <RadioButtonsList
+                                            options={['Individual', 'Class']}
+                                            selectedOption={classItm.grouping}
+                                            onChange={(event) => handleOptionChange(classItm.sessionName, 'grouping', event.target.value)}
+                                        />
                                     </td>
 
                                     <td>
-                                        <div className="d-flex justify-content-evenly">
-                                            <div className="form-check p-2">
-                                                <input className="form-check-input" type="radio" name="lectureAvailability" id="lectureAvailabilityRadio" />
-                                                <label className="form-check-label" htmlFor="lectureAvailability">
-                                                    Yes
-                                                </label>
-                                            </div>
-                                            <div className="form-check p-2">
-                                                <input className="form-check-input" type="radio" name="lectureAvailability" id="lectureAvailabilityRadio"  />
-                                                <label className="form-check-label" htmlFor="lectureAvailability">
-                                                    No
-                                                </label>
-                                            </div>
-                                        </div>
+                                        <RadioButtonsList
+                                            options={['Yes', 'No']}
+                                            selectedOption={classItm.lectureAvailability}
+                                            onChange={(event) => handleOptionChange(classItm.sessionName, 'lectureAvailability', event.target.value)}
+                                        />
                                     </td>
                                 </tr>
                             ))

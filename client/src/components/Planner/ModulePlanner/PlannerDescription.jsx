@@ -6,21 +6,27 @@ import {IconSetting} from '../../../utils/IconSetting'
 import { MdOutlineCheckCircleOutline, MdOutlineRemoveCircleOutline } from 'react-icons/md'
 import ActivityCard from '../Activity/Card/ActivityCard'
 import { Draggable, Droppable } from '@hello-pangea/dnd'
+import { RiEdit2Line } from 'react-icons/ri'
 
 const PlannerDescription = ({data, tabName, rightActivities, activityType, setActivityType, setActivityWindow, setEditedItm, setDeleteItm}) => {
-  const [durationTime, setDurationTime] = useState(0)
-  const [handleDuration, setHandleDuration] = useState(0)
+  const [durationTime, setDurationTime] = useState(90)
+
+  // handle time when input
+  const [time, setTime] = useState(durationTime)
+
+  const [editDuration, setEditDuration] = useState(false)
 
   const [timeline, setTimeline] = useState([])
   
   //handle set timeline base on rightActivities length
   useEffect(() => {
     const getDataLength = (rightActivities.find((board) => board.name === tabName) || { data: [] }).data.length
+
     if (getDataLength > 0) {
       const getDataDuration = (rightActivities.find((board) => board.name === tabName) || { data: [] })
-                              .data.map((activity) => parseInt(activity.activityDuration, 10))
+                              .data.map((activity) => parseInt(activity.duration, 10))
                               .filter((duration) => !isNaN(duration));
-      // console.log(getDataDuration)
+
 
       const timelineHandle = getDataDuration.reduce((acc, duration, index) => {
         const lastTime = index === 0 ? '00:00' : acc[index - 1];
@@ -37,13 +43,13 @@ const PlannerDescription = ({data, tabName, rightActivities, activityType, setAc
     }
         
   }, [rightActivities, tabName])
+  
 
 
-  const handleSubmit = (e) => {
-      e.preventDefault()
-      setHandleDuration(durationTime)
+  const handleChangeDuration = () => {
+    setDurationTime(time)
+    setEditDuration((state) => !state)
   }
-
   return (
     <div className="activity_planner_inner_container d-flex">
       <div className="col-5 d-flex">
@@ -113,20 +119,32 @@ const PlannerDescription = ({data, tabName, rightActivities, activityType, setAc
           <div className="review_header ps-3 pe-3">
             <h5>Review</h5>
             <span>Here's a quick review of the session plan you created</span>
-
-            <form className="duration_input d-flex align-items-center mt-1" onSubmit={handleSubmit}>
+            <div className="duration_input d-flex align-items-center mt-1">
                 <span>Duration Time:</span>
-                <input type="number" className="form-control ms-2" id="inputDurationTime" aria-describedby="inputDurationTime"
-                style={{width:"75px"}} min={0} max={320}
-                onChange={e => setDurationTime(e.target.value)}/>
-                <div className="ms-3">
-                  <button className='btn me-1' type="submit">{IconSetting(<MdOutlineCheckCircleOutline/>, 'green')}</button>
-                  <span>{IconSetting(<MdOutlineRemoveCircleOutline/>, 'red')}</span> 
-                </div>
-            </form>
+                {
+                  editDuration ? (
+                    <>
+                      <input type="number" className="form-control ms-2" id="inputDurationTime" aria-describedby="inputDurationTime"
+                      style={{width:"75px"}} min={0} max={320} value={time}
+                      onChange={e => setTime(e.target.value)}/>
+                      <div className="ms-3">
+                        <button className='btn me-1' onClick={handleChangeDuration}>{IconSetting(<MdOutlineCheckCircleOutline/>, 'green')}</button>
+                        <button className='btn' onClick={() => setEditDuration((state) => !state)}>{IconSetting(<MdOutlineRemoveCircleOutline/>, 'red')}</button> 
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <span className="ms-4">{durationTime}</span>
+                      <button className="btn" onClick={() => setEditDuration((state) => !state)}><RiEdit2Line/></button>
+                    </>
+                  )
+                }
+                
+                
+            </div>
           </div>
           <div className="chart">
-            <DoughnutChart dataset={data.data} durationTime={handleDuration}/>
+            <DoughnutChart dataset={data.data} durationTime={durationTime}/>
           </div>
         </div>
       </div>

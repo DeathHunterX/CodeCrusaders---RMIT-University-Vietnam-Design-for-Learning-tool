@@ -1,5 +1,5 @@
 .planner_component .vertical_tabs_container {
-    min-height: 650px;
+    min-height: 88vh;
     display: grid;
     grid-template-columns: 1fr 9fr;
 }

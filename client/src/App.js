@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import NavBar from "./components/Navbar/navBar";
 import HomePage from "./components/Home/home";
 import PageRender from "./customRouter/PageRender";
 
@@ -11,29 +10,17 @@ import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Layout from "./components/Layout";
 function App() {
-  const [sideBarStats, setSideBarStats] = useState(true);
 
-  function handleState() {
-    setSideBarStats(!sideBarStats);
-  }
+  const [isNavBarOpen, setIsNavBarOpen] = useState(true);
 
-  const [user, setUser] = useState(false);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('userInfo');
-    setUser(storedUser ? true : false);
-  }, []);
 
   return (
     <Router>
       <div className="App">
         <div className="main">
-          <NavBar sideBarStats={sideBarStats} changeState={handleState} />
-
-          <section id="mainScreen"
-            className={`${sideBarStats === true ? "nav_is_closed" : ""}`}
-          >
+          <Layout isNavBarOpen={isNavBarOpen} setNavBarOpen={setIsNavBarOpen}>
             <Routes>
               {/* Authentication an Authorization */}
               <Route exact path="/login" element={<LoginPage/>} />
@@ -53,9 +40,8 @@ function App() {
                     
               </Route>
             </Routes>
-          </section>
 
-
+          </Layout>
         </div>
       </div>
       <ToastContainer

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useSelector ,useDispatch} from 'react-redux'
@@ -45,6 +45,7 @@ const SignIn = () => {
     e.preventDefault()
 
     dispatch(loginUser(loginData))
+    
   }
 
   return (
@@ -74,13 +75,14 @@ const SignIn = () => {
               />
 
               <button type="submit">Sign In</button>
-              <div className="middle">
-                <p className="account">
-                  Don't have an account? <a href={"/register"}>Register here</a>
-                </p>
-                <a href="url">Forgot your Password?</a>
-              </div>
+
             </form>
+            <div className="middle">
+                <p className="account">
+                  Don't have an account? <Link to="/register">Register here</Link>
+                </p>
+                <Link to="/">Forgot your Password?</Link>
+            </div>
           </div>
         </div>
       </div>

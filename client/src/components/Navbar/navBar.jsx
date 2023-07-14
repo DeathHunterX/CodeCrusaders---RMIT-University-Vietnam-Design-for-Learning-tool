@@ -10,17 +10,17 @@ import { NavBarData } from './navBarData'
 
 import AvatarImg from '../../images/Avatar/avatar.jpg'
 import Avatar from '../Avatar'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { logoutUser, reset } from '../../redux/slices/authSlice'
 
 
-const NavBar = ({sideBarStats, changeState}) => {
+const NavBar = ({isNavBarOpen, setNavBarOpen}) => {
   const {pathname} = useLocation()
 
   const navigate = useNavigate()
 
-  const { user } = useSelector(state => state.auth)
-  console.log(user)
+  // const { user } = useSelector(state => state.auth)
+  // console.log(user)
   const dispatch = useDispatch()
 
   const logOut = () => {
@@ -33,9 +33,9 @@ const NavBar = ({sideBarStats, changeState}) => {
     <>
     {(pathname !== "/login" && pathname !== "/register") && (
       <> 
-        <nav className={`navbar navbar-vertical navbar-light navbar-expand-xl ${sideBarStats === true ? 'navbar-close' : ''}`}>
+        <nav className={`navbar navbar-vertical navbar-light navbar-expand-xl ${isNavBarOpen === true ? 'navbar-close' : ''}`}>
             <div className="d-flex align-items-center">
-              <button className='btn btn-default btn-circle-hover me-2' onClick={changeState}>
+              <button className='btn btn-default btn-circle-hover me-2' onClick={() => setNavBarOpen(state => !state)}>
                 <RxHamburgerMenu />
               </button>
               <Link to={"/"}>

@@ -4,7 +4,7 @@ import {postDataAPI} from '../../utils/fetchData'
 const user = JSON.parse(localStorage.getItem('userInfo'))
 
 const initialState = {
-  user: user ? user : '',
+  user: user ? user : null,
   isError: null,
   isSuccess: null,
   isLoading: null,
@@ -14,15 +14,9 @@ const initialState = {
 // Register user
 export const registerUser = createAsyncThunk('auth/register', async(userData, thunkAPI) => {
   try {
-    console.log(userData)
     const res = await postDataAPI('auth/sign-up', userData)
-    console.log(res)
-    if(res.data) {
-      localStorage.setItem('userInfo', JSON.stringify(res.data))
-    }
-
-    return res.data
     
+    return res.data
   } catch (err) {
     const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
       return thunkAPI.rejectWithValue(message)
@@ -33,7 +27,6 @@ export const registerUser = createAsyncThunk('auth/register', async(userData, th
 export const loginUser = createAsyncThunk('auth/login', async(userData, thunkAPI) => {
   try {
     const res = await postDataAPI('auth/sign-in', userData)
-    console.log(res)
     if(res.data) {
       localStorage.setItem('userInfo', JSON.stringify(res.data))
     }
@@ -69,19 +62,19 @@ const authSlice = createSlice({
         .addCase(registerUser.fulfilled, (state, action) => {
           state.isLoading = false;
           state.isSuccess = true;
-          state.user = action.payload
+          state.message = action.payload
+          state.user = null
         })
         .addCase(registerUser.rejected, (state, action) => {
           state.isLoading = false;
           state.isError = true;
           state.message = action.payload;
-          state.user = ''
+          state.user = null
         })
         .addCase(loginUser.pending, (state) => {
           state.isLoading = true;
         })
         .addCase(loginUser.fulfilled, (state, action) => {
-          console.log(action)
           state.isLoading = false;
           state.isSuccess = true;
           state.user = action.payload;
@@ -90,10 +83,10 @@ const authSlice = createSlice({
           state.isLoading = false;
           state.isError = true;
           state.message = action.payload;
-          state.user = '';
+          state.user = null;
         })
         .addCase(logoutUser.fulfilled, (state) => {
-          state.user = '';
+          state.user = null;
         })
     },
 })

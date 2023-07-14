@@ -1,9 +1,14 @@
 package com.example.server.controller;
 
+import com.example.server.api.response.ModuleDetailsResponse;
+import com.example.server.api.response.ModuleNameResponse;
+import com.example.server.model.Course;
 import com.example.server.model.Module;
+import com.example.server.service.CourseService;
 import com.example.server.service.ModuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,22 +22,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("v1/api/module")
+@RequestMapping("v1/api")
 @RequiredArgsConstructor
 public class ModuleController {
   private final ModuleService moduleService;
+  private final CourseService courseService;
 
-  @GetMapping("/all-modules")
+  @GetMapping("modules")
   public List<Module> getAllModules() {
     return moduleService.getAllModules();
   }
 
-  @GetMapping("/{id}")
-  public Optional<Module> getModuleById(@PathVariable("id") Long id) {
-    return moduleService.getModuleById(id);
+  @GetMapping("courses/{course_id}/module-names")
+  public List<ModuleNameResponse> getAllModuleNamesByCourseId(@PathVariable Long course_id) {
+    Course course = courseService.getCourseById(course_id);
+    List<Module> moduleList = course.getModuleList();
+    return moduleList.stream().map(e->new ModuleNameResponse(e.getId(),e.getName())).collect(Collectors.toList());
+  }
+
+  @GetMapping("modules/{id}")
+  public ResponseEntity<ModuleDetailsResponse> getModuleById(@PathVariable("id") Long id) {
+    return moduleService.getModuleDetailsById(id);
   }
 
   @PostMapping("/create-module")

@@ -42,12 +42,8 @@ public class ActivityServiceImpl implements ActivityService {
     Optional<Activity> activityData = activityRepository.findById(id);
     if (activityData.isPresent()) {
       Activity _activity = activityData.get();
-      _activity.setDescription(activityInfo.getDescription());
-      _activity.setActivityOption(activityInfo.getActivityOption());
       _activity.setDuration(activityInfo.getDuration());
-      _activity.setLecturer(activityInfo.getLecturer());
       _activity.setSession(activityInfo.getSession());
-      _activity.setInstructions(activityInfo.getInstructions());
       return new ResponseEntity<>(activityRepository.save(_activity), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

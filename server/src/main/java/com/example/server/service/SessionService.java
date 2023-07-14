@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface SessionService {
   List<Session> getAllSession();
-  Optional<Session> getSessionById(Long id);
+  Session getSessionById(Long id);
 
   Session createSession(Session session);
   void deleteSession(Long id);

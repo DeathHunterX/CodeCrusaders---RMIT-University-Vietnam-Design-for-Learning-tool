@@ -1,20 +1,16 @@
 package com.example.server;
 
-import com.example.server.model.Assignment;
-import com.example.server.model.Course;
+import com.example.server.model.*;
 import com.example.server.model.Module;
-import com.example.server.model.User;
-import com.example.server.repository.AssignmentRepository;
-import com.example.server.repository.CourseRepository;
-import com.example.server.repository.ModuleRepository;
-import com.example.server.repository.UserRepository;
+import com.example.server.model.enums.GroupingType;
+import com.example.server.model.enums.SessionOption;
+import com.example.server.model.enums.SessionType;
+import com.example.server.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,6 +32,8 @@ public class ServerApplication implements CommandLineRunner {
   private final BCryptPasswordEncoder passwordEncoder;
 
   private final ModuleRepository moduleRepository;
+
+  private final SessionRepository sessionRepository;
 
   public static void main(String[] args) {
     SpringApplication.run(ServerApplication.class, args);
@@ -64,11 +62,11 @@ public class ServerApplication implements CommandLineRunner {
     Module module3 = new Module("module3",Arrays.asList("los5","los6","los7"));
 
 
-    Course course1 = new Course("Machine Learning","Semester A 2020",clos1);
-    Course course2 = new Course("Object Oriented Programming","Semester A 2021",clos2);
-    Course course3 = new Course("Computer Vision","Semester C 2022",clos3);
-    Course course4 = new Course("Python","Semester B 2023",clos3);
-    Course course5 = new Course("ReactJS","Semester A 2019",clos2);
+    Course course1 = new Course("Machine Learning","CA","Semester A 2020",clos1);
+    Course course2 = new Course("Object Oriented Programming","OOP","Semester A 2021",clos2);
+    Course course3 = new Course("Computer Vision","CV","Semester C 2022",clos3);
+    Course course4 = new Course("Python","PY","Semester B 2023",clos3);
+    Course course5 = new Course("ReactJS","RJ","Semester A 2019",clos2);
 
     assignment1.setCourse(course1);
     assignment1.setCourse(course3);
@@ -84,6 +82,13 @@ public class ServerApplication implements CommandLineRunner {
     module2.setCourse(course1);
     module3.setCourse(course1);
 
+    Session preClass = new Session(SessionType.PRE_CLASS, GroupingType.SMALL_GROUP, SessionOption.F2F,Boolean.TRUE);
+    Session inClass = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
+    Session postClass = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
+    preClass.setModule(module1);
+    inClass.setModule(module1);
+    postClass.setModule(module1);
+
     User user1 = new User();
     user1.setName("Khang");
     user1.setUsername("khang123");
@@ -95,6 +100,7 @@ public class ServerApplication implements CommandLineRunner {
     courseRepository.saveAll(List.of(course1,course2,course3,course4,course5));
     userRepository.save(user1);
     moduleRepository.saveAll(List.of(module1,module2,module3));
+    sessionRepository.saveAll(List.of(preClass, inClass, postClass));
 
     assignmentRepository.saveAll(List.of(assignment1,assignment2,assignment3,assignment4,assignment5,assignment6));
 

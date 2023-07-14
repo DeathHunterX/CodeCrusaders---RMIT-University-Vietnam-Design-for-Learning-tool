@@ -1,12 +1,10 @@
 import React from "react";
 import SignIn from "../components/Login/SignIn";
 
-const Login = () => {
+const LoginPage = () => {
   return (
-    <>
-      <SignIn />
-    </>
+    <SignIn />
   );
 };
 
-export default Login;
+export default LoginPage;

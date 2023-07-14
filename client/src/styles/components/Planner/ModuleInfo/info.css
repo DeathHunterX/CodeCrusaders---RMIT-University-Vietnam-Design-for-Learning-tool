@@ -1,0 +1,26 @@
+.module_info_wrapper {
+
+}
+
+.module_info_wrapper .class_info{
+}
+
+.class_info .class_table {
+    width: 100%;
+}
+
+.class_info .class_table thead {
+    text-align: center;
+}
+
+.class_info .class_table .modality_col {
+    width: 380px;
+}
+
+.class_info .class_table .grouping_col {
+    width: 400px;
+}
+
+.class_info .class_table .availability_col {
+    width: 225px;
+}

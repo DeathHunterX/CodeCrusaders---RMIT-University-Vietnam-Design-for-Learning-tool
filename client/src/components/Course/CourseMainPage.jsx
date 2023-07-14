@@ -12,8 +12,8 @@ const CourseMainPage = () => {
             </div>
 
             <div className="course_list_wrapper">
-                <div className="course_list_container row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    <div className="mb-4 course_item course_create_btn">
+                <div className="course_list_container">
+                    <div className="course_item course_create_btn">
                         <Link to="/create_course">
                             <div className="card">
                                 <div className="course_create_btn_layout">

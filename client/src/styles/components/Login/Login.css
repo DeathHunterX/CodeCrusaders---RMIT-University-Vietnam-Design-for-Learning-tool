@@ -1,9 +1,10 @@
 .login_center {
   display: flex;
   justify-content: center;
-  padding-top: 80px;
   align-items: center;
   background-color: #e4e9f7;
+  width: 100vw !important;
+  height: 100vh !important;
 }
 .login_center .login_inner-center {
   display: grid;

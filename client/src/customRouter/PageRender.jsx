@@ -13,8 +13,7 @@ const generatePage = (pageName) => {
 
 const PageRender = () => {
     const {page, id, subPage, subId} = useParams()
-    // const match = useMatch("/:page/:id/:subpage")
-    // console.log(useParams())
+
     let pageName = ""
 
     if (id) {

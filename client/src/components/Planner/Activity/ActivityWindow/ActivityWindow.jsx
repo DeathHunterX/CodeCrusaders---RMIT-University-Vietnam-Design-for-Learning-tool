@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import { AiOutlineClose } from 'react-icons/ai'
+import {toast} from 'react-toastify'
+
 import { ActivityCardList} from '../Map/ActivityCardList'
 import ActivityCard from '../Card/ActivityCard'
 import ActivityTypeList from './ActivityTypeList'
@@ -29,7 +31,7 @@ const ActivityWindow = ({type, leftActivities, setLeftActivities, setRightActivi
       setActivityWindow((preState) => !preState)
 
     } else {
-      console.log("You need to select one activity")
+      toast.error("You need to select one activity")
     }
   }
 

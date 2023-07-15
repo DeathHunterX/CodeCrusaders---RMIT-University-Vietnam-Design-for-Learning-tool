@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import TextEditor from '../../../TextEditor/TextEditor'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
+import { useSelector } from 'react-redux'
+
 const CourseDetail = () => {
     const initialCourseState = {
-        courseId: '', 
+        courseCode: '', 
         courseName:'', 
         courseSemester:'', 
         assignment: [
@@ -15,33 +17,44 @@ const CourseDetail = () => {
         CLOs: ''
     }
 
-    
-    
-    const [courseData, setCourseData] = useState(initialCourseState)
-    const {courseId, courseName, courseSemester, CLOs, assignment} = courseData
+    const {course} = useSelector(state => state.course)
+
 
     useEffect(() => {
-        // Simulating API call with setTimeout
-        const fetchData = () => {
-          // Replace this with your actual API call
-          setTimeout(() => {
-            const apiData = {
-              courseId: 'BP306',
-              courseName: 'Engineering Capstone Project Part A',
-              courseSemester: '1 - 2023',
-              assignment: [
-                { idxNo: '01', assignmentName: 'Project Proposal', startDate: '', endDate: '' },
-                { idxNo: '02', assignmentName: 'Project Finalize', startDate: '', endDate: '' },
-                { idxNo: '03', assignmentName: 'Presentation + Demo', startDate: '', endDate: '' }
-              ],
-              CLOs: 'Hello'
-            };
-            setCourseData(apiData);
-          }, 1000); // Delay of 1 second for demonstration purposes
-        };
+        setCourseData((prevState) => ({
+            ...prevState,
+            courseName: course.courseName,
+            courseCode: course.courseCode,
+        }))
+    }, [course.courseCode, course.courseName])
     
-        fetchData();
-    }, []);
+    const [courseData, setCourseData] = useState(initialCourseState)
+    const {courseCode, courseName, courseSemester, CLOs, assignment} = courseData
+
+    // useEffect(() => {
+    //     // Simulating API call with setTimeout
+    //     const fetchData = () => {
+    //       // Replace this with your actual API call
+    //       setTimeout(() => {
+    //         const apiData = {
+    //           courseId: 'BP306',
+    //           courseName: 'Engineering Capstone Project Part A',
+    //           courseSemester: '1 - 2023',
+    //           assignment: [
+    //             { idxNo: '01', assignmentName: 'Project Proposal', startDate: '', endDate: '' },
+    //             { idxNo: '02', assignmentName: 'Project Finalize', startDate: '', endDate: '' },
+    //             { idxNo: '03', assignmentName: 'Presentation + Demo', startDate: '', endDate: '' }
+    //           ],
+    //           CLOs: 'Hello'
+    //         };
+    //         setCourseData(apiData);
+    //       }, 1000); // Delay of 1 second for demonstration purposes
+    //     };
+    
+    //     fetchData();
+
+        
+    // }, []);
 
     const handleInput = (e) => {
         const {name, value} = e.target
@@ -99,7 +112,7 @@ const CourseDetail = () => {
                 <div className=" d-flex mb-3">
                     <label htmlFor="courseCodeInput" className="form-label" style={{width: '200px'}}>Course Code</label>
                     <input type="text" className="form-control" id="courseCodeInput" aria-describedby="courseCodeInput" 
-                    name='courseId' value={courseId} onChange={handleInput} style={{width: '35%'}}
+                    name='courseCode' value={courseCode} onChange={handleInput} style={{width: '35%'}}
                     />
                 </div>
 

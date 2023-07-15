@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -30,7 +31,7 @@ public class SessionController {
   }
 
   @GetMapping("sessions/{id}")
-  public Session getSessionById(@PathVariable("id") Long id) {
+  public Session getSessionById(@PathVariable("id") UUID id) {
     return sessionService.getSessionById(id);
   }
 
@@ -40,12 +41,12 @@ public class SessionController {
   }
 
   @PutMapping("sessions/update-session/{id}")
-  public ResponseEntity<Session> updateSession(@PathVariable("id") Long id, @RequestBody Session sessionInfo) {
+  public ResponseEntity<Session> updateSession(@PathVariable("id") UUID id, @RequestBody Session sessionInfo) {
     return sessionService.updateSession(sessionInfo,id);
   }
 
   @DeleteMapping("sessions/delete-session/{id}")
-  public String deleteSession(@PathVariable("id") Long id) {
+  public String deleteSession(@PathVariable("id") UUID id) {
     sessionService.deleteSession(id);
     return "";
   }

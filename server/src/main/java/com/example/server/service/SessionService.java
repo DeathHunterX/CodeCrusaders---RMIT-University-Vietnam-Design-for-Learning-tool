@@ -5,14 +5,15 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface SessionService {
   List<Session> getAllSession();
-  Session getSessionById(Long id);
+  Session getSessionById(UUID id);
 
   Session createSession(Session session);
-  void deleteSession(Long id);
+  void deleteSession(UUID id);
 
-  ResponseEntity<Session> updateSession(Session sessionInfo, Long id);
+  ResponseEntity<Session> updateSession(Session sessionInfo, UUID id);
 }
 

@@ -7,16 +7,17 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface ModuleService {
   List<Module> getAllModules();
 
-  List<ModuleNameResponse> getAllModuleNamesByCourseId(Long id);
-  ResponseEntity<ModuleDetailsResponse> getModuleDetailsById(Long id);
+  List<ModuleNameResponse> getAllModuleNamesByCourseId(UUID id);
+  ResponseEntity<ModuleDetailsResponse> getModuleDetailsById(UUID id);
 
   Module createModule(Module module);
-  void deleteModule(Long id);
+  void deleteModule(UUID id);
 
-  ResponseEntity<Module> updateModule(Module newAssignment, Long id);
+  ResponseEntity<Module> updateModule(Module newAssignment, UUID id);
 }
 

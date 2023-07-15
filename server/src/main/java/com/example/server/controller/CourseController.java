@@ -6,6 +6,7 @@ import com.example.server.api.response.CourseResponse;
 import com.example.server.model.Course;
 import com.example.server.service.CourseService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.internal.asm.commons.SimpleRemapper;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("v1/api")
@@ -36,12 +38,12 @@ public class CourseController {
   }
 
   @GetMapping("courses/{id}")
-  public Course getCourseById(@PathVariable("id") Long id) {
+  public Course getCourseById( @PathVariable("id") UUID id) {
     return courseService.getCourseById(id);
   }
 
   @GetMapping("courses/{course_id}/modules")
-  public ResponseEntity<?> getAllModulesByCourseId(@PathVariable Long course_id) {
+  public ResponseEntity<?> getAllModulesByCourseId(@PathVariable UUID course_id) {
     Course course = courseService.getCourseById(course_id);
     return new ResponseEntity<>(course.getModuleList(),HttpStatus.OK);
   }
@@ -51,12 +53,12 @@ public class CourseController {
   }
 
   @PutMapping("/update-course/{id}")
-  public ResponseEntity<Course> updateCourse(@PathVariable("id") Long id, @RequestBody Course newCourse) {
+  public ResponseEntity<Course> updateCourse(@PathVariable("id") UUID id, @RequestBody Course newCourse) {
     return courseService.updateCourse(newCourse,id);
   }
 
   @DeleteMapping("/delete-course/{id}")
-  public String deleteCourse(@PathVariable("id") Long id) {
+  public String deleteCourse(@PathVariable("id") UUID id) {
     courseService.deleteCourse(id);
     return "";
   }

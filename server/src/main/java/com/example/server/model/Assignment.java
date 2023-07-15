@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -16,11 +17,14 @@ import java.util.Date;
 @NoArgsConstructor
 public class Assignment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name="assignment_id")
+    private UUID id;
 
-    private String name;
-    private String description;
+    private String assignmentNo;
+
+    private String assignmentName;
+
 
     @Column(columnDefinition = "DATE")
     private LocalDate startDate;
@@ -33,9 +37,9 @@ public class Assignment {
     @JsonIgnore
     private Course course;
 
-    public Assignment(String name, String description, LocalDate startDate, LocalDate endDate) {
-        this.name = name;
-        this.description = description;
+    public Assignment(String assignmentNo, String assignmentName, LocalDate startDate, LocalDate endDate) {
+        this.assignmentNo = assignmentNo;
+        this.assignmentName = assignmentName;
         this.startDate = startDate;
         this.endDate = endDate;
     }

@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@MappedSuperclass
+//@MappedSuperclass
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

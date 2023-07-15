@@ -1,0 +1,44 @@
+.planner_component .vertical_tabs_container {
+    min-height: 88vh;
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+}
+
+/* Left Side (Tabs) */
+.vertical_tabs_container .tabs_left {
+    display: flex;
+    flex-direction: column;
+}
+
+.vertical_tabs_container .tabs_left .tabs {
+    width: 100px;
+    height: 100px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    
+    font-size: 1rem;
+    word-wrap: break-word;
+    word-spacing: 10px;
+    text-align: center;
+    /* background-color: #737373; */
+}
+
+.vertical_tabs_container .tabs_left .tabs::before {
+    content: '';
+    position: absolute;
+    left: 95px;
+    width: 3px;
+    height: 50px;
+
+    border-radius: 10px;
+}
+
+.vertical_tabs_container .tabs_left .tabs.active_tabs::before {
+    background: #4439f1;   
+}
+
+
+
+
+

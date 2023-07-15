@@ -14,6 +14,6 @@ public class CourseResponse {
     private UUID id;
     private String courseName;
     private String courseCode;
-    private String semester;
+    private String courseSemester;
     private String clos;
 }

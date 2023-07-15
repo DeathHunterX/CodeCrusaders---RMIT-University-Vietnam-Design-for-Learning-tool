@@ -6,7 +6,6 @@ import com.example.server.model.Course;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface CourseService {

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -38,14 +39,14 @@ public class ModuleController {
   }
 
   @GetMapping("courses/{course_id}/module-names")
-  public List<ModuleNameResponse> getAllModuleNamesByCourseId(@PathVariable Long course_id) {
+  public List<ModuleNameResponse> getAllModuleNamesByCourseId(@PathVariable UUID course_id) {
     Course course = courseService.getCourseById(course_id);
     List<Module> moduleList = course.getModuleList();
     return moduleList.stream().map(e->new ModuleNameResponse(e.getId(),e.getName())).collect(Collectors.toList());
   }
 
   @GetMapping("modules/{id}")
-  public ResponseEntity<ModuleDetailsResponse> getModuleById(@PathVariable("id") Long id) {
+  public ResponseEntity<ModuleDetailsResponse> getModuleById(@PathVariable("id") UUID id) {
     return moduleService.getModuleDetailsById(id);
   }
 
@@ -55,12 +56,12 @@ public class ModuleController {
   }
 
   @PutMapping("/update-module/{id}")
-  public ResponseEntity<Module> updateModule(@PathVariable("id") Long id, @RequestBody Module moduleInfo) {
+  public ResponseEntity<Module> updateModule(@PathVariable("id") UUID id, @RequestBody Module moduleInfo) {
     return moduleService.updateModule(moduleInfo,id);
   }
 
   @DeleteMapping("/delete-module/{id}")
-  public String deleteModule(@PathVariable("id") Long id) {
+  public String deleteModule(@PathVariable("id") UUID id) {
     moduleService.deleteModule(id);
     return "";
   }

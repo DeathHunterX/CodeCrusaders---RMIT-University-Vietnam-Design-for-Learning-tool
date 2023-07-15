@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,23 +23,28 @@ public class ActivityServiceImpl implements ActivityService {
   }
 
   @Override
-  public Optional<Activity> getActivityById(Long id) {
+  public Optional<Activity> getActivityById(UUID id) {
     return activityRepository.findById(id);
   }
 
   @Override
-  public Activity createActivity(Activity activity) {
-    return activityRepository.save(activity);
+  public Activity createActivity(Activity activity, String activityType) {
+    return null;
   }
 
+//  @Override
+//  public Activity createActivity(Activity activity, String zzz) {
+//    return activityRepository.save(activity);
+//  }
+
   @Override
-  public void deleteActivity(Long id) {
+  public void deleteActivity(UUID id) {
     activityRepository.deleteById(id);
 
   }
 
   @Override
-  public ResponseEntity<Activity> updateActivity(Activity activityInfo, Long id) {
+  public ResponseEntity<Activity> updateActivity(Activity activityInfo, UUID id) {
     Optional<Activity> activityData = activityRepository.findById(id);
     if (activityData.isPresent()) {
       Activity _activity = activityData.get();

@@ -16,9 +16,9 @@ public class CourseRequest {
 
     private String courseCode;
 
-    private String semester;
+    private String courseSemester;
 
-    private List<String> clos;
+    private String clos;
 
     private List<Assignment> assignmentList;
 }

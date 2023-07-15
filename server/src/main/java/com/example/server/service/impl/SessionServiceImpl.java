@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class SessionServiceImpl implements SessionService {
   }
 
   @Override
-  public Session getSessionById(Long id) {
+  public Session getSessionById(UUID id) {
     return sessionRepository.findById(id)
             .orElseThrow(()-> new ObjectNotFoundException("Session", "id"));
   }
@@ -35,13 +36,13 @@ public class SessionServiceImpl implements SessionService {
   }
 
   @Override
-  public void deleteSession(Long id) {
+  public void deleteSession(UUID id) {
     sessionRepository.deleteById(id);
 
   }
 
   @Override
-  public ResponseEntity<Session> updateSession(Session sessionInfo, Long id) {
+  public ResponseEntity<Session> updateSession(Session sessionInfo, UUID id) {
     Optional<Session> sessionData = sessionRepository.findById(id);
     if (sessionData.isPresent()) {
       Session _session = sessionData.get();

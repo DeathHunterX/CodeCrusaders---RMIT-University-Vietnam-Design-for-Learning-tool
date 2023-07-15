@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +38,7 @@ public class ModuleServiceImpl implements ModuleService {
   }
 
   @Override
-  public List<ModuleNameResponse> getAllModuleNamesByCourseId(Long id) {
+  public List<ModuleNameResponse> getAllModuleNamesByCourseId(UUID id) {
     Optional<Course> courseOptional = courseRepository.findById(id);
     if (!courseOptional.isPresent()) {
       return new ArrayList<>();
@@ -48,7 +49,7 @@ public class ModuleServiceImpl implements ModuleService {
   }
 
   @Override
-  public ResponseEntity<ModuleDetailsResponse> getModuleDetailsById(Long id) {
+  public ResponseEntity<ModuleDetailsResponse> getModuleDetailsById(UUID id) {
     Optional<Module> module = moduleRepository.findById(id);
     if(!module.isPresent()) {
       return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
@@ -66,12 +67,12 @@ public class ModuleServiceImpl implements ModuleService {
   }
 
   @Override
-  public void deleteModule(Long id) {
+  public void deleteModule(UUID id) {
     moduleRepository.deleteById(id);
   }
 
   @Override
-  public ResponseEntity<Module> updateModule(Module moduleInfo, Long id) {
+  public ResponseEntity<Module> updateModule(Module moduleInfo, UUID id) {
     Optional<Module> moduleData = moduleRepository.findById(id);
     if (moduleData.isPresent()) {
       Module _module = moduleData.get();

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class AssignmentServiceImpl implements AssignmentService {
   }
 
   @Override
-  public Optional<Assignment> getAssignmentById(Long id) {
+  public Optional<Assignment> getAssignmentById(UUID id) {
     return assignmentRepository.findById(id);
   }
 
@@ -33,17 +34,17 @@ public class AssignmentServiceImpl implements AssignmentService {
   }
 
   @Override
-  public void deleteAssignment(Long id) {
+  public void deleteAssignment(UUID id) {
     assignmentRepository.deleteById(id);
   }
 
   @Override
-  public ResponseEntity<Assignment> updateCourse(Assignment newAssignment, Long id) {
+  public ResponseEntity<Assignment> updateCourse(Assignment newAssignment, UUID id) {
     Optional<Assignment> assignmentData = assignmentRepository.findById(id);
     if (assignmentData.isPresent()) {
       Assignment _assignment = assignmentData.get();
-      _assignment.setDescription(newAssignment.getDescription());
-      _assignment.setName(newAssignment.getName());
+      _assignment.setAssignmentNo(newAssignment.getAssignmentNo());
+      _assignment.setAssignmentName(newAssignment.getAssignmentName());
       return new ResponseEntity<>(assignmentRepository.save(_assignment), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -6,13 +6,13 @@ import com.example.server.model.Course;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 public interface CourseService {
   List<CourseResponse> getAllCourses();
-  Course getCourseById(Long id);
+  Course getCourseById(UUID id);
   Course createCourse(CourseRequest CourseRequest);
-  void deleteCourse(Long id);
+  void deleteCourse(UUID id);
 
-  ResponseEntity<Course> updateCourse(Course newCourse, Long id);
+  ResponseEntity<Course> updateCourse(Course newCourse, UUID id);
 }

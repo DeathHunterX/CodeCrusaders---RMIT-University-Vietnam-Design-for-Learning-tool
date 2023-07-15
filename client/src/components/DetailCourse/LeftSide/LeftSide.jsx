@@ -1,9 +1,26 @@
 import React from 'react'
 import {Link, useParams} from 'react-router-dom'
-import { LeftSideMap } from './LeftSideMap'
 
 const LeftSide = () => {
-  const {subPage} = useParams()
+    const {id, subPage} = useParams()
+
+    const LeftSideMap = [
+        {
+            itemNo: '1',
+            itemName: 'Home',
+            itemLink: `/course/${id}/home`
+        },
+        {
+            itemNo: '2',
+            itemName: 'Modules',
+            itemLink: `/course/${id}/modules`
+        },
+        {
+            itemNo: '3',
+            itemName: 'Setting',
+            itemLink: `/course/${id}/setting`
+        },
+    ]
 
   return (
     <div className="sticky_sidebar d-block">

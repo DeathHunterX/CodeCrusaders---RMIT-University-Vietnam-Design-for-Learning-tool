@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {IoAdd, IoClose} from 'react-icons/io5'
 
 import {RiDeleteBin6Line} from 'react-icons/ri'
@@ -7,12 +7,23 @@ import { IconSetting } from '../../../../utils/IconSetting'
 
 import { Link } from 'react-router-dom'
 
+import { useSelector } from 'react-redux'
+
 const ModulesComponent = () => {
-  const [moduleList, setModuleList] = useState([
-    'Introduction', 'Indexing', 'Partitioning', 'Query Optimization', 
-    'Database Security', 'Transaction and Concurrency Management', 'View & Stored Procedures',
-    'Functions & Triggers', 'NoSQL Basics', 'NoSQL Data Model'
-  ])
+  const {course} = useSelector(state => state.course)
+  
+  const [moduleList, setModuleList] = useState([])
+
+  useEffect(() => {
+    // setModuleList([
+    //   'Introduction', 'Indexing', 'Partitioning', 'Query Optimization', 
+    //   'Database Security', 'Transaction and Concurrency Management', 'View & Stored Procedures',
+    //   'Functions & Triggers', 'NoSQL Basics', 'NoSQL Data Model'
+    // ])
+
+    setModuleList(course.moduleList ? course.moduleList.map((itm) => itm.name) : [])
+  }, [course.moduleList])
+
 
   const [popUpStat, setPopUpStat] = useState(false)
   const [moduleName, setModuleName] = useState('')

@@ -55,7 +55,6 @@ const ActivityCard = ({isEditable=false, data, setData, activityType, setActivit
     }
 
     const openAddEditDialog = (id) => {
-        console.log(activityType)
         setActivityWindow((state) => !state)
         if (activityType === 'add') {
             setActivityType('edit')

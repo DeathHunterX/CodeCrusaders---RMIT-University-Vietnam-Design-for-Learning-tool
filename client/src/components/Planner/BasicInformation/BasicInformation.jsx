@@ -1,26 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {AiOutlineQuestionCircle} from 'react-icons/ai'
 import TextEditor from '../../TextEditor/TextEditor'
 
-const RadioButtonsList = ({ options, selectedOption, onChange }) => {
-    return (
-        <div className="d-flex justify-content-evenly form-check">
-          {options.map((option) => (
-            <>
-                <label key={option}>
-                    <input className="form-check-input"
-                        type="radio" 
-                        value={option}
-                        checked={selectedOption === option}
-                        onChange={onChange}
-                    />
-                    {option} 
-                </label>
-            </>
-          ))}
-        </div>
-    );
-}
 const BasicInformation = () => {
     const initialState = {
         moduleName: "",
@@ -29,27 +10,60 @@ const BasicInformation = () => {
             {
                 sessionName: "Pre-class",
                 sessionModality: "F2F",            //  F2F, Online, Hybrid
-                grouping: "",                   //  Individual, Class
-                lectureAvailability: ""         //  Yes, no
+                grouping: "Individual",                   //  Individual, Class
+                lectureAvailability: "Yes"         //  Yes, no
             },
             {
                 sessionName: "In-class",
-                sessionModality: "Online",            //  F2F, Online, Hybrid
-                grouping: "",                   //  Individual, Class
-                lectureAvailability: ""         //  Yes, no
+                sessionModality: "F2F",            //  F2F, Online, Hybrid
+                grouping: "Individual",                   //  Individual, Class
+                lectureAvailability: "Yes"         //  Yes, no
             },
             {
                 sessionName: "Post-class",
-                sessionModality: "Hybrid",            //  F2F, Online, Hybrid
-                grouping: "",                   //  Individual, Class
-                lectureAvailability: ""         //  Yes, no
+                sessionModality: "F2F",            //  F2F, Online, Hybrid
+                grouping: "Individual",                   //  Individual, Class
+                lectureAvailability: "Yes"         //  Yes, no
             },
         ]
     }
     const [moduleInfo, setModuleInfo] = useState(initialState)
     const {moduleName, moduleClos} = moduleInfo
 
-    console.log(moduleInfo)
+    useEffect(() => {
+        const fetchData = () => {
+          // Replace this with your actual API call
+            setTimeout(() => {
+                const apiData = {
+                    moduleName: "Introduction",
+                    moduleClos: "<p>Hello World From Introduction!</p>",
+                    sessions: [
+                        {
+                            sessionName: "Pre-class",
+                            sessionModality: "F2F",            //  F2F, Online, Hybrid
+                            grouping: "Individual",                   //  Individual, Class
+                            lectureAvailability: "No"         //  Yes, no
+                        },
+                        {
+                            sessionName: "In-class",
+                            sessionModality: "Online",            //  F2F, Online, Hybrid
+                            grouping: "Class",                   //  Individual, Class
+                            lectureAvailability: "Yes"         //  Yes, no
+                        },
+                        {
+                            sessionName: "Post-class",
+                            sessionModality: "Hybrid",            //  F2F, Online, Hybrid
+                            grouping: "Individual",                   //  Individual, Class
+                            lectureAvailability: "No"         //  Yes, no
+                        },
+                    ]
+                };
+                setModuleInfo(apiData);
+            }, 1000); // Delay of 1 second for demonstration purposes
+        };
+    
+        fetchData();
+    }, [])
 
     const handleChangeInput = (e) => {
         const {name, value} = e.target
@@ -64,7 +78,7 @@ const BasicInformation = () => {
                 session.sessionName === sessionName ? { ...session, [key]: value } : session
             ),
         }));
-      };
+    };
 
     const handleTextEditor = (value) => {
         setModuleInfo((prevState) => ({ ...prevState, moduleClos: value }));
@@ -72,6 +86,26 @@ const BasicInformation = () => {
 
     const handleeSaveInfo = (e) => {
         e.preventDefault()
+    }
+
+    const RadioButtonsList = ({ options, selectedOption, onChange }) => {
+        return (
+            <div className="d-flex justify-content-evenly form-check">
+              {options.map((option, idx) => (
+               
+                <label key={idx}>
+                    <input className="form-check-input"
+                        type="radio" 
+                        value={option}
+                        checked={selectedOption === option}
+                        onChange={onChange}
+                    />
+                    {option} 
+                </label>
+               
+              ))}
+            </div>
+        );
     }
     return (
         <div className="module_info_wrapper p-4">

@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class ModuleDetailsResponse {
     private String name;
-    private List<String> los;
+    private String los;
     private List<SessionDetailsResponse> sessionDetailsResponses;
 
 }

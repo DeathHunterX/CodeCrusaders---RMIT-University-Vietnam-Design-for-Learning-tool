@@ -2,6 +2,7 @@ package com.example.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.*;
@@ -14,34 +15,42 @@ import java.util.*;
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "course_id")
+    private UUID id;
 
     private String courseName;
 
     private String courseCode;
 
-    private String semester;
+    private String courseSemester;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> clos;
+    private String clos;
 
     @ManyToMany(mappedBy = "courses")
     @JsonIgnore
     private Set<User> userSet;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
+    @Size(max = 3)
     private List<Assignment> assignmentList;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
     private List<Module> moduleList;
 
 
-    public Course(String courseName, String courseCode, String semester, List<String> clos) {
+    public Course(String courseName, String courseCode, String semester, String clos) {
         this.courseName = courseName;
         this.courseCode = courseCode;
-        this.semester = semester;
+        this.courseSemester = semester;
         this.clos = clos;
+    }
+
+    public void setAssignmentList(List<Assignment> assignmentList) {
+        if (assignmentList.size() > 3) {
+            throw new IllegalArgumentException("A course can only have three assignments.");
+        }
+        this.assignmentList = assignmentList;
     }
 
 

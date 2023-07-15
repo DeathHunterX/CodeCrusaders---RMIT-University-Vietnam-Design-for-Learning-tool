@@ -3,6 +3,7 @@ package com.example.server.api.response;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,8 +11,9 @@ import java.util.List;
 @Getter
 @Setter
 public class CourseResponse {
-    private Long id;
+    private UUID id;
     private String courseName;
-    private String semester;
-    private List<String> clos;
+    private String courseCode;
+    private String courseSemester;
+    private String clos;
 }

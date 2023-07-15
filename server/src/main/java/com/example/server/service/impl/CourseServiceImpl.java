@@ -7,16 +7,15 @@ import com.example.server.model.Assignment;
 import com.example.server.model.Course;
 import com.example.server.repository.CourseRepository;
 import com.example.server.service.CourseService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +29,7 @@ public class CourseServiceImpl implements CourseService {
   }
 
   @Override
-  public Course getCourseById(Long id) {
+  public Course getCourseById(UUID id) {
     return courseRepository.findById(id)
             .orElseThrow(()-> new ObjectNotFoundException("Course", "id"));
   }
@@ -44,18 +43,18 @@ public class CourseServiceImpl implements CourseService {
   }
 
   @Override
-  public void deleteCourse(Long id) {
+  public void deleteCourse(UUID id) {
    courseRepository.deleteById(id);
   }
 
   @Override
-  public ResponseEntity<Course> updateCourse(Course newCourse, Long id) {
+  public ResponseEntity<Course> updateCourse(Course newCourse, UUID id) {
     Optional<Course> courseData = courseRepository.findById(id);
     if (courseData.isPresent()) {
       Course _course = courseData.get();
       _course.setCourseName(newCourse.getCourseName());
       _course.setCourseCode(newCourse.getCourseCode());
-      _course.setSemester(newCourse.getSemester());
+      _course.setCourseSemester(newCourse.getCourseSemester());
       _course.setClos(newCourse.getClos());
       _course.setAssignmentList(newCourse.getAssignmentList());
       return new ResponseEntity<>(courseRepository.save(_course), HttpStatus.OK);

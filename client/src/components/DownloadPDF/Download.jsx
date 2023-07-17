@@ -22,9 +22,6 @@ const Download = () => {
           }
         </PDFDownloadLink>
       </div>
-      {/* <button class="button" onclick={changedata(0)}>
-        ORDERS
-      </button> */}
 
       <div id="myorders">
         <PDFViewer>

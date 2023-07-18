@@ -11,19 +11,22 @@ const BasicInformation = () => {
                 sessionName: "Pre-class",
                 sessionModality: "F2F",            //  F2F, Online, Hybrid
                 grouping: "Individual",                   //  Individual, Class
-                lectureAvailability: "Yes"         //  Yes, no
+                lectureAvailability: "Yes",         //  Yes, no
+                asyncSync: "Synchronous"
             },
             {
                 sessionName: "In-class",
                 sessionModality: "F2F",            //  F2F, Online, Hybrid
                 grouping: "Individual",                   //  Individual, Class
-                lectureAvailability: "Yes"         //  Yes, no
+                lectureAvailability: "Yes",         //  Yes, no
+                asyncSync: "Synchronous"
             },
             {
                 sessionName: "Post-class",
                 sessionModality: "F2F",            //  F2F, Online, Hybrid
                 grouping: "Individual",                   //  Individual, Class
-                lectureAvailability: "Yes"         //  Yes, no
+                lectureAvailability: "Yes",         //  Yes, no
+                asyncSync: "Synchronous"
             },
         ]
     }
@@ -40,21 +43,24 @@ const BasicInformation = () => {
                     sessions: [
                         {
                             sessionName: "Pre-class",
-                            sessionModality: "F2F",            //  F2F, Online, Hybrid
-                            grouping: "Individual",                   //  Individual, Class
-                            lectureAvailability: "No"         //  Yes, no
+                            sessionModality: "F2F",            
+                            grouping: "Individual",
+                            lectureAvailability: "No",
+                            asyncSync: "Synchronous"         
                         },
                         {
                             sessionName: "In-class",
-                            sessionModality: "Online",            //  F2F, Online, Hybrid
-                            grouping: "Class",                   //  Individual, Class
-                            lectureAvailability: "Yes"         //  Yes, no
+                            sessionModality: "Online",         
+                            grouping: "Class",                  
+                            lectureAvailability: "Yes",
+                            asyncSync: "Synchronous"        
                         },
                         {
                             sessionName: "Post-class",
-                            sessionModality: "Hybrid",            //  F2F, Online, Hybrid
-                            grouping: "Individual",                   //  Individual, Class
-                            lectureAvailability: "No"         //  Yes, no
+                            sessionModality: "Hybrid",      
+                            grouping: "Individual",                   
+                            lectureAvailability: "No",
+                            asyncSync: "Synchronous"
                         },
                     ]
                 };
@@ -88,21 +94,20 @@ const BasicInformation = () => {
         e.preventDefault()
     }
 
-    const RadioButtonsList = ({ options, selectedOption, onChange }) => {
+    const RadioButtonsList = ({ className, options, selectedOption, onChange }) => {
         return (
-            <div className="d-flex justify-content-evenly form-check">
+            <div className={className}>
               {options.map((option, idx) => (
-               
-                <label key={idx}>
+                <div className="form-check" key={idx}>
                     <input className="form-check-input"
                         type="radio" 
                         value={option}
                         checked={selectedOption === option}
                         onChange={onChange}
                     />
-                    {option} 
-                </label>
-               
+
+                    <label className="form-check-label"> {option} </label>
+                </div>
               ))}
             </div>
         );
@@ -120,22 +125,24 @@ const BasicInformation = () => {
 
                 
                 <div className="class_info mb-3">
-                    <table className="class_table table">
+                    <table className="class_table table ">
                         <thead>
                             <tr>
                             <th scope="col" className="class_col p-2">Class Name</th>
                             <th scope="col" className="modality_col p-2">Modality</th>
                             <th scope="col" className="grouping_col p-2">Grouping</th>
                             <th scope="col" className="availability_col p-2">Lecture Availability</th>
+                            <th scope="col" className="async_sync_col p-2">Async/Sync</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="table-group-divider">
                             {
                             moduleInfo.sessions.map((classItm, idx) => (
                                 <tr className="fw-normal" key={idx}>
-                                    <td className="p-2">{classItm.sessionName}</td>
+                                    <td className="text-center p-2">{classItm.sessionName}</td>
                                     <td>
                                         <RadioButtonsList
+                                            className={"d-flex justify-content-evenly"}
                                             options={['F2F', 'Online', 'Hybrid']}
                                             selectedOption={classItm.sessionModality}
                                             onChange={(event) =>handleOptionChange(classItm.sessionName, 'sessionModality', event.target.value)}
@@ -144,6 +151,7 @@ const BasicInformation = () => {
 
                                     <td>
                                         <RadioButtonsList
+                                            className={"d-flex justify-content-evenly"}
                                             options={['Individual', 'Class']}
                                             selectedOption={classItm.grouping}
                                             onChange={(event) => handleOptionChange(classItm.sessionName, 'grouping', event.target.value)}
@@ -152,8 +160,18 @@ const BasicInformation = () => {
 
                                     <td>
                                         <RadioButtonsList
+                                            className={"d-flex justify-content-evenly"}
                                             options={['Yes', 'No']}
                                             selectedOption={classItm.lectureAvailability}
+                                            onChange={(event) => handleOptionChange(classItm.sessionName, 'lectureAvailability', event.target.value)}
+                                        />
+                                    </td>
+
+                                    <td>
+                                        <RadioButtonsList
+                                            className={"d-flex flex-column justify-content-evenly"}
+                                            options={['Asynchronous', 'Synchronous']}
+                                            selectedOption={classItm.asyncSync}
                                             onChange={(event) => handleOptionChange(classItm.sessionName, 'lectureAvailability', event.target.value)}
                                         />
                                     </td>
@@ -167,7 +185,7 @@ const BasicInformation = () => {
 
                 <div className="mb-3">
                     <div className="">
-                        <label htmlFor="exampleFormControlTextarea1" className="form-label me-4">Learning Object</label>
+                        <label htmlFor="exampleFormControlTextarea1" className="form-label me-4">Module Learning Object</label>
                         <AiOutlineQuestionCircle />
                     </div>
                     <TextEditor value={moduleClos} onSendValue={handleTextEditor} />

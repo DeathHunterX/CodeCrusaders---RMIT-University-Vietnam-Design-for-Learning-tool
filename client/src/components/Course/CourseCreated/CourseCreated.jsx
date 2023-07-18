@@ -1,26 +1,48 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
+import {toast} from 'react-toastify'
+
 import TextEditor from "../../TextEditor/TextEditor";
 
+import { useDispatch, useSelector } from "react-redux";
+
+import { createCourse, reset } from "../../../redux/slices/courseSlice";
+
 const CourseCreated = () => {
-  // const navigate = useNavigate()
+  const {type, token} = useSelector(state => state.auth.user)
+  const {isSuccess} = useSelector(state => state.course)
+  const dispatch = useDispatch()
+
+  const navigate = useNavigate()
+
+  const combinedToken = `${type} ${token}`
+
 
   const initialCourseState = {
-    courseId: "",
+    courseCode: "",
     courseName: "",
     courseSemester: "",
-    assignment: [
-      { idxNo: "01", assignmentName: "", startDate: "", endDate: "" },
-      { idxNo: "02", assignmentName: "", startDate: "", endDate: "" },
-      { idxNo: "03", assignmentName: "", startDate: "", endDate: "" },
+    assignmentList: [
+      { assignmentNo: "01", assignmentName: "", startDate: "", endDate: "" },
+      { assignmentNo: "02", assignmentName: "", startDate: "", endDate: "" },
+      { assignmentNo: "03", assignmentName: "", startDate: "", endDate: "" },
     ],
-    CLOs: "",
+    clos: "",
   };
 
   const [courseData, setCourseData] = useState(initialCourseState);
-  const { courseId, courseName, courseSemester, CLOs, assignment } = courseData;
+  const { courseCode, courseName, courseSemester, clos, assignmentList } = courseData;
 
+  useEffect(() => {
+    if(isSuccess) {
+      toast.success("Create Course Successfully")
+      navigate('/courses')
+    }
+
+    dispatch(reset())
+
+  }, [dispatch, isSuccess, navigate])
   const handleInput = (e) => {
     const { name, value } = e.target;
     setCourseData((prevState) => ({ ...prevState, [name]: value }));
@@ -29,27 +51,27 @@ const CourseCreated = () => {
   const handleInputAssignment = (e, idx) => {
     const { name, value } = e.target;
     setCourseData((prevState) => {
-      const updatedAssignments = [...prevState.assignment];
+      const updatedAssignments = [...prevState.assignmentList];
       updatedAssignments[idx] = { ...updatedAssignments[idx], [name]: value };
 
       return {
         ...prevState,
-        assignment: updatedAssignments,
+        assignmentList: updatedAssignments,
       };
     });
   };
 
   const handleTextEditor = (value) => {
-    setCourseData((prevState) => ({ ...prevState, CLOs: value }));
+    setCourseData((prevState) => ({ ...prevState, clos: value }));
   };
 
   const semesterInAnArray = [];
 
   let idx = 1;
-  for (let i = moment().year(); i <= moment().year() + 1; i++) {
+  for (let i = moment().year() - 3; i <= moment().year() + 1; i++) {
     for (let j = 1; j <= 3; j++) {
       semesterInAnArray.push(
-        <option value={`${j} - ${i}`} key={idx}>
+        <option value={`Semester ${j} - ${i}`} key={idx}>
           Semester {j} - {i}
         </option>
       );
@@ -59,8 +81,10 @@ const CourseCreated = () => {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    console.log(courseData);
+    dispatch(createCourse({courseData, token: combinedToken}))
   };
+
+
   return (
     <div className="course_created_wrapper">
       <div className="course_created p-3">
@@ -83,8 +107,8 @@ const CourseCreated = () => {
                       className="form-control"
                       id="courseCodeInput"
                       aria-describedby="courseCodeInput"
-                      name="courseId"
-                      value={courseId}
+                      name="courseCode"
+                      value={courseCode}
                       onChange={handleInput}
                     />
                   </div>
@@ -130,26 +154,27 @@ const CourseCreated = () => {
                   <h4>Assessment Detail</h4>
                 </div>
 
-                {assignment.map((item, idx) => (
-                  <div className="accordion-item mt-2" key={item.idxNo}>
+                {assignmentList.map((item, idx) => (
+                  
+                  <div className="accordion-item mt-2" key={item.assignmentNo}>
                     <h2 className="accordion-header">
                       <button
                         className={`accordion-button ${
-                          item.idxNo === "01" ? "" : "collapsed"
+                          item.assignmentNo === "01" ? "" : "collapsed"
                         }`}
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target={`#panelsStayOpen-collapse${item.idxNo}`}
+                        data-bs-target={`#panelsStayOpen-collapse${item.assignmentNo}`}
                         aria-expanded="true"
-                        aria-controls={`panelsStayOpen-collapse${item.idxNo}`}
+                        aria-controls={`panelsStayOpen-collapse${item.assignmentNo}`}
                       >
-                        Assessment {item.idxNo}
+                        Assessment {item.assignmentNo}
                       </button>
                     </h2>
                     <div
-                      id={`panelsStayOpen-collapse${item.idxNo}`}
+                      id={`panelsStayOpen-collapse${item.assignmentNo}`}
                       className={`accordion-collapse collapse ${
-                        item.idxNo === "01" ? "show" : ""
+                        item.assignmentNo === "01" ? "show" : ""
                       }`}
                     >
                       <div className="accordion-body d-flex justify-content-between">
@@ -158,7 +183,7 @@ const CourseCreated = () => {
                             htmlFor="assignmentName01"
                             className="form-label"
                           >
-                            Name Assignment{" "}
+                            Assignment Name
                           </label>
                           <input
                             type="text"
@@ -220,7 +245,7 @@ const CourseCreated = () => {
                 </div>
 
                 <div className="course_text_editor">
-                  <TextEditor value={CLOs} onSendValue={handleTextEditor} />
+                  <TextEditor value={clos} onSendValue={handleTextEditor} />
                 </div>
               </div>
 

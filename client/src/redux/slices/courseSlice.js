@@ -1,8 +1,11 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import { deleteDataAPI, getDataAPI, patchDataAPI, postDataAPI } from '../../utils/fetchData';
 
+
 const initialState = {
     isLoading: false,
+    isSuccess: false,
+    isError: false,
     courses: [],
     course: {},
     message: ""
@@ -33,6 +36,7 @@ export const getCourse = createAsyncThunk('courses/getCourse', async({id, token}
 export const createCourse = createAsyncThunk('courses/createCourse', async({courseData, token}, thunkAPI) => {
     try {
         const res = await postDataAPI('create-course', courseData, token)
+
         return res.data
     } catch (err) {
         const errMessage = err.response?.data?.message || err.message;
@@ -55,6 +59,7 @@ export const updateCourse = createAsyncThunk('courses/updateCourse', async({id, 
 export const deleteCourse = createAsyncThunk('courses/deleteCourse', async({id, token}, thunkAPI) => {
     try {
         const res = await deleteDataAPI(`delete-course/${id}`, token)
+
         return res.data
     } catch (err) {
         const errMessage = err.response?.data?.message || err.message;
@@ -66,7 +71,12 @@ const courseSlice = createSlice({
     name: "course",
     initialState,
     reducers: {
-
+        reset: (state) => {
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.isError = false;
+            state.message = "";
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -104,11 +114,12 @@ const courseSlice = createSlice({
             })
             .addCase(createCourse.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.courses = action.payload;
+                state.isSuccess = true
                 state.message = ""
             })
             .addCase(createCourse.rejected, (state, action) => {
                 state.isLoading = false;
+                state.isError = true;
                 state.message = action.payload;
             })
 
@@ -118,11 +129,13 @@ const courseSlice = createSlice({
             })
             .addCase(updateCourse.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isSuccess = true
                 state.course = action.payload;
                 state.message = ""
             })
             .addCase(updateCourse.rejected, (state, action) => {
                 state.isLoading = false;
+                state.isError = true;
                 state.message = action.payload;
             })
             
@@ -132,14 +145,17 @@ const courseSlice = createSlice({
             })
             .addCase(deleteCourse.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isSuccess = true
                 state.course = '';
                 state.message = ""
             })
             .addCase(deleteCourse.rejected, (state, action) => {
                 state.isLoading = false;
+                state.isError = true;
                 state.message = action.payload;
             })
     }
 })
 
+export const {reset} = courseSlice.actions
 export default courseSlice.reducer

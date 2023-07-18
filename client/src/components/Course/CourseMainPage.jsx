@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect} from 'react'
 import {Link} from 'react-router-dom'
+
 import {IoIosAddCircleOutline} from 'react-icons/io'
+
 import CourseCard from './CourseCard'
+
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllCourses } from '../../redux/slices/courseSlice'
+import { getAllCourses} from '../../redux/slices/courseSlice'
 
 
 import CourseImgBg from '../../images/Courses/courses_01.jpg'
@@ -14,12 +17,13 @@ import {BsShareFill} from 'react-icons/bs'
 const CourseMainPage = () => {
     const {type, token} = useSelector(state => state.auth.user)
     const {courses} = useSelector(state => state.course)
-
     const dispatch = useDispatch()
+
 
     const combinedToken = `${type} ${token}`
     useEffect(() => {
         dispatch(getAllCourses(combinedToken))
+
     }, [combinedToken, dispatch])
 
 
@@ -43,9 +47,11 @@ const CourseMainPage = () => {
                             </Link>
                         </div>
                         {
-                            courses.map((course) => (
+                            courses ? courses.map((course) => (
                                 <CourseCard data={course} key={course.id}/>
                             ))
+                            :
+                            <></>
                         }
                         
                         <div className="course_item">

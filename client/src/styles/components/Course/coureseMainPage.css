@@ -10,7 +10,7 @@
 
 .course_wrapper .course_list_container {
     display: inline-grid;
-    grid-template-columns: repeat(5, 250px);
+    grid-template-columns: repeat(5, 235px);
     grid-gap: 20px;
     width: 100%;
     justify-content: center;

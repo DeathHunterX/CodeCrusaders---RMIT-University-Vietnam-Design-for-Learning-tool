@@ -15,13 +15,48 @@ const ModulesComponent = () => {
   const [moduleList, setModuleList] = useState([])
 
   useEffect(() => {
-    // setModuleList([
-    //   'Introduction', 'Indexing', 'Partitioning', 'Query Optimization', 
-    //   'Database Security', 'Transaction and Concurrency Management', 'View & Stored Procedures',
-    //   'Functions & Triggers', 'NoSQL Basics', 'NoSQL Data Model'
-    // ])
-
-    setModuleList(course.moduleList ? course.moduleList.map((itm) => itm.name) : [])
+    setModuleList((course.moduleList && course.moduleList.length > 5) ? course.moduleList : [
+      {
+        id: "1",
+        name: "Introduction",
+      },
+      {
+        id: "2",
+        name: "Indexing",
+      },
+      {
+        id: "3",
+        name: "Partitioning",
+      },
+      {
+        id: "4",
+        name: "Query Optimization",
+      },
+      {
+        id: "5",
+        name: "Database Security",
+      },
+      {
+        id: "6",
+        name: "Transaction and Concurrency Management",
+      },
+      {
+        id: "7",
+        name: "View & Stored Procedures",
+      },
+      {
+        id: "8",
+        name: "Functions & Triggers",
+      },
+      {
+        id: "9",
+        name: "NoSQL Basics",
+      },
+      {
+        id: "10",
+        name: "NoSQL Data Model",
+      },
+    ])
   }, [course.moduleList])
 
 
@@ -66,9 +101,9 @@ const ModulesComponent = () => {
           <tbody>
             {
               moduleList.map((moduleItm, idx) => (
-                <tr className="fw-normal" key={idx}>
+                <tr className="fw-normal" key={moduleItm.id}>
                   <th scope="row">{idx + 1}</th>
-                  <td> <Link to="/course/01/planner/02">{moduleItm}</Link></td>
+                  <td> <Link to="/course/01/planner/02">{moduleItm.name}</Link></td>
                   <td>
                     <span className="me-4" onClick={() => handleDeleteModule(idx)}>{IconSetting(<RiDeleteBin6Line/>,"red")}</span>
                     <span>{IconSetting(<AiOutlineLink/>)}</span>

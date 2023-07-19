@@ -3,27 +3,23 @@ package com.example.server.controller;
 //import com.example.server.api.response.CourseResponse;
 import com.example.server.api.request.CourseRequest;
 import com.example.server.api.response.CourseResponse;
+import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Course;
+import com.example.server.model.User;
+import com.example.server.repository.UserRepository;
 import com.example.server.service.CourseService;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
+import com.example.server.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.internal.asm.commons.SimpleRemapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("v1/api")
@@ -31,15 +27,31 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CourseController {
   private final CourseService courseService;
+  private final UserDetailsServiceImpl userDetailsService;
+  private final ModelMapper modelMapper;
 
   @GetMapping("courses")
-  public List<CourseResponse> getAllCourses() {
-    return courseService.getAllCourses();
+  public List<CourseResponse> getAllCourses(@RequestHeader("UserID") UUID userId) {
+    Optional<User> user = userDetailsService.getUserById(userId);
+    if(!user.isPresent()) {
+      throw new ObjectNotFoundException("user","id");
+    }
+    Set<Course> courseSet = user.get().getCourses();
+    return courseSet.stream().map(e->modelMapper.map(e,CourseResponse.class)).collect(Collectors.toList());
   }
 
   @GetMapping("courses/{id}")
-  public Course getCourseById( @PathVariable("id") UUID id) {
-    return courseService.getCourseById(id);
+  public Course getCourseById( @PathVariable("id") UUID id, @RequestHeader("UserID") UUID userId) {
+    Optional<User> user = userDetailsService.getUserById(userId);
+    if(!user.isPresent()) {
+      throw new ObjectNotFoundException("user","id");
+    }
+    User _user = user.get();
+    List<Course> courseList = _user.getCourses().stream().filter(e->e.getId().equals(id)).collect(Collectors.toList());
+    if(courseList.size()==0) {
+      throw new ObjectNotFoundException("course", "id");
+    }
+    return courseList.get(0);
   }
 
   @GetMapping("courses/{course_id}/modules")
@@ -53,12 +65,27 @@ public class CourseController {
   }
 
   @PutMapping("/update-course/{id}")
-  public ResponseEntity<Course> updateCourse(@PathVariable("id") UUID id, @RequestBody Course newCourse) {
+  public ResponseEntity<?> updateCourse(@PathVariable("id") UUID id, @RequestBody Course newCourse, @RequestHeader("UserID") UUID userId) {
+    Optional<User> user = userDetailsService.getUserById(userId);
+    if(!user.isPresent()) {
+      throw new ObjectNotFoundException("user","id");
+    }
+    Course course = courseService.getCourseById(id);
+    System.out.println(user.get().getCourses());
+    if(!(user.get().getCourses().contains(course))) {
+      return new ResponseEntity<>("No permission to update this course", HttpStatus.NOT_FOUND);
+    }
     return courseService.updateCourse(newCourse,id);
   }
 
   @DeleteMapping("/delete-course/{id}")
-  public String deleteCourse(@PathVariable("id") UUID id) {
+  public String deleteCourse(@PathVariable("id") UUID id, @RequestHeader("UserID") UUID userId) {
+    Optional<User> user = userDetailsService.getUserById(userId);
+    if(!user.isPresent()) {
+      throw new ObjectNotFoundException("user","id");
+    }
+    Course course = courseService.getCourseById(id);
+    user.get().getCourses().remove(course);
     courseService.deleteCourse(id);
     return "";
   }

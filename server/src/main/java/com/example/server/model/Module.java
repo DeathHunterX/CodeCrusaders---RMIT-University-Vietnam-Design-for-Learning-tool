@@ -36,4 +36,8 @@ public class Module {
     this.name = name;
     this.los = los;
   }
+
+  public Module(String name) {
+    this.name = name;
+  }
 }

@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CourseService {
-  List<CourseResponse> getAllCourses();
-  Course getCourseById(UUID id);
-  Course createCourse(CourseRequest CourseRequest);
-  void deleteCourse(UUID id);
+    List<CourseResponse> getAllCourses();
+    Course getCourseById(UUID id);
+    Course createCourse(CourseRequest courseRequest);
+    void deleteCourse(UUID id);
 
-  ResponseEntity<Course> updateCourse(Course newCourse, UUID id);
+    ResponseEntity<Course> updateCourse(Course newCourse, UUID id);
 }

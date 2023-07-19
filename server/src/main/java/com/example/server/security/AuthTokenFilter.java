@@ -33,14 +33,17 @@ public class AuthTokenFilter extends OncePerRequestFilter {
       throws ServletException, IOException, UsernameNotFoundException {
     String jwt = getJwtFromRequest(request);
     if(!StringUtils.isEmpty(jwt)){
+      System.out.println("start validate token");
       jwtUtils.validateToken(jwt);
       String userName = jwtUtils.getUsernameFromToken(jwt);
       UserDetails userDetails = profileService.loadUserByUsername(userName);
 
       if(jwtUtils.isTokenValid(jwt,userDetails)){
+        System.out.println("valid");
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println(SecurityContextHolder.getContext().getAuthentication());
       }
     }
     filterChain.doFilter(request, response);

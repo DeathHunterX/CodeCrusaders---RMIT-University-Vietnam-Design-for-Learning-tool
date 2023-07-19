@@ -1,5 +1,6 @@
 package com.example.server.controller;
 
+import com.example.server.api.request.ModuleCreateRequest;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
 import com.example.server.model.Course;
@@ -7,8 +8,6 @@ import com.example.server.model.Module;
 import com.example.server.service.CourseService;
 import com.example.server.service.ModuleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -50,10 +48,11 @@ public class ModuleController {
     return moduleService.getModuleDetailsById(id);
   }
 
-  @PostMapping("/create-module")
-  public ResponseEntity<Module> createModule(@RequestBody Module module) {
-    return ResponseEntity.ok(moduleService.createModule(module));
+  @PostMapping("course/{course_id}/create-module")
+  public ResponseEntity<?> createModule(@PathVariable UUID course_id, @RequestBody ModuleCreateRequest moduleCreateRequest) {
+    return moduleService.createModule(course_id, moduleCreateRequest);
   }
+
 
   @PutMapping("/update-module/{id}")
   public ResponseEntity<Module> updateModule(@PathVariable("id") UUID id, @RequestBody Module moduleInfo) {

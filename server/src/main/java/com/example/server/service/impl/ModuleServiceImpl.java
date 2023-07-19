@@ -1,5 +1,6 @@
 package com.example.server.service.impl;
 
+import com.example.server.api.request.ModuleCreateRequest;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
 import com.example.server.api.response.SessionDetailsResponse;
@@ -62,8 +63,15 @@ public class ModuleServiceImpl implements ModuleService {
   }
 
   @Override
-  public Module createModule(Module module) {
-    return moduleRepository.save(module);
+  public ResponseEntity<?> createModule(UUID courseId, ModuleCreateRequest moduleCreateRequest) {
+    Optional<Course> course = courseRepository.findById(courseId);
+    if(!course.isPresent()) {
+      return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    }
+    Course _course = course.get();
+    Module module = new Module(moduleCreateRequest.getModuleName());
+    module.setCourse(_course);
+    return new ResponseEntity<>(moduleRepository.save(module),HttpStatus.NO_CONTENT);
   }
 
   @Override
@@ -78,6 +86,7 @@ public class ModuleServiceImpl implements ModuleService {
       Module _module = moduleData.get();
       _module.setName(moduleInfo.getName());
       _module.setLos(moduleInfo.getLos());
+      _module.setSessionList(moduleInfo.getSessionList());
       return new ResponseEntity<>(moduleRepository.save(_module), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

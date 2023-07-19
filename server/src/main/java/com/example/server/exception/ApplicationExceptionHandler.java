@@ -1,6 +1,7 @@
 package com.example.server.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -26,4 +28,10 @@ public class ApplicationExceptionHandler {
     });
     return errors;
   }
+  @ExceptionHandler(NoHandlerFoundException.class)
+  public ResponseEntity<String> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+    String responseBody = "{\"status\": 404, \"error\": \"Resource not found\"}";
+    return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+  }
+
 }

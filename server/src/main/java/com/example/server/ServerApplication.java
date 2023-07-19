@@ -44,12 +44,15 @@ public class ServerApplication implements CommandLineRunner {
     assignmentRepository.deleteAll();
     moduleRepository.deleteAll();
 
-    Assignment assignment1 = new Assignment("01","Assignment 1",  LocalDate.of(2023, 1, 6),LocalDate.of(2023, 6, 6));
-    Assignment assignment2 = new Assignment("02","Assignment 2",  LocalDate.of(2023, 1, 6),LocalDate.of(2023, 6, 6));
-    Assignment assignment3 = new Assignment("03","Assignment 3",  LocalDate.of(2023, 1, 6),LocalDate.of(2023, 6, 6));
-    Assignment assignment4 = new Assignment("01","Assignment 4",  LocalDate.of(2023, 1, 6),LocalDate.of(2023, 6, 6));
-    Assignment assignment5 = new Assignment("02","Assignment 5",  LocalDate.of(2023, 1, 6),LocalDate.of(2023, 6, 6));
-    Assignment assignment6 = new Assignment("03","Assignment 6",  LocalDate.of(2023, 1, 6),LocalDate.of(2023, 6, 6));
+    Assignment assignment1 = new Assignment(1,"Early assessment 1",  LocalDate.of(2023, 7, 6),LocalDate.of(2023, 6, 6));
+    Assignment assignment2 = new Assignment(2,"Mid-term 1",  LocalDate.of(2023, 8, 6),LocalDate.of(2023, 6, 6));
+    Assignment assignment3 = new Assignment(3,"Final 1",  LocalDate.of(2023, 9, 6),LocalDate.of(2023, 6, 6));
+    Assignment assignment4 = new Assignment(1,"Early assessment 2",  LocalDate.of(2023, 4, 6),LocalDate.of(2023, 6, 6));
+    Assignment assignment5 = new Assignment(2,"Mid-term 2",  LocalDate.of(2023, 5, 6),LocalDate.of(2023, 6, 6));
+    Assignment assignment6 = new Assignment(3,"Final 2",  LocalDate.of(2023, 6, 6),LocalDate.of(2023, 6, 6));
+    Assignment assignment7 = new Assignment(1,"Early assessment 3",  LocalDate.of(2023, 1, 6),LocalDate.of(2023, 6, 6));
+    Assignment assignment8 = new Assignment(2,"Mid-term 3",  LocalDate.of(2023, 2, 6),LocalDate.of(2023, 6, 6));
+    Assignment assignment9 = new Assignment(3,"Final 3",  LocalDate.of(2023, 3, 6),LocalDate.of(2023, 6, 6));
 
     Module module1 = new Module("module1", "los1,los2,los3");
     Module module2 = new Module("module2","los1,los2,los3");
@@ -63,12 +66,14 @@ public class ServerApplication implements CommandLineRunner {
     Course course5 = new Course("ReactJS","RJ","Semester A 2019","clos1,clos2,clos3");
 
     assignment1.setCourse(course1);
-    assignment1.setCourse(course3);
     assignment2.setCourse(course1);
-    assignment4.setCourse(course4);
     assignment3.setCourse(course1);
-    assignment5.setCourse(course4);
-    assignment6.setCourse(course4);
+    assignment4.setCourse(course3);
+    assignment5.setCourse(course3);
+    assignment6.setCourse(course3);
+    assignment7.setCourse(course2);
+    assignment8.setCourse(course2);
+    assignment9.setCourse(course2);
 
     module1.setCourse(course1);
     module2.setCourse(course1);
@@ -94,7 +99,7 @@ public class ServerApplication implements CommandLineRunner {
     moduleRepository.saveAll(List.of(module1,module2,module3));
     sessionRepository.saveAll(List.of(preClass, inClass, postClass));
 
-    assignmentRepository.saveAll(List.of(assignment1,assignment2,assignment3,assignment4,assignment5,assignment6));
+    assignmentRepository.saveAll(List.of(assignment1,assignment2,assignment3,assignment4,assignment5,assignment6, assignment7, assignment8, assignment9));
 
 
 

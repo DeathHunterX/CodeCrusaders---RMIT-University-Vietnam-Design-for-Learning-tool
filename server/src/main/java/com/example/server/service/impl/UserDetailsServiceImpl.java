@@ -7,8 +7,10 @@ import com.example.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,5 +25,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
     return new CustomUserDetails(user);
   }
+
+  public Optional<User> getUserById(UUID id) {
+    return userRepository.findById(id);
+  }
+
 
 }

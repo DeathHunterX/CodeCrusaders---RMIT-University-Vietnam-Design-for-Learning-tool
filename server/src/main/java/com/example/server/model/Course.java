@@ -27,7 +27,7 @@ public class Course {
 
     private String clos;
 
-    @ManyToMany(mappedBy = "courses")
+    @ManyToMany(mappedBy = "courses", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JsonIgnore
     private Set<User> userSet;
 

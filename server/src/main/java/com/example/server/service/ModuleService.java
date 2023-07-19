@@ -1,5 +1,6 @@
 package com.example.server.service;
 
+import com.example.server.api.request.ModuleCreateRequest;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
 import com.example.server.model.Module;
@@ -15,7 +16,7 @@ public interface ModuleService {
   List<ModuleNameResponse> getAllModuleNamesByCourseId(UUID id);
   ResponseEntity<ModuleDetailsResponse> getModuleDetailsById(UUID id);
 
-  Module createModule(Module module);
+  ResponseEntity<?> createModule(UUID courseID, ModuleCreateRequest moduleCreateRequest);
   void deleteModule(UUID id);
 
   ResponseEntity<Module> updateModule(Module newAssignment, UUID id);

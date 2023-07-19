@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +22,6 @@ public class CourseRequest {
     private String clos;
 
     private List<Assignment> assignmentList;
+
+    private UUID userID;
 }

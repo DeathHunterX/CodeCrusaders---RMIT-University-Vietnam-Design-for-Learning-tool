@@ -1,7 +1,6 @@
 import React from 'react'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 import Editor from 'ckeditor5-custom-build/build/ckeditor'
-// import TextEditorConfig from './TextEditorConfig'
 
 const TextEditor = (props) => {
     const handleChange = (e, editor) => {

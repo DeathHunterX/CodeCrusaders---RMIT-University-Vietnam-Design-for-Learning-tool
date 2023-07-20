@@ -8,6 +8,7 @@ import com.example.server.model.Module;
 import com.example.server.service.CourseService;
 import com.example.server.service.ModuleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,10 +38,13 @@ public class ModuleController {
 //  }
 
   @GetMapping("courses/{course_id}/module-names")
-  public List<ModuleNameResponse> getAllModuleNamesByCourseId(@PathVariable UUID course_id) {
+  public ResponseEntity<?> getAllModuleNamesByCourseId(@PathVariable UUID course_id) {
     Course course = courseService.getCourseById(course_id);
     List<Module> moduleList = course.getModuleList();
-    return moduleList.stream().map(e->new ModuleNameResponse(e.getId(),e.getName())).collect(Collectors.toList());
+    if (moduleList.size()==0) {
+      return new ResponseEntity<>("This course has no modules",HttpStatus.OK);
+    }
+    return new ResponseEntity<>(moduleList.stream().map(e->new ModuleNameResponse(e.getId(),e.getName())).collect(Collectors.toList()),HttpStatus.OK);
   }
 
   @GetMapping("modules/{id}")

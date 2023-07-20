@@ -8,6 +8,9 @@ import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
 import com.example.server.model.Session;
+import com.example.server.model.enums.GroupingType;
+import com.example.server.model.enums.SessionOption;
+import com.example.server.model.enums.SessionType;
 import com.example.server.repository.CourseRepository;
 import com.example.server.repository.ModuleRepository;
 import com.example.server.service.ModuleService;
@@ -69,9 +72,14 @@ public class ModuleServiceImpl implements ModuleService {
       return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
     Course _course = course.get();
-    Module module = new Module(moduleCreateRequest.getModuleName());
+    Session preClass = new Session(SessionType.PRE_CLASS);
+    Session inClass = new Session(SessionType.IN_CLASS);
+    Session postClass = new Session(SessionType.POST_CLASS);
+    List<Session> sessionList = new ArrayList<>();
+    sessionList.addAll(List.of(preClass,inClass,postClass));
+    Module module = new Module(moduleCreateRequest.getModuleName(), sessionList);
     module.setCourse(_course);
-    return new ResponseEntity<>(moduleRepository.save(module),HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(moduleRepository.save(module),HttpStatus.OK);
   }
 
   @Override

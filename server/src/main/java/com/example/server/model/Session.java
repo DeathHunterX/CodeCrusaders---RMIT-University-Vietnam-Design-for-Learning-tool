@@ -52,5 +52,9 @@ public class Session {
     this.hasLecturer = hasLecturer;
   }
 
+  public Session(SessionType sessionType) {
+    this.sessionType = sessionType;
+  }
+
 
 }

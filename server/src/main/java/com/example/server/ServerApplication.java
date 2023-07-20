@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,6 +60,7 @@ public class ServerApplication implements CommandLineRunner {
     Module module3 = new Module("module3","los1,los2,los3");
 
 
+
     Course course1 = new Course("Machine Learning","CA","Semester A 2020","clos1,clos2,clos3");
     Course course2 = new Course("Object Oriented Programming","OOP","Semester A 2021","clos1,clos2,clos3");
     Course course3 = new Course("Computer Vision","CV","Semester C 2022","clos1,clos2,clos3");
@@ -82,9 +84,24 @@ public class ServerApplication implements CommandLineRunner {
     Session preClass = new Session(SessionType.PRE_CLASS, GroupingType.SMALL_GROUP, SessionOption.F2F,Boolean.TRUE);
     Session inClass = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
     Session postClass = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
+    Session preClass1 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
+    Session inClass1 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
+    Session postClass1 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
+    Session preClass2 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
+    Session inClass2 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
+    Session postClass2 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
+
     preClass.setModule(module1);
     inClass.setModule(module1);
     postClass.setModule(module1);
+
+    preClass1.setModule(module2);
+    inClass1.setModule(module2);
+    postClass1.setModule(module2);
+
+    preClass1.setModule(module3);
+    inClass1.setModule(module3);
+    postClass1.setModule(module3);
 
     User user1 = new User();
     user1.setName("Khang");
@@ -96,8 +113,9 @@ public class ServerApplication implements CommandLineRunner {
 
     courseRepository.saveAll(List.of(course1,course2,course3,course4,course5));
     userRepository.save(user1);
+
     moduleRepository.saveAll(List.of(module1,module2,module3));
-    sessionRepository.saveAll(List.of(preClass, inClass, postClass));
+    sessionRepository.saveAll(List.of(preClass, inClass, postClass, preClass1, inClass1, postClass1, preClass2, inClass2, postClass2));
 
     assignmentRepository.saveAll(List.of(assignment1,assignment2,assignment3,assignment4,assignment5,assignment6, assignment7, assignment8, assignment9));
 

@@ -6,6 +6,7 @@ import com.example.server.api.response.CourseResponse;
 import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Course;
 import com.example.server.model.User;
+import com.example.server.repository.CourseRepository;
 import com.example.server.repository.UserRepository;
 import com.example.server.service.CourseService;
 import com.example.server.service.impl.UserDetailsServiceImpl;
@@ -29,6 +30,8 @@ public class CourseController {
   private final CourseService courseService;
   private final UserDetailsServiceImpl userDetailsService;
   private final ModelMapper modelMapper;
+  private final UserRepository userRepository;
+  private final CourseRepository courseRepository;
 
   @GetMapping("courses")
   public List<CourseResponse> getAllCourses(@RequestHeader("UserID") UUID userId) {
@@ -71,8 +74,12 @@ public class CourseController {
       throw new ObjectNotFoundException("user","id");
     }
     Course course = courseService.getCourseById(id);
-    System.out.println(user.get().getCourses());
-    if(!(user.get().getCourses().contains(course))) {
+    for(Course c : user.get().getCourses()) {
+      System.out.println(c.getCourseName());
+    }
+//    System.out.println(user.get().getCourses());
+    List<Course> updatedCourse = user.get().getCourses().stream().filter(e->e.getId().equals(course.getId())).collect(Collectors.toList());
+    if(updatedCourse == null) {
       return new ResponseEntity<>("No permission to update this course", HttpStatus.NOT_FOUND);
     }
     return courseService.updateCourse(newCourse,id);
@@ -85,8 +92,17 @@ public class CourseController {
       throw new ObjectNotFoundException("user","id");
     }
     Course course = courseService.getCourseById(id);
-    user.get().getCourses().remove(course);
-    courseService.deleteCourse(id);
+    if (course != null) {
+      System.out.println(course.getCourseName());
+
+      Set<Course> newCourseSet = user.get().getCourses().stream().filter(e->!e.getId().equals(course.getId())).collect(Collectors.toSet());
+      user.get().setCourses(newCourseSet);
+      for(Course e : newCourseSet) {
+        System.out.println(e.getCourseName());
+      }
+      userRepository.save(user.get());
+
+    }
     return "";
   }
 

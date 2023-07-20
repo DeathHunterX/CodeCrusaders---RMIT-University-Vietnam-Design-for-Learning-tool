@@ -37,7 +37,9 @@ public class Module {
     this.los = los;
   }
 
-  public Module(String name) {
+  public Module(String name, List<Session> sessionList) {
+
     this.name = name;
+    this.sessionList = sessionList;
   }
 }

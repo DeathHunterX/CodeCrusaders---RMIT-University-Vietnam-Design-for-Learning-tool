@@ -31,10 +31,10 @@ public class ModuleController {
   private final ModuleService moduleService;
   private final CourseService courseService;
 
-  @GetMapping("modules")
-  public List<Module> getAllModules() {
-    return moduleService.getAllModules();
-  }
+//  @GetMapping("modules")
+//  public List<Module> getAllModules() {
+//    return moduleService.getAllModules();
+//  }
 
   @GetMapping("courses/{course_id}/module-names")
   public List<ModuleNameResponse> getAllModuleNamesByCourseId(@PathVariable UUID course_id) {

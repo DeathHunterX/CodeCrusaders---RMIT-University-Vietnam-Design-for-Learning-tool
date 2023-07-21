@@ -41,8 +41,8 @@ public class SessionController {
   }
 
   @PutMapping("sessions/update-session/{id}")
-  public ResponseEntity<Session> updateSession(@PathVariable("id") UUID id, @RequestBody Session sessionInfo) {
-    return sessionService.updateSession(sessionInfo,id);
+  public ResponseEntity<?> updateSession(@PathVariable("id") UUID id, @RequestBody Session sessionInfo) {
+    return sessionService.updateSessionInfo(sessionInfo,id);
   }
 
   @DeleteMapping("sessions/delete-session/{id}")

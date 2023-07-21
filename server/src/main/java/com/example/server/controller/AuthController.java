@@ -1,6 +1,7 @@
 package com.example.server.controller;
 
 import com.example.server.api.request.SignupRequest;
+import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.MessageResponse;
 import com.example.server.api.response.UserResponse;
 import com.example.server.model.User;
@@ -10,6 +11,8 @@ import com.example.server.security.jwt.JwtResponse;
 import com.example.server.security.jwt.JwtUtils;
 import com.example.server.model.CustomUserDetails;
 import com.example.server.service.impl.UserDetailsServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -52,7 +57,7 @@ public class AuthController {
               userDetails.getUsername(),
               userDetails.getUser().getName()));
     }catch (BadCredentialsException e) {
-      return new ResponseEntity<>("Invalid username or password!",HttpStatus.UNAUTHORIZED);
+      return new ResponseEntity<>(new ApiResponse("Invalid username or password!"),HttpStatus.UNAUTHORIZED);
     }
   }
 
@@ -74,14 +79,25 @@ public class AuthController {
 
   @GetMapping("/current-user")
   public ResponseEntity<UserResponse> getCurrentUser() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    SecurityContext securityContext = SecurityContextHolder.getContext();
+    Authentication authentication = securityContext.getAuthentication();
     System.out.println(authentication);
-    if (authentication != null && authentication.isAuthenticated()) {
-      String username = authentication.getName();
-      // You can also access other user information from the authentication object if needed
-      CustomUserDetails userDetails = userDetailsService.loadUserByUsername(username);
-      return ResponseEntity.ok(modelMapper.map(userDetails,UserResponse.class));
+    if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof CustomUserDetails) {
+      CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+      return ResponseEntity.ok(modelMapper.map(userDetails.getUser(), UserResponse.class));
     }
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+  }
+
+
+  @PostMapping("/logout")
+  public ResponseEntity<?> logout(HttpServletRequest request) {
+    SecurityContextHolder.clearContext();
+    HttpSession session = request.getSession(false);
+    if (session != null) {
+      session.invalidate();
+    }
+
+    return new ResponseEntity<>(new ApiResponse("You have been successfully logged out."),HttpStatus.OK);
   }
 }

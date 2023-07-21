@@ -1,6 +1,7 @@
 package com.example.server.controller;
 
 import com.example.server.api.request.ModuleCreateRequest;
+import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
 import com.example.server.model.Course;
@@ -42,14 +43,15 @@ public class ModuleController {
     Course course = courseService.getCourseById(course_id);
     List<Module> moduleList = course.getModuleList();
     if (moduleList.size()==0) {
-      return new ResponseEntity<>("This course has no modules",HttpStatus.OK);
+      return new ResponseEntity<>(new ApiResponse("This course has no modules"),HttpStatus.OK);
     }
     return new ResponseEntity<>(moduleList.stream().map(e->new ModuleNameResponse(e.getId(),e.getName())).collect(Collectors.toList()),HttpStatus.OK);
   }
 
   @GetMapping("modules/{id}")
   public ResponseEntity<ModuleDetailsResponse> getModuleById(@PathVariable("id") UUID id) {
-    return moduleService.getModuleDetailsById(id);
+    ModuleDetailsResponse moduleDetailsResponse = moduleService.getModuleDetailsById(id);
+    return new ResponseEntity<>(moduleDetailsResponse,HttpStatus.OK);
   }
 
   @PostMapping("course/{course_id}/create-module")
@@ -64,8 +66,8 @@ public class ModuleController {
   }
 
   @DeleteMapping("/delete-module/{id}")
-  public String deleteModule(@PathVariable("id") UUID id) {
+  public ResponseEntity<ApiResponse> deleteModule(@PathVariable("id") UUID id) {
     moduleService.deleteModule(id);
-    return "";
+    return new ResponseEntity<>(new ApiResponse("Successfully delete module"),HttpStatus.OK);
   }
 }

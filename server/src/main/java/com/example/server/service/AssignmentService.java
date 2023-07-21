@@ -14,6 +14,6 @@ public interface AssignmentService {
   Assignment createAssignment(Assignment assignment);
   void deleteAssignment(UUID id);
 
-  ResponseEntity<Assignment> updateCourse(Assignment newAssignment, UUID id);
+  void updateAssignment(Assignment newAssignment, UUID id);
 }
 

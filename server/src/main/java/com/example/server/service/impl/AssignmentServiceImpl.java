@@ -39,15 +39,15 @@ public class AssignmentServiceImpl implements AssignmentService {
   }
 
   @Override
-  public ResponseEntity<Assignment> updateCourse(Assignment newAssignment, UUID id) {
+  public void updateAssignment(Assignment newAssignment, UUID id) {
     Optional<Assignment> assignmentData = assignmentRepository.findById(id);
     if (assignmentData.isPresent()) {
       Assignment _assignment = assignmentData.get();
-      _assignment.setAssignmentNo(newAssignment.getAssignmentNo());
       _assignment.setAssignmentName(newAssignment.getAssignmentName());
-      return new ResponseEntity<>(assignmentRepository.save(_assignment), HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      _assignment.setStartDate(newAssignment.getStartDate());
+      _assignment.setEndDate(newAssignment.getEndDate());
+      assignmentRepository.save(_assignment);
+
     }
   }
 }

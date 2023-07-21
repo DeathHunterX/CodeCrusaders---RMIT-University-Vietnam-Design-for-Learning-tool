@@ -33,7 +33,7 @@ public class Course {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
     @Size(max = 3)
-    private List<Assignment> assignmentList;
+    private List<Assignment> assignmentList = new ArrayList<>() ;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
     private List<Module> moduleList;
@@ -50,7 +50,8 @@ public class Course {
         if (assignmentList.size() > 3) {
             throw new IllegalArgumentException("A course can only have three assignments.");
         }
-        this.assignmentList = assignmentList;
+        this.assignmentList.clear();
+        this.assignmentList.addAll(assignmentList);
     }
 
 

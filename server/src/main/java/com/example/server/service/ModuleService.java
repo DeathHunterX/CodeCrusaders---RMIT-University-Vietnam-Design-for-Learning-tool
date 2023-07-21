@@ -14,7 +14,7 @@ public interface ModuleService {
   List<Module> getAllModules();
 
   List<ModuleNameResponse> getAllModuleNamesByCourseId(UUID id);
-  ResponseEntity<ModuleDetailsResponse> getModuleDetailsById(UUID id);
+  ModuleDetailsResponse getModuleDetailsById(UUID id);
 
   ResponseEntity<?> createModule(UUID courseID, ModuleCreateRequest moduleCreateRequest);
   void deleteModule(UUID id);

@@ -2,16 +2,15 @@ package com.example.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Module {
@@ -41,5 +40,10 @@ public class Module {
 
     this.name = name;
     this.sessionList = sessionList;
+  }
+
+  public void setSessionList(List<Session> sessionList) {
+    this.sessionList.clear();
+    this.sessionList.addAll(sessionList);
   }
 }

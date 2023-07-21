@@ -13,6 +13,7 @@ import com.example.server.model.enums.SessionOption;
 import com.example.server.model.enums.SessionType;
 import com.example.server.repository.CourseRepository;
 import com.example.server.repository.ModuleRepository;
+import com.example.server.repository.SessionRepository;
 import com.example.server.service.ModuleService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class ModuleServiceImpl implements ModuleService {
 
   private final ModuleRepository moduleRepository;
   private final CourseRepository courseRepository;
+  private final SessionRepository sessionRepository;
   private final ModelMapper modelMapper;
   @Override
   @Transactional
@@ -53,37 +55,36 @@ public class ModuleServiceImpl implements ModuleService {
   }
 
   @Override
-  public ResponseEntity<ModuleDetailsResponse> getModuleDetailsById(UUID id) {
-    Optional<Module> module = moduleRepository.findById(id);
-    if(!module.isPresent()) {
-      return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-    }
-    Module _module = module.get();
-    List<Session> sessionList = _module.getSessionList();
-    List<SessionDetailsResponse> sessionDetailsResponses = sessionList.stream().map(e->new SessionDetailsResponse(e.getSessionType(),e.getGroupingType(),e.getSessionOption(),e.getHasLecturer())).collect(Collectors.toList());
-    ModuleDetailsResponse moduleDetailsResponse = new ModuleDetailsResponse(_module.getName(),_module.getLos(),sessionDetailsResponses);
-    return new ResponseEntity<>(moduleDetailsResponse,HttpStatus.OK);
+  public ModuleDetailsResponse getModuleDetailsById(UUID id) {
+    Module module = moduleRepository.findById(id)
+            .orElseThrow(()->new ObjectNotFoundException("Module", "id",404));
+    List<Session> sessionList = module.getSessionList();
+    List<SessionDetailsResponse> sessionDetailsResponses = sessionList.stream()
+            .map(e->new SessionDetailsResponse(e.getSessionType(),e.getGroupingType(),e.getSessionOption(),e.getHasLecturer()))
+            .collect(Collectors.toList());
+    ModuleDetailsResponse moduleDetailsResponse = new ModuleDetailsResponse(module.getName(),module.getLos(),sessionDetailsResponses);
+    return moduleDetailsResponse;
   }
 
   @Override
   public ResponseEntity<?> createModule(UUID courseId, ModuleCreateRequest moduleCreateRequest) {
-    Optional<Course> course = courseRepository.findById(courseId);
-    if(!course.isPresent()) {
-      return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-    }
-    Course _course = course.get();
+    Course course = courseRepository.findById(courseId)
+            .orElseThrow(()->new ObjectNotFoundException("Course","id"));
     Session preClass = new Session(SessionType.PRE_CLASS);
     Session inClass = new Session(SessionType.IN_CLASS);
     Session postClass = new Session(SessionType.POST_CLASS);
     List<Session> sessionList = new ArrayList<>();
     sessionList.addAll(List.of(preClass,inClass,postClass));
     Module module = new Module(moduleCreateRequest.getModuleName(), sessionList);
-    module.setCourse(_course);
+    sessionList.stream().forEach(e->e.setModule(module));
+    module.setCourse(course);
     return new ResponseEntity<>(moduleRepository.save(module),HttpStatus.OK);
   }
 
   @Override
   public void deleteModule(UUID id) {
+    Module module = moduleRepository.findById(id)
+                    .orElseThrow(()->new ObjectNotFoundException("Module","id"));
     moduleRepository.deleteById(id);
   }
 

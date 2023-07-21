@@ -59,6 +59,11 @@ public class ServerApplication implements CommandLineRunner {
     Module module2 = new Module("module2","los1,los2,los3");
     Module module3 = new Module("module3","los1,los2,los3");
 
+    Module module4 = new Module("module4", "los1,los2,los3");
+    Module module5 = new Module("module5","los1,los2,los3");
+    Module module6 = new Module("module6","los1,los2,los3");
+
+
 
 
     Course course1 = new Course("Machine Learning","CA","Semester A 2020","clos1,clos2,clos3");
@@ -81,6 +86,11 @@ public class ServerApplication implements CommandLineRunner {
     module2.setCourse(course1);
     module3.setCourse(course1);
 
+    module4.setCourse(course2);
+    module5.setCourse(course2);
+    module6.setCourse(course2);
+
+
     Session preClass = new Session(SessionType.PRE_CLASS, GroupingType.SMALL_GROUP, SessionOption.F2F,Boolean.TRUE);
     Session inClass = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
     Session postClass = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
@@ -90,6 +100,16 @@ public class ServerApplication implements CommandLineRunner {
     Session preClass2 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
     Session inClass2 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
     Session postClass2 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
+
+    Session preClass3 = new Session(SessionType.PRE_CLASS, GroupingType.SMALL_GROUP, SessionOption.F2F,Boolean.TRUE);
+    Session inClass3 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
+    Session postClass3 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
+    Session preClass4 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
+    Session inClass4 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
+    Session postClass4 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
+    Session preClass5 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
+    Session inClass5 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
+    Session postClass5 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
 
     preClass.setModule(module1);
     inClass.setModule(module1);
@@ -103,6 +123,19 @@ public class ServerApplication implements CommandLineRunner {
     inClass1.setModule(module3);
     postClass1.setModule(module3);
 
+    preClass3.setModule(module4);
+    inClass3.setModule(module4);
+    postClass3.setModule(module4);
+
+    preClass4.setModule(module5);
+    inClass4.setModule(module5);
+    postClass4.setModule(module5);
+
+    preClass5.setModule(module6);
+    inClass5.setModule(module6);
+    postClass5.setModule(module6);
+
+
     User user1 = new User();
     user1.setName("Khang");
     user1.setUsername("khang123");
@@ -114,8 +147,8 @@ public class ServerApplication implements CommandLineRunner {
     courseRepository.saveAll(List.of(course1,course2,course3,course4,course5));
     userRepository.save(user1);
 
-    moduleRepository.saveAll(List.of(module1,module2,module3));
-    sessionRepository.saveAll(List.of(preClass, inClass, postClass, preClass1, inClass1, postClass1, preClass2, inClass2, postClass2));
+    moduleRepository.saveAll(List.of(module1,module2,module3,module4,module5,module6));
+    sessionRepository.saveAll(List.of(preClass, inClass, postClass, preClass1, inClass1, postClass1, preClass2, inClass2, postClass2,preClass3,inClass3,postClass3,preClass4,inClass4,postClass4,preClass5,inClass5,postClass5));
 
     assignmentRepository.saveAll(List.of(assignment1,assignment2,assignment3,assignment4,assignment5,assignment6, assignment7, assignment8, assignment9));
 

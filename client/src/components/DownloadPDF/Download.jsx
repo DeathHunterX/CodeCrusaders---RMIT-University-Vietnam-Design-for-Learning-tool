@@ -3,11 +3,11 @@ import PDFFile from "../DownloadPDF/PDFFile";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { PDFViewer } from "@react-pdf/renderer";
 
-function changedata(parameter) {
-  if (parameter == 0) {
-    document.getElementById("myorders").style.display = "block";
-  }
-}
+// function changedata(parameter) {
+//   if (parameter === 0) {
+//     document.getElementById("myorders").style.display = "block";
+//   }
+// }
 const Download = () => {
   return (
     <div>

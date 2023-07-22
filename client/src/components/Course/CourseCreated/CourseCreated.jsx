@@ -24,9 +24,9 @@ const CourseCreated = () => {
     courseName: "",
     courseSemester: "",
     assignmentList: [
-      { assignmentNo: "01", assignmentName: "", startDate: "", endDate: "" },
-      { assignmentNo: "02", assignmentName: "", startDate: "", endDate: "" },
-      { assignmentNo: "03", assignmentName: "", startDate: "", endDate: "" },
+      { assignmentNo: 1, assignmentName: "", startDate: "", endDate: "" },
+      { assignmentNo: 2, assignmentName: "", startDate: "", endDate: "" },
+      { assignmentNo: 3, assignmentName: "", startDate: "", endDate: "" },
     ],
     clos: "",
   };
@@ -81,7 +81,7 @@ const CourseCreated = () => {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    dispatch(createCourse({courseData, token: combinedToken}))
+    dispatch(createCourse({courseData: courseData, token: combinedToken}))
   };
 
 
@@ -160,7 +160,7 @@ const CourseCreated = () => {
                     <h2 className="accordion-header">
                       <button
                         className={`accordion-button ${
-                          item.assignmentNo === "01" ? "" : "collapsed"
+                          item.assignmentNo === 1 ? "" : "collapsed"
                         }`}
                         type="button"
                         data-bs-toggle="collapse"
@@ -174,7 +174,7 @@ const CourseCreated = () => {
                     <div
                       id={`panelsStayOpen-collapse${item.assignmentNo}`}
                       className={`accordion-collapse collapse ${
-                        item.assignmentNo === "01" ? "show" : ""
+                        item.assignmentNo === 1 ? "show" : ""
                       }`}
                     >
                       <div className="accordion-body d-flex justify-content-between">

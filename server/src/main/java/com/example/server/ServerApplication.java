@@ -55,22 +55,22 @@ public class ServerApplication implements CommandLineRunner {
     Assignment assignment8 = new Assignment(2,"Mid-term 3",  LocalDate.of(2023, 2, 6),LocalDate.of(2023, 6, 6));
     Assignment assignment9 = new Assignment(3,"Final 3",  LocalDate.of(2023, 3, 6),LocalDate.of(2023, 6, 6));
 
-    Module module1 = new Module("module1", "los1,los2,los3");
-    Module module2 = new Module("module2","los1,los2,los3");
-    Module module3 = new Module("module3","los1,los2,los3");
+    Module module1 = new Module("module1","");
+    Module module2 = new Module("module2","");
+    Module module3 = new Module("module3","");
 
-    Module module4 = new Module("module4", "los1,los2,los3");
-    Module module5 = new Module("module5","los1,los2,los3");
-    Module module6 = new Module("module6","los1,los2,los3");
-
-
+    Module module4 = new Module("module4","");
+    Module module5 = new Module("module5","");
+    Module module6 = new Module("module6","");
 
 
-    Course course1 = new Course("Machine Learning","CA","Semester A 2020","clos1,clos2,clos3");
-    Course course2 = new Course("Object Oriented Programming","OOP","Semester A 2021","clos1,clos2,clos3");
-    Course course3 = new Course("Computer Vision","CV","Semester C 2022","clos1,clos2,clos3");
-    Course course4 = new Course("Python","PY","Semester B 2023","clos1,clos2,clos3");
-    Course course5 = new Course("ReactJS","RJ","Semester A 2019","clos1,clos2,clos3");
+
+
+    Course course1 = new Course("Course 01","BP0580","Semester 1 - 2020","<p>Hello World!</p>");
+    Course course2 = new Course("Course 02","BP0475","Semester 1 - 2021","<p>Hello World!</p>");
+    Course course3 = new Course("Course 03","BP0152","Semester 3 - 2022","<p>Hello World!</p>");
+    Course course4 = new Course("Course 04","BP0273","Semester 2 - 2023","<p>Hello World!</p>");
+    Course course5 = new Course("Course 05","BP0576","Semester 1 - 2019","<p>Hello World!</p>");
 
     assignment1.setCourse(course1);
     assignment2.setCourse(course1);

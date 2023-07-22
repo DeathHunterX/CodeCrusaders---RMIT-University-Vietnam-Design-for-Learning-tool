@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import TextEditor from '../../../TextEditor/TextEditor'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import moment from 'moment'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateCourse } from '../../../../redux/slices/courseSlice'
 
 const CourseDetail = () => {
     const initialCourseState = {
@@ -10,15 +11,20 @@ const CourseDetail = () => {
         courseName: "",
         courseSemester: "",
         assignmentList: [
-          { assignmentNo: "01", assignmentName: "", startDate: "", endDate: "" },
-          { assignmentNo: "02", assignmentName: "", startDate: "", endDate: "" },
-          { assignmentNo: "03", assignmentName: "", startDate: "", endDate: "" },
+          { assignmentNo: 1, assignmentName: "", startDate: "", endDate: "" },
+          { assignmentNo: 2, assignmentName: "", startDate: "", endDate: "" },
+          { assignmentNo: 3, assignmentName: "", startDate: "", endDate: "" },
         ],
         clos: "",
     };
 
-    const {course} = useSelector(state => state.course)
+    const {id} = useParams()
 
+    const {type, token} = useSelector(state => state.auth.user)
+    const {course} = useSelector(state => state.course)
+    const dispatch = useDispatch()
+
+    const combinedToken = `${type} ${token}`
 
     useEffect(() => {
         setCourseData((prevState) => ({
@@ -29,9 +35,9 @@ const CourseDetail = () => {
             assignmentList: course.assignmentList ? [...course.assignmentList].sort((a,b) => parseInt(a.assignmentNo) - parseInt(b.assignmentNo))
             :
             [
-                { assignmentNo: "01", assignmentName: "", startDate: "", endDate: "" },
-                { assignmentNo: "02", assignmentName: "", startDate: "", endDate: "" },
-                { assignmentNo: "03", assignmentName: "", startDate: "", endDate: "" },
+                { assignmentNo: 1, assignmentName: "", startDate: "", endDate: "" },
+                { assignmentNo: 2, assignmentName: "", startDate: "", endDate: "" },
+                { assignmentNo: 3, assignmentName: "", startDate: "", endDate: "" },
             ],
             clos: course.clos ? course.clos : ""
         }))
@@ -61,7 +67,7 @@ const CourseDetail = () => {
     }
 
     const handleTextEditor = (value) => {
-        setCourseData((prevState) => ({...prevState, CLOs: value}))
+        setCourseData((prevState) => ({...prevState, clos: value}))
     }
 
     const semesterInAnArray = []
@@ -80,7 +86,7 @@ const CourseDetail = () => {
 
     const handleSubmitForm = (e) => {
         e.preventDefault()
-        console.log(courseData)
+        dispatch(updateCourse({courseData: courseData, id: id, token: combinedToken}))
     }
 
     return (
@@ -126,11 +132,11 @@ const CourseDetail = () => {
                         assignmentList.map((item, idx) => (
                         <div className="accordion-item mt-2" key={item.assignmentNo}>
                             <h2 className="accordion-header">
-                                <button className={`accordion-button ${item.assignmentNo === '01' ? '' : 'collapsed'}`} type="button" data-bs-toggle="collapse" data-bs-target={`#panelsStayOpen-collapse${item.assignmentNo}`} aria-expanded="true" aria-controls={`panelsStayOpen-collapse${item.assignmentNo}`}>
+                                <button className={`accordion-button ${item.assignmentNo === 1 ? '' : 'collapsed'}`} type="button" data-bs-toggle="collapse" data-bs-target={`#panelsStayOpen-collapse${item.assignmentNo}`} aria-expanded="true" aria-controls={`panelsStayOpen-collapse${item.assignmentNo}`}>
                                     Assessment {item.assignmentNo}
                                 </button>
                             </h2>
-                            <div id={`panelsStayOpen-collapse${item.assignmentNo}`} className={`accordion-collapse collapse ${item.assignmentNo === '01' ? 'show' : ''}`}>
+                            <div id={`panelsStayOpen-collapse${item.assignmentNo}`} className={`accordion-collapse collapse ${item.assignmentNo === 1 ? 'show' : ''}`}>
                                 <div className="accordion-body d-flex justify-content-between">
                                     <div className="mb-3 w-100">
                                         <label htmlFor="assignmentName01" className="form-label">Name Assignment </label>

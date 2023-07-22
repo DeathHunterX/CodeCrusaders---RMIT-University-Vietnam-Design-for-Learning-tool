@@ -35,11 +35,11 @@
 
 /* Table */
 .module_component .module_table .week_col {
-    min-width: 200px;
+    width: 15%;
 }
 .module_component .module_table .module_col {
-    min-width: 800px;
+    width: 70%;
 }
 .module_component .module_table .action_col {
-    min-width: 160px;
+    width: 15%;
 }

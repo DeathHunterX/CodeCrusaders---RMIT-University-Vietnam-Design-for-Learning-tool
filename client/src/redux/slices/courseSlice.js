@@ -23,7 +23,6 @@ export const getAllCourses = createAsyncThunk('courses/getCourses', async(token,
 })
 
 export const getCourse = createAsyncThunk('courses/getCourse', async({id, token}, thunkAPI) => {
-
     try {
         const res = await getDataAPI(`courses/${id}`, token)
         return res.data

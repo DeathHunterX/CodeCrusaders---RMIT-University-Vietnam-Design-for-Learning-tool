@@ -47,11 +47,15 @@ public class Course {
     }
 
     public void setAssignmentList(List<Assignment> assignmentList) {
+        System.out.println("call set assignment");
         if (assignmentList.size() > 3) {
             throw new IllegalArgumentException("A course can only have three assignments.");
         }
         this.assignmentList.clear();
         this.assignmentList.addAll(assignmentList);
+        for (Assignment assignment : assignmentList) {
+            assignment.setCourse(this);
+        }
     }
 
 

@@ -2,6 +2,7 @@ package com.example.server.controller;
 
 //import com.example.server.api.response.CourseResponse;
 import com.example.server.api.request.CourseRequest;
+import com.example.server.api.request.CourseUpdateRequest;
 import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.CourseResponse;
 import com.example.server.exception.ObjectNotFoundException;
@@ -87,7 +88,7 @@ public class CourseController {
   }
 
   @PutMapping("/update-course/{id}")
-  public ResponseEntity<?> updateCourse(@PathVariable("id") UUID id, @RequestBody Course newCourse) {
+  public ResponseEntity<?> updateCourse(@PathVariable("id") UUID id, @RequestBody CourseUpdateRequest newCourse) {
     return courseService.updateCourse(newCourse,id);
   }
 

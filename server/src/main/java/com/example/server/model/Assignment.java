@@ -25,7 +25,6 @@ public class Assignment {
 
     private String assignmentName;
 
-
     @Column(columnDefinition = "DATE")
     private LocalDate startDate;
 

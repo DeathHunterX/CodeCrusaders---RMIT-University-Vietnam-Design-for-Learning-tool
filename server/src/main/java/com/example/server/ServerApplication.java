@@ -3,6 +3,7 @@ package com.example.server;
 import com.example.server.model.*;
 import com.example.server.model.Module;
 import com.example.server.model.enums.GroupingType;
+import com.example.server.model.enums.InteractionType;
 import com.example.server.model.enums.SessionOption;
 import com.example.server.model.enums.SessionType;
 import com.example.server.repository.*;
@@ -91,25 +92,25 @@ public class ServerApplication implements CommandLineRunner {
     module6.setCourse(course2);
 
 
-    Session preClass = new Session(SessionType.PRE_CLASS, GroupingType.SMALL_GROUP, SessionOption.F2F,Boolean.TRUE);
-    Session inClass = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
-    Session postClass = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
-    Session preClass1 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
-    Session inClass1 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
-    Session postClass1 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
-    Session preClass2 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
-    Session inClass2 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
-    Session postClass2 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
+    Session preClass = new Session(SessionType.PRE_CLASS, GroupingType.SMALL_GROUP, SessionOption.F2F,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
+    Session inClass = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.SYNCHRONOUS);
+    Session postClass = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
+    Session preClass1 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
+    Session inClass1 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.SYNCHRONOUS);
+    Session postClass1 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
+    Session preClass2 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.SYNCHRONOUS);
+    Session inClass2 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
+    Session postClass2 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE, InteractionType.SYNCHRONOUS);
 
-    Session preClass3 = new Session(SessionType.PRE_CLASS, GroupingType.SMALL_GROUP, SessionOption.F2F,Boolean.TRUE);
-    Session inClass3 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
-    Session postClass3 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
-    Session preClass4 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
-    Session inClass4 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
-    Session postClass4 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
-    Session preClass5 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
-    Session inClass5 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE);
-    Session postClass5 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE);
+    Session preClass3 = new Session(SessionType.PRE_CLASS, GroupingType.SMALL_GROUP, SessionOption.F2F,Boolean.TRUE, InteractionType.SYNCHRONOUS);
+    Session inClass3 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
+    Session postClass3 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE, InteractionType.SYNCHRONOUS);
+    Session preClass4 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
+    Session inClass4 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.SYNCHRONOUS);
+    Session postClass4 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
+    Session preClass5 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.SYNCHRONOUS);
+    Session inClass5 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
+    Session postClass5 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE, InteractionType.SYNCHRONOUS);
 
     preClass.setModule(module1);
     inClass.setModule(module1);

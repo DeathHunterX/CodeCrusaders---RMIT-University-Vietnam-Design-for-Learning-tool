@@ -11,7 +11,7 @@ public interface ActivityService {
   List<Activity> getAllActivities();
   Optional<Activity> getActivityById(UUID id);
 
-  Activity createActivity(Activity activity, String activityType);
+  Activity createActivity(String activityType);
   void deleteActivity(UUID id);
 
   ResponseEntity<Activity> updateActivity(Activity activityInfo, UUID id);

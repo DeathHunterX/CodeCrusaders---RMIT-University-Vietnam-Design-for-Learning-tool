@@ -1,6 +1,8 @@
 package com.example.server.service.impl;
 
+import com.example.server.api.request.AssignmentRequest;
 import com.example.server.api.request.CourseRequest;
+import com.example.server.api.request.CourseUpdateRequest;
 import com.example.server.api.response.CourseResponse;
 import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Assignment;
@@ -30,12 +32,6 @@ public class CourseServiceImpl implements CourseService {
     private final UserDetailsServiceImpl userDetailsService;
     private final ModelMapper modelMapper;
     private final AssignmentService assignmentService;
-
-    @Override
-    public List<CourseResponse> getAllCourses() {
-        List<CourseResponse> courseResponses = courseRepository.findAll().stream().map(course -> modelMapper.map(course, CourseResponse.class)).toList();
-        return courseResponses;
-    }
 
     @Override
     public List<CourseResponse> getAllCoursesByUsername(String username) {
@@ -71,34 +67,29 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public ResponseEntity<Course> updateCourse(Course newCourse, UUID id) {
-        Course _course = courseRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException("Course", "id"));
-        _course.setCourseName(newCourse.getCourseName());
-        _course.setCourseCode(newCourse.getCourseCode());
-        _course.setCourseSemester(newCourse.getCourseSemester());
-        _course.setClos(newCourse.getClos());
-//        List<Assignment> oldAssignmentList = _course.getAssignmentList();
-        List<Assignment> newAssignmentList = newCourse.getAssignmentList();
-//        Map<UUID, Assignment> oldAssignmentMap = new HashMap<>();
-//        for (Assignment assignment : oldAssignmentList) {
-//            oldAssignmentMap.put(assignment.getId(), assignment);
-//        }
-//        if(newAssignmentList.size()>0) {
-//            for (Assignment newAssignmentItem : newAssignmentList) {
-//                Assignment oldAssignmentItem = oldAssignmentMap.get(newAssignmentItem.getId());
-//                if (oldAssignmentItem != null) {
-//                    assignmentService.updateAssignment(newAssignmentItem, oldAssignmentItem.getId());
-//                }
-//            }
-//        }
-        System.out.println(newAssignmentList);
-        _course.getAssignmentList().clear();
-        _course.getAssignmentList().addAll(newAssignmentList);
-//        _course.setAssignmentList(newAssignmentList);
-        Course savedCourse = courseRepository.save(_course);
-
-//        System.out.println(newAssignmentList.size());
-        return new ResponseEntity<>(savedCourse, HttpStatus.OK);
+    public ResponseEntity<?> updateCourse(CourseUpdateRequest courseUpdateRequest, UUID id) {
+        return null;
     }
+
+//    @Override
+//    @Transactional
+//    public ResponseEntity<Course> updateCourse(CourseUpdateRequest courseUpdateRequest, UUID id) {
+//        var _course = courseRepository.findById(id)
+//                .orElseThrow(() -> new ObjectNotFoundException("Course", "id"));
+//        _course.setCourseName(courseUpdateRequest.getCourseName());
+//        _course.setCourseCode(courseUpdateRequest.getCourseCode());
+//        _course.setCourseSemester(courseUpdateRequest.getCourseSemester());
+//        _course.setClos(courseUpdateRequest.getClos());
+//        List<Assignment> oldAssignmentList = _course.getAssignmentList();
+//        List<AssignmentRequest> newAssignmentList = courseUpdateRequest.getAssignmentRequestList();
+//        for(Assignment assignment : oldAssignmentList) {
+//            assignmentService.updateAssignmentByAssignmentNumber(newAssignmentList, assignment.getAssignmentNo());
+//        }
+//        System.out.println(newAssignmentList);
+////        _course.setAssignmentList(newAssignmentList);
+//        Course savedCourse = courseRepository.save(_course);
+//
+////        System.out.println(newAssignmentList.size());
+//        return new ResponseEntity<>(savedCourse, HttpStatus.OK);
+//    }
 }

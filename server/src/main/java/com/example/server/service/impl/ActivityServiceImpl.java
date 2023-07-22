@@ -1,6 +1,8 @@
 package com.example.server.service.impl;
 
 import com.example.server.model.Activity;
+import com.example.server.model.activities.WarmUp;
+import com.example.server.model.enums.ActivityType;
 import com.example.server.repository.ActivityRepository;
 import com.example.server.service.ActivityService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +30,12 @@ public class ActivityServiceImpl implements ActivityService {
   }
 
   @Override
-  public Activity createActivity(Activity activity, String activityType) {
+  public Activity createActivity(String activityType) {
+//    switch (activityType) {
+//      case "activity-01":
+//        return activityRepository.save(
+//    }
+
     return null;
   }
 

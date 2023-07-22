@@ -1,5 +1,7 @@
 package com.example.server.service.impl;
 
+import com.example.server.api.request.AssignmentRequest;
+import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Assignment;
 import com.example.server.model.Course;
 import com.example.server.repository.AssignmentRepository;
@@ -13,41 +15,48 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AssignmentServiceImpl implements AssignmentService {
-  private final AssignmentRepository assignmentRepository;
-  @Override
-  public List<Assignment> getAllAssignments() {
-    return assignmentRepository.findAll();
-  }
+    private final AssignmentRepository assignmentRepository;
 
-  @Override
-  public Optional<Assignment> getAssignmentById(UUID id) {
-    return assignmentRepository.findById(id);
-  }
-
-  @Override
-  public Assignment createAssignment(Assignment assignment) {
-    return assignmentRepository.save(assignment);
-  }
-
-  @Override
-  public void deleteAssignment(UUID id) {
-    assignmentRepository.deleteById(id);
-  }
-
-  @Override
-  public void updateAssignment(Assignment newAssignment, UUID id) {
-    Optional<Assignment> assignmentData = assignmentRepository.findById(id);
-    if (assignmentData.isPresent()) {
-      Assignment _assignment = assignmentData.get();
-      _assignment.setAssignmentName(newAssignment.getAssignmentName());
-      _assignment.setStartDate(newAssignment.getStartDate());
-      _assignment.setEndDate(newAssignment.getEndDate());
-      assignmentRepository.save(_assignment);
-
+    @Override
+    public List<Assignment> getAllAssignments() {
+        return assignmentRepository.findAll();
     }
-  }
+
+    @Override
+    public Optional<Assignment> getAssignmentById(UUID id) {
+        return assignmentRepository.findById(id);
+    }
+
+    @Override
+    public Assignment createAssignment(Assignment assignment) {
+        return assignmentRepository.save(assignment);
+    }
+
+    @Override
+    public void deleteAssignment(UUID id) {
+        assignmentRepository.deleteById(id);
+    }
+
+    @Override
+    public void updateAssignmentByAssignmentNumber(List<AssignmentRequest> assignmentRequestList, int assignmentNo, UUID courseId) {
+
+
+        Assignment assignment = assignmentRepository.findByAssignmentNo(assignmentNo)
+                .orElseThrow(() -> new ObjectNotFoundException("Assignment", "assignmentNo"));
+        List<AssignmentRequest> filteredAssignments = assignmentRequestList.stream()
+                .filter(e->e.getAssignmentNo()==assignmentNo)
+                .collect(Collectors.toList());
+        if(filteredAssignments.size()==0) return;
+        AssignmentRequest _assignmentRequest = filteredAssignments.get(0);
+        assignment.setAssignmentName(_assignmentRequest.getAssignmentName());
+        assignment.setStartDate(_assignmentRequest.getStartDate());
+        assignment.setEndDate(_assignmentRequest.getEndDate());
+        assignmentRepository.save(assignment);
+        System.out.println("Successfully update the assignment!");
+    }
 }

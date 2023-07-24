@@ -1,4 +1,13 @@
-.btn-style {
+.planner_pdf_container {
+  height: 100vh !important;
+}
+
+
+.pdf_viewer_body iframe {
+  width: 100%;
+}
+
+/* .btn-style {
   float: left;
   background-color: #6762f5;
   color: white;
@@ -50,7 +59,7 @@
   margin-top: 20px;
 }
 
-/* module */
+module
 .download-los {
   display: flex;
 }
@@ -64,7 +73,7 @@
   padding: 20px;
 }
 
-/* activity */
+activity
 .pre-class {
   background-color: #6762f5;
   color: white;
@@ -83,4 +92,4 @@
   padding: 10px;
   margin-top: 4px;
   border-radius: 8px;
-}
+} */

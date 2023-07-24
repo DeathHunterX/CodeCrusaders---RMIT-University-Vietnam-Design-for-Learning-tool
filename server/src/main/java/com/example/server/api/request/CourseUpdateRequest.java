@@ -1,18 +1,17 @@
 package com.example.server.api.request;
 
 import com.example.server.model.Assignment;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.FetchType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CourseRequest {
+public class CourseUpdateRequest {
     private String courseName;
 
     private String courseCode;
@@ -21,7 +20,7 @@ public class CourseRequest {
 
     private String clos;
 
-    private List<Assignment> assignmentList;
-
     private UUID userID;
+
+    private List<AssignmentRequest> assignmentRequestList;
 }

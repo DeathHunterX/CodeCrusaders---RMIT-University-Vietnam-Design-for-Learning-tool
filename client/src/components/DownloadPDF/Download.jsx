@@ -1,32 +1,34 @@
 import React from "react";
-import PDFFile from "../DownloadPDF/PDFFile";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { PDFViewer } from "@react-pdf/renderer";
+import PDFFile from "./PDFStructure/PDFFile";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 
-function changedata(parameter) {
-  if (parameter == 0) {
-    document.getElementById("myorders").style.display = "block";
-  }
-}
+
 const Download = () => {
   return (
-    <div>
-      <div>
-        <PDFDownloadLink document={<PDFFile />} filename={"FORM"}>
-          {({ loading }) =>
-            loading ? (
-              <button className="btn-style">Loading Document...</button>
-            ) : (
-              <button className="btn-style">Download PDF</button>
-            )
-          }
-        </PDFDownloadLink>
-      </div>
+    <div className="planner_pdf_container">
+      <div className="d-flex">
+        <div className="col-md-8 pdf_viewer">
+          <div className="pdf_viewer_header">
+            <PDFDownloadLink document={<PDFFile />} filename={"FORM"}>
+              {({ loading }) =>
+                loading ? (
+                  <button className="btn-style">Loading Document...</button>
+                ) : (
+                  <button className="btn-style">Download PDF</button>
+                )
+              }
+            </PDFDownloadLink>
+          </div>
 
-      <div id="myorders">
-        <PDFViewer>
-          <PDFFile />
-        </PDFViewer>
+          <div className="pdf_viewer_body w-100">
+            <PDFViewer showToolbar={false} >
+              <PDFFile />
+            </PDFViewer>
+          </div>
+        </div>
+        <div className="col-md-4">
+          
+        </div>
       </div>
     </div>
   );

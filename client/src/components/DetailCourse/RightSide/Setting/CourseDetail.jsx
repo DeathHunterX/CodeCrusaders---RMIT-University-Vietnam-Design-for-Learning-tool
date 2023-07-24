@@ -1,60 +1,51 @@
 import React, { useEffect, useState } from 'react'
 import TextEditor from '../../../TextEditor/TextEditor'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import moment from 'moment'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateCourse } from '../../../../redux/slices/courseSlice'
 
 const CourseDetail = () => {
     const initialCourseState = {
-        courseCode: '', 
-        courseName:'', 
-        courseSemester:'', 
-        assignment: [
-            {idxNo: '01', assignmentName: '', startDate: '', endDate: ''},
-            {idxNo: '02', assignmentName: '', startDate: '', endDate: ''},
-            {idxNo: '03', assignmentName: '', startDate: '', endDate: ''}
-        ], 
-        CLOs: ''
-    }
+        courseCode: "",
+        courseName: "",
+        courseSemester: "",
+        assignmentList: [
+          { assignmentNo: 1, assignmentName: "", startDate: "", endDate: "" },
+          { assignmentNo: 2, assignmentName: "", startDate: "", endDate: "" },
+          { assignmentNo: 3, assignmentName: "", startDate: "", endDate: "" },
+        ],
+        clos: "",
+    };
 
+    const {id} = useParams()
+
+    const {type, token} = useSelector(state => state.auth.user)
     const {course} = useSelector(state => state.course)
+    const dispatch = useDispatch()
 
+    const combinedToken = `${type} ${token}`
 
     useEffect(() => {
         setCourseData((prevState) => ({
             ...prevState,
-            courseName: course.courseName,
-            courseCode: course.courseCode,
+            courseName: course.courseName ? course.courseName : "",
+            courseCode: course.courseCode ? course.courseCode : "",
+            courseSemester: course.courseSemester ? course.courseSemester : "",
+            assignmentList: course.assignmentList ? [...course.assignmentList].sort((a,b) => parseInt(a.assignmentNo) - parseInt(b.assignmentNo))
+            :
+            [
+                { assignmentNo: 1, assignmentName: "", startDate: "", endDate: "" },
+                { assignmentNo: 2, assignmentName: "", startDate: "", endDate: "" },
+                { assignmentNo: 3, assignmentName: "", startDate: "", endDate: "" },
+            ],
+            clos: course.clos ? course.clos : ""
         }))
-    }, [course.courseCode, course.courseName])
+    }, [course.assignmentList, course.clos, course.courseCode, course.courseName, course.courseSemester])
     
     const [courseData, setCourseData] = useState(initialCourseState)
-    const {courseCode, courseName, courseSemester, CLOs, assignment} = courseData
+    const {courseCode, courseName, courseSemester, clos, assignmentList} = courseData
 
-    // useEffect(() => {
-    //     // Simulating API call with setTimeout
-    //     const fetchData = () => {
-    //       // Replace this with your actual API call
-    //       setTimeout(() => {
-    //         const apiData = {
-    //           courseId: 'BP306',
-    //           courseName: 'Engineering Capstone Project Part A',
-    //           courseSemester: '1 - 2023',
-    //           assignment: [
-    //             { idxNo: '01', assignmentName: 'Project Proposal', startDate: '', endDate: '' },
-    //             { idxNo: '02', assignmentName: 'Project Finalize', startDate: '', endDate: '' },
-    //             { idxNo: '03', assignmentName: 'Presentation + Demo', startDate: '', endDate: '' }
-    //           ],
-    //           CLOs: 'Hello'
-    //         };
-    //         setCourseData(apiData);
-    //       }, 1000); // Delay of 1 second for demonstration purposes
-    //     };
-    
-    //     fetchData();
-
-        
-    // }, []);
 
     const handleInput = (e) => {
         const {name, value} = e.target
@@ -64,27 +55,28 @@ const CourseDetail = () => {
     const handleInputAssignment = (e, idx) => {
         const {name, value} = e.target
         setCourseData((prevState) => {
-            const updatedAssignments = [...prevState.assignment]
+            const updatedAssignments = [...prevState.assignmentList]
+            console.log()
             updatedAssignments[idx] = {...updatedAssignments[idx], [name]: value};
 
             return {
                 ...prevState,
-                assignment: updatedAssignments
+                assignmentList: updatedAssignments
             };
         })
     }
 
     const handleTextEditor = (value) => {
-        setCourseData((prevState) => ({...prevState, CLOs: value}))
+        setCourseData((prevState) => ({...prevState, clos: value}))
     }
 
     const semesterInAnArray = []
 
     let idx = 1
-    for(let i = moment().year(); i <= moment().year() + 1; i++) {
+    for(let i = moment().year() - 3; i <= moment().year() + 1; i++) {
         for(let j = 1; j <= 3; j++ ){
             semesterInAnArray.push(
-                <option value={`${j} - ${i}`} key={idx}>
+                <option value={`Semester ${j} - ${i}`} key={idx}>
                     Semester {j} - {i}
                 </option>
             )
@@ -94,7 +86,7 @@ const CourseDetail = () => {
 
     const handleSubmitForm = (e) => {
         e.preventDefault()
-        console.log(courseData)
+        dispatch(updateCourse({courseData: courseData, id: id, token: combinedToken}))
     }
 
     return (
@@ -137,30 +129,30 @@ const CourseDetail = () => {
                     </div>
 
                     {
-                        assignment.map((item, idx) => (
-                        <div className="accordion-item mt-2" key={item.idxNo}>
+                        assignmentList.map((item, idx) => (
+                        <div className="accordion-item mt-2" key={item.assignmentNo}>
                             <h2 className="accordion-header">
-                                <button className={`accordion-button ${item.idxNo === '01' ? '' : 'collapsed'}`} type="button" data-bs-toggle="collapse" data-bs-target={`#panelsStayOpen-collapse${item.idxNo}`} aria-expanded="true" aria-controls={`panelsStayOpen-collapse${item.idxNo}`}>
-                                    Assessment {item.idxNo}
+                                <button className={`accordion-button ${item.assignmentNo === 1 ? '' : 'collapsed'}`} type="button" data-bs-toggle="collapse" data-bs-target={`#panelsStayOpen-collapse${item.assignmentNo}`} aria-expanded="true" aria-controls={`panelsStayOpen-collapse${item.assignmentNo}`}>
+                                    Assessment {item.assignmentNo}
                                 </button>
                             </h2>
-                            <div id={`panelsStayOpen-collapse${item.idxNo}`} className={`accordion-collapse collapse ${item.idxNo === '01' ? 'show' : ''}`}>
+                            <div id={`panelsStayOpen-collapse${item.assignmentNo}`} className={`accordion-collapse collapse ${item.assignmentNo === 1 ? 'show' : ''}`}>
                                 <div className="accordion-body d-flex justify-content-between">
                                     <div className="mb-3 w-100">
                                         <label htmlFor="assignmentName01" className="form-label">Name Assignment </label>
                                         <input type="text" className="form-control" id="assignmentName01" aria-describedby="assignmentName01" 
-                                        name='assignmentName' value={item.assignmentName} onChange={(e) => handleInputAssignment(e, idx)}/>
+                                        name='assignmentName' value={item.assignmentName ? item.assignmentName : ""} onChange={(e) => handleInputAssignment(e, idx)}/>
                                     </div>
                                     <div className="d-flex ms-4">
                                         <div className="mb-3">
                                             <label htmlFor="assignmentStartDate01" className="form-label">Star Date</label>
                                             <input type="date" className="form-control" id="assignmentStartDate01"
-                                            name='startDate' value={item.startDate} onChange={(e) => handleInputAssignment(e, idx)}/>
+                                            name='startDate' value={item.startDate ? item.startDate : ""} onChange={(e) => handleInputAssignment(e, idx)}/>
                                         </div>
                                         <div className="mb-3 ms-4">
                                             <label htmlFor="assignmentEndDate01" className="form-label">End Date</label>
                                             <input type="date" className="form-control" id="assignmentEndDate01"
-                                            name='endDate' value={item.endDate} onChange={(e) => handleInputAssignment(e, idx)}/>
+                                            name='endDate' value={item.endDate ? item.endDate : ""} onChange={(e) => handleInputAssignment(e, idx)}/>
                                         </div>
                                     </div>
                                     
@@ -168,6 +160,7 @@ const CourseDetail = () => {
                             </div>
                         </div>
                         ))
+                        
                     }
                 </div>
 
@@ -178,7 +171,7 @@ const CourseDetail = () => {
                     </div>
 
                     <div className="course_text_editor">
-                        <TextEditor value={CLOs} onSendValue={handleTextEditor}/>
+                        <TextEditor value={clos} onSendValue={handleTextEditor}/>
                     </div>
                 </div>
                 

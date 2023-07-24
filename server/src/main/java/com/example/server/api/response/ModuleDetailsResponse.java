@@ -13,6 +13,6 @@ import java.util.List;
 public class ModuleDetailsResponse {
     private String name;
     private String los;
-    private List<SessionDetailsResponse> sessionDetailsResponses;
+    private List<SessionDetailsResponse> sessionList;
 
 }

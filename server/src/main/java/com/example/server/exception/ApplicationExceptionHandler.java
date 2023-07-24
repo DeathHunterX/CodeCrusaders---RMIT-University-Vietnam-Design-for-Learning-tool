@@ -1,19 +1,23 @@
 package com.example.server.exception;
 
+import com.example.server.api.response.ErrorExceptionResponse;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class ApplicationExceptionHandler {
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -25,5 +29,17 @@ public class ApplicationExceptionHandler {
       errors.put(fieldName,errorMessage);
     });
     return errors;
+  }
+  @ExceptionHandler(NoHandlerFoundException.class)
+  public ResponseEntity<String> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+    String responseBody = "{\"status\": 404, \"error\": \"Resource not found\"}";
+    return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(ObjectNotFoundException.class)
+  public ResponseEntity<ErrorExceptionResponse> handleObjectNotFoundException(ObjectNotFoundException ex) {
+    var errorResponse = ErrorExceptionResponse.builder()
+            .error(String.format("%s not found with this %s", ex.getResourceName(), ex.getFieldName())).build();
+    return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
   }
 }

@@ -14,6 +14,6 @@ public interface SessionService {
   Session createSession(Session session);
   void deleteSession(UUID id);
 
-  ResponseEntity<Session> updateSession(Session sessionInfo, UUID id);
+  ResponseEntity<?> updateSessionInfo(Session sessionInfo, UUID id);
 }
 

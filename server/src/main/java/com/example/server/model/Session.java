@@ -2,6 +2,7 @@ package com.example.server.model;
 
 
 import com.example.server.model.enums.GroupingType;
+import com.example.server.model.enums.InteractionType;
 import com.example.server.model.enums.SessionOption;
 import com.example.server.model.enums.SessionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -35,6 +36,9 @@ public class Session {
   @Enumerated(EnumType.STRING)
   private SessionOption sessionOption;
 
+  @Enumerated(EnumType.STRING)
+  private InteractionType interactionType;
+
   private Boolean hasLecturer;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -45,11 +49,16 @@ public class Session {
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "session")
   private List<Activity> activityList = new ArrayList<>();
 
-  public Session(SessionType sessionType, GroupingType groupingType, SessionOption sessionOption, Boolean hasLecturer) {
+  public Session(SessionType sessionType, GroupingType groupingType, SessionOption sessionOption, Boolean hasLecturer, InteractionType interactionType) {
     this.sessionType = sessionType;
     this.groupingType = groupingType;
     this.sessionOption = sessionOption;
     this.hasLecturer = hasLecturer;
+    this.interactionType = interactionType;
+  }
+
+  public Session(SessionType sessionType) {
+    this.sessionType = sessionType;
   }
 
 

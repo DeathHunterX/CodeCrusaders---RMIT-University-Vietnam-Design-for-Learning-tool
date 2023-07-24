@@ -1,5 +1,5 @@
 import React from "react";
-import { Page, Text, Document, StyleSheet, View } from "@react-pdf/renderer";
+import { Page, Text, Document, StyleSheet } from "@react-pdf/renderer";
 const styles = StyleSheet.create({
   title: {
     fontSize: 16,

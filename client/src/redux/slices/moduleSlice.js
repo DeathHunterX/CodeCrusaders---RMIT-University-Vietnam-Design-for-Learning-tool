@@ -5,6 +5,7 @@ const initialState = {
     isLoading: false,
     isSuccess: false,
     moduleList: [],
+    moduleMessage: "",
     message: ""
 }
 
@@ -72,8 +73,8 @@ const moduleSlice = createSlice({
             .addCase(getModules.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.moduleList = action.payload;
-                state.message = ""
+                state.moduleList = action.payload.message ? [] : action.payload;
+                state.moduleMessage = action.payload.message
             })
             .addCase(getModules.rejected, (state, action) => {
                 state.isLoading = false;

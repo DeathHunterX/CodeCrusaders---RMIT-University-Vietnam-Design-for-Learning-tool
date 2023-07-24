@@ -14,7 +14,7 @@ import { createModule, deleteModule, getModules} from '../../../../redux/slices/
 const ModulesComponent = () => {
   const {type, token} = useSelector(state => state.auth.user)
   // const {course} = useSelector(state => state.course)
-  const {moduleList, isSuccess} = useSelector(state => state.module)
+  const {moduleList, moduleMessage, isSuccess} = useSelector(state => state.module)
 
   const combinedToken = `${type} ${token}`
   const dispatch = useDispatch()
@@ -55,9 +55,9 @@ const ModulesComponent = () => {
 
       <div className="module_table mt-2">
         {
-          moduleList.message ? 
+          moduleList.length === 0 ? 
           <div>
-            <h1>{moduleList.message}</h1>
+            <h1>{moduleMessage}</h1>
           </div>
           :  
           <table className="table">

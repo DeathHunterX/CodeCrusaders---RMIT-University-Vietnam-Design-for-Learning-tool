@@ -20,7 +20,5 @@ public class CourseUpdateRequest {
 
     private String clos;
 
-    private UUID userID;
-
     private List<AssignmentRequest> assignmentRequestList;
 }

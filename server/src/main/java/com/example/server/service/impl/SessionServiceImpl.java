@@ -1,9 +1,12 @@
 package com.example.server.service.impl;
 
+import com.example.server.api.request.AssignmentRequest;
+import com.example.server.api.request.SessionUpdateRequest;
 import com.example.server.api.response.SessionResponse;
 import com.example.server.exception.ObjectNotFoundException;
-import com.example.server.model.Module;
+import com.example.server.model.Assignment;
 import com.example.server.model.Session;
+import com.example.server.model.enums.SessionType;
 import com.example.server.repository.SessionRepository;
 import com.example.server.service.SessionService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -58,5 +62,23 @@ public class SessionServiceImpl implements SessionService {
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+  }
+
+  @Override
+  public void updateSessionBySessionType(List<SessionUpdateRequest> sessionUpdateRequests, List<Session> oldModuleList, SessionType sessionType) {
+    List<SessionUpdateRequest> filteredSessions = sessionUpdateRequests.stream()
+            .filter(e->e.getSessionType().equals(sessionType))
+            .collect(Collectors.toList());
+    List<Session> filteredOldSessions = oldModuleList.stream()
+            .filter(e->e.getSessionType().equals(sessionType))
+            .collect(Collectors.toList());
+    SessionUpdateRequest sessionUpdateRequest = filteredSessions.get(0);
+    Session session = filteredOldSessions.get(0);
+    session.setHasLecturer(sessionUpdateRequest.getHasLecturer());
+    session.setSessionOption(sessionUpdateRequest.getSessionOption());
+    session.setGroupingType(sessionUpdateRequest.getGroupingType());
+    session.setInteractionType(sessionUpdateRequest.getInteractionType());
+    sessionRepository.save(session);
+    System.out.println("Successfully update session!");
   }
 }

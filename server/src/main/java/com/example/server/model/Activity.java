@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-//@MappedSuperclass
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,7 +33,9 @@ public abstract class Activity {
     @JsonIgnore
     private Session session;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 }
 
 

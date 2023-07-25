@@ -43,20 +43,20 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public void updateAssignmentByAssignmentNumber(List<AssignmentRequest> assignmentRequestList, int assignmentNo, UUID courseId) {
-
-
-        Assignment assignment = assignmentRepository.findByAssignmentNo(assignmentNo)
-                .orElseThrow(() -> new ObjectNotFoundException("Assignment", "assignmentNo"));
+    public void updateAssignmentByAssignmentNumber(List<AssignmentRequest> assignmentRequestList,List<Assignment> oldAsignmentList, int assignmentNo) {
         List<AssignmentRequest> filteredAssignments = assignmentRequestList.stream()
+                .filter(e->e.getAssignmentNo()==assignmentNo)
+                .collect(Collectors.toList());
+        List<Assignment> filteredOldAssignments = oldAsignmentList.stream()
                 .filter(e->e.getAssignmentNo()==assignmentNo)
                 .collect(Collectors.toList());
         if(filteredAssignments.size()==0) return;
         AssignmentRequest _assignmentRequest = filteredAssignments.get(0);
+        Assignment assignment = filteredOldAssignments.get(0);
         assignment.setAssignmentName(_assignmentRequest.getAssignmentName());
         assignment.setStartDate(_assignmentRequest.getStartDate());
         assignment.setEndDate(_assignmentRequest.getEndDate());
         assignmentRepository.save(assignment);
-        System.out.println("Successfully update the assignment!");
+//        System.out.println("Successfully update the assignment!");
     }
 }

@@ -56,13 +56,14 @@ public class ServerApplication implements CommandLineRunner {
     Assignment assignment8 = new Assignment(2,"Mid-term 3",  LocalDate.of(2023, 2, 6),LocalDate.of(2023, 6, 6));
     Assignment assignment9 = new Assignment(3,"Final 3",  LocalDate.of(2023, 3, 6),LocalDate.of(2023, 6, 6));
 
-    Module module1 = new Module("module1", "");
+    Module module1 = new Module("module1","");
     Module module2 = new Module("module2","");
     Module module3 = new Module("module3","");
 
-    Module module4 = new Module("module4", "");
+    Module module4 = new Module("module4","");
     Module module5 = new Module("module5","");
     Module module6 = new Module("module6","");
+
 
     Course course1 = new Course("Course 01","BP0580","Semester 1 - 2020","<p>Hello World!</p>");
     Course course2 = new Course("Course 02","BP0475","Semester 1 - 2021","<p>Hello World!</p>");

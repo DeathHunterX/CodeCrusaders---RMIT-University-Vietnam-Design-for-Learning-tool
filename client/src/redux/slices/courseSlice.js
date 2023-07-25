@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import { deleteDataAPI, getDataAPI, patchDataAPI, postDataAPI } from '../../utils/fetchData';
+import { deleteDataAPI, getDataAPI, postDataAPI, putDataAPI } from '../../utils/fetchData';
 
 
 const initialState = {
@@ -23,7 +23,6 @@ export const getAllCourses = createAsyncThunk('courses/getCourses', async(token,
 })
 
 export const getCourse = createAsyncThunk('courses/getCourse', async({id, token}, thunkAPI) => {
-
     try {
         const res = await getDataAPI(`courses/${id}`, token)
         return res.data
@@ -34,9 +33,10 @@ export const getCourse = createAsyncThunk('courses/getCourse', async({id, token}
 })
 
 export const createCourse = createAsyncThunk('courses/createCourse', async({courseData, token}, thunkAPI) => {
+    console.log({courseData, token})
     try {
         const res = await postDataAPI('create-course', courseData, token)
-
+        console.log("Response", res)
         return res.data
     } catch (err) {
         const errMessage = err.response?.data?.message || err.message;
@@ -44,9 +44,10 @@ export const createCourse = createAsyncThunk('courses/createCourse', async({cour
     }
 })
 
-export const updateCourse = createAsyncThunk('courses/updateCourse', async({id, courseData, token}, thunkAPI) => {
+export const updateCourse = createAsyncThunk('courses/updateCourse', async({courseData, id, token}, thunkAPI) => {
     try {
-        const res = await patchDataAPI(`update-course/${id}`, courseData, token)
+        const res = await putDataAPI(`update-course/${id}`, courseData, token)
+        console.log(res)
         return res.data
     } catch (err) {
         const errMessage = err.response?.data?.message || err.message;

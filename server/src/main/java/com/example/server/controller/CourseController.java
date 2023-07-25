@@ -1,11 +1,8 @@
 package com.example.server.controller;
 
-//import com.example.server.api.response.CourseResponse;
 import com.example.server.api.request.CourseRequest;
 import com.example.server.api.request.CourseUpdateRequest;
 import com.example.server.api.response.ApiResponse;
-import com.example.server.api.response.CourseResponse;
-import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Course;
 import com.example.server.model.CustomUserDetails;
 import com.example.server.model.User;
@@ -13,8 +10,6 @@ import com.example.server.repository.CourseRepository;
 import com.example.server.repository.UserRepository;
 import com.example.server.service.CourseService;
 import com.example.server.service.impl.UserDetailsServiceImpl;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -25,15 +20,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("v1/api")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 public class CourseController {
   private final CourseService courseService;
@@ -54,7 +47,7 @@ public class CourseController {
   private UserDetails getCurrentUser() {
     SecurityContext securityContext = SecurityContextHolder.getContext();
     Authentication authentication = securityContext.getAuthentication();
-    System.out.println(authentication);
+//    System.out.println(authentication);
     if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof CustomUserDetails) {
       CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
       return userDetails;
@@ -75,6 +68,7 @@ public class CourseController {
     Course course = courseService.getCourseById(course_id);
     return new ResponseEntity<>(course.getModuleList(),HttpStatus.OK);
   }
+
   @PostMapping("/create-course")
   public ResponseEntity<?> createCourse(@RequestBody CourseRequest courseRequest) {
     UserDetails userDetails = getCurrentUser();
@@ -83,7 +77,6 @@ public class CourseController {
     }
     CustomUserDetails customUserDetails = userDetailsService.loadUserByUsername(userDetails.getUsername());
     User user = customUserDetails.getUser();
-
     return ResponseEntity.ok(courseService.createCourse(courseRequest,user));
   }
 
@@ -112,6 +105,11 @@ public class CourseController {
     }
     return new ResponseEntity<>(new ApiResponse("Successfully delete course"),HttpStatus.OK);
   }
+
+//  @PostMapping("courses/{course_id}/create-activity")
+//  public ResponseEntity<?> addActivityToCourse(@PathVariable("course_id") UUID courseId) {
+//
+//  }
 
 
 

@@ -65,8 +65,6 @@ public class ServerApplication implements CommandLineRunner {
     Module module6 = new Module("module6","");
 
 
-
-
     Course course1 = new Course("Course 01","BP0580","Semester 1 - 2020","<p>Hello World!</p>");
     Course course2 = new Course("Course 02","BP0475","Semester 1 - 2021","<p>Hello World!</p>");
     Course course3 = new Course("Course 03","BP0152","Semester 3 - 2022","<p>Hello World!</p>");
@@ -92,7 +90,7 @@ public class ServerApplication implements CommandLineRunner {
     module6.setCourse(course2);
 
 
-    Session preClass = new Session(SessionType.PRE_CLASS, GroupingType.SMALL_GROUP, SessionOption.F2F,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
+    Session preClass = new Session(SessionType.PRE_CLASS, GroupingType.CLASS, SessionOption.F2F,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
     Session inClass = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.SYNCHRONOUS);
     Session postClass = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
     Session preClass1 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
@@ -102,10 +100,10 @@ public class ServerApplication implements CommandLineRunner {
     Session inClass2 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
     Session postClass2 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE, InteractionType.SYNCHRONOUS);
 
-    Session preClass3 = new Session(SessionType.PRE_CLASS, GroupingType.SMALL_GROUP, SessionOption.F2F,Boolean.TRUE, InteractionType.SYNCHRONOUS);
+    Session preClass3 = new Session(SessionType.PRE_CLASS, GroupingType.CLASS, SessionOption.F2F,Boolean.TRUE, InteractionType.SYNCHRONOUS);
     Session inClass3 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
     Session postClass3 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE, InteractionType.SYNCHRONOUS);
-    Session preClass4 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
+    Session preClass4 = new Session(SessionType.PRE_CLASS, GroupingType.CLASS, SessionOption.HYBRID,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
     Session inClass4 = new Session(SessionType.IN_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.SYNCHRONOUS);
     Session postClass4 = new Session(SessionType.POST_CLASS, GroupingType.CLASS, SessionOption.ONLINE,Boolean.TRUE, InteractionType.ASYNCHRONOUS);
     Session preClass5 = new Session(SessionType.PRE_CLASS, GroupingType.INDIVIDUAL, SessionOption.HYBRID,Boolean.TRUE, InteractionType.SYNCHRONOUS);
@@ -140,13 +138,19 @@ public class ServerApplication implements CommandLineRunner {
     User user1 = new User();
     user1.setName("Khang");
     user1.setUsername("khang123");
-
     user1.setPassword(passwordEncoder.encode("12345678"));
     Set<Course> courses = new HashSet<>(List.of(course1,course2));
     user1.setCourses(courses);
 
+    User user2 = new User();
+    user2.setName("Loi");
+    user2.setUsername("loi123");
+    user2.setPassword(passwordEncoder.encode("12345678"));
+    Set<Course> courses2 = new HashSet<>(List.of(course3,course4,course5));
+    user2.setCourses(courses2);
+
     courseRepository.saveAll(List.of(course1,course2,course3,course4,course5));
-    userRepository.save(user1);
+    userRepository.saveAll(List.of(user1,user2));
 
     moduleRepository.saveAll(List.of(module1,module2,module3,module4,module5,module6));
     sessionRepository.saveAll(List.of(preClass, inClass, postClass, preClass1, inClass1, postClass1, preClass2, inClass2, postClass2,preClass3,inClass3,postClass3,preClass4,inClass4,postClass4,preClass5,inClass5,postClass5));

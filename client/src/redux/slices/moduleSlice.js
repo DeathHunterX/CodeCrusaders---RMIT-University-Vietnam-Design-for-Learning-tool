@@ -22,7 +22,7 @@ export const getModules = createAsyncThunk('module/getModules', async({id, token
 
 export const createModule = createAsyncThunk('module/createModule', async({moduleData, id, token}, thunkAPI) => {
     try {
-        const res = await postDataAPI(`course/${id}/create-module`, moduleData, token)
+        const res = await postDataAPI(`courses/${id}/create-module`, moduleData, token)
         return res.data
 
     } catch (err) {

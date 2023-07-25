@@ -21,7 +21,10 @@ public class Module {
 
   private String name;
 
+  @Column(length = 1000000000)
   private String los;
+
+  private int moduleWeek;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "module")
   private List<Session> sessionList = new ArrayList<>();

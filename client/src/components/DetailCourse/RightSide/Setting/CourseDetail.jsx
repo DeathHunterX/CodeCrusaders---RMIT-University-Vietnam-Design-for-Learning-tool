@@ -145,7 +145,7 @@ const CourseDetail = () => {
                                     </div>
                                     <div className="d-flex ms-4">
                                         <div className="mb-3">
-                                            <label htmlFor="assignmentStartDate01" className="form-label">Star Date</label>
+                                            <label htmlFor="assignmentStartDate01" className="form-label">Start Date</label>
                                             <input type="date" className="form-control" id="assignmentStartDate01"
                                             name='startDate' value={item.startDate ? item.startDate : ""} onChange={(e) => handleInputAssignment(e, idx)}/>
                                         </div>

@@ -72,12 +72,15 @@ public class ModuleServiceImpl implements ModuleService {
     public ResponseEntity<?> createModule(UUID courseId, ModuleCreateRequest moduleCreateRequest) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ObjectNotFoundException("Course", "id"));
+        System.out.println("Can find course");
         Session preClass = new Session(SessionType.PRE_CLASS);
         Session inClass = new Session(SessionType.IN_CLASS);
         Session postClass = new Session(SessionType.POST_CLASS);
         List<Session> sessionList = new ArrayList<>();
         sessionList.addAll(List.of(preClass, inClass, postClass));
         Module module = new Module(moduleCreateRequest.getModuleName(), sessionList);
+        System.out.println("set module");
+
         sessionList.stream().forEach(e -> e.setModule(module));
         module.setCourse(course);
         return new ResponseEntity<>(moduleRepository.save(module), HttpStatus.OK);

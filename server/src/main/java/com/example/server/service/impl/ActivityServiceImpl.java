@@ -1,6 +1,7 @@
 package com.example.server.service.impl;
 
 import com.example.server.model.Activity;
+import com.example.server.model.Course;
 import com.example.server.model.activities.*;
 import com.example.server.model.enums.ActivityType;
 import com.example.server.repository.ActivityRepository;
@@ -30,35 +31,42 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public Activity createActivity(String activityType) {
+    public Activity createActivity(String activityType, Course course) {
         switch (activityType) {
             case "activity-01":
                 WarmUp warmUp = new WarmUp();
                 warmUp.setActivityType(ActivityType.WARM_UP);
+                warmUp.setCourse(course);
                 return activityRepository.save(warmUp);
             case "activity-02":
                 ReadWatchListen readWatchListen = new ReadWatchListen();
                 readWatchListen.setActivityType(ActivityType.READ_WATCH_LISTEN);
+                readWatchListen.setCourse(course);
                 return activityRepository.save(readWatchListen);
             case "activity-03":
                 Reflect reflect = new Reflect();
                 reflect.setActivityType(ActivityType.REFLECT);
+                reflect.setCourse(course);
                 return activityRepository.save(reflect);
             case "activity-04":
                 Discuss discuss = new Discuss();
                 discuss.setActivityType(ActivityType.DISCUSS);
+                discuss.setCourse(course);
                 return activityRepository.save(discuss);
             case "activity-05":
                 Collaborate collaborate = new Collaborate();
                 collaborate.setActivityType(ActivityType.COLLABORATE);
+                collaborate.setCourse(course);
                 return activityRepository.save(collaborate);
             case "activity-06":
                 Assess assess = new Assess();
                 assess.setActivityType(ActivityType.ASSESS);
+                assess.setCourse(course);
                 return activityRepository.save(assess);
             case "activity-07":
                 Break breakAct = new Break();
                 breakAct.setActivityType(ActivityType.BREAK);
+                breakAct.setCourse(course);
                 return activityRepository.save(breakAct);
             default:
                 break;

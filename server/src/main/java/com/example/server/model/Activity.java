@@ -35,6 +35,7 @@ public abstract class Activity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Course course;
 }
 

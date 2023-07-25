@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 public class WarmUp extends Activity {
     private String warmUpOption;
-    private String doNowOption;
+    private String engagementOption;
 
 
 }

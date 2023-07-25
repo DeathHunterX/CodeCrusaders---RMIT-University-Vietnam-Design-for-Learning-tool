@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("v1/api")
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 public class AssignmentController {
     private final AssignmentService assignmentService;

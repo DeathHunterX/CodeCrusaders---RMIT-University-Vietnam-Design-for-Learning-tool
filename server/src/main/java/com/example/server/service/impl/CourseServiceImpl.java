@@ -5,6 +5,7 @@ import com.example.server.api.request.CourseRequest;
 import com.example.server.api.request.CourseUpdateRequest;
 import com.example.server.api.response.CourseResponse;
 import com.example.server.exception.ObjectNotFoundException;
+import com.example.server.model.Activity;
 import com.example.server.model.Assignment;
 import com.example.server.model.Course;
 import com.example.server.model.User;
@@ -43,7 +44,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course getCourseById(UUID id) {
         return courseRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException("Course", "id", 404));
+                .orElseThrow(() -> new ObjectNotFoundException("Course", "id"));
     }
 
     @Override
@@ -85,4 +86,5 @@ public class CourseServiceImpl implements CourseService {
         Course savedCourse = courseRepository.save(_course);
         return new ResponseEntity<>(savedCourse, HttpStatus.OK);
     }
+
 }

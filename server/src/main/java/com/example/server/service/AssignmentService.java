@@ -15,6 +15,6 @@ public interface AssignmentService {
   Assignment createAssignment(Assignment assignment);
   void deleteAssignment(UUID id);
 
-  void updateAssignmentByAssignmentNumber(List<AssignmentRequest> assignmentRequestList, int assignmentNo, UUID courseId);
+  void updateAssignmentByAssignmentNumber(List<AssignmentRequest> assignmentRequestList, List<Assignment> oldAsignmentList, int assignmentNo);
 }
 

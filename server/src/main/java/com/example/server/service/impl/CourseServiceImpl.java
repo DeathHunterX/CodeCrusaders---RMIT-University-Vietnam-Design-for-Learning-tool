@@ -67,29 +67,22 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public ResponseEntity<?> updateCourse(CourseUpdateRequest courseUpdateRequest, UUID id) {
-        return null;
+    @Transactional
+    public ResponseEntity<Course> updateCourse(CourseUpdateRequest courseUpdateRequest, UUID id) {
+        var _course = courseRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Course", "id"));
+        _course.setCourseName(courseUpdateRequest.getCourseName());
+        _course.setCourseCode(courseUpdateRequest.getCourseCode());
+        _course.setCourseSemester(courseUpdateRequest.getCourseSemester());
+        _course.setClos(courseUpdateRequest.getClos());
+        List<Assignment> oldAssignmentList = _course.getAssignmentList();
+        System.out.println(courseUpdateRequest.getAssignmentRequestList());
+        List<AssignmentRequest> newAssignmentList = courseUpdateRequest.getAssignmentRequestList();
+        System.out.println(newAssignmentList);
+        for(int i = 1; i < 4; i++) {
+            assignmentService.updateAssignmentByAssignmentNumber(newAssignmentList, oldAssignmentList, i);
+        }
+        Course savedCourse = courseRepository.save(_course);
+        return new ResponseEntity<>(savedCourse, HttpStatus.OK);
     }
-
-//    @Override
-//    @Transactional
-//    public ResponseEntity<Course> updateCourse(CourseUpdateRequest courseUpdateRequest, UUID id) {
-//        var _course = courseRepository.findById(id)
-//                .orElseThrow(() -> new ObjectNotFoundException("Course", "id"));
-//        _course.setCourseName(courseUpdateRequest.getCourseName());
-//        _course.setCourseCode(courseUpdateRequest.getCourseCode());
-//        _course.setCourseSemester(courseUpdateRequest.getCourseSemester());
-//        _course.setClos(courseUpdateRequest.getClos());
-//        List<Assignment> oldAssignmentList = _course.getAssignmentList();
-//        List<AssignmentRequest> newAssignmentList = courseUpdateRequest.getAssignmentRequestList();
-//        for(Assignment assignment : oldAssignmentList) {
-//            assignmentService.updateAssignmentByAssignmentNumber(newAssignmentList, assignment.getAssignmentNo());
-//        }
-//        System.out.println(newAssignmentList);
-////        _course.setAssignmentList(newAssignmentList);
-//        Course savedCourse = courseRepository.save(_course);
-//
-////        System.out.println(newAssignmentList.size());
-//        return new ResponseEntity<>(savedCourse, HttpStatus.OK);
-//    }
 }

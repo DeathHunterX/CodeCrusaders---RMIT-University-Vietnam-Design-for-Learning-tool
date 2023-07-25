@@ -4,4 +4,5 @@ public enum SessionType {
   PRE_CLASS,
   IN_CLASS,
   POST_CLASS
+
 }

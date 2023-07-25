@@ -1,6 +1,7 @@
 package com.example.server.controller;
 
 import com.example.server.api.request.ModuleCreateRequest;
+import com.example.server.api.request.ModuleRequest;
 import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
@@ -25,18 +26,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("v1/api")
 @RequiredArgsConstructor
 public class ModuleController {
   private final ModuleService moduleService;
   private final CourseService courseService;
-
-//  @GetMapping("modules")
-//  public List<Module> getAllModules() {
-//    return moduleService.getAllModules();
-//  }
 
   @GetMapping("courses/{course_id}/module-names")
   public ResponseEntity<?> getAllModuleNamesByCourseId(@PathVariable UUID course_id) {
@@ -54,14 +50,14 @@ public class ModuleController {
     return new ResponseEntity<>(moduleDetailsResponse,HttpStatus.OK);
   }
 
-  @PostMapping("course/{course_id}/create-module")
+  @PostMapping("courses/{course_id}/create-module")
   public ResponseEntity<?> createModule(@PathVariable UUID course_id, @RequestBody ModuleCreateRequest moduleCreateRequest) {
     return moduleService.createModule(course_id, moduleCreateRequest);
   }
 
 
   @PutMapping("/update-module/{id}")
-  public ResponseEntity<Module> updateModule(@PathVariable("id") UUID id, @RequestBody Module moduleInfo) {
+  public ResponseEntity<Module> updateModule(@PathVariable("id") UUID id, @RequestBody ModuleRequest moduleInfo) {
     return moduleService.updateModule(moduleInfo,id);
   }
 

@@ -21,7 +21,12 @@ public class Module {
 
   private String name;
 
+  @Column(length = 1000000000)
   private String los;
+
+  private int moduleWeek;
+
+  private int totalDuration;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "module")
   private List<Session> sessionList = new ArrayList<>();
@@ -34,6 +39,7 @@ public class Module {
   public Module(String name, String los) {
     this.name = name;
     this.los = los;
+    this.totalDuration = 90;
   }
 
   public Module(String name, List<Session> sessionList) {

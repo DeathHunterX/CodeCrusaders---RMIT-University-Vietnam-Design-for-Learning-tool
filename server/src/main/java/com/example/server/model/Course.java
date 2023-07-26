@@ -25,6 +25,7 @@ public class Course {
 
     private String courseSemester;
 
+    @Column(length = 1000000000)
     private String clos;
 
     @ManyToMany(mappedBy = "courses")
@@ -37,6 +38,10 @@ public class Course {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
     private List<Module> moduleList;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Activity> activityList = new ArrayList<>();
 
 
     public Course(String courseName, String courseCode, String semester, String clos) {

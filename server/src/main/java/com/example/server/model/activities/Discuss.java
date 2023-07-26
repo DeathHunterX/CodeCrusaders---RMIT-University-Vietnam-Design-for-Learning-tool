@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Reflection extends Activity {
-    private String reflectionType;
+public class Discuss extends Activity {
+    private String groupType;
 }

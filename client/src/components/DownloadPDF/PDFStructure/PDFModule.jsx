@@ -7,12 +7,14 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontWeight: "bold",
     paddingTop: 16,
+    marginBottom: 8,
   },
   subtitle: {
     fontSize: 12,
     textAlign: "left",
     fontWeight: "bold",
     marginHorizontal: 14,
+    marginBottom: 8,
   },
   text: {
     fontSize: 10,
@@ -27,7 +29,7 @@ const PDFModule = () => {
   return (
     <Document>
       <Text style={styles.title}>Modules</Text>
-      <Text style={styles.text}>Class size</Text>
+      <Text style={styles.subtitle}>Class size: 123</Text>
 
       <PDFAModule />
       <View style={styles.line}></View>

@@ -5,24 +5,31 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "left",
     fontWeight: "bold",
+    marginBottom: 8,
   },
   subtitle: {
     fontSize: 12,
     textAlign: "left",
     fontWeight: "bold",
     marginHorizontal: 14,
+    marginBottom: 6,
   },
   text: {
-    margin: 12,
-    fontSize: 10,
+    fontSize: 12,
     textAlign: "justify",
+  },
+  textClo: {
+    fontSize: 12,
+    textAlign: "justify",
+    marginHorizontal: 28,
+    marginBottom: 4,
   },
 });
 const PDFCourse = () => {
   return (
     <Document>
       <Text style={styles.title} fixed>
-        Course
+        Course:
       </Text>
 
       <Text style={styles.subtitle}>
@@ -40,17 +47,22 @@ const PDFCourse = () => {
         Semester:
         <Text style={styles.text}> 1</Text>
       </Text>
-      <Text style={styles.subtitle}>
-        CLOs:
-        <Text style={styles.text}>
-          {" "}
-          Demonstrate knowledge of basic concepts, syntax and control structures
-          in programming. Devise solutions to simple computing problems under
-          specific requirements. Encode the devised solutions into computer
-          programs and test the programs on a computer. Demonstrate an
-          understanding of standard coding conventions and ethical
-          considerations in programming.
-        </Text>
+      <Text style={styles.subtitle}>CLOs(Course Learning Objecttives):</Text>
+      <Text style={styles.textClo}>
+        Demonstrate knowledge of basic concepts, syntax and control structures
+        in programming.
+      </Text>
+      <Text style={styles.textClo}>
+        Devise solutions to simple computing problems under specific
+        requirements.
+      </Text>
+      <Text style={styles.textClo}>
+        Encode the devised solutions into computer programs and test the
+        programs on a computer.
+      </Text>
+      <Text style={styles.textClo}>
+        Demonstrate an understanding of standard coding conventions and ethical
+        considerations in programming.
       </Text>
     </Document>
   );

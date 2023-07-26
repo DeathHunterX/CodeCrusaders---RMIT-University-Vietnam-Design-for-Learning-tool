@@ -7,15 +7,18 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontWeight: "bold",
     paddingTop: 16,
+    marginBottom: 8,
   },
   subtitle: {
     fontSize: 12,
     textAlign: "left",
     fontWeight: "bold",
     marginHorizontal: 14,
+    marginBottom: 6,
   },
+
   text: {
-    fontSize: 10,
+    fontSize: 12,
     textAlign: "justify",
     marginHorizontal: 22,
   },
@@ -24,48 +27,42 @@ const PDFAsg = () => {
   return (
     <Document>
       <Text style={styles.title} fixed>
-        Assessment Detail
+        Assessment Detail:
       </Text>
       <View>
-        <Text style={styles.subtitle}>Assessment 1:</Text>
-
-        <Text style={styles.text}>
-          Name:
-          <Text style={styles.text}> Turtle Graphics</Text>
+        <Text style={styles.subtitle}>
+          Assessment 1:
+          <Text style={styles.subtitle}> Turtle Graphics</Text>
         </Text>
-        <Text style={styles.text}>
+        <Text style={styles.subtitle}>
           Date:
-          <Text style={styles.text}> 01/12</Text>
+          <Text style={styles.subtitle}> 01/12</Text>
           {"-"}
-          <Text style={styles.text}> 01/02</Text>
+          <Text style={styles.subtitle}> 01/02</Text>
         </Text>
       </View>
       <View>
-        <Text style={styles.subtitle}>Assessment 1:</Text>
-
-        <Text style={styles.text}>
-          Name:
-          <Text style={styles.text}> Turtle Graphics</Text>
+        <Text style={styles.subtitle}>
+          Assessment 1:
+          <Text style={styles.subtitle}> Turtle Graphics</Text>
         </Text>
-        <Text style={styles.text}>
+        <Text style={styles.subtitle}>
           Date:
-          <Text style={styles.text}> 01/12</Text>
+          <Text style={styles.subtitle}> 01/12</Text>
           {"-"}
-          <Text style={styles.text}> 01/02</Text>
+          <Text style={styles.subtitle}> 01/02</Text>
         </Text>
       </View>
       <View>
-        <Text style={styles.subtitle}>Assessment 1:</Text>
-
-        <Text style={styles.text}>
-          Name:
-          <Text style={styles.text}> Turtle Graphics</Text>
+        <Text style={styles.subtitle}>
+          Assessment 1:
+          <Text style={styles.subtitle}> Turtle Graphics</Text>
         </Text>
-        <Text style={styles.text}>
+        <Text style={styles.subtitle}>
           Date:
-          <Text style={styles.text}> 01/12</Text>
+          <Text style={styles.subtitle}> 01/12</Text>
           {"-"}
-          <Text style={styles.text}> 01/02</Text>
+          <Text style={styles.subtitle}> 01/02</Text>
         </Text>
       </View>
     </Document>

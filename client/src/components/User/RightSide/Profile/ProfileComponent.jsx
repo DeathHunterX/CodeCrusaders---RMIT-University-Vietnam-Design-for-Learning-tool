@@ -160,19 +160,7 @@ const ProfileComponent = () => {
                 </div>
               </div>
 
-              {/* <div className="form_group mb-3">
-                <label htmlFor="address">Address</label>
-                <div className="position-relative">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="address"
-                    name="address"
-                    value={address}
-                    onChange={handleInput}
-                  />
-                </div>
-              </div> */}
+
 
               <div className="form_group mb-3 col-md-6">
                 <label htmlFor="address">Country</label>

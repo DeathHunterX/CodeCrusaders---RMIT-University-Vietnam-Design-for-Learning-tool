@@ -40,10 +40,8 @@ const MoreOptions = () => {
     return (
         <div className='more_options_container'>
             <div className="">
-                <h6>Delete Course</h6>
-
+                <button className='btn btn-danger' onClick={togglePopUp}>Delete Course</button>
             </div>
-            <button className='btn btn-danger' onClick={togglePopUp}>Delete Course</button>
 
             
             <div className={`popup_form ${popUpStat === true ? 'active' : ''}`}>
@@ -62,9 +60,9 @@ const MoreOptions = () => {
                     <div className="mb-4">
                         <div className="">
                             <div className="fw-bold mb-2">Delete this course ?</div>
-                            There will <span className="fw-bold">be nothing left for this course anywhere</span>. This action is
-                            irrevocable and cannot be undone, not even with fairy dust. <br />
-                            Are you absolutely sure you want to delete course "{course.courseCode} - {course.courseName}" ?
+                            There will <span className="fw-bold">be nothing left for this course</span>. This action is
+                            irreversible and cannot be undone, not even with fairy dust. <br />
+                            Do you want to delete course "{course.courseCode} - {course.courseName}" ?
                         </div>
                       
                     </div>

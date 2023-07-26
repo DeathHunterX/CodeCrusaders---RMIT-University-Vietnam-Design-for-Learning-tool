@@ -13,9 +13,9 @@ const CourseCard = ({data}) => {
             <div className="card-body d-flex flex-column justify-content-between">
                 <h6 className="card_title">{data.courseName}</h6>
                 <div className="">
-                  <p className="card_text text-uppercase">OENG1183</p>
+                  <p className="card_text text-uppercase">{data.courseCode}</p>
                   <div className="d-flex justify-content-between align-items-center">
-                    <small className="">{data.semester}</small>
+                    <small className="">{data.courseSemester}</small>
                     <div className=""><BsShareFill/></div>
                   </div>
                 </div>

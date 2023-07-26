@@ -42,9 +42,6 @@ p {
   margin-bottom: 0;
 }
 
-li {
-  list-style: none;
-}
 
 /* Using other CSS File in here */
 @import url("./index.css");

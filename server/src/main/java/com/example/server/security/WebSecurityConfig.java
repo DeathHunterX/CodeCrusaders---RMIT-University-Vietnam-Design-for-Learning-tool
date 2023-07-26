@@ -5,6 +5,8 @@ import com.example.server.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -66,10 +68,10 @@ public class WebSecurityConfig  {
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth ->
             auth
+                    .requestMatchers("/v1/api/auth/**").permitAll()
                     .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                .requestMatchers("/v1/api/auth/**").permitAll()
-                .requestMatchers("/v1/api/test/**").permitAll()
-                .anyRequest().authenticated()
+                    .requestMatchers("/v1/api/test/**").permitAll()
+                    .anyRequest().authenticated()
 
 
         );

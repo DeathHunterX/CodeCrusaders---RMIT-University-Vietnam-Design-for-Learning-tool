@@ -21,10 +21,9 @@ public class Assignment {
     @Column(name="assignment_id")
     private UUID id;
 
-    private String assignmentNo;
+    private Integer assignmentNo;
 
     private String assignmentName;
-
 
     @Column(columnDefinition = "DATE")
     private LocalDate startDate;
@@ -37,7 +36,7 @@ public class Assignment {
     @JsonIgnore
     private Course course;
 
-    public Assignment(String assignmentNo, String assignmentName, LocalDate startDate, LocalDate endDate) {
+    public Assignment(Integer assignmentNo, String assignmentName, LocalDate startDate, LocalDate endDate) {
         this.assignmentNo = assignmentNo;
         this.assignmentName = assignmentName;
         this.startDate = startDate;

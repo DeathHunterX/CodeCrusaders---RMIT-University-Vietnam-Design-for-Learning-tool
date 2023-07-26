@@ -1,5 +1,6 @@
 package com.example.server.service.impl;
 
+import com.example.server.api.request.ModuleCreateRequest;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
 import com.example.server.api.response.SessionDetailsResponse;
@@ -7,8 +8,12 @@ import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
 import com.example.server.model.Session;
+import com.example.server.model.enums.GroupingType;
+import com.example.server.model.enums.SessionOption;
+import com.example.server.model.enums.SessionType;
 import com.example.server.repository.CourseRepository;
 import com.example.server.repository.ModuleRepository;
+import com.example.server.repository.SessionRepository;
 import com.example.server.service.ModuleService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +35,7 @@ public class ModuleServiceImpl implements ModuleService {
 
   private final ModuleRepository moduleRepository;
   private final CourseRepository courseRepository;
+  private final SessionRepository sessionRepository;
   private final ModelMapper modelMapper;
   @Override
   @Transactional
@@ -49,25 +55,36 @@ public class ModuleServiceImpl implements ModuleService {
   }
 
   @Override
-  public ResponseEntity<ModuleDetailsResponse> getModuleDetailsById(UUID id) {
-    Optional<Module> module = moduleRepository.findById(id);
-    if(!module.isPresent()) {
-      return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-    }
-    Module _module = module.get();
-    List<Session> sessionList = _module.getSessionList();
-    List<SessionDetailsResponse> sessionDetailsResponses = sessionList.stream().map(e->new SessionDetailsResponse(e.getSessionType(),e.getGroupingType(),e.getSessionOption(),e.getHasLecturer())).collect(Collectors.toList());
-    ModuleDetailsResponse moduleDetailsResponse = new ModuleDetailsResponse(_module.getName(),_module.getLos(),sessionDetailsResponses);
-    return new ResponseEntity<>(moduleDetailsResponse,HttpStatus.OK);
+  public ModuleDetailsResponse getModuleDetailsById(UUID id) {
+    Module module = moduleRepository.findById(id)
+            .orElseThrow(()->new ObjectNotFoundException("Module", "id",404));
+    List<Session> sessionList = module.getSessionList();
+    List<SessionDetailsResponse> sessionDetailsResponses = sessionList.stream()
+            .map(e->new SessionDetailsResponse(e.getSessionType(),e.getGroupingType(),e.getSessionOption(),e.getHasLecturer()))
+            .collect(Collectors.toList());
+    ModuleDetailsResponse moduleDetailsResponse = new ModuleDetailsResponse(module.getName(),module.getLos(),sessionDetailsResponses);
+    return moduleDetailsResponse;
   }
 
   @Override
-  public Module createModule(Module module) {
-    return moduleRepository.save(module);
+  public ResponseEntity<?> createModule(UUID courseId, ModuleCreateRequest moduleCreateRequest) {
+    Course course = courseRepository.findById(courseId)
+            .orElseThrow(()->new ObjectNotFoundException("Course","id"));
+    Session preClass = new Session(SessionType.PRE_CLASS);
+    Session inClass = new Session(SessionType.IN_CLASS);
+    Session postClass = new Session(SessionType.POST_CLASS);
+    List<Session> sessionList = new ArrayList<>();
+    sessionList.addAll(List.of(preClass,inClass,postClass));
+    Module module = new Module(moduleCreateRequest.getModuleName(), sessionList);
+    sessionList.stream().forEach(e->e.setModule(module));
+    module.setCourse(course);
+    return new ResponseEntity<>(moduleRepository.save(module),HttpStatus.OK);
   }
 
   @Override
   public void deleteModule(UUID id) {
+    Module module = moduleRepository.findById(id)
+                    .orElseThrow(()->new ObjectNotFoundException("Module","id"));
     moduleRepository.deleteById(id);
   }
 
@@ -78,6 +95,7 @@ public class ModuleServiceImpl implements ModuleService {
       Module _module = moduleData.get();
       _module.setName(moduleInfo.getName());
       _module.setLos(moduleInfo.getLos());
+      _module.setSessionList(moduleInfo.getSessionList());
       return new ResponseEntity<>(moduleRepository.save(_module), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,11 +1,9 @@
 package com.example.server.service.impl;
 
-import com.example.server.api.request.AssignmentRequest;
 import com.example.server.api.request.CourseRequest;
 import com.example.server.api.request.CourseUpdateRequest;
 import com.example.server.api.response.CourseResponse;
 import com.example.server.exception.ObjectNotFoundException;
-import com.example.server.model.Activity;
 import com.example.server.model.Assignment;
 import com.example.server.model.Course;
 import com.example.server.model.User;
@@ -72,17 +70,10 @@ public class CourseServiceImpl implements CourseService {
     public ResponseEntity<Course> updateCourse(CourseUpdateRequest courseUpdateRequest, UUID id) {
         var _course = courseRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Course", "id"));
-        _course.setCourseName(courseUpdateRequest.getCourseName());
         _course.setCourseCode(courseUpdateRequest.getCourseCode());
         _course.setCourseSemester(courseUpdateRequest.getCourseSemester());
         _course.setClos(courseUpdateRequest.getClos());
-        List<Assignment> oldAssignmentList = _course.getAssignmentList();
-        System.out.println(courseUpdateRequest.getAssignmentRequestList());
-        List<AssignmentRequest> newAssignmentList = courseUpdateRequest.getAssignmentRequestList();
-        System.out.println(newAssignmentList);
-        for(int i = 1; i < 4; i++) {
-            assignmentService.updateAssignmentByAssignmentNumber(newAssignmentList, oldAssignmentList, i);
-        }
+        _course.setAssignmentList(courseUpdateRequest.getAssignmentList());
         Course savedCourse = courseRepository.save(_course);
         return new ResponseEntity<>(savedCourse, HttpStatus.OK);
     }

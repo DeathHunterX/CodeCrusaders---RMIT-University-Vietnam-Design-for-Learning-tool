@@ -1,14 +1,11 @@
 package com.example.server.service;
 
-import com.example.server.api.request.AssignmentRequest;
 import com.example.server.api.request.SessionUpdateRequest;
-import com.example.server.model.Assignment;
 import com.example.server.model.Session;
 import com.example.server.model.enums.SessionType;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface SessionService {

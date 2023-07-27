@@ -13,5 +13,5 @@ import java.util.List;
 public class ModuleRequest {
     private String name;
     private String los;
-    private List<SessionUpdateRequest> sessionUpdateRequestList;
+    private List<Session> sessionList;
 }

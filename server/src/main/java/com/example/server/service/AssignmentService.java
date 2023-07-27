@@ -1,8 +1,6 @@
 package com.example.server.service;
 
-import com.example.server.api.request.AssignmentRequest;
 import com.example.server.model.Assignment;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +13,5 @@ public interface AssignmentService {
   Assignment createAssignment(Assignment assignment);
   void deleteAssignment(UUID id);
 
-  void updateAssignmentByAssignmentNumber(List<AssignmentRequest> assignmentRequestList, List<Assignment> oldAsignmentList, int assignmentNo);
 }
 

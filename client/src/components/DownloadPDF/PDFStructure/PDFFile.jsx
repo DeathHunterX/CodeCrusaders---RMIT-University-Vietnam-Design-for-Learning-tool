@@ -1,5 +1,5 @@
 import React from "react";
-import { Page, Text, Document, StyleSheet, View } from "@react-pdf/renderer";
+import { Page, Text, Document, StyleSheet } from "@react-pdf/renderer";
 import PDFCourse from "./PDFCourse";
 import PDFAsg from "./PDFAsg";
 import PDFModule from "./PDFModule";
@@ -51,7 +51,7 @@ const PDFFile = () => {
   return (
     <Document>
       <Page style={styles.body}>
-        <Text></Text>
+        <Text />
         <PDFCourse />
         <PDFAsg />
         <PDFModule />

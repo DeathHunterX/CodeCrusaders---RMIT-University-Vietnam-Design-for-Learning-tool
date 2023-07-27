@@ -5,6 +5,7 @@ const initialState = {
     isLoading: false,
     isSuccess: false,
     moduleList: [],
+    moduleMessage: "",
     message: ""
 }
 
@@ -21,7 +22,7 @@ export const getModules = createAsyncThunk('module/getModules', async({id, token
 
 export const createModule = createAsyncThunk('module/createModule', async({moduleData, id, token}, thunkAPI) => {
     try {
-        const res = await postDataAPI(`course/${id}/create-module`, moduleData, token)
+        const res = await postDataAPI(`courses/${id}/create-module`, moduleData, token)
         return res.data
 
     } catch (err) {
@@ -72,8 +73,8 @@ const moduleSlice = createSlice({
             .addCase(getModules.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.moduleList = action.payload;
-                state.message = ""
+                state.moduleList = action.payload.message ? [] : action.payload;
+                state.moduleMessage = action.payload.message
             })
             .addCase(getModules.rejected, (state, action) => {
                 state.isLoading = false;

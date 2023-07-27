@@ -1,3 +1,11 @@
+.planner_pdf_container {
+  height: 100vh !important;
+}
+
+.pdf_viewer_body iframe {
+  width: 100%;
+}
+
 .btn-style {
   float: left;
   background-color: #6762f5;
@@ -8,73 +16,180 @@
   margin-left: 20px;
   margin-bottom: 20px;
 }
-#myorders {
-  font-size: 25px;
+form {
+  display: inline-block;
+  position: relative;
+}
+.pdf_viewer_body iframe {
   height: 100vh;
 }
-#myorders iframe {
-  width: 100%;
-  height: 100%;
+.pdf_viewer {
+  background-color: gray;
+  justify-content: space-between;
 }
-.course h3 {
-  font-weight: bold;
-}
-.course-detail {
-  margin-left: 50px;
-}
-.course-info {
-  display: flex;
-}
-.course-info h5 {
-  font-weight: bold;
-}
-.course-clo {
-  display: flex;
-}
-.course-clo h5 {
-  font-weight: bold;
-}
-.assignment {
-  margin-top: 40px;
-}
-.asg-detail {
-  margin-left: 50px;
-}
-.modules {
-  margin-top: 40px;
-}
-.module-detail {
-  margin-left: 50px;
-}
-.module-detail {
-  margin-top: 20px;
-}
-
-/* module */
-.download-los {
-  display: flex;
-}
-.download-los h5 {
-  font-weight: bold;
-}
-.download-class {
-  display: flex;
-  border-radius: 20px;
-  background-color: white;
-  padding: 20px;
-}
-
-/* activity */
-.pre-class {
-  background-color: #6762f5;
+.closeButton {
+  background-color: transparent;
   color: white;
-  padding: 20px;
-  text-align: center;
-  margin-right: 20px;
-  border-radius: 20px;
+  border: none;
+  margin: 10px;
+  justify-content: space-between;
 }
-.pre-class h5 {
+.btn-style {
+  background-color: transparent;
+  color: white;
+  border: none;
+  margin: 10px;
+}
+.commentButton {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.cancelButton {
+  position: absolute;
+  bottom: 10px;
+  right: 100px;
+}
+.CommentBox {
+  margin-left: 10px;
+}
+.comment {
+  padding: 10px;
+  background-color: #d0e2bc;
+  border-radius: 16px;
+  border: none;
+}
+.message {
+  background-color: #d0e2bc;
+  padding: 10px;
+  border-radius: 16px;
+}
+.replyComment {
+  margin-left: 40px;
+}
+.actionComment p {
+  padding: 0px 10px 10px 10px;
+}
+
+.child_replay {
+  border-left: 1px dotted red;
+  margin-top: 12px;
+  list-style: none;
+  padding: 0 0 0 8px;
+}
+
+/* rightside */
+.rightSide {
+  background: #fff;
+  border-radius: 3px;
+  color: #4b4f56;
+  padding: 20px;
+}
+.content {
+  font-size: 14px;
+  overflow: hidden;
+  border-bottom: 1px solid rgb(146, 142, 142);
+  line-height: 25px;
+  margin-bottom: 24px;
+  padding: 10px 0;
+}
+
+.avatar_comment {
+  display: block;
+}
+.avatar_comment img {
+  height: 40px;
+  width: 40px;
+}
+.box_comment {
+  display: block;
+  border-radius: 20px;
+  position: relative;
+  line-height: 1.358;
+  word-break: break-word;
+  word-wrap: break-word;
+  background-color: #f0f2f5;
+  cursor: text;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  padding: 0;
+}
+.box_comment textarea {
+  min-height: 60px;
+  padding: 12px 8px;
+  border-radius: 20px;
+  background-color: #f0f2f5;
+  width: 100%;
+  border: none;
+  resize: none;
+}
+.box_comment button {
+  float: right;
+  margin: 0 10px 10px 10px;
+  padding: 4px;
+  background-color: #4267b2;
+  border: 1px solid #4267b2;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 14px;
   font-weight: bold;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+}
+.box_comment button:hover {
+  background-color: #29487d;
+  border-color: #29487d;
+}
+.box_result {
+  margin-top: 24px;
+}
+.name_comment {
+  background-color: #f0f2f5;
+  border-radius: 20px;
+  padding: 12px;
+}
+.box_result .result_comment h5 {
+  font-weight: 600;
+  white-space: nowrap;
+  color: #365899;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.358;
+  margin: 0;
+}
+.box_result .result_comment {
+  display: block;
+  overflow: hidden;
+  padding: 0;
+}
+.box_result .result_comment .name_comment p {
+  margin: 4px 0;
+  text-align: left;
+}
+.box_result .result_comment .tools_comment {
+  font-size: 12px;
+  line-height: 1.358;
+}
+.box_result .result_comment .tools_comment a {
+  color: #4267b2;
+  cursor: pointer;
+  text-decoration: none;
+}
+.box_result .result_comment .tools_comment span {
+  color: #90949c;
+}
+.reply_comment {
+  margin: 12px 0;
+}
+.child_replay {
+  border-left: 2px dotted gray;
+  margin-top: 12px;
+  list-style: none;
+  padding: 0 0 0 8px;
 }
 
 .activiti p {
@@ -83,4 +198,4 @@
   padding: 10px;
   margin-top: 4px;
   border-radius: 8px;
-}
+} */

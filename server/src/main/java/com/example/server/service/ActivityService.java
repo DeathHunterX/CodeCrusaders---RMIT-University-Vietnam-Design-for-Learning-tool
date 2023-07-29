@@ -38,6 +38,15 @@ public interface ActivityService {
 
     Reflect createReflect(ReflectRequest reflectRequest, Course course);
 
+    WarmUp updateWarmUp(UUID activityId,WarmUpRequest warmUp);
+    ReadWatchListen updateReadWatchListen(UUID activityId,ReadWatchListenRequest readWatchListenRequest);
+    Reflect updateReflect(UUID activityId,ReflectRequest reflectRequest);
+    Discuss updateDiscuss(UUID activityId,DiscussRequest discussRequest);
+    Collaborate updateCollaborate(UUID activityId,CollaborateRequest collaborateRequest);
+    Break updateBreak(UUID activityId,BreakRequest breakRequest);
+    Assess updateAssess(UUID activityId,AssessRequest assessRequest);
+
+
     ResponseEntity<?> deleteActivity(UUID courseId, UUID sessionId, UUID activityId);
 
     ResponseEntity<Activity> updateActivity(Activity activityInfo, UUID id);

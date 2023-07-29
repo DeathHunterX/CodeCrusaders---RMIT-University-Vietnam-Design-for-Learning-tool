@@ -194,6 +194,60 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    public WarmUp updateWarmUp(UUID activityId, WarmUpRequest warmUpRequest) {
+        var warmUp = (WarmUp) getActivityById(activityId);
+        warmUp.setWarmUpOption(warmUpRequest.getWarmUpOption());
+        warmUp.setDuration(warmUpRequest.getDuration());
+        warmUp.setEngagementOption(warmUpRequest.getEngagementOption());
+        return activityRepository.save(warmUp);
+    }
+
+    @Override
+    public ReadWatchListen updateReadWatchListen(UUID activityId, ReadWatchListenRequest readWatchListenRequest) {
+        var readWatchListen = (ReadWatchListen) getActivityById(activityId);
+        readWatchListen.setDuration(readWatchListenRequest.getDuration());
+        return activityRepository.save(readWatchListen);
+    }
+
+    @Override
+    public Reflect updateReflect(UUID activityId, ReflectRequest reflectRequest) {
+        var reflect = (Reflect) getActivityById(activityId);
+        reflect.setReflectionType(reflectRequest.getReflectionType());
+        reflect.setDuration(reflectRequest.getDuration());
+        return activityRepository.save(reflect);
+    }
+    @Override
+    public Discuss updateDiscuss(UUID activityId, DiscussRequest discussRequest) {
+        var discuss = (Discuss) getActivityById(activityId);
+        discuss.setGroupType(discussRequest.getGroupType());
+        discuss.setDuration(discussRequest.getDuration());
+        return activityRepository.save(discuss);
+    }
+
+    @Override
+    public Collaborate updateCollaborate(UUID activityId, CollaborateRequest collaborateRequest) {
+        var collaborate = (Collaborate) getActivityById(activityId);
+        collaborate.setCollaborateType(collaborateRequest.getCollaborateType());
+        collaborate.setDuration(collaborateRequest.getDuration());
+        return activityRepository.save(collaborate);
+    }
+
+    @Override
+    public Break updateBreak(UUID activityId, BreakRequest breakRequest) {
+        var breakAct = (Break) getActivityById(activityId);
+        breakAct.setDuration(breakRequest.getDuration());
+        return activityRepository.save(breakAct);
+    }
+
+    @Override
+    public Assess updateAssess(UUID activityId, AssessRequest assessRequest) {
+        var assess = (Assess) getActivityById(activityId);
+        assess.setAccessType(assessRequest.getAccessType());
+        assess.setDuration(assessRequest.getDuration());
+        return activityRepository.save(assess);
+    }
+
+    @Override
     @Transactional
     public ResponseEntity<?> deleteActivity(UUID courseId, UUID sessionId, UUID activityId) {
         var user = userDetailsService.getCurrentUser();

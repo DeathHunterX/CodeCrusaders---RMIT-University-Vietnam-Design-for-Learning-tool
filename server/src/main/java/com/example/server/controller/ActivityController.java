@@ -5,7 +5,6 @@ import com.example.server.api.response.ApiResponse;
 import com.example.server.model.*;
 import com.example.server.service.ActivityService;
 import com.example.server.service.CourseService;
-import com.example.server.service.SessionService;
 import com.example.server.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -126,6 +125,76 @@ public class ActivityController {
             return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
         }
         return new ResponseEntity<>(activityService.createReflect(reflectRequest, course), HttpStatus.OK);
+    }
+
+    @PutMapping("courses/{course_id}/activities/{activity_id}/update-warm-up")
+    public ResponseEntity<?> updateWarmUp(@PathVariable("course_id") UUID courseId, @PathVariable("activity_id") UUID activityId, @RequestBody WarmUpRequest warmUpRequest) {
+        User user = userDetailsService.getCurrentUser();
+        Course course = courseService.getCourseById(courseId);
+        if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
+            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(activityService.updateWarmUp(activityId, warmUpRequest), HttpStatus.OK);
+    }
+
+    @PutMapping("courses/{course_id}/activities/{activity_id}/update-read-watch-listen")
+    public ResponseEntity<?> updateReadWatchListen(@PathVariable("course_id") UUID courseId, @PathVariable("activity_id") UUID activityId, @RequestBody ReadWatchListenRequest readWatchListenRequest) {
+        User user = userDetailsService.getCurrentUser();
+        Course course = courseService.getCourseById(courseId);
+        if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
+            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(activityService.updateReadWatchListen(activityId, readWatchListenRequest), HttpStatus.OK);
+    }
+
+    @PutMapping("courses/{course_id}/activities/{activity_id}/update-reflect")
+    public ResponseEntity<?> updateReflect(@PathVariable("course_id") UUID courseId, @PathVariable("activity_id") UUID activityId, @RequestBody ReflectRequest reflectRequest) {
+        User user = userDetailsService.getCurrentUser();
+        Course course = courseService.getCourseById(courseId);
+        if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
+            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(activityService.updateReflect(activityId, reflectRequest), HttpStatus.OK);
+    }
+
+    @PutMapping("courses/{course_id}/activities/{activity_id}/update-discuss")
+    public ResponseEntity<?> updateDiscuss(@PathVariable("course_id") UUID courseId, @PathVariable("activity_id") UUID activityId, @RequestBody DiscussRequest discussRequest) {
+        User user = userDetailsService.getCurrentUser();
+        Course course = courseService.getCourseById(courseId);
+        if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
+            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(activityService.updateDiscuss(activityId, discussRequest), HttpStatus.OK);
+    }
+
+    @PutMapping("courses/{course_id}/activities/{activity_id}/update-collaborate")
+    public ResponseEntity<?> updateCollaborate(@PathVariable("course_id") UUID courseId, @PathVariable("activity_id") UUID activityId, @RequestBody CollaborateRequest collaborateRequest) {
+        User user = userDetailsService.getCurrentUser();
+        Course course = courseService.getCourseById(courseId);
+        if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
+            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(activityService.updateCollaborate(activityId, collaborateRequest), HttpStatus.OK);
+    }
+
+    @PutMapping("courses/{course_id}/activities/{activity_id}/update-break")
+    public ResponseEntity<?> updateBreak(@PathVariable("course_id") UUID courseId, @PathVariable("activity_id") UUID activityId, @RequestBody BreakRequest breakRequest) {
+        User user = userDetailsService.getCurrentUser();
+        Course course = courseService.getCourseById(courseId);
+        if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
+            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(activityService.updateBreak(activityId, breakRequest), HttpStatus.OK);
+    }
+
+    @PutMapping("courses/{course_id}/activities/{activity_id}/update-assess")
+    public ResponseEntity<?> updateAssess(@PathVariable("course_id") UUID courseId, @PathVariable("activity_id") UUID activityId, @RequestBody AssessRequest assessRequest) {
+        User user = userDetailsService.getCurrentUser();
+        Course course = courseService.getCourseById(courseId);
+        if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
+            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(activityService.updateAssess(activityId, assessRequest), HttpStatus.OK);
     }
 
     @DeleteMapping("courses/{course_id}/sessions/{session_id}/activities/{activity_id}")

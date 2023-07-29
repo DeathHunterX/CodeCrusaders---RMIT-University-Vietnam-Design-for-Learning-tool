@@ -41,7 +41,7 @@ public class Session {
 
   private Boolean hasLecturer;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "module_id")
   @JsonIgnore
   private Module module;

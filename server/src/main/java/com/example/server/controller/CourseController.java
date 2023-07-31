@@ -90,16 +90,6 @@ public class CourseController {
     return new ResponseEntity<>(new ApiResponse("Successfully delete course"), HttpStatus.OK);
   }
 
-  @PostMapping("courses/{course_id}/create-activity/{activity_type}")
-  public ResponseEntity<?> addActivityToCourse(@PathVariable("course_id") UUID courseId, @PathVariable("activity_type") String activityType) {
-    User user = userDetailsService.getCurrentUser();
-    Course course = courseService.getCourseById(courseId);
-    if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
-      return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
-    }
-    Activity activity = activityService.createActivity(activityType,course);
-    return new ResponseEntity<>(activity, HttpStatus.OK);
-  }
 
   @GetMapping("courses/{course_id}/activities")
   @Transactional

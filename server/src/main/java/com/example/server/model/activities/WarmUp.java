@@ -15,6 +15,4 @@ import lombok.Setter;
 public class WarmUp extends Activity {
     private String warmUpOption;
     private String engagementOption;
-
-
 }

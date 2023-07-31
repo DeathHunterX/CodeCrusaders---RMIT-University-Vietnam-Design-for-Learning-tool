@@ -4,6 +4,7 @@ import com.example.server.api.request.CourseRequest;
 import com.example.server.api.request.CourseUpdateRequest;
 import com.example.server.api.response.CourseResponse;
 import com.example.server.exception.ObjectNotFoundException;
+import com.example.server.model.Activity;
 import com.example.server.model.Assignment;
 import com.example.server.model.Course;
 import com.example.server.model.User;
@@ -63,6 +64,19 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void deleteCourse(UUID id) {
         courseRepository.deleteById(id);
+    }
+
+    @Override
+    public void removeActivityFromCouse(Course course, Activity activity) {
+        course.getActivityList().remove(activity);
+        activity.setCourse(null);
+        courseRepository.save(course);
+    }
+
+    @Override
+    public void addActivityToCourse(Course course, Activity activity) {
+        activity.setCourse(course);
+        course.getActivityList().add(activity);
     }
 
     @Override

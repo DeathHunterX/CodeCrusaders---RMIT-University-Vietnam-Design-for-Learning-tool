@@ -35,6 +35,11 @@ public class SessionServiceImpl implements SessionService {
   }
 
   @Override
+  public void updateSession(Session session) {
+    sessionRepository.save(session);
+  }
+
+  @Override
   public Session createSession(Session session) {
     return sessionRepository.save(session);
   }

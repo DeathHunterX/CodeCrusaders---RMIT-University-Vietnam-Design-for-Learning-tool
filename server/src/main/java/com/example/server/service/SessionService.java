@@ -12,6 +12,8 @@ public interface SessionService {
   List<Session> getAllSession();
   Session getSessionById(UUID id);
 
+  void updateSession(Session session);
+
   Session createSession(Session session);
   void deleteSession(UUID id);
 

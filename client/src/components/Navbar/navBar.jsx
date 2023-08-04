@@ -34,14 +34,7 @@ const NavBar = ({isNavBarOpen, setNavBarOpen}) => {
     {(pathname !== "/login" && pathname !== "/register") && (
       <> 
         <nav className={`navbar navbar-vertical navbar-light navbar-expand-xl ${isNavBarOpen === true ? 'navbar-close' : ''}`}>
-            <div className="d-flex align-items-center">
-              <button className='btn btn-default btn-circle-hover me-2' onClick={() => setNavBarOpen(state => !state)}>
-                <RxHamburgerMenu />
-              </button>
-              <Link to={"/"}>
-                <img src={Logo} alt="rmit" style={{width:"150px"}}/>
-              </Link> 
-            </div>
+            <div className="sideBar-spacer"></div>
             <div className="navbar-vertical-content navbar-collapse collapse" id="navbarVerticalCollapse">
               <div className="navbar-top-content">
                 <ul className='navbar-nav flex-column mb-3'>
@@ -72,29 +65,42 @@ const NavBar = ({isNavBarOpen, setNavBarOpen}) => {
         </nav>
 
         <div className="navbar top-navbar">
-          <ul className="navbar-right navbar-nav flex-row me-3">
-            <li className="nav-item px-2">
+          <div className="container-fluid">
+            <div className="navbar-left d-flex align-items-center">
+              <button className='btn btn-default btn-circle-hover me-1' onClick={() => setNavBarOpen(state => !state)}>
+                <RxHamburgerMenu />
+              </button>
               <Link to={"/"}>
-                <span className='nav-icon'><BiBell/></span>
-              </Link>
-            </li>
+                <img src={Logo} alt="rmit" style={{width:"150px"}}/>
+              </Link> 
+            </div>
+            <ul className="navbar-right navbar-nav flex-row me-3">
+              <li className="nav-item px-2">
+                <Link to={"/"}>
+                  <span className='nav-icon'><BiBell/></span>
+                </Link>
+              </li>
 
-            <li className="nav-item px-2 dropdown">
-              <div className="d-flex" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span className="nav-link" >
-                    <Avatar src={AvatarImg} size="medium-avatar"/>
-                </span>
-                <div className="d-block ms-3">
-                  <small>Active</small>
-                  <p>Phan Ngan</p>
+              <li className="nav-item px-2 dropdown">
+                <div className="d-flex" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span className="nav-link" >
+                      <Avatar src={AvatarImg} size="medium-avatar"/>
+                  </span>
                 </div>
-              </div>
-              <div className="dropdown-menu avatar-menu" aria-labelledby="navbarDropdown">
+                <div className="dropdown-menu avatar-menu" aria-labelledby="navbarDropdown">
+                  <div className="d-flex flex-column w-100">
+                    <div className="d-flex justify-content-center">
+                      <Avatar src={AvatarImg} size="medium-avatar"/>
+                    </div>
+                    <p className="text-center mt-1">Loi Phan</p>
+                  </div>
+                  <hr />
                   <Link className="dropdown-item" to={`/user/01/profile`} >My Profile</Link>
                   <Link className="dropdown-item" to={`/user/01/setting/`} >Settings</Link>
-              </div>
-            </li>
-          </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </>
     )}

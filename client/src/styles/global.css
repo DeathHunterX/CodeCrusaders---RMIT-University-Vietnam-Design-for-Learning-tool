@@ -24,6 +24,10 @@
   /* === Colors === */
   --body-color: #e4e9f7;
   --primary-color: #fff;
+
+  /* === Height === */
+  --topNavBarHeight: 56px;
+  --verticalNavBarWidth: 11rem;
 }
 
 .main {

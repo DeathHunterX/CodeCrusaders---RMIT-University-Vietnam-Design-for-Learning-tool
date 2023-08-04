@@ -12,13 +12,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 public class CourseUpdateRequest {
-    private String courseName;
-
     private String courseCode;
 
     private String courseSemester;
 
     private String clos;
 
-    private List<AssignmentRequest> assignmentRequestList;
+    private List<Assignment> assignmentList;
 }

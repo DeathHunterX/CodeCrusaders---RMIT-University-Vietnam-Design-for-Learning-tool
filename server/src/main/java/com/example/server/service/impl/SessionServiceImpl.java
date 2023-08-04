@@ -1,17 +1,14 @@
 package com.example.server.service.impl;
 
-import com.example.server.api.request.AssignmentRequest;
 import com.example.server.api.request.SessionUpdateRequest;
 import com.example.server.api.response.SessionResponse;
 import com.example.server.exception.ObjectNotFoundException;
-import com.example.server.model.Assignment;
 import com.example.server.model.Session;
 import com.example.server.model.enums.SessionType;
 import com.example.server.repository.SessionRepository;
 import com.example.server.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -35,6 +32,11 @@ public class SessionServiceImpl implements SessionService {
   public Session getSessionById(UUID id) {
     return sessionRepository.findById(id)
             .orElseThrow(()-> new ObjectNotFoundException("Session", "id",404));
+  }
+
+  @Override
+  public void updateSession(Session session) {
+    sessionRepository.save(session);
   }
 
   @Override

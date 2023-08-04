@@ -1,6 +1,5 @@
 package com.example.server.service.impl;
 
-import com.example.server.api.request.AssignmentRequest;
 import com.example.server.api.request.CourseRequest;
 import com.example.server.api.request.CourseUpdateRequest;
 import com.example.server.api.response.CourseResponse;
@@ -68,21 +67,27 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public void removeActivityFromCouse(Course course, Activity activity) {
+        course.getActivityList().remove(activity);
+        activity.setCourse(null);
+        courseRepository.save(course);
+    }
+
+    @Override
+    public void addActivityToCourse(Course course, Activity activity) {
+        activity.setCourse(course);
+        course.getActivityList().add(activity);
+    }
+
+    @Override
     @Transactional
     public ResponseEntity<Course> updateCourse(CourseUpdateRequest courseUpdateRequest, UUID id) {
         var _course = courseRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Course", "id"));
-        _course.setCourseName(courseUpdateRequest.getCourseName());
         _course.setCourseCode(courseUpdateRequest.getCourseCode());
         _course.setCourseSemester(courseUpdateRequest.getCourseSemester());
         _course.setClos(courseUpdateRequest.getClos());
-        List<Assignment> oldAssignmentList = _course.getAssignmentList();
-        System.out.println(courseUpdateRequest.getAssignmentRequestList());
-        List<AssignmentRequest> newAssignmentList = courseUpdateRequest.getAssignmentRequestList();
-        System.out.println(newAssignmentList);
-        for(int i = 1; i < 4; i++) {
-            assignmentService.updateAssignmentByAssignmentNumber(newAssignmentList, oldAssignmentList, i);
-        }
+        _course.setAssignmentList(courseUpdateRequest.getAssignmentList());
         Course savedCourse = courseRepository.save(_course);
         return new ResponseEntity<>(savedCourse, HttpStatus.OK);
     }

@@ -8,8 +8,8 @@ import { usePreventAccess } from "../../hook/usePreventAccess";
 
 const SignIn = () => {
   const SignInState = {
-    username: "Phanngan811",
-    password: "Phanngan811!",
+    username: "",
+    password: "",
   };
   const [loginData, setLoginData] = useState(SignInState);
   const { username, password } = loginData;

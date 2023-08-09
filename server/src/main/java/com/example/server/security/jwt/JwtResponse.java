@@ -15,13 +15,15 @@ public class JwtResponse {
   private UUID id;
   private String name;
   private String username;
+  private String refreshToken;
 
 
-  public JwtResponse(String accessToken, UUID id, String username, String name) {
+  public JwtResponse(String accessToken, UUID id, String username, String name, String refreshToken) {
     this.token = accessToken;
     this.id = id;
     this.username = username;
     this.name = name;
+    this.refreshToken = refreshToken;
   }
 
 }

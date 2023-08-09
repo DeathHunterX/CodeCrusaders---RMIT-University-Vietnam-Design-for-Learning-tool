@@ -2,18 +2,18 @@ package com.example.server.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ActivityType {
-    WARM_UP("Warm Up"),
-    READ_WATCH_LISTEN("Read, Watch, Listen"),
-    REFLECT("Reflect"),
-    ASSESS("Assess"),
-    COLLABORATE("Collaborate"),
-    DISCUSS("Discuss"),
-    BREAK("Break");
+public enum ActivityID {
+    WARM_UP("warm_up"),
+    READ_WATCH_LISTEN("read_watch_listen"),
+    REFLECT("reflect"),
+    ASSESS("assess"),
+    COLLABORATE("collaborate"),
+    DISCUSS("discuss"),
+    BREAK("break");
 
     private final String displayName;
 
-    ActivityType(String displayName) {
+    ActivityID(String displayName) {
         this.displayName = displayName;
     }
 

@@ -1,15 +1,12 @@
 package com.example.server.model;
 
-import com.example.server.model.enums.ActivityType;
+import com.example.server.model.enums.ActivityID;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,13 +17,14 @@ import java.util.UUID;
 public abstract class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "activity_id")
     private UUID id;
 
     @Enumerated(EnumType.STRING)
-    private ActivityType activityType;
+    private ActivityID activityID;
 
     private Integer duration;
+
+    private String activityName;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "session_id")

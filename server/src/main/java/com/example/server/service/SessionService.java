@@ -2,7 +2,7 @@ package com.example.server.service;
 
 import com.example.server.api.request.SessionUpdateRequest;
 import com.example.server.model.Session;
-import com.example.server.model.enums.SessionType;
+import com.example.server.model.enums.SessionName;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public interface SessionService {
 
   ResponseEntity<?> updateSessionInfo(Session sessionInfo, UUID id);
 
-  void updateSessionBySessionType(List<SessionUpdateRequest> sessionUpdateRequests, List<Session> oldModuleList, SessionType sessionType);
+  void updateSessionBySessionType(List<SessionUpdateRequest> sessionUpdateRequests, List<Session> oldModuleList, SessionName sessionName);
 
 }
 

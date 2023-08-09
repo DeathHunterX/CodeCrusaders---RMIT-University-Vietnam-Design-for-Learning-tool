@@ -2,17 +2,19 @@ package com.example.server.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum SessionOption {
-  F2F("F2F"),
-  ONLINE("Online"),
-  HYBRID("Hybrid");
+public enum SessionName {
+  PRE_CLASS("Pre_class"),
+  IN_CLASS("In_class"),
+  POST_CLASS("Post_class");
+
   private final String displayName;
 
-  SessionOption(String displayName) {
+  SessionName(String displayName) {
     this.displayName = displayName;
   }
   @JsonValue
   public String getDisplayName() {
     return displayName;
   }
+
 }

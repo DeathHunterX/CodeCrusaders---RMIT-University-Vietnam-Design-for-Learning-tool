@@ -2,7 +2,7 @@ package com.example.server.api.response;
 
 import com.example.server.model.enums.GroupingType;
 import com.example.server.model.enums.SessionOption;
-import com.example.server.model.enums.SessionType;
+import com.example.server.model.enums.SessionName;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class SessionDetailsResponse {
     @Enumerated(EnumType.STRING)
-    private SessionType sessionType;
+    private SessionName sessionName;
 
     @Enumerated(EnumType.STRING)
     private GroupingType groupingType;

@@ -4,7 +4,7 @@ import com.example.server.api.request.SessionUpdateRequest;
 import com.example.server.api.response.SessionResponse;
 import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Session;
-import com.example.server.model.enums.SessionType;
+import com.example.server.model.enums.SessionName;
 import com.example.server.repository.SessionRepository;
 import com.example.server.service.SessionService;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +56,7 @@ public class SessionServiceImpl implements SessionService {
     if (sessionData.isPresent()) {
       Session _session = sessionData.get();
       _session.setSessionOption(sessionInfo.getSessionOption());
-      _session.setSessionType(sessionInfo.getSessionType());
+      _session.setSessionName(sessionInfo.getSessionName());
       _session.setHasLecturer(sessionInfo.getHasLecturer());
 //      _session.setActivityList(sessionInfo.getActivityList());
       Session savedSession = sessionRepository.save(_session);
@@ -67,12 +67,12 @@ public class SessionServiceImpl implements SessionService {
   }
 
   @Override
-  public void updateSessionBySessionType(List<SessionUpdateRequest> sessionUpdateRequests, List<Session> oldModuleList, SessionType sessionType) {
+  public void updateSessionBySessionType(List<SessionUpdateRequest> sessionUpdateRequests, List<Session> oldModuleList, SessionName sessionName) {
     List<SessionUpdateRequest> filteredSessions = sessionUpdateRequests.stream()
-            .filter(e->e.getSessionType().equals(sessionType))
+            .filter(e->e.getSessionName().equals(sessionName))
             .collect(Collectors.toList());
     List<Session> filteredOldSessions = oldModuleList.stream()
-            .filter(e->e.getSessionType().equals(sessionType))
+            .filter(e->e.getSessionName().equals(sessionName))
             .collect(Collectors.toList());
     SessionUpdateRequest sessionUpdateRequest = filteredSessions.get(0);
     Session session = filteredOldSessions.get(0);

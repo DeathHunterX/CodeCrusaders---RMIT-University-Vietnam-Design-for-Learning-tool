@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
   private final UserRepository userRepository;
-  private final CourseRepository courseRepository;
+
   @Override
   public CustomUserDetails loadUserByUsername(String username) throws InvalidUsernameException {
     User user = userRepository.findByUsername(username);
@@ -54,9 +54,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
   public boolean checkCourseOwnership(User user, Course course) {
     Set<Course> courseList = user.getCourses();
-    List<Course> filteredList = courseList.stream().filter(e->e.getId().equals(course.getId())).collect(Collectors.toList());
-    return filteredList.size()==1;
+    List<Course> filteredList = courseList.stream().filter(e -> e.getId().equals(course.getId())).collect(Collectors.toList());
+    return filteredList.size() == 1;
   }
-
-
 }

@@ -61,10 +61,7 @@ public class ModuleServiceImpl implements ModuleService {
         Module module = moduleRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Module", "id", 404));
         List<Session> sessionList = module.getSessionList();
-        List<SessionDetailsResponse> sessionDetailsResponses = sessionList.stream()
-                .map(e -> new SessionDetailsResponse(e.getSessionType(), e.getGroupingType(), e.getSessionOption(), e.getHasLecturer()))
-                .collect(Collectors.toList());
-        ModuleDetailsResponse moduleDetailsResponse = new ModuleDetailsResponse(module.getName(), module.getLos(), sessionDetailsResponses);
+        ModuleDetailsResponse moduleDetailsResponse = new ModuleDetailsResponse(module.getName(), module.getLos(), sessionList);
         return moduleDetailsResponse;
     }
 
@@ -94,17 +91,12 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public ResponseEntity<Module> updateModule(ModuleRequest moduleInfo, UUID id) {
+    public ResponseEntity<Module> updateModule(ModuleRequest moduleRequest, UUID id) {
         var _module = moduleRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Module", "id"));
-        _module.setName(moduleInfo.getName());
-        _module.setLos(moduleInfo.getLos());
-        List<Session> sessionList = _module.getSessionList();
-        List<SessionUpdateRequest> sessionUpdateRequests = moduleInfo.getSessionUpdateRequestList();
-        List<SessionType> sessionTypes = new ArrayList<>(Arrays.asList(SessionType.PRE_CLASS,SessionType.IN_CLASS,SessionType.POST_CLASS));
-        for(SessionType sessionType : sessionTypes) {
-          sessionService.updateSessionBySessionType(sessionUpdateRequests, sessionList,sessionType);
-        }
+        _module.setName(moduleRequest.getName());
+        _module.setLos(moduleRequest.getLos());
+        _module.setSessionList(moduleRequest.getSessionList());
         return new ResponseEntity<>(moduleRepository.save(_module), HttpStatus.OK);
     }
 }

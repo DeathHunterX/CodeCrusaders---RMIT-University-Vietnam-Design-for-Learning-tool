@@ -7,6 +7,4 @@ import lombok.Data;
 @Entity
 @Data
 public class ReadWatchListen extends Activity {
-
-
 }

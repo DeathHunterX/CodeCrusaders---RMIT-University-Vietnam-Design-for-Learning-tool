@@ -30,7 +30,7 @@ const CourseMainPage = () => {
     return (
         <div className='course_wrapper '>
             <div className='course_container'>
-                <div className="course_title ms-5 mb-3">
+                <div className="course_title mb-3">
                     <h2 className="text-uppercase">Courses</h2>
                 </div>
 

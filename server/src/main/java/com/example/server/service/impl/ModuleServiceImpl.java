@@ -2,17 +2,13 @@ package com.example.server.service.impl;
 
 import com.example.server.api.request.ModuleCreateRequest;
 import com.example.server.api.request.ModuleRequest;
-import com.example.server.api.request.SessionUpdateRequest;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
-import com.example.server.api.response.SessionDetailsResponse;
 import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
 import com.example.server.model.Session;
-import com.example.server.model.enums.GroupingType;
-import com.example.server.model.enums.SessionOption;
-import com.example.server.model.enums.SessionType;
+import com.example.server.model.enums.SessionName;
 import com.example.server.repository.CourseRepository;
 import com.example.server.repository.ModuleRepository;
 import com.example.server.repository.SessionRepository;
@@ -21,13 +17,11 @@ import com.example.server.service.SessionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -70,9 +64,9 @@ public class ModuleServiceImpl implements ModuleService {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ObjectNotFoundException("Course", "id"));
         System.out.println("Can find course");
-        Session preClass = new Session(SessionType.PRE_CLASS);
-        Session inClass = new Session(SessionType.IN_CLASS);
-        Session postClass = new Session(SessionType.POST_CLASS);
+        Session preClass = new Session(SessionName.PRE_CLASS);
+        Session inClass = new Session(SessionName.IN_CLASS);
+        Session postClass = new Session(SessionName.POST_CLASS);
         List<Session> sessionList = new ArrayList<>();
         sessionList.addAll(List.of(preClass, inClass, postClass));
         Module module = new Module(moduleCreateRequest.getModuleName(), sessionList);

@@ -14,12 +14,12 @@ const Layout = ({ children, isNavBarOpen, setNavBarOpen }) => {
       return 0;
     }
    
-    return isNavBarOpen ? 70 : 170;
+    return isNavBarOpen ? 4.375 : 11;
   };
 
 
   const mainStyle = {
-    paddingLeft: `${getPaddingLeft()}px`,
+    paddingLeft: `${getPaddingLeft()}rem`,
   };
 
   return (

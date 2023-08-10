@@ -4,7 +4,7 @@ package com.example.server.model;
 import com.example.server.model.enums.GroupingType;
 import com.example.server.model.enums.InteractionType;
 import com.example.server.model.enums.SessionOption;
-import com.example.server.model.enums.SessionType;
+import com.example.server.model.enums.SessionName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ public class Session {
   private UUID id;
 
   @Enumerated(EnumType.STRING)
-  private SessionType sessionType;
+  private SessionName sessionName;
 
   @Enumerated(EnumType.STRING)
   private GroupingType groupingType;
@@ -41,6 +41,8 @@ public class Session {
 
   private Boolean hasLecturer;
 
+  private int totalDuration;
+
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "module_id")
   @JsonIgnore
@@ -49,16 +51,16 @@ public class Session {
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "session")
   private List<Activity> activityList = new ArrayList<>();
 
-  public Session(SessionType sessionType, GroupingType groupingType, SessionOption sessionOption, Boolean hasLecturer, InteractionType interactionType) {
-    this.sessionType = sessionType;
+  public Session(SessionName sessionName, GroupingType groupingType, SessionOption sessionOption, Boolean hasLecturer, InteractionType interactionType) {
+    this.sessionName = sessionName;
     this.groupingType = groupingType;
     this.sessionOption = sessionOption;
     this.hasLecturer = hasLecturer;
     this.interactionType = interactionType;
   }
 
-  public Session(SessionType sessionType) {
-    this.sessionType = sessionType;
+  public Session(SessionName sessionName) {
+    this.sessionName = sessionName;
   }
 
 

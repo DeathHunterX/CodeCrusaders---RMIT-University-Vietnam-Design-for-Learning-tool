@@ -1,3 +1,8 @@
+.course_wrapper {
+    width: 1275px !important;
+    margin: 0 auto;
+}
+
 .course_wrapper .course_container {
     padding: 14px 10px;
 }
@@ -10,7 +15,7 @@
 
 .course_wrapper .course_list_container {
     display: inline-grid;
-    grid-template-columns: repeat(5, 235px);
+    grid-template-columns: repeat(5, 18.7%);
     grid-gap: 20px;
     width: 100%;
     justify-content: center;

@@ -73,9 +73,7 @@ public class AuthController {
         .map(refreshTokenService::verifyExpirationDate)
         .map(RefreshToken::getUser)
         .map(user -> {
-          Authentication authentication = authenticationManager.authenticate(
-              new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-          String token = jwtUtils.createToken(authentication);
+          String token = jwtUtils.createTokenFromUsername(user.getUsername());
           return ResponseEntity.ok(new RefreshTokenResponse(token, requestRefreshToken));
         })
         .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,

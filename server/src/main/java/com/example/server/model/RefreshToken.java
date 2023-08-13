@@ -2,17 +2,15 @@ package com.example.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Data
 @Builder
+@Data
+@EqualsAndHashCode(exclude = "user")
 @AllArgsConstructor
 @NoArgsConstructor
 public class RefreshToken {

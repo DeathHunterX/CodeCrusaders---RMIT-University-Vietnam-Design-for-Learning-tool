@@ -3,6 +3,7 @@ package com.example.server.service;
 import com.example.server.api.request.ActivityRequest;
 import com.example.server.model.Activity;
 import com.example.server.model.Course;
+import com.example.server.model.Session;
 import com.example.server.model.activities.*;
 import org.springframework.http.ResponseEntity;
 
@@ -15,7 +16,7 @@ public interface ActivityService {
 
     Activity getActivityById(UUID id);
 
-    Activity createActivity(ActivityRequest activityRequest, Course course);
+    Activity createActivity(ActivityRequest activityRequest, Course course, Session session);
 
     Activity updateActivity(UUID activityId, ActivityRequest activityRequest);
 

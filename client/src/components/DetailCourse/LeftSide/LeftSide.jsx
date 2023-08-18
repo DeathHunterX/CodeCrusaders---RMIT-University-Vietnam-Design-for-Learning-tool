@@ -8,17 +8,17 @@ const LeftSide = () => {
         {
             itemNo: '1',
             itemName: 'Home',
-            itemLink: `/course/${id}/home`
+            itemLink: `/courses/${id}/home`
         },
         {
             itemNo: '2',
             itemName: 'Modules',
-            itemLink: `/course/${id}/modules`
+            itemLink: `/courses/${id}/modules`
         },
         {
             itemNo: '3',
             itemName: 'Setting',
-            itemLink: `/course/${id}/setting`
+            itemLink: `/courses/${id}/setting`
         },
     ]
 

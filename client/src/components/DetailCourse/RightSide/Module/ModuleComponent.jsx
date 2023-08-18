@@ -12,11 +12,10 @@ import { createModule, deleteModule, getModules} from '../../../../redux/slices/
 // import { ModuleFakeData } from './ModuleFakeData'
 
 const ModulesComponent = () => {
-  const {type, token} = useSelector(state => state.auth.user)
+  const {accessToken} = useSelector(state => state.auth.token)
   // const {course} = useSelector(state => state.course)
   const {moduleList, moduleMessage, isSuccess} = useSelector(state => state.module)
 
-  const combinedToken = `${type} ${token}`
   const dispatch = useDispatch()
 
   const [popUpStat, setPopUpStat] = useState(false)
@@ -25,8 +24,8 @@ const ModulesComponent = () => {
   const {id} = useParams()
 
   useEffect(() => {
-    dispatch(getModules({id: id, token: combinedToken}))
-  }, [combinedToken, dispatch, id])
+    dispatch(getModules({id: id, token: accessToken}))
+  }, [accessToken, dispatch, id])
 
 
   const handleChangeInput = (e) => {
@@ -36,13 +35,13 @@ const ModulesComponent = () => {
 
   const handleSubmitForm = (e) => {
     e.preventDefault()
-    dispatch(createModule({moduleData: moduleData, id: id, token: combinedToken}))
+    dispatch(createModule({moduleData: moduleData, id: id, token: accessToken}))
 
     setPopUpStat(false)
   }
 
   const handleDeleteModule = (id) => {
-    dispatch(deleteModule({id: id, token: combinedToken}))
+    dispatch(deleteModule({id: id, token: accessToken}))
   }
 
 
@@ -73,7 +72,7 @@ const ModulesComponent = () => {
                 moduleList.map((moduleItm, idx) => (
                   <tr className="fw-normal" key={moduleItm.id}>
                     <th scope="row">{idx + 1}</th>
-                    <td> <Link to={`/course/${id}/planner/${moduleItm.id}`}>{moduleItm.name}</Link></td>
+                    <td> <Link to={`/courses/${id}/planner/${moduleItm.id}`}>{moduleItm.name}</Link></td>
                     <td>
                       <span className="me-4" 
                       style={{cursor: "pointer"}}

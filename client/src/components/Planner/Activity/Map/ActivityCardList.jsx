@@ -22,7 +22,7 @@ import ReadWatchListenImg from '../../../../images/Icon/read_watch_listen.png'
 export const ActivityCardList = [
     // Activity 01
     {
-        activityID:'activity-01',
+        activityID:'warm_up',
         activityName: 'Warm Up',
         activityDescription: 'Engage the class with a short energy boosting activity or introduce a concept.',
         activityIcon: <BsFire/>,
@@ -31,7 +31,7 @@ export const ActivityCardList = [
     },
     // Activity 02
     {
-        activityID:'activity-02',
+        activityID:'read_watch_listen',
         activityName: 'Read, Watch, Listen',
         activityDescription: 'Share video, give a presentation, review images, or read text.',
         activityIcon: <FaEye/>,
@@ -40,7 +40,7 @@ export const ActivityCardList = [
     },
     // Activity 03
     {
-        activityID:'activity-03',
+        activityID:'reflect',
         activityName: 'Reflect',
         activityDescription: 'Give prompts for learners to become aware of their own thinking process.',
         activityIcon: <BiBookBookmark/>,
@@ -49,7 +49,7 @@ export const ActivityCardList = [
     },
     // Activity 04
     {
-        activityID:'activity-04',
+        activityID:'discuss',
         activityName: 'Discuss',
         activityDescription: 'Spark conversations with breakout groups, debate, pairs, etc.',
         activityIcon: <GoCommentDiscussion/>,
@@ -58,7 +58,7 @@ export const ActivityCardList = [
     },
     // Activity 05
     {
-        activityID:'activity-05',
+        activityID:'collaborate',
         activityName: 'Collaborate',
         activityDescription: 'Offer opportunities for learners to work together on projects.',
         activityIcon: <BsPeople/>,
@@ -67,7 +67,7 @@ export const ActivityCardList = [
     },
     // Activity 06
     {
-        activityID:'activity-06',
+        activityID:'access',
         activityName: 'Access',
         activityDescription: 'Create and distribute knowledge checks, quizzes, and polls.',
         activityIcon: <BsCheckCircle/>,
@@ -76,18 +76,18 @@ export const ActivityCardList = [
     },
     // Activity 07
     {
-        activityID:'activity-07',
+        activityID:'break',
         activityName: 'Break',
         activityDescription: 'Take a moment to pause and recharge.',
         activityIcon: <BsBatteryCharging/>,
-        activityIconBg: '#455A64',
+        activityIconBg: 'rgb(91 122 137)',
         activityUsedFor: '',
     },
 ]
 
 export const ActivityTypeMap = [
     {
-        activityID: 'activity-01',
+        activityID: 'warm_up',
         activityType: [
             {
                 activityTypeID: 'do_now',
@@ -136,7 +136,7 @@ export const ActivityTypeMap = [
     },
 
     {
-        activityID: 'activity-02',
+        activityID: 'read_watch_listen',
         activityType: [
             {
                 activityTypeID: 'read_watch_listen',
@@ -150,7 +150,7 @@ export const ActivityTypeMap = [
     },
 
     {
-        activityID: 'activity-03',
+        activityID: 'reflect',
         activityType: [
             {
                 activityTypeID: '3-2-1',
@@ -213,7 +213,7 @@ export const ActivityTypeMap = [
     },
 
     {
-        activityID: 'activity-04',
+        activityID: 'discuss',
         activityType: [
             {
                 activityTypeID: 'fishbowl',
@@ -255,7 +255,7 @@ export const ActivityTypeMap = [
     },
 
     {
-        activityID: 'activity-05',
+        activityID: 'collaborate',
         activityType: [
             {
                 activityTypeID: 'group_work',
@@ -268,7 +268,7 @@ export const ActivityTypeMap = [
         ]
     },
     {
-        activityID: 'activity-06',
+        activityID: 'access',
         activityType: [
             {
                 activityTypeID: 'knowledge_check',
@@ -288,7 +288,7 @@ export const ActivityTypeMap = [
         ]
     },
     {
-        activityID: 'activity-07',
+        activityID: 'break',
         activityType: [
             {
                 activityTypeID: 'break',

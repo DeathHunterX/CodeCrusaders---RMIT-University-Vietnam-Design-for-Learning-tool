@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteCourse } from '../../../../redux/slices/courseSlice'
+import { deleteCourse } from '../../../redux/slices/courseSlice'
 import { useParams } from 'react-router-dom'
 
 const MoreOptions = () => {
@@ -10,11 +10,9 @@ const MoreOptions = () => {
 
     const {id} = useParams()
 
-    const {type, token} = useSelector(state => state.auth.user)
+    const {accessToken} = useSelector(state => state.auth.token)
     const {course} = useSelector(state => state.course)
     const dispatch = useDispatch()
-
-    const combinedToken = `${type} ${token}`
 
     const togglePopUp = () => {
         setPopUpStat(!popUpStat)
@@ -27,7 +25,7 @@ const MoreOptions = () => {
         const splitArray = confirmCourse.match(regexPattern);
         
         if (splitArray[1] === course.courseCode && splitArray[2] === course.courseName) {
-            dispatch(deleteCourse({id, token: combinedToken}))
+            dispatch(deleteCourse({id, token: accessToken}))
         }
     }
 

@@ -8,23 +8,20 @@ import CourseCard from './CourseCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCourses} from '../../redux/slices/courseSlice'
 
-
 import CourseImgBg from '../../images/Courses/courses_01.jpg'
 
 import {BsShareFill} from 'react-icons/bs'
 
-
 const CourseMainPage = () => {
-    const {type, token} = useSelector(state => state.auth.user)
+    const {accessToken} = useSelector(state => state.auth.token)
     const {courses} = useSelector(state => state.course)
     const dispatch = useDispatch()
 
-
-    const combinedToken = `${type} ${token}`
+    
     useEffect(() => {
-        dispatch(getAllCourses(combinedToken))
+        dispatch(getAllCourses(accessToken))
 
-    }, [combinedToken, dispatch])
+    }, [accessToken, dispatch])
 
 
     return (
@@ -55,7 +52,7 @@ const CourseMainPage = () => {
                         }
                         
                         <div className="course_item">
-                            <Link to="/course/01/home" className="text-decoration-none">
+                            <Link to="/courses/01/home" className="text-decoration-none">
                             <div className="card h-100">
                                 <img src={CourseImgBg} className="card-img-top" alt='' />
                                 <div className="card-body">

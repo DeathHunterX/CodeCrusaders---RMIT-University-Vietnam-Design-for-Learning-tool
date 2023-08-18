@@ -1,46 +1,98 @@
-import React, { useState } from 'react'
+// Import Library
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
-import {DragDropContext, Draggable, Droppable} from '@hello-pangea/dnd'
+import {DragDropContext} from '@hello-pangea/dnd'
+
+
+// Redux
+import { createModule, getModules } from '../../redux/slices/moduleSlice'
+import { getCourse } from '../../redux/slices/courseSlice';
+
+
+
+// Import Components
+import ActivityWindow from './Activity/ActivityWindow/ActivityWindow'
 
 import BasicInformation from './BasicInformation/BasicInformation'
 import CoursePlanner from './CoursePlanner'
 
-import ActivityCard from './Activity/Card/ActivityCard'
-import ActivityWindow from './Activity/ActivityWindow/ActivityWindow'
+// Icons
+import { IoClose } from 'react-icons/io5';
+
+// Icon Settings
+import SettingComponent from './Setting/SettingComponent';
+import CoursePlannerHeader from './CoursePlannerHeader';
 
 
 const PlannerComponent = () => {
+    const [popUpStat, setPopUpStat] = useState(false)
+    const [moduleData, setModuleData] = useState({moduleName: ""})
+    
+
     const initialState = [
         { name: 'Pre-class', data: [] },
         { name: 'In-class', data: [] },
         { name: 'Post-class', data: []}
     ]
 
+    // handle data
     const [leftActivities, setLeftActivities] = useState([])
     const [rightActivities, setRightActivities] = useState(initialState)
 
+    // handle state
     const [activeSection, setActiveSection] = useState(1)
     const [activityWindow, setActivityWindow] = useState(false)
     const [activityType, setActivityType] = useState('add')
     const [editedItm, setEditedItm] = useState('')
+
+
+    // fetch action
+    const {accessToken} = useSelector(state => state.auth.token)
+    const {course} = useSelector(state => state.course)
+    const {module} = useSelector(state => state.module)
+
+    const dispatch = useDispatch();
+
+    const {page, id, subPage, subId} = useParams();
+    const navigate = useNavigate();
+
+
+
+    useEffect(() => {
+        dispatch(getCourse({id: id, token: accessToken}))
+    }, [accessToken, dispatch, id])
+
+    useEffect(() => {
+        dispatch(getModules({id: id, token: accessToken}))
+    }, [accessToken, dispatch, id])
     
-    const [tabName, setTabName] = useState('')
+    
+    
 
-    const openAddEditDialog = () => {
-        setActivityWindow((state) => !state)
-        if (activityType !== 'add') {
-            setActivityType('add')
-        }
+    // Module CRUD Functions
+    const handleChangeInput = (e) => {
+        const {name, value} = e.target
+        setModuleData(prevState => ({...prevState, [name]: value}))
     }
 
-    const handleEditedData = leftActivities.find((item) => item.id === editedItm) ? leftActivities.find((item) => item.id === editedItm)
-    : (rightActivities.find((board) => board.name === tabName) || { data: [] }).data.find((activity) => activity.id === editedItm)
-        
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
+        dispatch(createModule({moduleData: moduleData, id: id, token: accessToken}))
 
-    const deleteLeftCard = (id) => {
-        setLeftActivities(leftActivities.filter((item) => item.id !== id))
+        setModuleData({moduleName: ""})
+        setPopUpStat(false)
     }
 
+    const handleClosePopUp = (e) => {
+        setModuleData({moduleName: ""})
+        setPopUpStat(prevState => !prevState)
+    }
+
+
+
+    // functions
     const deleteRightCard = (boardName, id) => {
         const updatedRightActivities = rightActivities.map((board) => {
             if (board.name === boardName) {
@@ -59,22 +111,44 @@ const PlannerComponent = () => {
 
     const configMap = [
         {
-            header: 'Module Info', component: <BasicInformation/>
+            // header: 'Module Info', component: <BasicInformation data={module}/>
         }, 
         {
-            header: 'Module Planner', 
+            header: 'Module Planning', 
             component: <CoursePlanner rightActivities={rightActivities} setRightActivities={setRightActivities}
                         activityType={activityType}
                         setActivityType={setActivityType}
                         setActivityWindow={setActivityWindow}
                         setEditedItm={setEditedItm}
                         setDeleteItm={deleteRightCard}
-                        setTabName={setTabName}
+                        // setTabName={setTabName}
                         />
-        }, 
-        {header: 'Open Module', component: ''},
-        {header: 'Return to Previous', component: ''}
+        },
+        {
+            header: "Settings", component: <SettingComponent />
+        },
     ]
+
+    const openAddEditDialog = () => {
+        setActivityWindow((state) => !state)
+        if (activityType !== 'add') {
+            setActivityType('add')
+        }
+    }
+
+    const [activeTabs, setActiveTabs] = useState('Pre-class')
+
+    const filteredBoards = rightActivities.filter((board) => board.name === activeTabs);
+
+
+    const handleEditedData = leftActivities.find((item) => item.id === editedItm) ? leftActivities.find((item) => item.id === editedItm)
+    : (rightActivities.find((board) => board.name === activeTabs) || { data: [] }).data.find((activity) => activity.id === editedItm)
+        
+
+    const deleteLeftCard = (id) => {
+        setLeftActivities(leftActivities.filter((item) => item.id !== id))
+    }
+    
 
     const insertItemAtIndex = (array, item, index) => {
         const newArray = [...array];
@@ -108,6 +182,8 @@ const PlannerComponent = () => {
             setLeftActivities((prevLeftActivities) =>
                 prevLeftActivities.filter((item, index) => index !== source.index)
             );
+
+
         }
     
         // If the item is dragged within the left board
@@ -190,9 +266,46 @@ const PlannerComponent = () => {
           setRightActivities(updatedRightActivities);
         }
     };
+
+    const handleGoBackToCoursePage = () => {
+        navigate(`/${page}/${id}/modules`)
+    }
+
+    const handlePreviewData = () => {
+        navigate(`/down-preview`)
+    }
+
+    const ActivityHeaderFunction = { setActiveSection, handleGoBackToCoursePage, handlePreviewData }
+    const ActivityHeaderData = { configMap, activeSection }
+
+    const ActivityPlanningFunction = {dispatch, 
+        setPopUpStat, 
+        openAddEditDialog, 
+        setActivityType, 
+        setActivityWindow, 
+        setEditedItm, 
+        deleteLeftCard, 
+        setActiveTabs, 
+        deleteRightCard
+    }
+    const ActivityPlanningData = {id, leftActivities, rightActivities, activityType, activeTabs, filteredBoards}
+
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <div className="planner_component">
+            <div className="course_planner_wrapper">
+                <CoursePlannerHeader activityData={ActivityHeaderData} activityFunction={ActivityHeaderFunction} />
+
+                <div className="planner_container">
+                    {activeSection === 1 &&
+                        <CoursePlanner activityData={ActivityPlanningData} activityFunction={ActivityPlanningFunction}/>
+                    }
+
+                    {
+                        activeSection === 2 && <SettingComponent />
+                    }
+                    
+                </div>
+
                 {
                     activityWindow === true 
                     && 
@@ -204,89 +317,38 @@ const PlannerComponent = () => {
                         setRightActivities={setRightActivities}
                         setActivityWindow={setActivityWindow}
                         editedData={handleEditedData}
-                        tabName={tabName}
+                        tabName={activeTabs}
                     />
                 }
-                <div className="vertical_tabs_container">
-                    <div className="planner_left_side d-flex">
-                        <div className="tabs_left">
-                            {
-                                configMap.map((entry,idx) => (
-                                    <div
-                                        className={`tabs ${activeSection === idx ? "active_tabs" : ""}`}
-                                        onClick={() => setActiveSection(idx)} key={idx}
-                                    >
-                                        {entry.header}
-                                    </div>
-                                ))
-                            }
+
+                <div className={`course_planner_popup_form ${popUpStat === true ? 'active' : ''}`}>
+                    <div className="overlay"></div>
+                    <div className="form_content">
+                    <form onSubmit={handleSubmitForm}>
+                        <div className="form_header mb-4">
+                            <div className=" d-flex justify-content-between">
+                                <p>Add Module</p>
+                                <span style={{cursor: 'pointer'}}><IoClose onClick={handleClosePopUp}/></span>
+                            </div>
+                            <hr/>
                         </div>
-                        {
-                            activeSection === 1 &&
-                            (
 
-                                <div className="activity_container" style={{padding: "0 5px"}}>
-                                    <div className="">
-                                        <button className="btn btn-outline-info w-100" 
-                                        onClick={() => openAddEditDialog()}
-                                        >
-                                            Add Activity
-                                        </button>
-                                    </div>
-
-                                    <div className="activity_section" style={{maxHeight: "83vh", height: "100%", border: "1px solid darkgray"}}>
-                                        <div className="activity_wrapper">
-                                            <div className="activity_wrapper_inner">
-                                                <Droppable droppableId='left_board'>
-                                                    {(provided) => (
-                                                        <ul style={{paddingLeft: '0'}}
-                                                        ref={provided.innerRef} 
-                                                        {...provided.droppableProps}
-                                                        >
-                                                            {leftActivities.map((activity_itm, idx) => (   
-        
-                                                                <Draggable key={activity_itm.id} draggableId={activity_itm.id} index={idx}>
-                                                                    {(provided, snapshot) => (
-                                                                        <div ref={provided.innerRef}
-                                                                        {...provided.draggableProps}
-                                                                        {...provided.dragHandleProps}
-                                                                        style={{
-                                                                            ...provided.draggableProps.style,
-                                                                            opacity: snapshot.isDragging ? '0.5' : '1'
-                                                                        }}
-                                                                        >
-                                                                            <ActivityCard
-                                                                                data={activity_itm}
-                                                                                isEditable={true}
-                                                                                activityType={activityType}
-                                                                                setActivityType={setActivityType}
-                                                                                setActivityWindow={setActivityWindow}
-                                                                                setEditedItm={setEditedItm}
-                                                                                setDeleteItm={deleteLeftCard}
-                                                                            />
-                                                                        </div>
-
-                                                                    )}
-                                                                        
-                                                                </Draggable>
-                                                                
-                                                            ))}
-                                                            {provided.placeholder}
-                                                        </ul>
-                                                    )}
-                                                </Droppable>
-                                            </div>        
-                                                
-                                        </div>
-                                    </div> 
-                                </div>
-                            )
-                        }
-                        
+                        <div className="mb-4">
+                            <input type="text" className="form-control" 
+                                id="inputModuleName" 
+                                aria-describedby="inputModuleName" 
+                                name="moduleName" 
+                                value={moduleData.moduleName}
+                                onChange={handleChangeInput}
+                            />
+                        </div>
+                        <div className="form_bottom d-flex justify-content-end">
+                            <span className="btn" onClick={handleClosePopUp}>Cancel</span>
+                            <button className="btn btn-outline-primary ms-2">Add Module</button>
+                        </div>
+                    </form>
                     </div>
-                    <div className="planner_right_side tabs_right">
-                        {configMap[activeSection].component}
-                    </div>
+                    
                 </div>
             </div>
         </DragDropContext>

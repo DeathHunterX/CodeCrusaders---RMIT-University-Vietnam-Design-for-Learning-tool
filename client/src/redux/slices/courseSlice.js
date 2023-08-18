@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import { deleteDataAPI, getDataAPI, postDataAPI, putDataAPI } from '../../utils/fetchData';
+import { deleteDataAPI, getDataAPI, postDataAPI, putDataAPI } from '../../api/fetchData';
 
 
 const initialState = {
@@ -47,7 +47,7 @@ export const createCourse = createAsyncThunk('courses/createCourse', async({cour
 export const updateCourse = createAsyncThunk('courses/updateCourse', async({courseData, id, token}, thunkAPI) => {
     try {
         const res = await putDataAPI(`update-course/${id}`, courseData, token)
-        console.log(res)
+        // console.log(res)
         return res.data
     } catch (err) {
         const errMessage = err.response?.data?.message || err.message;

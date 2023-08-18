@@ -5,6 +5,7 @@ import com.example.server.api.response.ApiResponse;
 import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Activity;
 import com.example.server.model.Course;
+import com.example.server.model.Session;
 import com.example.server.model.activities.*;
 import com.example.server.model.enums.ActivityID;
 import com.example.server.repository.ActivityRepository;
@@ -46,7 +47,8 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public Activity createActivity(ActivityRequest activityRequest, Course course) {
+    @Transactional
+    public Activity createActivity(ActivityRequest activityRequest, Course course, Session session) {
         switch (activityRequest.getActivityID()) {
             case "activity-01":
                 WarmUp warmUp = new WarmUp();
@@ -56,6 +58,7 @@ public class ActivityServiceImpl implements ActivityService {
                 warmUp.setWarmUpOption(activityRequest.getWarmUpOption());
                 warmUp.setEngagementOption(activityRequest.getEngagementOption());
                 warmUp.setCourse(course);
+                warmUp.setSession(session);
                 return activityRepository.save(warmUp);
             case "activity-02":
                 ReadWatchListen readWatchListen = new ReadWatchListen();
@@ -63,6 +66,7 @@ public class ActivityServiceImpl implements ActivityService {
                 readWatchListen.setDuration(activityRequest.getDuration());
                 readWatchListen.setActivityName(activityRequest.getActivityName());
                 readWatchListen.setCourse(course);
+                readWatchListen.setSession(session);
                 return activityRepository.save(readWatchListen);
             case "activity-03":
                 Reflect reflect = new Reflect();
@@ -71,6 +75,7 @@ public class ActivityServiceImpl implements ActivityService {
                 reflect.setActivityName(activityRequest.getActivityName());
                 reflect.setReflectionType(activityRequest.getReflectionType());
                 reflect.setCourse(course);
+                reflect.setSession(session);
                 return activityRepository.save(reflect);
             case "activity-04":
                 Discuss discuss = new Discuss();
@@ -79,6 +84,7 @@ public class ActivityServiceImpl implements ActivityService {
                 discuss.setActivityName(activityRequest.getActivityName());
                 discuss.setGroupType(activityRequest.getGroupType());
                 discuss.setCourse(course);
+                discuss.setSession(session);
                 return activityRepository.save(discuss);
             case "activity-05":
                 Collaborate collaborate = new Collaborate();
@@ -87,6 +93,7 @@ public class ActivityServiceImpl implements ActivityService {
                 collaborate.setActivityName(activityRequest.getActivityName());
                 collaborate.setCollaborateType(activityRequest.getCollaborateType());
                 collaborate.setCourse(course);
+                collaborate.setSession(session);
                 return activityRepository.save(collaborate);
             case "activity-06":
                 Assess assess = new Assess();
@@ -95,6 +102,7 @@ public class ActivityServiceImpl implements ActivityService {
                 assess.setActivityName(activityRequest.getActivityName());
                 assess.setAccessType(activityRequest.getAccessType());
                 assess.setCourse(course);
+                assess.setSession(session);
                 return activityRepository.save(assess);
             case "activity-07":
                 Break breakAct = new Break();
@@ -102,6 +110,7 @@ public class ActivityServiceImpl implements ActivityService {
                 breakAct.setDuration(breakAct.getDuration());
                 breakAct.setActivityName(breakAct.getActivityName());
                 breakAct.setCourse(course);
+                breakAct.setSession(session);
                 return activityRepository.save(breakAct);
             default:
                 break;

@@ -1,0 +1,63 @@
+.module_wrapper {}
+.module_wrapper .module_list {
+    margin-left: 6px;
+    position: relative;
+    border-left: 1px solid black;
+}
+
+.module_wrapper .module_list .module_item {
+    cursor: pointer;
+}
+
+.module_wrapper .module_list .module_item:hover {
+    text-decoration: underline;
+}
+
+.module_wrapper .module_list .module_item::before {
+    content: '';
+    position: relative;
+    width: 12px;
+    height: 1px;
+    background: black;
+    padding-left: 18px;
+    bottom: -12px;
+}
+
+.module_wrapper .module_list .module_item span {
+    font-size: 14px;
+}
+
+/* =====  */
+
+.course_planner_wrapper .course_planner_popup_form .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    display: none;
+}
+
+.course_planner_wrapper .course_planner_popup_form .form_content {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 50%) scale(0);
+    background: #fff;
+    width: 450px;
+    height: 200px;
+    padding: 25px;
+    z-index: 2001;
+    text-align: center;
+}
+
+.course_planner_wrapper .course_planner_popup_form.active .overlay {
+    display: block;
+}
+
+.course_planner_wrapper .course_planner_popup_form.active .form_content {
+    transition: all 500ms ease-in-out;
+    transform: translate(-50%, 50%) scale(1);
+}

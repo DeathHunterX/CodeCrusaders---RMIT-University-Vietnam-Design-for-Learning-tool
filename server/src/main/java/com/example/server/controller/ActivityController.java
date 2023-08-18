@@ -5,6 +5,7 @@ import com.example.server.api.response.ApiResponse;
 import com.example.server.model.*;
 import com.example.server.service.ActivityService;
 import com.example.server.service.CourseService;
+import com.example.server.service.SessionService;
 import com.example.server.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class ActivityController {
     private final CourseService courseService;
     private final ActivityService activityService;
     private final UserDetailsServiceImpl userDetailsService;
+    private final SessionService sessionService;
 
     @GetMapping("activities/test")
     public List<Activity> getAllActivities() {
@@ -89,14 +91,15 @@ public class ActivityController {
 //        return new ResponseEntity<>(activityService.createAssess(assessRequest, course), HttpStatus.OK);
 //    }
 
-    @PostMapping("courses/{course_id}/create-activity")
-    public ResponseEntity<?> createActivity(@PathVariable("course_id") UUID courseId, @RequestBody ActivityRequest activityRequest) {
+    @PostMapping("courses/{course_id}/sessions/{session_id}/create-activity")
+    public ResponseEntity<?> createActivity(@PathVariable("course_id") UUID courseId, @PathVariable("session_id") UUID sessionId, @RequestBody ActivityRequest activityRequest) {
         User user = userDetailsService.getCurrentUser();
         Course course = courseService.getCourseById(courseId);
+        Session session = sessionService.getSessionById(sessionId);
         if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
             return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
         }
-        return new ResponseEntity<>(activityService.createActivity(activityRequest,course),HttpStatus.OK);
+        return new ResponseEntity<>(activityService.createActivity(activityRequest,course,session),HttpStatus.OK);
     }
 
     @PutMapping("courses/{course_id}/activities/{activity_id}/update-activity")

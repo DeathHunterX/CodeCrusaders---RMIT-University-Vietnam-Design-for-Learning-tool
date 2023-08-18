@@ -1,4 +1,4 @@
-.planner_component .vertical_tabs_container {
+.course_planner_wrapper .vertical_tabs_container {
     min-height: 650px;
     display: grid;
     grid-template-columns: 2fr 9fr;
@@ -39,7 +39,7 @@
 
 
 /* LEFT SIDE */
-.planner_component .activity_section {
+.course_planner_wrapper .activity_section {
     width: 340px;
     overflow-y: auto;
 }

@@ -10,13 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { createCourse, reset } from "../../../redux/slices/courseSlice";
 
 const CourseCreated = () => {
-  const {type, token} = useSelector(state => state.auth.user)
+  const {accessToken} = useSelector(state => state.auth.token)
   const {isSuccess} = useSelector(state => state.course)
   const dispatch = useDispatch()
 
   const navigate = useNavigate()
-
-  const combinedToken = `${type} ${token}`
 
 
   const initialCourseState = {
@@ -81,7 +79,7 @@ const CourseCreated = () => {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    dispatch(createCourse({courseData: courseData, token: combinedToken}))
+    dispatch(createCourse({courseData: courseData, token: accessToken}))
   };
 
 
@@ -250,7 +248,7 @@ const CourseCreated = () => {
               </div>
 
               <div className="mt-3 p-3 d-flex justify-content-between">
-                <Link className="btn btn-primary" to="/courses" reloadDocument>
+                <Link className="btn btn-primary" to="/courses">
                   Cancel
                 </Link>
                 <button className="btn btn-success" type="submit">

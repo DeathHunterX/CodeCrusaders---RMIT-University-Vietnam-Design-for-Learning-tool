@@ -14,12 +14,13 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
     const activityCardData = useMemo(() => ActivityCardList.find((card) => activityTypeResult.activityID === card.activityID), [activityTypeResult])
     
     const handleChangeOption = (id) => {
-        if (activityID === 'activity-01'){
+        if (activityID === 'warm_up'){
             setData((state) => ({
                 ...state,
                 activityType: id,
                 engagementOption: activityTypeResult.activityType.find((item) => id === item.activityTypeID).activityTypeOption[0].optionID 
             }))
+
         }
         else {
             setData((state) => ({
@@ -34,6 +35,7 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
         setData((prevState) => {
             let inputArr = [...activityInput];
             const existingIndex = inputArr.findIndex((item) => item.activityTypeID === activityTypeID && item.formID === formID);
+            
             if (existingIndex !== -1) {
                 // Update existing item
                 inputArr[existingIndex].formValue = value
@@ -46,7 +48,6 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
                 };
                 inputArr = [...inputArr, newItem];
             }
-            console.log(inputArr)
       
             return {
               ...prevState,
@@ -135,14 +136,15 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
                                         <div className="activity_grid">
                                             <div className="activity_grid_inner">
                                                 {
-                                                item.activityTypeOption.map((subItm) => (
+                                                item.activityTypeOption.map((subItm) => {
+                                                    return (
                                                     <button className={`grid_btn ${engagementOption === subItm.optionID && 'selected'}`} 
-                                                    onClick={() => setData((state) => ({...state, option: subItm.optionID}))}
+                                                    onClick={() => setData((state) => ({...state, engagementOption: subItm.optionID}))}
                                                     key={subItm.optionID}
                                                     >
                                                         <span>{subItm.optionName}</span>
                                                     </button>
-                                                ))}
+                                                )})}
                                             
                                             </div>
                                         </div>

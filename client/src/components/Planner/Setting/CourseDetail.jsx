@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import TextEditor from '../../../TextEditor/TextEditor'
+import TextEditor from '../../TextEditor/TextEditor'
 import { Link, useParams } from 'react-router-dom'
 import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateCourse } from '../../../../redux/slices/courseSlice'
+import { updateCourse } from '../../../redux/slices/courseSlice'
 
 const CourseDetail = () => {
     const initialCourseState = {
@@ -20,11 +20,9 @@ const CourseDetail = () => {
 
     const {id} = useParams()
 
-    const {type, token} = useSelector(state => state.auth.user)
+    const {accessToken} = useSelector(state => state.auth.token)
     const {course} = useSelector(state => state.course)
     const dispatch = useDispatch()
-
-    const combinedToken = `${type} ${token}`
 
     useEffect(() => {
         setCourseData((prevState) => ({
@@ -56,7 +54,6 @@ const CourseDetail = () => {
         const {name, value} = e.target
         setCourseData((prevState) => {
             const updatedAssignments = [...prevState.assignmentList]
-            console.log()
             updatedAssignments[idx] = {...updatedAssignments[idx], [name]: value};
 
             return {
@@ -86,7 +83,7 @@ const CourseDetail = () => {
 
     const handleSubmitForm = (e) => {
         e.preventDefault()
-        dispatch(updateCourse({courseData: courseData, id: id, token: combinedToken}))
+        dispatch(updateCourse({courseData: courseData, id: id, token: accessToken}))
     }
 
     return (

@@ -15,12 +15,12 @@ const PlannerDescription = ({data, tabName, rightActivities, activityType, setAc
   const [time, setTime] = useState(durationTime)
 
   const [editDuration, setEditDuration] = useState(false)
-
   const [timeline, setTimeline] = useState([])
+
+  const getDataLength = (rightActivities.find((board) => board.name === tabName) || { data: [] }).data.length
   
   //handle set timeline base on rightActivities length
   useEffect(() => {
-    const getDataLength = (rightActivities.find((board) => board.name === tabName) || { data: [] }).data.length
 
     if (getDataLength > 0) {
       const getDataDuration = (rightActivities.find((board) => board.name === tabName) || { data: [] })
@@ -40,9 +40,11 @@ const PlannerDescription = ({data, tabName, rightActivities, activityType, setAc
       }, []);
       
       setTimeline(['00:00', ...timelineHandle])
+    } else {
+      setTimeline([])
     }
         
-  }, [rightActivities, tabName])
+  }, [getDataLength, rightActivities, tabName])
   
 
 
@@ -52,7 +54,7 @@ const PlannerDescription = ({data, tabName, rightActivities, activityType, setAc
   }
   return (
     <div className="activity_planner_inner_container d-flex">
-      <div className="col-5 d-flex">
+      <div className="left_side">
         <div className="activity_board_container">
           <div className="activity_board_inner_container">
             <ul className="activity_time_list" style={{paddingLeft: '0', textAlign: 'center'}}>
@@ -107,6 +109,15 @@ const PlannerDescription = ({data, tabName, rightActivities, activityType, setAc
                     
                   ))}
                   {provided.placeholder}
+
+                  {
+                    getDataLength === 0 && (
+                      <div className="activity_list_message">
+                        <span>Drag your first activity here</span>
+                      </div>
+                    )
+                  }
+                  
                 </ul>
               )}
               
@@ -114,9 +125,9 @@ const PlannerDescription = ({data, tabName, rightActivities, activityType, setAc
           </div>
         </div>
       </div>
-      <div className="col-7">
+      <div className="right_side">
         <div className="review_container">
-          <div className="review_header ps-3 pe-3">
+          <div className="review_header ps-3 pe-3" style={{marginBottom: "10px"}}>
             <h5>Review</h5>
             <span>Here's a quick review of the session plan you created</span>
             <div className="duration_input d-flex align-items-center mt-1">

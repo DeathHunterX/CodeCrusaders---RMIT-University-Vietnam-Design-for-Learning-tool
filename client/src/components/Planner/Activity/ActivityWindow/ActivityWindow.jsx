@@ -65,7 +65,7 @@ const ActivityWindow = ({type, leftActivities, setLeftActivities, setRightActivi
           {type === 'add' && (
             <div className="activity_setup">
               <div className="activity_droppable mb-2" onClick={() => removeActivityFromDroppable()}>     
-                                  
+                <div className=""style={{height: "100px"}}>              
                 {activityID ? 
                   <ActivityCard 
                     id={activityFilter.activityID}
@@ -78,7 +78,7 @@ const ActivityWindow = ({type, leftActivities, setLeftActivities, setRightActivi
                     <span>Drop here to select activity</span>
                   </div>
                 }
-                
+                </div>
               </div>
 
               <div className="activity_section left_activity" style={{background: "rgb(224, 224, 224)", height: '74vh'}}>

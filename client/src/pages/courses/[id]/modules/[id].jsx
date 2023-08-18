@@ -1,10 +1,10 @@
 import React from 'react'
 import PlannerComponent from '../../../../components/Planner/PlannerComponent'
 
-const PlannerPage = () => {
+const ModulePage = () => {
   return (
     <PlannerComponent />
   )
 }
 
-export default PlannerPage
+export default ModulePage

@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { deleteDataAPI, getDataAPI, postDataAPI } from "../../utils/fetchData";
+import { deleteDataAPI, getDataAPI, postDataAPI } from "../../api/fetchData";
 
 const initialState = {
     isLoading: false,
     isSuccess: false,
     moduleList: [],
+    moduleItem: {},
     moduleMessage: "",
     message: ""
 }
@@ -14,6 +15,16 @@ export const getModules = createAsyncThunk('module/getModules', async({id, token
         const res = await getDataAPI(`courses/${id}/module-names`, token)
         return res.data
 
+    } catch (err) {
+        const errMessage = err.response?.data?.message || err.message;
+        return thunkAPI.rejectWithValue(errMessage);
+    }
+})
+
+export const getModuleInfo = createAsyncThunk('module/getModule', async({id, token}, thunkAPI) => {
+    try {
+        const res = await getDataAPI(`modules/${id}`, token)
+        return res.data
     } catch (err) {
         const errMessage = err.response?.data?.message || err.message;
         return thunkAPI.rejectWithValue(errMessage);
@@ -44,6 +55,8 @@ export const editModule = createAsyncThunk('module/editModule', async(token, thu
 export const deleteModule = createAsyncThunk('module/deleteModule', async({id, token}, thunkAPI) => {
     try {
         const res = await deleteDataAPI(`/delete-module/${id}`, token)
+        console.log(res)
+
         return {message: res.data, idToRemove: id}
 
     } catch (err) {
@@ -66,7 +79,7 @@ const moduleSlice = createSlice({
     },
     extraReducers: (builders) => {
         builders
-            // Get Module
+            // Get Modules
             .addCase(getModules.pending, (state) => {
                 state.isLoading = true
             })
@@ -77,6 +90,20 @@ const moduleSlice = createSlice({
                 state.moduleMessage = action.payload.message
             })
             .addCase(getModules.rejected, (state, action) => {
+                state.isLoading = false;
+                state.message = action.payload;
+            })
+
+            // Get Module by Id
+            .addCase(getModuleInfo.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getModuleInfo.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.moduleItem = action.payload;
+            })
+            .addCase(getModuleInfo.rejected, (state, action) => {
                 state.isLoading = false;
                 state.message = action.payload;
             })
@@ -101,7 +128,7 @@ const moduleSlice = createSlice({
             })
             .addCase(editModule.fulfilled, (state, action) => {
                 state.isLoading = false;
-
+                
                 state.message = ""
             })
             .addCase(editModule.rejected, (state, action) => {

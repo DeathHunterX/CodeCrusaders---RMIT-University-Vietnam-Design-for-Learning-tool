@@ -8,17 +8,15 @@ import RightSide from './RightSide/RightSide'
 import { getCourse } from '../../redux/slices/courseSlice'
 
 const DetailCourse = () => {
-    const {type, token} = useSelector(state => state.auth.user)
+    const {accessToken} = useSelector(state => state.auth.token)
 
     const dispatch = useDispatch()
     
     const {id} = useParams()
 
-    const combinedToken = `${type} ${token}`
-
     useEffect(() => {
-        dispatch(getCourse({id, token: combinedToken}))
-    }, [id, combinedToken, dispatch])
+        dispatch(getCourse({id, token: accessToken}))
+    }, [id, accessToken, dispatch])
 
 
     return (

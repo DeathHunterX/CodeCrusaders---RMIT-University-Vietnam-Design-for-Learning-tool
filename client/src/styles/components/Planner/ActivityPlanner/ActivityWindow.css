@@ -1,8 +1,9 @@
+/* ==================== Activity Window ====================*/
 .activity_dialog {
     position: relative;
 }
 
-/* Overlay */
+/* =============== Overlay ===============*/
 .activity_dialog .dialog_overlay {
     position: fixed;
     top: 0;
@@ -18,21 +19,21 @@
     display: block;
 }
 
-/* Dialog Container */
+/* =============== Dialog Container =============== */
 .activity_dialog .dialog_container {
     position: absolute;
-    width: 97vw;
-    height: 97vh;
+    width: 96vw;
+    height: 96vh;
     transform: translate(50%, 50%) scale(0);
     
     background: #fff;
     padding: 25px;
-    z-index: 2001;
+    z-index: 2000;
+    list-style: none;
 }
 
 .activity_dialog.dialog_activation .dialog_container{
-    transition: all 500ms ease-in-out;
-    transform: translate(-40px, -60px) scale(1);
+    transform: translate(2%, -6%) scale(1);
 }
 
 .activity_dialog .dialog_container .dialog_close {
@@ -43,19 +44,20 @@
     cursor: pointer;
 }
 
-/* Window info */
+/* =============== Window Info =============== */
 .activity_dialog .dialog_container_inner {
     display: flex;
     flex-direction: row;
 }
-/* Activity Set up */
+
+/* =============== Activity Set Up =============== */
 .activity_dialog .activity_setup {
     width: 350px;
 }
 
 .activity_setup .activity_droppable {
-    height: 100px;
     border: 2px dashed black;
+    background: rgb(224, 224, 224);
     position: relative;
 }
 
@@ -68,8 +70,17 @@
     font-size: 1.25rem;
 }
 
-/*  */
+/* Left Side */
+.activity_dialog .left_activity {
+    width: 350px;
+    overflow-y: auto;
+}
 
+.left_activity .activity_wrapper .activity_wrapper_inner {
+    padding-top: 10px;
+}
+
+/* Right Side */
 .activity_dialog .right_activity {
     width: 100%;
     display: flex;

@@ -1,44 +1,189 @@
-.planner_component .vertical_tabs_container {
-    min-height: 88vh;
-    display: grid;
-    grid-template-columns: 1fr 9fr;
+.course_planner_wrapper {}
+
+.course_planner_wrapper .planner_header {}
+
+.course_planner_wrapper .planner_header .planner_item_list  {}
+
+.course_planner_wrapper .planner_header .planner_item_list .planner_itm {}
+
+.course_planner_wrapper .planner_header .planner_item_list .planner_itm::before {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    width: 25px;
+    height: 3px;
+    border-radius: 8px;
 }
 
-/* Left Side (Tabs) */
-.vertical_tabs_container .tabs_left {
+.course_planner_wrapper .planner_header .planner_item_list .planner_itm.active::before{
+    background: #4439f1;
+}
+
+
+.course_planner_wrapper .planner_container {
+    height: calc(100vh - var(--topNavBarHeight) - 46px);
+    display: flex;
+    flex-direction: row;
+
+    padding: 4px 0;
+}
+
+
+/* Activity Container */
+.planner_container .activity_list_wrapper {
+    display: inline-block;
+    height: 100%;
+    scroll-margin: 8px;
+    vertical-align: top;
+    white-space: nowrap;
+
+    flex: 0 0 auto;
+    width: 26%;
+}
+
+.planner_container .activity_list_wrapper .activity_list_content {
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 12px;
+    position: relative;
+    white-space: normal;
+    width: 100%;
+    max-height: 100%;
+
+    border: 1px solid gray;
+}
+
+.activity_list_content .activity_list_header {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 4px 14px 10px;
+    background-color: rgb(238, 238, 238);
+    align-items: center;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom: 1px solid gray;;
+}
+
+.activity_list_content .activity_list_header h6{
+    margin: 0;
+    font: 600 17px/17px roboto, "Open Sans", Helvetica, sans-serif;
+    color: black;
+    text-align: center;
+    font-weight: 600;
+}
+
+.activity_list_content .activity_list_body {
+    overflow-y: auto;
+    height: 100%;
+}
+
+.activity_list_content .activity_list_body .activity_list_cards {
+    list-style: none;
+    min-height: calc(100vh - var(--topNavBarHeight) - 121px );
+    margin: 0;
+    background-color: #c9d6f7a3;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+}
+
+
+/* ==================== Module Session Tabs ====================*/
+.planner_container .activity_list_tabs {
+    flex: 0 0 auto;
+    width: 74%;
+    padding-left: 15px;
+}
+
+.planner_container .activity_list_tabs .activity_tabbed_round {
     display: flex;
     flex-direction: column;
 }
 
-.vertical_tabs_container .tabs_left .tabs {
-    width: 100px;
-    height: 100px;
-    display: grid;
-    place-items: center;
+/* Header */
+.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header {
+    width: 100%;
+    min-width: 400px;
+    margin: 0 auto;
+    border-bottom: 3px solid #BDC3C7;
+    overflow: hidden;
+    transition: border 250ms ease;
+}
+
+.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    padding-left: 48px;
+    list-style-type: none;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li {
+    display: block;
+    padding: 10px 24px 8px;
+    margin-right: 54px;
+    z-index: 2;
+    position: relative;
     cursor: pointer;
+    text-transform: uppercase;
+    font: 600 13px/20px roboto, "Open Sans", Helvetica, sans-serif;
+    transition: all 250ms ease;
     
-    font-size: 1rem;
-    word-wrap: break-word;
-    word-spacing: 10px;
-    text-align: center;
-    /* background-color: #737373; */
+    background: #FFF;
+    color: #666;
 }
 
-.vertical_tabs_container .tabs_left .tabs::before {
-    content: '';
+.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::before,
+.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::after {
+    display: block;
+    content: " ";
     position: absolute;
-    left: 95px;
-    width: 3px;
-    height: 50px;
+    top: 0;
+    height: 100%;
+    width: 44px;
+    transition: all 250ms ease;
 
-    border-radius: 10px;
+    background: #FFF;
+    color: #666;
 }
 
-.vertical_tabs_container .tabs_left .tabs.active_tabs::before {
-    background: #4439f1;   
+.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::before {
+    right: -24px;
+    transform: skew(30deg, 0deg);
+    box-shadow: rgba(0,0,0,.1) 3px 2px 5px, inset rgba(255,255,255,.09) -1px 0;
+    border-radius: 0 8px 0 0
+}
+
+.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::after {
+    left: -24px;
+    transform: skew(-30deg, 0deg);
+    box-shadow: rgba(0,0,0,.1) -3px 2px 5px, inset rgba(255,255,255,.09) 1px 0;
+    border-radius: 8px 0 0 0;
+}
+
+.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li.active_tabs {
+    background-color: #b8bdc1;
+    color: #FFF;
+    z-index: 4;
+}
+
+.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li.active_tabs::before,
+.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li.active_tabs::after {
+    background-color: #b8bdc1;
+    color: #FFF;
 }
 
 
 
+/* Body */
+.planner_container .activity_list_tabs .activity_tabbed_round .tabs_body{
+    height: calc(100vh - var(--topNavBarHeight) - 108px)
+}
 
-
+.tabs_body .activity_planner_inner_container {
+    height: 100%;
+    padding-top: 14px;
+}

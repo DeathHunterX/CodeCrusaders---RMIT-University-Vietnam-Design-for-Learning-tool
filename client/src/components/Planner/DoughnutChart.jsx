@@ -74,7 +74,7 @@ const DoughnutChart = ({dataset, durationTime}) => {
         <div className="position-relative" style={{width:'100%' ,height: "400px"}}>
             <ResponsivePie
                 data={updatedFormattedData}
-                margin={{ top: 40, right: 75, bottom: 80, left: 0 }}
+                margin={{ top: 20, right: 105, bottom: 110, left: -25 }}
                 innerRadius={0.75}
                 padAngle={1}
                 cornerRadius={3}
@@ -94,8 +94,8 @@ const DoughnutChart = ({dataset, durationTime}) => {
                         anchor: 'top-right',
                         direction: 'column',
                         justify: false,
-                        translateX: 40,
-                        translateY: 0,
+                        translateX: 70,
+                        translateY: 10,
                         itemWidth: 100,
                         itemHeight: 30,
                         itemsSpacing: 0,

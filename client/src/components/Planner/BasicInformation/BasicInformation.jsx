@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import {AiOutlineQuestionCircle} from 'react-icons/ai'
 import TextEditor from '../../TextEditor/TextEditor'
 
-const BasicInformation = () => {
+
+const BasicInformation = ({data}) => {
     const initialState = {
-        moduleName: "",
-        moduleClos: "",
-        sessions: [
+        name: "",
+        los: "",
+        sessionList: [
             {
                 sessionName: "Pre-class",
                 sessionModality: "F2F",            //  F2F, Online, Hybrid
@@ -29,47 +30,19 @@ const BasicInformation = () => {
                 asyncSync: "Synchronous"
             },
         ]
-    }
-    const [moduleInfo, setModuleInfo] = useState(initialState)
-    const {moduleName, moduleClos} = moduleInfo
+    };
+
+    const [moduleInfo, setModuleInfo] = useState(initialState);
+    const {name, los} = moduleInfo;
 
     useEffect(() => {
-        const fetchData = () => {
-          // Replace this with your actual API call
-            setTimeout(() => {
-                const apiData = {
-                    moduleName: "Introduction",
-                    moduleClos: "<p>Hello World From Introduction!</p>",
-                    sessions: [
-                        {
-                            sessionName: "Pre-class",
-                            sessionModality: "F2F",            
-                            grouping: "Individual",
-                            lectureAvailability: "No",
-                            asyncSync: "Synchronous"         
-                        },
-                        {
-                            sessionName: "In-class",
-                            sessionModality: "Online",         
-                            grouping: "Class",                  
-                            lectureAvailability: "Yes",
-                            asyncSync: "Synchronous"        
-                        },
-                        {
-                            sessionName: "Post-class",
-                            sessionModality: "Hybrid",      
-                            grouping: "Individual",                   
-                            lectureAvailability: "No",
-                            asyncSync: "Synchronous"
-                        },
-                    ]
-                };
-                setModuleInfo(apiData);
-            }, 1000); // Delay of 1 second for demonstration purposes
-        };
-    
-        fetchData();
-    }, [])
+        setModuleInfo({
+            name: data.name,
+            los: (data.los === "" || data.los === null) ? "" : data.los,
+            sessionList: initialState.sessionList
+        })
+        
+    }, [data.los, data.name, initialState.sessionList])
 
     const handleChangeInput = (e) => {
         const {name, value} = e.target
@@ -80,7 +53,7 @@ const BasicInformation = () => {
     const handleOptionChange = (sessionName, key, value) => {
         setModuleInfo((prevState) => ({
             ...prevState,
-            sessions: prevState.sessions.map((session) =>
+            sessionList: prevState.sessions.map((session) =>
                 session.sessionName === sessionName ? { ...session, [key]: value } : session
             ),
         }));
@@ -120,7 +93,7 @@ const BasicInformation = () => {
                         <label htmlFor="moduleNameInput" className="form-label">Module Name</label>
                         <small>Edit</small>
                     </div>
-                    <input type="text" className="form-control" id="moduleNameInput" name='moduleName' value={moduleName} onChange={handleChangeInput} />
+                    <input type="text" className="form-control" id="moduleNameInput" name='name' value={name} onChange={handleChangeInput} />
                 </div>
 
                 
@@ -137,7 +110,7 @@ const BasicInformation = () => {
                         </thead>
                         <tbody className="table-group-divider">
                             {
-                            moduleInfo.sessions.map((classItm, idx) => (
+                            moduleInfo.sessionList.map((classItm, idx) => (
                                 <tr className="fw-normal" key={idx}>
                                     <td className="text-center p-2">{classItm.sessionName}</td>
                                     <td>
@@ -188,7 +161,7 @@ const BasicInformation = () => {
                         <label htmlFor="exampleFormControlTextarea1" className="form-label me-4">Module Learning Object</label>
                         <AiOutlineQuestionCircle />
                     </div>
-                    <TextEditor value={moduleClos} onSendValue={handleTextEditor} />
+                    <TextEditor value={los} onSendValue={handleTextEditor} />
                 </div>
                 
             </form>

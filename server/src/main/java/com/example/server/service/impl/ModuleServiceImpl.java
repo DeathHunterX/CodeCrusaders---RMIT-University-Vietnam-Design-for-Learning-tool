@@ -2,6 +2,7 @@ package com.example.server.service.impl;
 
 import com.example.server.api.request.ModuleCreateRequest;
 import com.example.server.api.request.ModuleRequest;
+import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
 import com.example.server.exception.ObjectNotFoundException;
@@ -11,12 +12,10 @@ import com.example.server.model.Session;
 import com.example.server.model.enums.SessionName;
 import com.example.server.repository.CourseRepository;
 import com.example.server.repository.ModuleRepository;
-import com.example.server.repository.SessionRepository;
+import com.example.server.service.CourseService;
 import com.example.server.service.ModuleService;
-import com.example.server.service.SessionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -29,9 +28,8 @@ public class ModuleServiceImpl implements ModuleService {
 
     private final ModuleRepository moduleRepository;
     private final CourseRepository courseRepository;
-    private final SessionRepository sessionRepository;
-    private final ModelMapper modelMapper;
-    private final SessionService sessionService;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final CourseService courseService;
 
     @Override
     @Transactional
@@ -78,10 +76,23 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public void deleteModule(UUID id) {
-        Module module = moduleRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException("Module", "id"));
-        moduleRepository.deleteById(id);
+    @Transactional
+    public ResponseEntity<?> deleteModule(UUID courseId, UUID moduleId) {
+        var user = userDetailsService.getCurrentUser();
+        var course = courseService.getCourseById(courseId);
+        if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
+            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this module"), HttpStatus.OK);
+        }
+        var moduleOptional = moduleRepository.findById(moduleId);
+        if(!moduleOptional.isPresent()) {
+            throw new ObjectNotFoundException("module", "id");
+        }
+        var module = moduleOptional.get();
+        course.getModuleList().remove(module);
+        module.setCourse(null);
+        moduleRepository.save(module);
+        courseRepository.save(course);
+        return new ResponseEntity<>(new ApiResponse("Successfully delete module"),HttpStatus.OK);
     }
 
     @Override

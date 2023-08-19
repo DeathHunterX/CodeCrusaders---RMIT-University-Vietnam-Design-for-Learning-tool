@@ -18,5 +18,4 @@ public class CourseDetailsResponse {
     private String clos;
     private List<Assignment> assignmentList;
     private List<Module> moduleList;
-
 }

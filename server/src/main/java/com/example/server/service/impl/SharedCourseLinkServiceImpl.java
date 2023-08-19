@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,5 +22,10 @@ public class SharedCourseLinkServiceImpl implements SharedCourseLinkService {
   @Override
   public SharedCourseLink findSharedCourseLinkByShareLink(String shareLink) {
     return sharedLinkRepository.findByShareLink(shareLink).orElseThrow(()-> new ObjectNotFoundException("Share course link", "share link"));
+  }
+
+  @Override
+  public SharedCourseLink findSharedCourseLinkById(UUID linkId) {
+    return sharedLinkRepository.findById(linkId).orElseThrow(()-> new ObjectNotFoundException("link","id"));
   }
 }

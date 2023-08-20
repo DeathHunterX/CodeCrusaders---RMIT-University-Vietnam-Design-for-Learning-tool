@@ -20,23 +20,23 @@ public class CommentController {
    private final CommentService commentService;
    private final UserDetailsServiceImpl userDetailsService;
 
-  @GetMapping("comments")
-  public ResponseEntity<?> getAllComments() {
+  @GetMapping("links/{link_id}/comments")
+  public ResponseEntity<?> getAllComments(@PathVariable("link_id") String linkId) {
     User user = userDetailsService.getCurrentUser();
     if (user == null) {
       return new ResponseEntity<>(new ApiResponse("You don't have permission to view comments"), HttpStatus.OK);
     }
-    return new ResponseEntity<>(commentService.getAllComments(),HttpStatus.OK);
+    return new ResponseEntity<>(commentService.getAllCommentsFromSharedLink(linkId),HttpStatus.OK);
   }
 
-
-  @GetMapping("comments/{id}")
-  public ResponseEntity<?> getCourseById(@PathVariable("id") UUID id) {
-    return new ResponseEntity<>(commentService.getCommentById(id), HttpStatus.OK);
+  @PostMapping("links/{link_id}/comments")
+  public ResponseEntity<?> createComment(@PathVariable("link_id") String id, @RequestBody CommentRequest commentRequest) {
+    return commentService.createComment(commentRequest, id);
   }
 
-  @PostMapping("courses/{share_link}/comments/create")
-  public ResponseEntity<?> getAllModulesByCourseId(@PathVariable("share_link") UUID linkId, @RequestBody CommentRequest commentRequest) {
-    return new ResponseEntity<>(commentService.createComment(commentRequest, linkId), HttpStatus.OK);
+  @PutMapping("comments/{comment_id}")
+  public ResponseEntity<?> updateComment(@PathVariable("comment_id") UUID id, @RequestBody CommentRequest commentRequest) {
+    return commentService.updateComment(id, commentRequest);
   }
+
 }

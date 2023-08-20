@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CommentService {
-  List<Comment> getAllCommentsFromSharedLink(UUID linkId);
+  List<Comment> getAllCommentsFromSharedLink(String link);
   Comment getCommentById(UUID id);
-  ResponseEntity<?> createComment(CommentRequest commentRequest, UUID linkId);
+  ResponseEntity<?> createComment(CommentRequest commentRequest, String link);
 
-  ResponseEntity<?> replyComment(CommentRequest commentRequest, UUID commentId, UUID linkId);
+  ResponseEntity<?> updateComment(UUID commentId, CommentRequest commentRequest);
 }

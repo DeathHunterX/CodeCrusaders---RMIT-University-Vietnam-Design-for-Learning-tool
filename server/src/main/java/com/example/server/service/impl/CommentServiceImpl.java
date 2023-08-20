@@ -15,8 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,9 +26,24 @@ public class CommentServiceImpl implements CommentService {
   private final UserDetailsServiceImpl userDetailsService;
 
   @Override
-  public List<Comment> getAllCommentsFromSharedLink(UUID linkId) {
-    SharedCourseLink sharedCourseLink = sharedCourseLinkService.findSharedCourseLinkById(linkId);
-    return sharedCourseLink.getCommentList();
+  public List<Comment> getAllCommentsFromSharedLink(String link) {
+    SharedCourseLink sharedCourseLink = sharedCourseLinkService.findDetailsByShareLink(link);
+    List<Comment> comments = sharedCourseLink.getCommentList();
+    List<Comment> rootComments = new ArrayList<>();
+    Map<UUID, Comment> commentMap = new HashMap<>();
+    for (Comment comment : comments) {
+      commentMap.put(comment.getId(), comment);
+    }
+    for (Comment comment : comments) {
+      Comment replyTo = comment.getReplyTo();
+      if (replyTo == null) {
+        rootComments.add(comment);
+      } else {
+        Comment parent = commentMap.get(replyTo.getId());
+        parent.getReplies().add(comment);
+      }
+    }
+    return rootComments;
   }
 
   @Override
@@ -38,38 +52,46 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  @Transactional
-  public ResponseEntity<?> createComment(CommentRequest commentRequest, UUID linkId) {
+  public ResponseEntity<?> createComment(CommentRequest commentRequest, String linkId) {
     var user = userDetailsService.getCurrentUser();
     if (user == null) {
       return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
     }
-    SharedCourseLink sharedCourseLink = sharedCourseLinkService.findSharedCourseLinkById(linkId);
-    Comment comment = new Comment();
-    comment.setContent(commentRequest.getContent());
-    comment.setUser(user);
-    comment.setShareLink(sharedCourseLink);
-    sharedCourseLink.getCommentList().add(comment);
-    sharedLinkRepository.save(sharedCourseLink);
-    return new ResponseEntity<>(commentRepository.save(comment), HttpStatus.OK);
+    SharedCourseLink sharedCourseLink = sharedCourseLinkService.findDetailsByShareLink(linkId);
+    Comment targetComment = null;
+    if (!(commentRequest.getReplyToId() == null)) {
+      targetComment = getCommentById(commentRequest.getReplyToId());
+    }
+
+    Comment newComment = new Comment();
+    newComment.setContent(commentRequest.getContent());
+    newComment.setUser(user);
+    newComment.setShareLink(sharedCourseLink);
+
+    if (targetComment != null) {
+      Comment replyComment = new Comment();
+      replyComment.setContent(newComment.getContent());
+      replyComment.setUser(newComment.getUser());
+      replyComment.setShareLink(newComment.getShareLink());
+      replyComment.setReplyTo(targetComment);
+
+      Comment savedReplyComment = commentRepository.save(replyComment);
+      targetComment.getReplies().add(savedReplyComment);
+      commentRepository.save(targetComment);
+      return new ResponseEntity<>(savedReplyComment, HttpStatus.OK);
+    } else {
+      sharedCourseLink.getCommentList().add(newComment);
+      commentRepository.save(newComment);
+      return new ResponseEntity<>(newComment, HttpStatus.OK);
+    }
   }
 
   @Override
   @Transactional
-  public ResponseEntity<?> replyComment(CommentRequest commentRequest, UUID commentId, UUID linkId) {
-    var user = userDetailsService.getCurrentUser();
-    if (user == null) {
-      return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
-    }
-    SharedCourseLink sharedCourseLink = sharedCourseLinkService.findSharedCourseLinkById(linkId);
-    Comment targetComment = getCommentById(commentId);
-    Comment replyComment = new Comment();
-    replyComment.setUser(user);
-    replyComment.setContent(commentRequest.getContent());
-    replyComment.setReplyTo(targetComment);
-    replyComment.setShareLink(sharedCourseLink);
-    targetComment.getReplies().add(replyComment);
-    commentRepository.save(targetComment);
-    return new ResponseEntity<>(commentRepository.save(replyComment), HttpStatus.OK);
+  public ResponseEntity<?> updateComment(UUID commentId, CommentRequest commentRequest) {
+    Comment comment = getCommentById(commentId);
+    comment.setContent(commentRequest.getContent());
+    Comment updatedComment = commentRepository.save(comment);
+    return new ResponseEntity<>(updatedComment, HttpStatus.OK);
   }
 }

@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface SharedCourseLinkService {
-  SharedCourseLink saveSharedCourseLink(SharedCourseLink sharedCourseLink);
-  SharedCourseLink findSharedCourseLinkByShareLink(String shareLink);
-  SharedCourseLink findSharedCourseLinkById(UUID linkId);
+  SharedCourseLink saveShareLink(SharedCourseLink sharedCourseLink);
+  SharedCourseLink findDetailsByShareLink(String shareLink);
+  SharedCourseLink findShareLinkById(UUID linkId);
 }

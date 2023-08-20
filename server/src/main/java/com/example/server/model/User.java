@@ -10,7 +10,7 @@ import java.util.*;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = "refreshToken")
+@EqualsAndHashCode(exclude = {"refreshToken","sharedCourseLinks"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
@@ -37,6 +37,9 @@ public class User implements UserDetails {
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
   private Set<SharedCourseLink> sharedCourseLinks = new HashSet<>();
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+  private List<Comment> commentList = new ArrayList<>();
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return Collections.emptyList();

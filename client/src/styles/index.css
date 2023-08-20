@@ -4,6 +4,7 @@
   background: #e4e9f7;
 }
 
+
 #mainScreen > *,
 #mainScreen.nav_is_closed > * {
   width: 100%;
@@ -33,8 +34,14 @@
 /* SETTINGS PAGE */
 @import url("./components/DetailCourse/SettingComponent.css");
 
+
+
 /* ========== MODULE PLANNER PAGE ========== */
+/* Module */
+@import url("./components/Planner/Module/module.css");
+
 @import url("./components/Planner/plannerPage.css");
+
 
 /* Activity Planner Page */
 @import url("./components/Planner/ModuleInfo/info.css");
@@ -55,7 +62,7 @@
 /* Tabs */
 @import url("./components/Tabs/Tabs.css");
 
-/* ========== DOWNLOADPDF ========== */
+/* ========== DOWNLOAD PDF ========== */
 @import url("./components/DownloadPDF/DownloadPDF.css");
 
 /* ========== HOME ========== */

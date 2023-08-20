@@ -7,7 +7,7 @@ import {BsShareFill} from 'react-icons/bs'
 const CourseCard = ({data}) => {
   return (
       <div className="course_item">
-        <Link to={`/course/${data.id}/home`} className="text-decoration-none">
+        <Link to={`/courses/${data.id}`} className="text-decoration-none">
           <div className="card h-100">
             <img src={CourseImgBg} className="card-img-top" alt='' />
             <div className="card-body d-flex flex-column justify-content-between">

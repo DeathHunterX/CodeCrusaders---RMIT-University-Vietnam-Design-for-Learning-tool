@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import HomePage from "./components/Home/home";
 import PageRender from "./customRouter/PageRender";
 
@@ -11,39 +10,41 @@ import RegisterPage from "./pages/register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Layout from "./components/Layout";
-function App() {
-  const [isNavBarOpen, setIsNavBarOpen] = useState(true);
+import InactivityLogout from "./utils/InactivityLogout";
 
+function App() {
   return (
     <Router>
       <div className="App">
         <div className="main">
-          <Layout isNavBarOpen={isNavBarOpen} setNavBarOpen={setIsNavBarOpen}>
-            <Routes>
-              {/* Authentication an Authorization */}
-              <Route exact path="/login" element={<LoginPage />} />
-              <Route exact path="/register" element={<RegisterPage />} />
+          <InactivityLogout>
+            <Layout>
+              <Routes>
+                {/* Authentication an Authorization */}
+                <Route exact path="/login" element={<LoginPage />} />
+                <Route exact path="/register" element={<RegisterPage />} />
 
-              <Route exact path="/" element={<PrivateRouter />}>
-                <Route exact path="/" element={<HomePage />} />
+                <Route exact path="/" element={<PrivateRouter />}>
+                  <Route exact path="/" element={<HomePage />} />
 
-                <Route exact path="/down-preview" element={<Download />} />
+                  <Route exact path="/down-preview" element={<Download />} />
 
-                <Route exact path="/:page" element={<PageRender />} />
-                <Route exact path="/:page/:id" element={<PageRender />} />
-                <Route
-                  exact
-                  path="/:page/:id/:subPage"
-                  element={<PageRender />}
-                />
-                <Route
-                  exact
-                  path="/:page/:id/:subPage/:subId"
-                  element={<PageRender />}
-                />
-              </Route>
-            </Routes>
-          </Layout>
+                  <Route exact path="/:page" element={<PageRender />} />
+                  <Route exact path="/:page/:id" element={<PageRender />} />
+                  <Route
+                    exact
+                    path="/:page/:id/:subPage"
+                    element={<PageRender />}
+                  />
+                  <Route
+                    exact
+                    path="/:page/:id/:subPage/:subId"
+                    element={<PageRender />}
+                  />
+                </Route>
+              </Routes>
+            </Layout>
+          </InactivityLogout>
         </div>
       </div>
       <ToastContainer

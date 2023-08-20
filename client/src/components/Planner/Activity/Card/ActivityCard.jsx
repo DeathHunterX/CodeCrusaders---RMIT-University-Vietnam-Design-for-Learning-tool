@@ -15,16 +15,16 @@ const ActivityCard = ({isEditable=false, data, setData, activityType, setActivit
         // handle state data base on activityID
             const activityTypeResult = ActivityTypeMap.find((activity) => item === activity.activityID)
             switch (item) {
-                case 'activity-01':
+                case 'warm_up':
                     setData({
                         id: uuidv4(), 
                         duration: 10,
                         activityID: item,
-                        activityType: activityTypeResult.activityType[0].activityTypeID,
-                        engagementOption: activityTypeResult.activityType[0].activityTypeOption[0].optionID
+                        activityType: activityTypeResult?.activityType[0].activityTypeID,
+                        engagementOption: activityTypeResult?.activityType[0]?.activityTypeOption[0].optionID
                     })
                     break;
-                case 'activity-02':
+                case 'read_watch_listen':
                     setData({
                         id: uuidv4(), 
                         duration: 10,
@@ -33,7 +33,7 @@ const ActivityCard = ({isEditable=false, data, setData, activityType, setActivit
                         activityInstruction: ""
                     })
                     break;
-                case 'activity-03':
+                case 'reflect':
                     setData({
                         id: uuidv4(), 
                         duration: 10,
@@ -53,6 +53,8 @@ const ActivityCard = ({isEditable=false, data, setData, activityType, setActivit
             }
         
     }
+
+
 
     const openAddEditDialog = (id) => {
         setActivityWindow((state) => !state)

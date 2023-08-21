@@ -3,9 +3,11 @@ package com.example.server.controller;
 import com.example.server.api.response.CourseDetailsReponse;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.PDFResponse;
+import com.example.server.model.Comment;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
 import com.example.server.model.SharedCourseLink;
+import com.example.server.service.CommentService;
 import com.example.server.service.ModuleService;
 import com.example.server.service.SharedCourseLinkService;
 import com.example.server.service.impl.UserDetailsServiceImpl;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,6 +28,7 @@ public class SharedCourseLinkController {
   private final ModuleService moduleService;
   private final UserDetailsServiceImpl userDetailsService;
   private final ModelMapper modelMapper;
+  private final CommentService commentService;
 
   @PostMapping("/{module_id}/generateSharingID")
   public ResponseEntity<SharedCourseLink> shareCourse(@PathVariable("module_id") UUID moduleId) {
@@ -42,6 +46,7 @@ public class SharedCourseLinkController {
     SharedCourseLink sharedCourseLink = sharedCourseLinkService.findDetailsByShareLink(shareLink);
     Module sharedModule = sharedCourseLink.getModule();
     Course sharedCourse = sharedModule.getCourse();
+    List<Comment> comments = commentService.getAllCommentsFromSharedLink(shareLink);
 //    User user = userDetailsService.getCurrentUser();
     CourseDetailsReponse courseDetailsReponse = modelMapper.map(sharedCourse, CourseDetailsReponse.class);
     ModuleDetailsResponse moduleDetailsResponse = modelMapper.map(sharedModule, ModuleDetailsResponse.class);
@@ -50,6 +55,7 @@ public class SharedCourseLinkController {
     PDFResponse pdfResponse = PDFResponse.builder()
         .moduleDetailsResponse(moduleDetailsResponse)
         .courseDetailsReponse(courseDetailsReponse)
+        .comments(comments)
         .build();
     return new ResponseEntity<>(pdfResponse,HttpStatus.OK);
 

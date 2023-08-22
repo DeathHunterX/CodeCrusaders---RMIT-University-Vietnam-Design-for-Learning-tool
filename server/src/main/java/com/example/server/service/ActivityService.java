@@ -28,30 +28,6 @@ public interface ActivityService {
 
     ResponseEntity<?> moveActivityBetweenSessions(UUID sessionId, UUID targetSessionId, UUID activityId);
 
-
-//    WarmUp createWarmUp(WarmUpRequest warmUp, Course course);
-//
-//    ReadWatchListen createReadWatchListen(ReadWatchListenRequest readWatchListenRequest, Course course);
-//
-//    Assess createAssess(AssessRequest assessRequest, Course course);
-//
-//    Break createBreak(BreakRequest breakRequest, Course course);
-//
-//    Collaborate createCollaborate(CollaborateRequest collaborateRequest, Course course);
-//
-//    Discuss createDiscuss(DiscussRequest discussRequest, Course course);
-//
-//    Reflect createReflect(ReflectRequest reflectRequest, Course course);
-//
-//    WarmUp updateWarmUp(UUID activityId,WarmUpRequest warmUp);
-//    ReadWatchListen updateReadWatchListen(UUID activityId,ReadWatchListenRequest readWatchListenRequest);
-//    Reflect updateReflect(UUID activityId,ReflectRequest reflectRequest);
-//    Discuss updateDiscuss(UUID activityId,DiscussRequest discussRequest);
-//    Collaborate updateCollaborate(UUID activityId,CollaborateRequest collaborateRequest);
-//    Break updateBreak(UUID activityId,BreakRequest breakRequest);
-//    Assess updateAssess(UUID activityId,AssessRequest assessRequest);
-
-
     ResponseEntity<?> deleteActivity(UUID courseId, UUID sessionId, UUID activityId);
 }
 

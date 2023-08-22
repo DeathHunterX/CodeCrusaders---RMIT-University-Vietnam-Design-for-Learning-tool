@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -24,11 +26,20 @@ public class SharedCourseLink {
   private User user;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "course_id")
+  @JoinColumn(name = "module_id")
   @JsonIgnore
-  private Course course;
+  private Module module;
 
   @Column(unique = true, nullable = false, length = 32)
   private String shareLink;
 
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "shareLink")
+  private List<Comment> commentList = new ArrayList<>();
+
+  public SharedCourseLink(User user, Module module, String shareLink, List<Comment> commentList) {
+    this.user = user;
+    this.module = module;
+    this.shareLink = shareLink;
+    this.commentList = commentList;
+  }
 }

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -34,6 +32,10 @@ public class Module {
   @JsonIgnore
   private Course course;
 
+  @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  private Set<SharedCourseLink> sharedCourseLinks = new HashSet<>();
+
+
   public Module(String name, String los) {
     this.name = name;
     this.los = los;
@@ -48,5 +50,19 @@ public class Module {
   public void setSessionList(List<Session> sessionList) {
     this.sessionList.clear();
     this.sessionList.addAll(sessionList);
+  }
+
+  public String generateShareLink() {
+    String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    int length = 10; // You can adjust the length of the share link as needed
+    StringBuilder shareLinkBuilder = new StringBuilder();
+    Random random = new Random();
+    for (int i = 0; i < length; i++) {
+      int index = random.nextInt(characters.length());
+      char randomChar = characters.charAt(index);
+      shareLinkBuilder.append(randomChar);
+    }
+    String shareLink = shareLinkBuilder.toString();
+    return shareLink;
   }
 }

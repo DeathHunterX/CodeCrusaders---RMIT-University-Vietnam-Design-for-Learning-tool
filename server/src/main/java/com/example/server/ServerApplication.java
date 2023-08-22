@@ -7,17 +7,17 @@ import com.example.server.model.enums.InteractionType;
 import com.example.server.model.enums.SessionOption;
 import com.example.server.model.enums.SessionName;
 import com.example.server.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -39,9 +39,10 @@ public class ServerApplication implements CommandLineRunner {
   }
 
   @Override
+  @Transactional
   public void run(String... args) throws Exception {
-    courseRepository.deleteAll();
     userRepository.deleteAll();
+    courseRepository.deleteAll();
     assignmentRepository.deleteAll();
     moduleRepository.deleteAll();
 
@@ -153,9 +154,7 @@ public class ServerApplication implements CommandLineRunner {
 
     moduleRepository.saveAll(List.of(module1,module2,module3,module4,module5,module6));
     sessionRepository.saveAll(List.of(preClass, inClass, postClass, preClass1, inClass1, postClass1, preClass2, inClass2, postClass2,preClass3,inClass3,postClass3,preClass4,inClass4,postClass4,preClass5,inClass5,postClass5));
-
-    assignmentRepository.saveAll(List.of(assignment1,assignment2,assignment3,assignment4,assignment5,assignment6, assignment7, assignment8, assignment9));
-
+    assignmentRepository.saveAll(List.of(assignment1,assignment2,assignment3,assignment4,assignment5,assignment6, assignment7, assignment8, assignment9));;
 
 
 

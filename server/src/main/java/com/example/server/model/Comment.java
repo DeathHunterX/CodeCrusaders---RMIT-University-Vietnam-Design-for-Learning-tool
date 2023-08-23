@@ -2,6 +2,7 @@ package com.example.server.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,7 +32,7 @@ public class Comment {
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
-  @JsonBackReference
+  @JsonIgnoreProperties({"username", "password", "refreshToken", "courses", "sharedCourseLinks", "commentList", "id", "enabled", "accountNonExpired", "accountNonLocked", "credentialsNonExpired", "authorities"})
   private User user;
 
   @ManyToOne

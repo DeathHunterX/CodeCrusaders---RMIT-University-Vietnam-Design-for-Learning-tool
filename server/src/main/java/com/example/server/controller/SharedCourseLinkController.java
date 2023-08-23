@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -46,7 +46,7 @@ public class SharedCourseLinkController {
     SharedCourseLink sharedCourseLink = sharedCourseLinkService.findDetailsByShareLink(shareLink);
     Module sharedModule = sharedCourseLink.getModule();
     Course sharedCourse = sharedModule.getCourse();
-    List<Comment> comments = commentService.getAllCommentsFromSharedLink(shareLink);
+    Set<Comment> comments = commentService.getAllCommentsFromSharedLink(shareLink);
 //    User user = userDetailsService.getCurrentUser();
     CourseDetailsReponse courseDetailsReponse = modelMapper.map(sharedCourse, CourseDetailsReponse.class);
     ModuleDetailsResponse moduleDetailsResponse = modelMapper.map(sharedModule, ModuleDetailsResponse.class);
@@ -55,7 +55,7 @@ public class SharedCourseLinkController {
     PDFResponse pdfResponse = PDFResponse.builder()
         .moduleDetailsResponse(moduleDetailsResponse)
         .courseDetailsReponse(courseDetailsReponse)
-        .comments(comments)
+        .comments(comments.stream().toList())
         .build();
     return new ResponseEntity<>(pdfResponse,HttpStatus.OK);
 

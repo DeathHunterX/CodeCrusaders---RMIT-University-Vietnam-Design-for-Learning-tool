@@ -48,12 +48,15 @@ const PlannerComponent = () => {
     formName: ""
   })
 
-  const [sessionBoard, setSessionBoard] = useState(activitiesData[0].sessionName)
+  // const [sessionBoard, setSessionBoard] = useState(activitiesData[0].sessionName)
   
   const [moduleData, setModuleData] = useState({moduleName: ""})
-  
 
-  const [activityType, setActivityType] = useState("")
+  const [activityType, setActivityType] = useState({
+    state: "",   // add or edit state
+    board: ""
+  })  
+
   
   // handle data
 
@@ -104,14 +107,18 @@ const PlannerComponent = () => {
       setPopUpStat(false)
   }
 
-  const openAddEditDialog = (type) => {
+  const openAddEditDialog = (type, board) => {
     setPopUpStat(prevState => ({
       ...prevState,
       state: !prevState.state,
       formName: "activity"
     }))
 
-    setActivityType(type)
+    setActivityType(prevState => ({
+      ...prevState,
+      state: type,
+      board: board
+    }))
   }
 
   const handleClosePopUp = (e) => {
@@ -158,12 +165,10 @@ const PlannerComponent = () => {
       },
       {
         header: "Module Dashboard", 
-    },
+        icon: <FaClipboardList/>
+      },
   ]
 
-
-
-  
 
 
   // const filteredBoards = activitiesData.filter((board) => board.name === activeTabs);
@@ -217,6 +222,11 @@ const PlannerComponent = () => {
       }
   }
 
+
+  console.log(activitiesData)
+
+
+
   const ActivityHeaderFunction = { setActiveSection, handleGoBackToCoursePage, handlePreviewData }
   const ActivityHeaderData = { subPage, configMap, activeSection }
 
@@ -227,8 +237,8 @@ const PlannerComponent = () => {
   }
   const ActivityPlanningData = {width2, activitiesData}
 
-  const PopUpFormData = {popUpStat, moduleData, activityType}
-  const PopUpFormFunction = {handleSubmitForm, handleClosePopUp, handleChangeInput}
+  const PopUpFormData = {popUpStat, moduleData, activityType, activitiesData}
+  const PopUpFormFunction = {handleSubmitForm, handleClosePopUp, handleChangeInput, setActivitiesData}
 
   return (
       <DragDropContext onDragEnd={onDragEnd}>

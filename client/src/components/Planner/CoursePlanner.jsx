@@ -68,7 +68,7 @@ const CoursePlanner = ({activityData, activityFunction}) => {
                             </Droppable>                            
                         </div> 
                         <button className="btn btn-outline-primary w-100"
-                            onClick={() => openAddEditDialog("add")}
+                            onClick={() => openAddEditDialog("add", item.sessionName)}
                         >
                             {IconSetting(<IoMdAddCircleOutline/>, "", "16px")} Add Card
                         </button>

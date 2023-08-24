@@ -2,10 +2,10 @@ import React from 'react'
 import { IoClose } from 'react-icons/io5'
 
 const Module = ({compData, compFunction}) => {
-    const {formName, moduleData} = compData
+    const {popUpStat, moduleData} = compData
     const {handleSubmitForm, handleClosePopUp, handleChangeInput} = compFunction
     return (
-        <div className="form_content" style={{display: formName === "module" ? "block" : "none"}}>
+        <div className="form_content" style={{display: popUpStat.formName === "module" ? "block" : "none"}}>
             <form onSubmit={handleSubmitForm}>
                 <div className="form_header mb-4">
                     <div className=" d-flex justify-content-between">

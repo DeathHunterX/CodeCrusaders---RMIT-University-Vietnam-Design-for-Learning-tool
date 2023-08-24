@@ -72,8 +72,6 @@ const ActivityWindow = ({compData, compFunction}) => {
     setActivityData({})
   }
 
-  console.log(activityType)
-  
   const activityFilter = ActivityCardList.find((activity) => activityID === activity.activityID)
 
   return (

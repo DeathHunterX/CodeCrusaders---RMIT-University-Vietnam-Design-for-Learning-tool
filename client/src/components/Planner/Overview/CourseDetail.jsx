@@ -116,9 +116,6 @@ const CourseDetail = () => {
                     </select>
                     
                 </div>
-                
-            
-
 
                 <div className="accordion mt-4 mb-4" id="accordionPanelsStayOpenExample">
                     <div className="">

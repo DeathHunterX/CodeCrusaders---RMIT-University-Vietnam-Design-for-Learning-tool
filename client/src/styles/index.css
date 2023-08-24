@@ -46,7 +46,7 @@
 /* Activity Planner Page */
 @import url("./components/Planner/ModuleInfo/info.css");
 @import url("./components/Planner/ActivityPlanner/ActivityPlanner.css");
-@import url("./components/Planner/ActivityPlanner/ActivityWindow.css");
+@import url("./components/Planner/ActivityWindow/ActivityWindow.css");
 
 /* ========== COMPONENTS ========== */
 

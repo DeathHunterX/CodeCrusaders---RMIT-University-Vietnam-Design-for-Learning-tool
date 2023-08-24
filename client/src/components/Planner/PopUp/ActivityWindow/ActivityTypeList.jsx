@@ -1,7 +1,7 @@
 import React, { useMemo} from 'react'
 
 
-import { ActivityCardList, ActivityTypeMap } from '../Map/ActivityCardList'
+import { ActivityCardList, ActivityTypeMap } from '../../Activity/Map/ActivityCardList'
 import { IconSetting } from '../../../../utils/IconSetting'
 import { GoCheckCircleFill } from 'react-icons/go'
 
@@ -128,7 +128,7 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
 
                                 {
                                     item.activityTypeFill === 'option' && (
-                                        <>
+                                        <React.Fragment>
                                         <div className="activity_subsection">
                                             <span className="subsection_text">Choose an engagement option</span>
                                             <span className="subsection_subtext ">How do you want learners to engage with the Do Now?</span>
@@ -148,13 +148,13 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
                                             
                                             </div>
                                         </div>
-                                        </>
+                                        </React.Fragment>
                                     )
                                 }
 
                                 {
                                     (item.activityTypeFill === 'form' && item.activityTypeForm === 'input') && (
-                                        <>                          
+                                        <React.Fragment>                          
                                             <div className="activity_subsection">
                                                 {item.activityFormList.map((subItm) => (
                                                     <div className="" key={subItm.formID}>
@@ -172,14 +172,14 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
                                                     </div>
                                                 ))}
                                             </div>
-                                        </>
+                                        </React.Fragment>
                                         
                                     )
                                 }
 
                                 {
                                     (item.activityTypeFill === 'form' && item.activityTypeForm === 'textarea') && (
-                                        <>
+                                        <React.Fragment>
                                             <div className="activity_subsection">
                                                 <span className="subsection_text"> 
                                                 Describe your activity instruction
@@ -200,7 +200,7 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
                                             </div>
 
                                             
-                                        </>
+                                        </React.Fragment>
                                     )
                                 }
 

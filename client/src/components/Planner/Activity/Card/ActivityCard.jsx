@@ -6,7 +6,7 @@ import { ActivityCardList, ActivityTypeMap} from '../Map/ActivityCardList'
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 import { BiEditAlt } from 'react-icons/bi'
 
-const ActivityCard = ({isEditable=false, data, setData, activityType, setActivityType, setActivityWindow, setEditedItm, setDeleteItm, tabName}) => {
+const ActivityCard = ({isEditable=false, data, setData, openAddEditDialog, setEditedItm, setDeleteItm, tabName}) => {
     const ActivityFilter = ActivityCardList.find((activity) => data.activityID === activity.activityID)
     
     const findActivityType = (ActivityTypeMap.find((activity) => data.activityID === activity.activityID))?.activityType.find((type) => data.activityType === type.activityTypeID)
@@ -56,11 +56,8 @@ const ActivityCard = ({isEditable=false, data, setData, activityType, setActivit
 
 
 
-    const openAddEditDialog = (id) => {
-        setActivityWindow((state) => !state)
-        if (activityType === 'add') {
-            setActivityType('edit')
-        }
+    const openAddEditDialogByID = (id) => {
+        openAddEditDialog("edit")
         setEditedItm(id)
     }
 
@@ -81,7 +78,7 @@ const ActivityCard = ({isEditable=false, data, setData, activityType, setActivit
                                 <p className="activity_desc">{findActivityType.activityTypeName}</p>     
                             </div>
                             <div className="content_status me-3">
-                                <div className="edit_status me-2" onClick={() => openAddEditDialog(data.id)}>
+                                <div className="edit_status me-2" onClick={() => openAddEditDialogByID(data.id)}>
                                     <BiEditAlt/>
                                 </div>
                                 <div className="delete_status" onClick={() => tabName? setDeleteItm(tabName, data.id) : setDeleteItm(data.id)}>

@@ -60,27 +60,6 @@ export const logoutUser = createAsyncThunk('auth/logout', async() => {
   clearTokens();
 })
 
-// Refresh Token
-// export const refreshToken = createAsyncThunk('auth/refreshToken', async(thunkAPI) => {
-//   try {
-//     const checkRefreshToken = getRefreshToken();
-
-//     const res = await postDataAPI('auth/refresh-token', {refreshToken: checkRefreshToken})
-//     const tokenDecoded = jwt_decode(res.data?.accessToken)
-
-//     const combinedToken = `Bearer ${res.data?.accessToken}`
-//     setAccessToken(combinedToken, moment.unix(tokenDecoded.exp))
-
-//     return res.data?.accessToken
-    
-
-//   } catch (err) {
-//     const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
-//     return thunkAPI.rejectWithValue(message);
-//   }
-  
-// })
-
 // State
 const authSlice = createSlice({
     name: "auth",

@@ -3,9 +3,9 @@ import CourseMainPage from '../components/Course/CourseMainPage'
 
 const Courses = () => {
   return (
-    <>
+    <React.Fragment>
       <CourseMainPage/>
-    </>
+    </React.Fragment>
   )
 }
 

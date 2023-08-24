@@ -8,7 +8,7 @@ import ActivityCard from '../Activity/Card/ActivityCard'
 import { Draggable, Droppable } from '@hello-pangea/dnd'
 import { RiEdit2Line } from 'react-icons/ri'
 
-const PlannerDescription = ({data, tabName, rightActivities, activityType, setActivityType, setActivityWindow, setEditedItm, setDeleteItm}) => {
+const PlannerDescription = ({data, tabName, rightActivities, openAddEditDialog, setEditedItm, setDeleteItm}) => {
   const [durationTime, setDurationTime] = useState(90)
 
   // handle time when input
@@ -94,9 +94,7 @@ const PlannerDescription = ({data, tabName, rightActivities, activityType, setAc
                                 <ActivityCard
                                     data={activity_itm}
                                     isEditable={true}
-                                    activityType={activityType}
-                                    setActivityType={setActivityType}
-                                    setActivityWindow={setActivityWindow}
+                                    openAddEditDialog={openAddEditDialog}
                                     setEditedItm={setEditedItm}
                                     setDeleteItm={setDeleteItm}
                                     tabName={data.name}

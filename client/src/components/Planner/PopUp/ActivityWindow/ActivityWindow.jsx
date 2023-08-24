@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 
 import { AiOutlineClose } from 'react-icons/ai'
 import {toast} from 'react-toastify'
 
-import { ActivityCardList} from '../Map/ActivityCardList'
-import ActivityCard from '../Card/ActivityCard'
+import { ActivityCardList} from '../../Activity/Map/ActivityCardList'
+import ActivityCard from '../../Activity/Card/ActivityCard'
 import ActivityTypeList from './ActivityTypeList'
 
 
-const ActivityWindow = ({type, leftActivities, setLeftActivities, setRightActivities, setActivityWindow, editedData, tabName}) => {
+const ActivityWindow = (compData, compFunction) => {
+  const {formName, activityType} = compData;
+  const {} = compFunction;
   const [activityData, setActivityData] = useState({})
   
   const {id, activityID} = activityData
 
-  useEffect(() => {
-    if (type === 'edit' && editedData) {
-      setActivityData(editedData)
-    }
-  }, [editedData, type])
+  // useEffect(() => {
+  //   if (activityType === 'edit' && editedData) {
+  //     setActivityData(editedData)
+  //   }
+  // }, [editedData, type])
   
 
   const removeActivityFromDroppable = () => {
@@ -28,7 +30,7 @@ const ActivityWindow = ({type, leftActivities, setLeftActivities, setRightActivi
   const handleCreateActivity = () => {
     if (activityID){
       setLeftActivities((preState) => [...preState, activityData])
-      setActivityWindow((preState) => !preState)
+      handleClose()
 
     } else {
       toast.error("You need to select one activity")
@@ -49,17 +51,19 @@ const ActivityWindow = ({type, leftActivities, setLeftActivities, setRightActivi
         );
       });
     }
+  }
 
-    setActivityWindow((preState) => !preState)
+  const handleClose = () => {
+    handleClosePopUp()
+    setActivityData({})
   }
   
   const activityFilter = ActivityCardList.find((activity) => activityID === activity.activityID)
 
   return (
-    <div className="activity_dialog dialog_activation">
-      <div className="dialog_overlay"></div>
-      <div className="dialog_container">
-        <div className="dialog_close" onClick={() => setActivityWindow((preState) => !preState)}><AiOutlineClose/></div>
+      <div className="dialog_container" style={{display: formName === "activity" ? "block" : "none"}}>
+        <div className="dialog_close" onClick={handleClose}><AiOutlineClose/></div>
+
         <div className="dialog_container_inner" style={{maxHeight: "90vh", height: "100%"}}>
 
           {type === 'add' && (
@@ -81,7 +85,7 @@ const ActivityWindow = ({type, leftActivities, setLeftActivities, setRightActivi
                 </div>
               </div>
 
-              <div className="activity_section left_activity" style={{background: "rgb(224, 224, 224)", height: '74vh'}}>
+              <div className="activity_section left_activity">
                 <div className="activity_wrapper">
                     <div className="activity_wrapper_inner">
                         <ul style={{paddingLeft: '0'}}>
@@ -111,7 +115,6 @@ const ActivityWindow = ({type, leftActivities, setLeftActivities, setRightActivi
             saveActivity={handleSaveActivity}/>
           )}
           
-        </div>
       </div>
     </div>
   )

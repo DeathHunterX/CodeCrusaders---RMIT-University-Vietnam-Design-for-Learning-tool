@@ -33,7 +33,7 @@ const NavBar = ({isNavBarOpen, setNavBarOpen, setLocationStyle}) => {
   return (
     <>
     {(pathNamePart[1] !== "login" && pathNamePart[1] !== "register") && (
-      <> 
+      <React.Fragment> 
         <nav className={`navbar navbar-vertical navbar-light navbar-expand-xl ${isNavBarOpen === true ? 'navbar-close' : ''}`}
         style={setLocationStyle}>
             <div className="sideBar-spacer"></div>
@@ -104,7 +104,7 @@ const NavBar = ({isNavBarOpen, setNavBarOpen, setLocationStyle}) => {
             </ul>
           </div>
         </div>
-      </>
+      </React.Fragment>
     )}
     </>
 

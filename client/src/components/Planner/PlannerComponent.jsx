@@ -57,7 +57,11 @@ const PlannerComponent = () => {
     board: ""
   })  
 
-  
+  // console.log(activitiesData)
+
+  useEffect(() => {
+
+  }, [])
   // handle data
 
   
@@ -223,7 +227,6 @@ const PlannerComponent = () => {
   }
 
 
-  console.log(activitiesData)
 
 
 

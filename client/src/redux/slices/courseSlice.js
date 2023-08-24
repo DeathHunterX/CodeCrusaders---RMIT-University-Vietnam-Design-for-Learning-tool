@@ -33,10 +33,10 @@ export const getCourse = createAsyncThunk('courses/getCourse', async({id, token}
 })
 
 export const createCourse = createAsyncThunk('courses/createCourse', async({courseData, token}, thunkAPI) => {
-    console.log({courseData, token})
+    // console.log({courseData, token})
     try {
         const res = await postDataAPI('create-course', courseData, token)
-        console.log("Response", res)
+        // console.log("Response", res)
         return res.data
     } catch (err) {
         const errMessage = err.response?.data?.message || err.message;

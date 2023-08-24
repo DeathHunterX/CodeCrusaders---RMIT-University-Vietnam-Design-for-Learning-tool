@@ -52,14 +52,14 @@ const InactivityLogout = ({children}) => {
 
         if (!checkRefreshToken) {
             dispatch(logoutUser());
-            navigate('/login');
+            // navigate('/login');
         }
     }, [dispatch, navigate])
 
     const logoutAction = () => {
         alert('User is logged out due to inactivity.');
         dispatch(logoutUser());
-        navigate('/login');
+        // navigate('/login');
     };
         
     return children;

@@ -72,12 +72,6 @@ const courseSlice = createSlice({
     name: "course",
     initialState,
     reducers: {
-        reset: (state) => {
-            state.isLoading = false;
-            state.isSuccess = false;
-            state.isError = false;
-            state.message = "";
-        },
     },
     extraReducers: (builder) => {
         builder
@@ -158,5 +152,4 @@ const courseSlice = createSlice({
     }
 })
 
-export const {reset} = courseSlice.actions
 export default courseSlice.reducer

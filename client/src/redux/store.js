@@ -3,7 +3,7 @@ import authReducer from './slices/authSlice'
 import courseReducer from './slices/courseSlice'
 import moduleReducer from './slices/moduleSlice'
 
-// import {AxiosMiddleware} from '../api/axiosMiddleware'
+import {AxiosMiddleware} from '../api/axiosMiddleware'
 
 const store = configureStore({
     reducer: {
@@ -11,9 +11,9 @@ const store = configureStore({
       course: courseReducer,
       module: moduleReducer,
     },
-    // middleware: (getDefaultMiddleware) => {
-    //   return getDefaultMiddleware().concat(AxiosMiddleware)
-    // },
+    middleware: (getDefaultMiddleware) => {
+      return getDefaultMiddleware().concat(AxiosMiddleware)
+    },
 });
 
 export default store;

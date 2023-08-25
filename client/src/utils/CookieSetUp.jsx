@@ -4,8 +4,9 @@ import Cookies from 'js-cookie';
 // const TOKEN_EXPIRATION_HOURS = 6; // Token expiration time in hours
 
 export const setTokens = (accessToken, refreshToken, accessTokenExpiration, refreshTokenExpiration) => {
-    Cookies.set('accessToken', accessToken, { expires: accessTokenExpiration.toDate(), secure: true });
-    Cookies.set('refreshToken', refreshToken, { expires: refreshTokenExpiration.toDate(), secure: true });
+
+  Cookies.set('accessToken', accessToken, { expires: accessTokenExpiration.toDate()});
+  Cookies.set('refreshToken', refreshToken, { expires: refreshTokenExpiration.toDate()});
 };
 
 export const getAccessToken = () => {

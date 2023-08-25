@@ -32,7 +32,7 @@ const CoursePlanner = ({activityData, activityFunction}) => {
                         </div>
                         
                         <div className="activity_list_body">
-                            <Droppable droppableId='left_board'>
+                            <Droppable droppableId={`${item.sessionName}_board`}>
                                 {(provided) => (
                                     <ul className="activity_list_cards" style={{padding: '10px 0'}}
                                     ref={provided.innerRef} 

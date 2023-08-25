@@ -7,7 +7,7 @@ import TextEditor from "../../TextEditor/TextEditor";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { createCourse, reset } from "../../../redux/slices/courseSlice";
+import { createCourse} from "../../../redux/slices/courseSlice";
 
 const CourseCreated = () => {
   const {accessToken} = useSelector(state => state.auth.token)
@@ -37,8 +37,6 @@ const CourseCreated = () => {
       toast.success("Create Course Successfully")
       navigate('/courses')
     }
-
-    dispatch(reset())
 
   }, [dispatch, isSuccess, navigate])
   const handleInput = (e) => {

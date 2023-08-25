@@ -10,7 +10,6 @@ export const AxiosMiddleware = (store) => (next) => (action) => {
     if (!store) return;
 
     const {dispatch} = store
-    let isFirst401 = true;
 
     axios.interceptors.request.use((request) => {
         return request
@@ -24,32 +23,26 @@ export const AxiosMiddleware = (store) => (next) => (action) => {
         const originalRequest = error.config;
         if (originalRequest.url !== "auth/login" && error.response) {
             if (error.response.status === 401 && !originalRequest._retry) {
-                if (isFirst401) {
-                    isFirst401 = false;
-                    return Promise.resolve();
-                }
-                else {
-                    originalRequest._retry = true;
-                    
-                    console.clear()
-                    const checkRefreshToken = getRefreshToken();
-                    
-                    try {
-                        const res = await postDataAPI('auth/refresh-token', {refreshToken: checkRefreshToken})
-            
-                        const combinedToken = `Bearer ${res.data?.accessToken}`
-            
-                        dispatch(setAuthTokens({accessToken: combinedToken, refreshToken: checkRefreshToken}))
-            
-                        const tokenDecoded = jwt_decode(res.data?.accessToken)
-                        setAccessToken(combinedToken, moment.unix(tokenDecoded.exp))
+                
+                originalRequest._retry = true;
+                
+                console.clear()
+                const checkRefreshToken = getRefreshToken();
+                
+                try {
+                    const res = await postDataAPI('auth/refresh-token', {refreshToken: checkRefreshToken})
+        
+                    const combinedToken = `Bearer ${res.data?.accessToken}`
+        
+                    dispatch(setAuthTokens({accessToken: combinedToken, refreshToken: checkRefreshToken}))
+        
+                    const tokenDecoded = jwt_decode(res.data?.accessToken)
+                    setAccessToken(combinedToken, moment.unix(tokenDecoded.exp))
 
-                        isFirst401 = true;
+                    return axios(originalRequest)
+                } catch (_error) {
+                    return Promise.reject(_error);
 
-                        return axios(originalRequest)
-                    } catch (_error) {
-                        return Promise.reject(_error);
-                    }
                 }
             }
         }

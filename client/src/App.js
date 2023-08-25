@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import HomePage from "./components/Home/home";
 import PageRender from "./customRouter/PageRender";
 
@@ -11,7 +11,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Layout from "./components/Layout";
 
+
+import { getRefreshToken } from "./utils/CookieSetUp";
 function App() {
+  const isAuth = getRefreshToken();
   return (
     <Router>
       <div className="App">
@@ -20,8 +23,8 @@ function App() {
           <Layout>
             <Routes>
               {/* Authentication an Authorization */}
-              <Route exact path="/login" element={<LoginPage />} />
-              <Route exact path="/register" element={<RegisterPage />} />
+              <Route exact path="/login" element={isAuth ? <Navigate to="/" /> : <LoginPage />} />
+              <Route exact path="/register" element={isAuth ? <Navigate to="/" /> : <RegisterPage />} />
 
               <Route exact path="/" element={<PrivateRouter />}>
                 <Route exact path="/" element={<HomePage />} />

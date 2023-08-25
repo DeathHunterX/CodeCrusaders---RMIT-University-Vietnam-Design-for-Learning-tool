@@ -71,11 +71,7 @@ const moduleSlice = createSlice({
     name: 'module',
     initialState,
     reducers: {
-        resetModule: (state) => {
-            state.isLoading = false;
-            state.isSuccess = false;
-            state.message = "";
-        }
+        
     },
     extraReducers: (builders) => {
         builders
@@ -152,5 +148,4 @@ const moduleSlice = createSlice({
     }
 })
 
-export const {resetModule} = moduleSlice.actions
 export default moduleSlice.reducer

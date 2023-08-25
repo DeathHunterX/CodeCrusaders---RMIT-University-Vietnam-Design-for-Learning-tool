@@ -12,9 +12,9 @@ const initialState = {
     accessToken: getAccessToken() ? getAccessToken() : null,
     refreshToken: getRefreshToken() ? getRefreshToken() : null
   },
-  isError: null,
-  isSuccess: null,
-  isLoading: null,
+  isError: false,
+  isSuccess: false,
+  isLoading: false,
   message: ''
 }
 
@@ -34,6 +34,7 @@ export const registerUser = createAsyncThunk('auth/register', async(userData, th
 export const loginUser = createAsyncThunk('auth/login', async(userData, thunkAPI) => {
   try {
     const res = await postDataAPI('auth/sign-in', userData)
+
     if(res.data) {
       localStorage.setItem('userInfo', JSON.stringify({id:res.data?.id, name: res.data?.name, username: res.data?.username}))
       
@@ -54,27 +55,28 @@ export const loginUser = createAsyncThunk('auth/login', async(userData, thunkAPI
   }
 })
 
-// Log out user
-// export const logoutUser = createAsyncThunk('auth/logout', async() => {
-//   localStorage.removeItem('userInfo');
-//   clearTokens();
-// })
-
 // State
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-      reset: (state) => {
-        state.isLoading = false;
+      resetState: (state) => {
         state.isSuccess = false;
         state.isError = false;
-        state.message = '';
       },
       setAuthTokens: (state, action) => {
         state.token.accessToken = action.payload.accessToken;
         state.token.refreshToken = action.payload.refreshToken;
+      },
+      logOutUser: (state) => {
+        localStorage.removeItem('userInfo');
+        clearTokens();
+        state.user = null;
+        state.token.accessToken = null;
+        state.token.refreshToken = null;
       }
+
+      
 
     },
     extraReducers: (builder) => {
@@ -102,27 +104,19 @@ const authSlice = createSlice({
         })
         .addCase(loginUser.fulfilled, (state, action) => {
           state.isLoading = false;
-          state.isSuccess = true;
           state.user = {id: action.payload.id, name: action.payload.name, username: action.payload.username};
 
           state.token.accessToken = `${action.payload.type ? action.payload.type : 'Bearer'} ${action.payload.token}`;
           state.token.refreshToken = action.payload.refreshToken;
         })
-        // .addCase(loginUser.rejected, (state, action) => {
-        //   state.isLoading = false;
-        //   state.isError = true;
-        //   state.message = action.payload;
-        //   state.user = null;
-        // })
-
-        // // Log out
-        // .addCase(logoutUser.fulfilled, (state) => {
-        //   state.user = null;
-        //   state.token.accessToken = null;
-        //   state.token.refreshToken = null;
-        // })
+        .addCase(loginUser.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isError = true;
+          state.message = action.payload;
+          state.user = null;
+        })
     },
 })
   
-  export const { reset, setAuthTokens } = authSlice.actions
+  export const { resetState, logOutUser, setAuthTokens } = authSlice.actions
   export default authSlice.reducer

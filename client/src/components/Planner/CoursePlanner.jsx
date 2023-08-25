@@ -14,6 +14,8 @@ const CoursePlanner = ({activityData, activityFunction}) => {
     openAddEditDialog, 
     setEditedItm, 
   } = activityFunction
+
+  console.log(activitiesData)
   return (
     <React.Fragment>
       <div className="d-flex flex-row" style={{width: `${width2}%`}}>
@@ -36,7 +38,9 @@ const CoursePlanner = ({activityData, activityFunction}) => {
                                     ref={provided.innerRef} 
                                         {...provided.droppableProps}
                                     >
-                                        {item.activityList.map((activity_itm, idx) => (   
+                                        {item.activityList.map((activity_itm, idx) => {
+                                            console.log(activity_itm)
+                                            return(   
 
                                             <Draggable key={activity_itm.id} draggableId={activity_itm.id} index={idx}>
                                                 {(provided, snapshot) => (
@@ -48,20 +52,20 @@ const CoursePlanner = ({activityData, activityFunction}) => {
                                                         opacity: snapshot.isDragging ? '0.5' : '1'
                                                     }}
                                                     >
-                                                        {/* <ActivityCard
+                                                        <ActivityCard
                                                             data={activity_itm}
                                                             isEditable={true}
                                                             openAddEditDialog={openAddEditDialog}
-                                                            setEditedItm={setEditedItm}
-                                                            setDeleteItm={deleteLeftCard}
-                                                        /> */}
+                                                            // setEditedItm={setEditedItm}
+                                                            // setDeleteItm={deleteLeftCard}
+                                                        />
                                                     </div>
 
                                                 )}
                                                     
                                             </Draggable>
                                             
-                                        ))}
+                                        )})}
                                         {provided.placeholder}
                                     </ul>
                                 )}

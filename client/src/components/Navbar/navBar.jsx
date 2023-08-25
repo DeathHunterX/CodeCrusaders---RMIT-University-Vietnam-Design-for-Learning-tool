@@ -11,7 +11,7 @@ import { NavBarData } from './navBarData'
 import AvatarImg from '../../images/Avatar/avatar.jpg'
 import Avatar from '../Avatar'
 import { useDispatch } from 'react-redux'
-import { logoutUser, reset } from '../../redux/slices/authSlice'
+import { reset } from '../../redux/slices/authSlice'
 
 
 const NavBar = ({isNavBarOpen, setNavBarOpen, setLocationStyle}) => {
@@ -23,7 +23,7 @@ const NavBar = ({isNavBarOpen, setNavBarOpen, setLocationStyle}) => {
 
   const logOut = () => {
     dispatch(reset())
-    dispatch(logoutUser())
+    // dispatch(logoutUser())
     navigate('/login')
   }
 

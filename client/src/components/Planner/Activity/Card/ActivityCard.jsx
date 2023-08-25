@@ -57,7 +57,7 @@ const ActivityCard = ({isEditable=false, data, setData, openAddEditDialog, setEd
 
 
     const openAddEditDialogByID = (id) => {
-        openAddEditDialog("edit")
+        openAddEditDialog("edit", )
         setEditedItm(id)
     }
 

@@ -11,12 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CourseDetailsResponse {
+public class CourseInfoResponse {
     private String courseName;
     private String courseCode;
     private String courseSemester;
     private String clos;
     private List<Assignment> assignmentList;
     private List<Module> moduleList;
-
 }

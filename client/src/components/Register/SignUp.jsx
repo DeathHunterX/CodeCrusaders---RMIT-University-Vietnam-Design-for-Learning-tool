@@ -3,9 +3,7 @@ import {useNavigate, Link} from 'react-router-dom'
 import {toast} from 'react-toastify'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { registerUser, reset } from '../../redux/slices/authSlice'
-
-import { usePreventAccess } from "../../hook/usePreventAccess";
+import { registerUser, resetState} from '../../redux/slices/authSlice'
 
 
 const SignUp = () => {
@@ -23,26 +21,19 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState("")
 
     const navigate = useNavigate()
-    const {user, isError, isSuccess, isLoading, message} = useSelector(state => state.auth)
+    const {user, isError, isSuccess, message} = useSelector(state => state.auth)
     const dispatch = useDispatch()
-
-    usePreventAccess();
 
     useEffect(() => {
         if(isError) {
             toast.error(message)
-        }
-        if(isSuccess || user) {
+            dispatch(resetState())
+        } else if(isSuccess) {
             toast.success("Your account is successfully created. Please login into your account again to enter website")
+            dispatch(resetState())
             navigate('/login')
         }
-
-        dispatch(reset())
     }, [user, isError, isSuccess, navigate, dispatch, message])
-
-    if(isLoading) {
-    
-    }
 
     const handleChangeInput = (e) => {
         const {name, value} = e.target

@@ -3,31 +3,31 @@ import {AiOutlineQuestionCircle} from 'react-icons/ai'
 import TextEditor from '../../TextEditor/TextEditor'
 
 
-const BasicInformation = ({data}) => {
+const ModuleInfo = ({data, width}) => {
     const initialState = {
         name: "",
         los: "",
         sessionList: [
             {
-                sessionName: "Pre-class",
-                sessionModality: "F2F",            //  F2F, Online, Hybrid
-                grouping: "Individual",                   //  Individual, Class
-                lectureAvailability: "Yes",         //  Yes, no
-                asyncSync: "Synchronous"
+                sessionName: "Pre_class",
+                sessionOption: "F2F",               //  F2F, Online, Hybrid
+                groupingType: "Individual",         //  Individual, Class
+                hasLecture: true,                  //  Yes, no
+                interactionType: "Synchronous"
             },
             {
-                sessionName: "In-class",
-                sessionModality: "F2F",            //  F2F, Online, Hybrid
-                grouping: "Individual",                   //  Individual, Class
-                lectureAvailability: "Yes",         //  Yes, no
-                asyncSync: "Synchronous"
+                sessionName: "In_class",
+                sessionOption: "F2F",               //  F2F, Online, Hybrid
+                groupingType: "Individual",         //  Individual, Class
+                hasLecture: true,                  //  Yes, no
+                interactionType: "Synchronous"
             },
             {
-                sessionName: "Post-class",
-                sessionModality: "F2F",            //  F2F, Online, Hybrid
-                grouping: "Individual",                   //  Individual, Class
-                lectureAvailability: "Yes",         //  Yes, no
-                asyncSync: "Synchronous"
+                sessionName: "Post_class",
+                sessionOption: "F2F",               //  F2F, Online, Hybrid
+                groupingType: "Individual",         //  Individual, Class
+                hasLecture: true,                  //  Yes, no
+                interactionType: "Synchronous"
             },
         ]
     };
@@ -35,14 +35,13 @@ const BasicInformation = ({data}) => {
     const [moduleInfo, setModuleInfo] = useState(initialState);
     const {name, los} = moduleInfo;
 
-    useEffect(() => {
-        setModuleInfo({
-            name: data.name,
-            los: (data.los === "" || data.los === null) ? "" : data.los,
-            sessionList: initialState.sessionList
-        })
+    // useEffect(() => {
+    //     setModuleInfo({
+    //         name: data.name,
+    //         los: (data.los === "" || data.los === null) ? "" : data.los,
+    //     })
         
-    }, [data.los, data.name, initialState.sessionList])
+    // }, [data.los, data.name, initialState.sessionList])
 
     const handleChangeInput = (e) => {
         const {name, value} = e.target
@@ -67,7 +66,7 @@ const BasicInformation = ({data}) => {
         e.preventDefault()
     }
 
-    const RadioButtonsList = ({ className, options, selectedOption, onChange }) => {
+    const RadioButtonsList = ({ className, options, names, selectedOption, onChange }) => {
         return (
             <div className={className}>
               {options.map((option, idx) => (
@@ -86,7 +85,7 @@ const BasicInformation = ({data}) => {
         );
     }
     return (
-        <div className="module_info_wrapper p-4">
+        <div className="module_info_wrapper p-4" style={{width: `${width}%`}}>
             <form onSubmit={handleeSaveInfo}>
                 <div className="mb-3">
                     <div className="d-flex justify-content-between">
@@ -117,8 +116,8 @@ const BasicInformation = ({data}) => {
                                         <RadioButtonsList
                                             className={"d-flex justify-content-evenly"}
                                             options={['F2F', 'Online', 'Hybrid']}
-                                            selectedOption={classItm.sessionModality}
-                                            onChange={(event) =>handleOptionChange(classItm.sessionName, 'sessionModality', event.target.value)}
+                                            selectedOption={classItm.sessionOption}
+                                            onChange={(event) =>handleOptionChange(classItm.sessionName, 'sessionOption', event.target.value)}
                                         />
                                     </td>
 
@@ -126,17 +125,17 @@ const BasicInformation = ({data}) => {
                                         <RadioButtonsList
                                             className={"d-flex justify-content-evenly"}
                                             options={['Individual', 'Class']}
-                                            selectedOption={classItm.grouping}
-                                            onChange={(event) => handleOptionChange(classItm.sessionName, 'grouping', event.target.value)}
+                                            selectedOption={classItm.groupingType}
+                                            onChange={(event) => handleOptionChange(classItm.sessionName, 'groupingType', event.target.value)}
                                         />
                                     </td>
 
                                     <td>
                                         <RadioButtonsList
                                             className={"d-flex justify-content-evenly"}
-                                            options={['Yes', 'No']}
-                                            selectedOption={classItm.lectureAvailability}
-                                            onChange={(event) => handleOptionChange(classItm.sessionName, 'lectureAvailability', event.target.value)}
+                                            options={[true, false]}
+                                            selectedOption={classItm.hasLecture}
+                                            onChange={(event) => handleOptionChange(classItm.sessionName, 'hasLecture', event.target.value)}
                                         />
                                     </td>
 
@@ -144,8 +143,8 @@ const BasicInformation = ({data}) => {
                                         <RadioButtonsList
                                             className={"d-flex flex-column justify-content-evenly"}
                                             options={['Asynchronous', 'Synchronous']}
-                                            selectedOption={classItm.asyncSync}
-                                            onChange={(event) => handleOptionChange(classItm.sessionName, 'lectureAvailability', event.target.value)}
+                                            selectedOption={classItm.interactionType}
+                                            onChange={(event) => handleOptionChange(classItm.sessionName, 'interactionType', event.target.value)}
                                         />
                                     </td>
                                 </tr>
@@ -169,4 +168,4 @@ const BasicInformation = ({data}) => {
     )
 }
 
-export default BasicInformation
+export default ModuleInfo

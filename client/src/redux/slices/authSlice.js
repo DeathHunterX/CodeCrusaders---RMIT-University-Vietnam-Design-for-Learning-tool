@@ -1,20 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import moment from 'moment'
-import jwt_decode from 'jwt-decode'
 import {postDataAPI} from '../../api/fetchData'
-import { clearTokens, getAccessToken, getRefreshToken,  setTokens } from "../../utils/CookieSetUp";
+
 
 const user = JSON.parse(localStorage.getItem('userInfo'))
 
+const token = JSON.parse(localStorage.getItem('token'))
+
 const initialState = {
   user: user ? user : null,
-  token: {
-    accessToken: getAccessToken() ? getAccessToken() : null,
-    refreshToken: getRefreshToken() ? getRefreshToken() : null
-  },
-  isError: null,
-  isSuccess: null,
-  isLoading: null,
+  token: token ? token : null,
+  isError: false,
+  isSuccess: false,
+  isLoading: false,
   message: ''
 }
 
@@ -34,17 +31,14 @@ export const registerUser = createAsyncThunk('auth/register', async(userData, th
 export const loginUser = createAsyncThunk('auth/login', async(userData, thunkAPI) => {
   try {
     const res = await postDataAPI('auth/sign-in', userData)
+
     if(res.data) {
       localStorage.setItem('userInfo', JSON.stringify({id:res.data?.id, name: res.data?.name, username: res.data?.username}))
-      
-      const accessTokenDecoded = jwt_decode(res.data?.token)
 
-      const accessTokenExpiration = moment.unix(accessTokenDecoded.exp)
-      const refreshTokenExpiration = moment().clone().add(6, 'hours')
-      
       const combinedToken = `${res.data?.type ? res.data?.type : 'Bearer'} ${res.data?.token}`
 
-      setTokens(combinedToken, res.data?.refreshToken, accessTokenExpiration, refreshTokenExpiration)
+      localStorage.setItem("token", JSON.stringify({accessToken: combinedToken, refreshToken: res.data?.refreshToken}))
+      
     }
     return res.data;
 
@@ -54,48 +48,31 @@ export const loginUser = createAsyncThunk('auth/login', async(userData, thunkAPI
   }
 })
 
-// Log out user
-export const logoutUser = createAsyncThunk('auth/logout', async() => {
-  localStorage.removeItem('userInfo');
-  clearTokens();
-})
 
-// Refresh Token
-// export const refreshToken = createAsyncThunk('auth/refreshToken', async(thunkAPI) => {
-//   try {
-//     const checkRefreshToken = getRefreshToken();
-
-//     const res = await postDataAPI('auth/refresh-token', {refreshToken: checkRefreshToken})
-//     const tokenDecoded = jwt_decode(res.data?.accessToken)
-
-//     const combinedToken = `Bearer ${res.data?.accessToken}`
-//     setAccessToken(combinedToken, moment.unix(tokenDecoded.exp))
-
-//     return res.data?.accessToken
-    
-
-//   } catch (err) {
-//     const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
-//     return thunkAPI.rejectWithValue(message);
-//   }
-  
-// })
 
 // State
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-      reset: (state) => {
-        state.isLoading = false;
+      resetState: (state) => {
         state.isSuccess = false;
         state.isError = false;
-        state.message = '';
       },
       setAuthTokens: (state, action) => {
         state.token.accessToken = action.payload.accessToken;
         state.token.refreshToken = action.payload.refreshToken;
+      },
+      logOutUser: (state) => {
+        localStorage.removeItem('userInfo');
+        localStorage.removeItem('token');
+        state.user = null;
+        state.token.accessToken = null;
+        state.token.refreshToken = null;
+        window.location.href = "/login"
       }
+
+      
 
     },
     extraReducers: (builder) => {
@@ -123,11 +100,12 @@ const authSlice = createSlice({
         })
         .addCase(loginUser.fulfilled, (state, action) => {
           state.isLoading = false;
-          state.isSuccess = true;
           state.user = {id: action.payload.id, name: action.payload.name, username: action.payload.username};
-
-          state.token.accessToken = `${action.payload.type ? action.payload.type : 'Bearer'} ${action.payload.token}`;
-          state.token.refreshToken = action.payload.refreshToken;
+          console.log(action.payload)
+          state.token = {
+            accessToken: `${action.payload.type ? action.payload.type : 'Bearer'} ${action.payload.token}`,
+            refreshToken: action.payload.refreshToken,
+          }
         })
         .addCase(loginUser.rejected, (state, action) => {
           state.isLoading = false;
@@ -135,15 +113,8 @@ const authSlice = createSlice({
           state.message = action.payload;
           state.user = null;
         })
-
-        // Log out
-        .addCase(logoutUser.fulfilled, (state) => {
-          state.user = null;
-          state.token.accessToken = null;
-          state.token.refreshToken = null;
-        })
     },
 })
   
-  export const { reset, setAuthTokens } = authSlice.actions
+  export const { resetState, logOutUser, setAuthTokens } = authSlice.actions
   export default authSlice.reducer

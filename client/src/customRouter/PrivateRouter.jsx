@@ -1,9 +1,8 @@
-import { Outlet, Navigate } from 'react-router-dom';
-import { getRefreshToken } from '../utils/CookieSetUp';
+import { Outlet, Navigate } from 'react-router-dom'
 
 const PrivateRouter = () => {
-    const firstLogin = getRefreshToken();    // Access website by refresh token
-    return firstLogin ?  <Outlet /> : <Navigate to="/login" replace="true" />;
-};
+    const firstLogin = localStorage.getItem('token')
+    return firstLogin ?  <Outlet /> : <Navigate to="/login" replace="true" />
+}
 
-export default PrivateRouter;
+export default PrivateRouter

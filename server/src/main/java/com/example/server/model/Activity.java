@@ -31,10 +31,6 @@ public abstract class Activity {
     @JsonIgnore
     private Session session;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "course_id")
-    @JsonIgnore
-    private Course course;
 }
 
 

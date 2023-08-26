@@ -28,18 +28,18 @@ public class Session {
   private UUID id;
 
   @Enumerated(EnumType.STRING)
-  private SessionName sessionName;
+  private SessionName sessionName = SessionName.POST_CLASS;
 
   @Enumerated(EnumType.STRING)
-  private GroupingType groupingType;
+  private GroupingType groupingType = GroupingType.INDIVIDUAL;
 
   @Enumerated(EnumType.STRING)
-  private SessionOption sessionOption;
+  private SessionOption sessionOption = SessionOption.F2F;
 
   @Enumerated(EnumType.STRING)
-  private InteractionType interactionType;
+  private InteractionType interactionType = InteractionType.SYNCHRONOUS;
 
-  private Boolean hasLecturer;
+  private Boolean hasLecturer = Boolean.TRUE;
 
   private int totalDuration;
 

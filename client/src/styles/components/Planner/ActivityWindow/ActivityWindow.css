@@ -1,58 +1,82 @@
-.activity_dialog {
-    position: relative;
-}
-
-/* Overlay */
-.activity_dialog .dialog_overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 2000;
-    display: none;
-}
-
-.activity_dialog.dialog_activation .dialog_overlay {
-    display: block;
-}
-
-/* Window */
-.activity_dialog .dialog_container {
+/* =============== Dialog Container =============== */
+.course_planner_wrapper .course_planner_popup_form .dialog_container {
     position: absolute;
-    width: 97vw;
-    height: 97vh;
+    width: 96vw;
+    height: 96vh;
     transform: translate(50%, 50%) scale(0);
     
     background: #fff;
     padding: 25px;
-    z-index: 2001;
+    z-index: 2000;
+    list-style: none;
 }
 
-.activity_dialog.dialog_activation .dialog_container{
-    transition: all 500ms ease-in-out;
-    transform: translate(-3%, -9%) scale(1);
+.course_planner_wrapper .course_planner_popup_form.active .dialog_container{
+    transform: translate(2%, -102%) scale(1);
 }
 
-.activity_dialog .dialog_container .dialog_close {
+.course_planner_wrapper .course_planner_popup_form .dialog_container .dialog_close {
     position: absolute;
-    right: 15px;
-    top: 15px;
+    right: 25px;
+    top: 25px;
     font-size: 1.25rem;
     cursor: pointer;
 }
 
-/* Window info */
-.activity_dialog .dialog_container_inner {
+/* =============== Window Info =============== */
+.course_planner_wrapper .course_planner_popup_form .dialog_container_inner {
     display: flex;
     flex-direction: row;
 }
 
-.activity_dialog .activity_form {
+/* =============== Activity Set Up =============== */
+.course_planner_wrapper .course_planner_popup_form .activity_setup {
+    width: 350px;
+}
+
+.activity_setup .activity_droppable {
+    border: 2px dashed black;
+    background: rgb(224, 224, 224);
+    position: relative;
+}
+
+.activity_setup .activity_message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+/* Left Side */
+.activity_setup .left_activity {
+    width: 350px;
+    height: 74vh;
+    overflow-y: auto;
+    background: rgb(224, 224, 224); 
+}
+
+.left_activity .activity_wrapper .activity_wrapper_inner {
+    padding-top: 10px;
+}
+
+.left_activity .activity_wrapper .activity_wrapper_inner ul {
+    list-style: none;
+}
+
+
+/* Right Side */
+.dialog_container_inner .right_activity {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.right_activity .activity_form {
     margin: 0;
     display: flex;
-    padding: 20px 40px;
+    padding: 10px 20px;
     flex-grow: 1;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     flex-basis: 0;
@@ -77,6 +101,7 @@
     font-weight: 400;
 }
 
+/*  */
 .activity_form .activity_form_btn_group_vertical {
     display: inline-flex;
     flex-direction: column;
@@ -116,6 +141,7 @@
 }
 
 .activity_form_btn_group_vertical .btn_label .btn_label_subtitle {
+    text-align: left;
     top: 10px;
     left: 10px;
     color: #4d4d4d;
@@ -123,7 +149,7 @@
     font-weight: bold;
 
     font-size: 1rem;
-    /* font-family: "Nunito", "Roboto", "Helvetica", "Arial", sans-serif; */
+    font-family: "Nunito", "Roboto", "Helvetica", "Arial", sans-serif;
     font-weight: 600;
     line-height: 1.75;
 }
@@ -136,7 +162,6 @@
     background-color: white;
 
     display: inline-flex;
-    /* position: relative; */
     flex-shrink: 0;
     vertical-align: middle;
 }
@@ -150,5 +175,137 @@
 }
 
 .activity_form_btn_group_vertical .btn_label .btn_icon_middle {
+    position: relative;
+    top: 25px;
     font-size: 4rem;
+}
+
+.activity_form_btn_group_vertical .btn_label .btn_icon_middle img {
+    width: 80px;
+}
+
+/*  */
+.activity_form .activity_duration {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.activity_form .activity_duration .duration_text,
+.activity_form .activity_subsection .subsection_text {
+    font-size: 1rem;
+    /* font-family: "Nunito", "Roboto", "Helvetica", "Arial", sans-serif; */
+    font-weight: bold;
+    line-height: 1.75
+}
+
+.activity_form .activity_duration .duration_box {
+    width: 120px;
+    border-radius: 20px;
+    background-color: #6e86f4;
+    display: inline-flex;
+    position: relative;
+    flex-direction: row;
+    vertical-align: top;
+}
+
+.activity_form .duration_box .duration_input {
+    margin: 5px 0 5px 5px;
+    padding: 0;
+    font-size: 0.9rem;
+    min-width: 40px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid transparent;
+}
+
+.activity_form .duration_box .duration_input:focus {
+    outline: none;
+}
+
+.activity_form .duration_box .duration_subtitle_box {
+    margin-right: 8px;
+    display: flex;
+    max-height: 2em;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.activity_form .duration_box .duration_subtitle_box .duration_subtitle {
+    margin: 5px 0 5px 5px;
+    font-size: 0.9rem;
+    min-width: 40px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.activity_form .activity_subsection {
+    width: 100%;
+    margin-top: 25px;
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+}
+
+.activity_form .activity_subsection textarea {
+    border: none;
+    resize: none;
+    font-size: 0.88rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* font-family: Nunito, "Roboto", Helvetica, sans-serif; */
+    background-color: #f5f5f5;
+    line-height: 1.4;
+    padding: 5px;
+}
+
+.activity_form .activity_subsection .subsection_subtext {
+    border: none;
+    resize: none;
+    font-size: 0.88rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* font-family: Nunito, "Roboto", Helvetica, sans-serif; */
+    line-height: 1.4;
+}
+
+.activity_form .activity_grid {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.activity_form .activity_grid > div {
+    display: grid;
+    grid-gap: 0.5em;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.activity_form .activity_grid .grid_btn {
+    border: 1px solid #e5e5e5;
+    background-color: white;
+
+    color: rgba(0, 0, 0, 0.54);
+    position: relative;
+    height: 90px;
+    border: 1px solid #9d9d9d;
+    box-shadow: none;
+    /* font-family: "Nunito", "Roboto", "Helvetica", sans-serif; */
+    line-height: 1.5;
+    border-width: 1px;
+    border-radius: 5px !important;
+    text-transform: none;
+    background-color: white;
+}
+
+.activity_form .activity_grid .grid_btn.selected{
+    border: 3px solid #fd3030;
+}
+
+.activity_form .activity_footer {
+    width: 100%;
+    margin: 40px 0 20px 0;
+    text-align: center;
 }

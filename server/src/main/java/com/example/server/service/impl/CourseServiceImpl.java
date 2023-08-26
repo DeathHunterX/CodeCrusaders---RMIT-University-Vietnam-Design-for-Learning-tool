@@ -36,7 +36,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseResponse> getAllCoursesByUsername(String username) {
         User user = userRepository.findByUsername(username);
-        List<CourseResponse> courseResponses = user.getCourses().stream().map(e -> modelMapper.map(e, CourseResponse.class)).collect(Collectors.toList());
+        List<CourseResponse> courseResponses = user.getCourses().stream()
+            .map(e -> modelMapper.map(e, CourseResponse.class))
+            .sorted(Comparator.comparing(CourseResponse::getCourseName)) // Sort by courseName
+            .collect(Collectors.toList());
         return courseResponses;
     }
 
@@ -66,18 +69,6 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.deleteById(id);
     }
 
-    @Override
-    public void removeActivityFromCouse(Course course, Activity activity) {
-        course.getActivityList().remove(activity);
-        activity.setCourse(null);
-        courseRepository.save(course);
-    }
-
-    @Override
-    public void addActivityToCourse(Course course, Activity activity) {
-        activity.setCourse(course);
-        course.getActivityList().add(activity);
-    }
 
     @Override
     @Transactional

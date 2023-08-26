@@ -40,14 +40,6 @@ public class Course {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
     private List<Module> moduleList;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<Activity> activityList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<SharedCourseLink> sharedCourseLinks = new HashSet<>();
-
-
     public Course(String courseName, String courseCode, String semester, String clos) {
         this.courseName = courseName;
         this.courseCode = courseCode;
@@ -65,19 +57,6 @@ public class Course {
         for (Assignment assignment : assignmentList) {
             assignment.setCourse(this);
         }
-    }
-    public String generateShareLink() {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        int length = 10; // You can adjust the length of the share link as needed
-        StringBuilder shareLinkBuilder = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < length; i++) {
-            int index = random.nextInt(characters.length());
-            char randomChar = characters.charAt(index);
-            shareLinkBuilder.append(randomChar);
-        }
-        String shareLink = shareLinkBuilder.toString();
-        return shareLink;
     }
 
 }

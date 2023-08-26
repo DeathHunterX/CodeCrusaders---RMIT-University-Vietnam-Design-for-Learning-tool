@@ -9,6 +9,7 @@ import com.example.server.model.Course;
 import com.example.server.model.Module;
 import com.example.server.service.CourseService;
 import com.example.server.service.ModuleService;
+import com.example.server.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,7 +42,11 @@ public class ModuleController {
     if (moduleList.size()==0) {
       return new ResponseEntity<>(new ApiResponse("This course has no modules"),HttpStatus.OK);
     }
-    return new ResponseEntity<>(moduleList.stream().map(e->new ModuleNameResponse(e.getId(),e.getName())).collect(Collectors.toList()),HttpStatus.OK);
+    List<ModuleNameResponse> sortedModuleNames = moduleList.stream()
+        .map(e -> new ModuleNameResponse(e.getId(), e.getName()))
+        .sorted(Comparator.comparing(ModuleNameResponse::getName))
+        .collect(Collectors.toList());
+    return new ResponseEntity<>(sortedModuleNames,HttpStatus.OK);
   }
 
   @GetMapping("modules/{id}")
@@ -60,9 +66,8 @@ public class ModuleController {
     return moduleService.updateModule(moduleInfo,id);
   }
 
-  @DeleteMapping("/delete-module/{id}")
-  public ResponseEntity<ApiResponse> deleteModule(@PathVariable("id") UUID id) {
-    moduleService.deleteModule(id);
-    return new ResponseEntity<>(new ApiResponse("Successfully delete module"),HttpStatus.OK);
+  @DeleteMapping("course/{course_id}/delete-module/{id}")
+  public ResponseEntity<?> deleteModule(@PathVariable("id") UUID id, @PathVariable("course_id") UUID courseId) {
+    return moduleService.deleteModule(courseId,id);
   }
 }

@@ -1,358 +1,302 @@
 // Import Library
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-
-import {DragDropContext} from '@hello-pangea/dnd'
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {DragDropContext} from '@hello-pangea/dnd';
+import { Resizable } from 're-resizable';
 
 
 // Redux
-import { createModule, getModules } from '../../redux/slices/moduleSlice'
-import { getCourse } from '../../redux/slices/courseSlice';
-
-
+import { createModule} from '../../redux/slices/moduleSlice';
 
 // Import Components
-import ActivityWindow from './Activity/ActivityWindow/ActivityWindow'
+import CoursePlannerHeader from './Item/Header';
 
-import BasicInformation from './BasicInformation/BasicInformation'
-import CoursePlanner from './CoursePlanner'
+import PopUpForm from './PopUp/PopUpForm';
+
+
+import CoursePlanner from './CoursePlanner';
 
 // Icons
-import { IoClose } from 'react-icons/io5';
+import {FaClipboardList} from 'react-icons/fa';
 
-// Icon Settings
-import SettingComponent from './Setting/SettingComponent';
-import CoursePlannerHeader from './CoursePlannerHeader';
+
+import ModuleComponent from './Module/ModuleComponent';
+import Dashboard from './ModuleDashboard/Dashboard';
+import ModuleInfo from './ModuleInfo/Info';
+import CourseOverview from './CourseOverview/Overview';
 
 
 const PlannerComponent = () => {
-    const [popUpStat, setPopUpStat] = useState(false)
-    const [moduleData, setModuleData] = useState({moduleName: ""})
+  const initialState = [
+    { 
+      id:"",
+      sessionName: 'Pre-class', 
+      activityList: [] 
+    },
+    { 
+      id: "",
+      sessionName: 'In-class', 
+      activityList: []
+    },
+    { 
+      id: "",
+      sessionName: 'Post-class', 
+      activityList: []
+    }
+  ] 
+
+  const [activitiesData, setActivitiesData] = useState(initialState)
+
+  // Handle pop up form
+  const [popUpStat, setPopUpStat] = useState({
+    state: false,
+    formName: ""
+  })
+
+  // handle module data
+  const [moduleData, setModuleData] = useState({moduleName: ""})
+
+  // handle activity windows add or edit state
+  const [activityType, setActivityType] = useState({
+    state: "",   // add or edit state
+    board: ""
+  })  
+  // handle card data for edit
+  const [editedItm, setEditedItm] = useState({})
+
+  // handle state
+  const [activeSection, setActiveSection] = useState(1)
+
+  // fetch action
+  const {accessToken} = useSelector(state => state.auth.token)
+  const {moduleItem} = useSelector(state => state.module)
+
+  
+  useEffect(() => {
+    const sessionList = moduleItem?.sessionList;
     
-
-    const initialState = [
-        { name: 'Pre-class', data: [] },
-        { name: 'In-class', data: [] },
-        { name: 'Post-class', data: []}
-    ]
-
-    // handle data
-    const [leftActivities, setLeftActivities] = useState([])
-    const [rightActivities, setRightActivities] = useState(initialState)
-
-    // handle state
-    const [activeSection, setActiveSection] = useState(1)
-    const [activityWindow, setActivityWindow] = useState(false)
-    const [activityType, setActivityType] = useState('add')
-    const [editedItm, setEditedItm] = useState('')
-
-
-    // fetch action
-    const {accessToken} = useSelector(state => state.auth.token)
-    const {course} = useSelector(state => state.course)
-    const {module} = useSelector(state => state.module)
-
-    const dispatch = useDispatch();
-
-    const {page, id, subPage, subId} = useParams();
-    const navigate = useNavigate();
-
-
-
-    useEffect(() => {
-        dispatch(getCourse({id: id, token: accessToken}))
-    }, [accessToken, dispatch, id])
-
-    useEffect(() => {
-        dispatch(getModules({id: id, token: accessToken}))
-    }, [accessToken, dispatch, id])
-    
-    
-    
-
-    // Module CRUD Functions
-    const handleChangeInput = (e) => {
-        const {name, value} = e.target
-        setModuleData(prevState => ({...prevState, [name]: value}))
+    if (!Array.isArray(sessionList)) {
+        return; // Return early if sessionList is not an array
     }
 
-    const handleSubmitForm = (e) => {
-        e.preventDefault()
-        dispatch(createModule({moduleData: moduleData, id: id, token: accessToken}))
+    const formattedSessions = sessionList.map(item => ({
+        id: item.id,
+        sessionName: item.sessionName,
+        activityList: item.activityList
+    }));
 
-        setModuleData({moduleName: ""})
-        setPopUpStat(false)
-    }
+    let desiredOrder = ['Pre_class', 'In_class', 'Post_class'];
 
-    const handleClosePopUp = (e) => {
-        setModuleData({moduleName: ""})
-        setPopUpStat(prevState => !prevState)
-    }
+    // Reorder the sessions based on the desired order
+    let reorderedSessions = desiredOrder.map(sessionName => {
+        const session = formattedSessions.find(session => session.sessionName === sessionName);
+        return session !== undefined ? session : null; // Return null for undefined sessions
+    });
+
+    // Remove null values from the reorderedSessions array
+    reorderedSessions = reorderedSessions.filter(session => session !== null);
+
+    setActivitiesData(reorderedSessions);
+  }, [moduleItem?.sessionList]);
+
+  const dispatch = useDispatch();
+
+  const {id, subPage} = useParams();
+  const navigate = useNavigate();
 
 
 
-    // functions
-    const deleteRightCard = (boardName, id) => {
-        const updatedRightActivities = rightActivities.map((board) => {
-            if (board.name === boardName) {
-              const updatedData = board.data.filter((activity) => activity.id !== id);
-              return {
-                ...board,
-                data: updatedData,
-              };
-            }
-            return board;
-        });
+  // Module CRUD Functions
+  const handleChangeInput = (e) => {
+      const {name, value} = e.target
+      setModuleData(prevState => ({...prevState, [name]: value}))
+  }
+
+  const handleSubmitForm = (e) => {
+      e.preventDefault()
+      dispatch(createModule({moduleData: moduleData, id: id, token: accessToken}))
+
+      setModuleData({moduleName: ""})
+      setPopUpStat(false)
+  }
+
+  const openAddEditDialog = (type, board) => {
+    setPopUpStat(prevState => ({
+      ...prevState,
+      state: !prevState.state,
+      formName: "activity"
+    }))
+
+    setActivityType(prevState => ({
+      ...prevState,
+      state: type,
+      board: board
+    }))
+  }
+
+  const handleClosePopUp = (e) => {
+    if (popUpStat.formName === "module") {
+      setModuleData({moduleName: ""});
+    };
+
+    setPopUpStat(prevState => ({
+      ...prevState,
+      state: !prevState.state,
+      formName: ""
+    }))
+  }
+
+  // functions
+  const deleteCardInBoard = (boardName, id) => {
+    const updatedActivitiesData = activitiesData.map((board) => {
+        if (board.sessionName === boardName) {
+          const updatedData = board.activityList.filter((activity) => activity.id !== id);
+          return {
+            ...board,
+            activityList: updatedData,
+          };
+        }
+        return board;
+    });
+  
+    setActivitiesData(updatedActivitiesData);
+
+  }
+
+  const configMap = [
+      {
+          header: 'Course Overview', 
+          restricted: false,
+          icon: <FaClipboardList/>
+      }, 
+      {
+          header: 'Module Board', 
+          restricted: false,
+          icon: <FaClipboardList/>
+      },
+      {
+        header: "Module Dashboard", 
+        restricted: true,
+        icon: <FaClipboardList/>
+      },
+      {
+        header: "Module Info", 
+        restricted: true,
+        icon: <FaClipboardList/>
+    },
+  ]
+
+  const onDragEnd = (result) => {
+      if (!result.destination) return;
+      const { source, destination } = result;
+
+      const sourceBoardIndex = activitiesData.findIndex(board => board.sessionName === source.droppableId);
+      const destinationBoardIndex = activitiesData.findIndex(board => board.sessionName === destination.droppableId);
+
+      if (sourceBoardIndex === -1 || destinationBoardIndex === -1) {
+        return;
+      }
+
+      const updatedBoards = activitiesData.map(board => ({
+        ...board,
+        activityList: [...board.activityList]
+      }));
       
-        setRightActivities(updatedRightActivities);
+      const [movedItem] = updatedBoards[sourceBoardIndex].activityList.splice(source.index, 1);
+      updatedBoards[destinationBoardIndex].activityList.splice(destination.index, 0, movedItem);
+      
+      setActivitiesData(updatedBoards);
+  };
 
-    }
+  const handleGoBackToCoursePage = () => {
+      navigate(`/courses`)
+  }
 
-    const configMap = [
-        {
-            // header: 'Module Info', component: <BasicInformation data={module}/>
-        }, 
-        {
-            header: 'Module Planning', 
-            component: <CoursePlanner rightActivities={rightActivities} setRightActivities={setRightActivities}
-                        activityType={activityType}
-                        setActivityType={setActivityType}
-                        setActivityWindow={setActivityWindow}
-                        setEditedItm={setEditedItm}
-                        setDeleteItm={deleteRightCard}
-                        // setTabName={setTabName}
-                        />
-        },
-        {
-            header: "Settings", component: <SettingComponent />
-        },
-    ]
+  const handlePreviewData = () => {
+      navigate(`/down-preview`)
+  }
 
-    const openAddEditDialog = () => {
-        setActivityWindow((state) => !state)
-        if (activityType !== 'add') {
-            setActivityType('add')
-        }
-    }
+  // Resizable
+  // Initial widths
+  const initialWidth1 = 15;
+  const initialWidth2 = 100 - initialWidth1;
 
-    const [activeTabs, setActiveTabs] = useState('Pre-class')
+  const minWidthVal = 12;
+  const maxWidthVal = 18;
 
-    const filteredBoards = rightActivities.filter((board) => board.name === activeTabs);
+  // State to track the widths of the boxes
+  const [width1, setWidth1] = useState(initialWidth1);
+  const [width2, setWidth2] = useState(initialWidth2);
+
+  // Handle resizing of Box 1 (resizable only on the right side)
+  const handleResize1 = (event, direction, ref, delta) => {
+      // Calculate new widths
+      const newWidth1 = width1 + delta.width;
+      const newWidth2 = 100 - newWidth1;
 
 
-    const handleEditedData = leftActivities.find((item) => item.id === editedItm) ? leftActivities.find((item) => item.id === editedItm)
-    : (rightActivities.find((board) => board.name === activeTabs) || { data: [] }).data.find((activity) => activity.id === editedItm)
-        
+      // Update state while respecting minWidth and maxWidth
+      if (newWidth1 >= minWidthVal && newWidth1 <= maxWidthVal) {
+          setWidth1(newWidth1);
+          setWidth2(newWidth2);
+      }
+  }
 
-    const deleteLeftCard = (id) => {
-        setLeftActivities(leftActivities.filter((item) => item.id !== id))
-    }
-    
+  const ActivityHeaderData = { subPage, configMap, activeSection }
+  const ActivityHeaderFunction = { setActiveSection, handleGoBackToCoursePage, handlePreviewData }
 
-    const insertItemAtIndex = (array, item, index) => {
-        const newArray = [...array];
-        newArray.splice(index, 0, item);
-        return newArray;
-    };
+  const ActivityPlanningData = {width2, activitiesData}
+  const ActivityPlanningFunction = {
+      openAddEditDialog, 
+      setEditedItm, 
+      deleteCardInBoard,
+      setActivitiesData
+  }
 
-    const onDragEnd = (result) => {
-        if (!result.destination) return;
-    
-        const { source, destination } = result;
-    
-        // If the item is dragged from the left board to the right board
-        if (source.droppableId === 'left_board' && destination.droppableId !== 'left_board') {
-          // Handle the logic when an item is dragged from the left board to the right board
-            const draggedItem = leftActivities[source.index];
-        
-            const updatedRightActivities = rightActivities.map((board) => {
-                if (board.name === destination.droppableId) {
-                  return {
-                    ...board,
-                    data: insertItemAtIndex(board.data, draggedItem, destination.index),
-                  };
+  const PopUpFormData = {popUpStat, moduleData, activityType, editedItm, activitiesData}
+  const PopUpFormFunction = {handleSubmitForm, handleClosePopUp, handleChangeInput, setActivitiesData}
+
+  return (
+      <DragDropContext onDragEnd={onDragEnd}>
+          <div className="course_planner_wrapper">
+              <CoursePlannerHeader activityData={ActivityHeaderData} activityFunction={ActivityHeaderFunction} />
+              <div className="course_planner_container">
+                {
+                  activeSection === 0 && <CourseOverview />
                 }
-                return board;
-              });
-        
-            setRightActivities(updatedRightActivities);
-        
-            // Remove the dragged item from the leftActivities array
-            setLeftActivities((prevLeftActivities) =>
-                prevLeftActivities.filter((item, index) => index !== source.index)
-            );
-
-
-        }
-    
-        // If the item is dragged within the left board
-        if (source.droppableId === 'left_board' && destination.droppableId === 'left_board') {
-          // Handle the logic when an item is reordered within the left board
-          const updatedLeftActivities = Array.from(leftActivities);
-          const [draggedItem] = updatedLeftActivities.splice(source.index, 1);
-          updatedLeftActivities.splice(destination.index, 0, draggedItem);
-    
-          setLeftActivities(updatedLeftActivities);
-        }
-    
-        // If the item is dragged within the right board
-        if (source.droppableId !== 'left_board' && destination.droppableId === source.droppableId) {
-          // Handle the logic when an item is dragged within the right board
-          const updatedRightActivities = rightActivities.map((board) => {
-            if (board.name === source.droppableId) {
-              const updatedData = Array.from(board.data);
-              const [draggedItem] = updatedData.splice(source.index, 1);
-              updatedData.splice(destination.index, 0, draggedItem);
-    
-              return {
-                ...board,
-                data: updatedData,
-              };
-            }
-            return board;
-          });
-    
-          setRightActivities(updatedRightActivities);
-        }
-    
-        // If the item is dragged from the right board to the left board
-        if (source.droppableId !== 'left_board' && destination.droppableId === 'left_board') {
-          // Handle the logic when an item is dragged from the right board to the left board
-          const draggedItem = rightActivities
-            .find((board) => board.name === source.droppableId)
-            .data[source.index];
-    
-          const updatedRightActivities = rightActivities.map((board) => {
-            if (board.name === source.droppableId) {
-              const updatedData = Array.from(board.data);
-              updatedData.splice(source.index, 1);
-    
-              return {
-                ...board,
-                data: updatedData,
-              };
-            }
-            return board;
-          });
-    
-          setRightActivities(updatedRightActivities);
-    
-          // Add the dragged item back to the leftActivities array
-          setLeftActivities((prevLeftActivities) => [...prevLeftActivities.slice(0, destination.index), draggedItem, ...prevLeftActivities.slice(destination.index)]);
-        }
-    
-        // If the item is dragged within the right board and the source and destination boards are the same
-        if (
-          source.droppableId !== 'left_board' &&
-          destination.droppableId !== 'left_board' &&
-          source.droppableId === destination.droppableId
-        ) {
-          // Handle the logic when an item is reordered within the right board
-          const updatedRightActivities = rightActivities.map((board) => {
-            if (board.name === source.droppableId) {
-              const updatedData = Array.from(board.data);
-              const [draggedItem] = updatedData.splice(source.index, 1);
-              updatedData.splice(destination.index, 0, draggedItem);
-    
-              return {
-                ...board,
-                data: updatedData,
-              };
-            }
-            return board;
-          });
-    
-          setRightActivities(updatedRightActivities);
-        }
-    };
-
-    const handleGoBackToCoursePage = () => {
-        navigate(`/${page}/${id}/modules`)
-    }
-
-    const handlePreviewData = () => {
-        navigate(`/down-preview`)
-    }
-
-    const ActivityHeaderFunction = { setActiveSection, handleGoBackToCoursePage, handlePreviewData }
-    const ActivityHeaderData = { configMap, activeSection }
-
-    const ActivityPlanningFunction = {dispatch, 
-        setPopUpStat, 
-        openAddEditDialog, 
-        setActivityType, 
-        setActivityWindow, 
-        setEditedItm, 
-        deleteLeftCard, 
-        setActiveTabs, 
-        deleteRightCard
-    }
-    const ActivityPlanningData = {id, leftActivities, rightActivities, activityType, activeTabs, filteredBoards}
-
-    return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <div className="course_planner_wrapper">
-                <CoursePlannerHeader activityData={ActivityHeaderData} activityFunction={ActivityHeaderFunction} />
-
-                <div className="planner_container">
-                    {activeSection === 1 &&
-                        <CoursePlanner activityData={ActivityPlanningData} activityFunction={ActivityPlanningFunction}/>
-                    }
-
-                    {
-                        activeSection === 2 && <SettingComponent />
-                    }
-                    
-                </div>
+                {
+                  (activeSection === 1 || activeSection === 2 || activeSection === 3 ) && 
+                  <Resizable
+                    onResize={handleResize1}
+                    defaultSize={{ width: `${width1}%` }}
+                    minWidth={`${minWidthVal}%`}
+                    maxWidth={`${maxWidthVal}%`}
+                    enable={{ right: true }}
+                    style={{ borderRight: '2px solid black' }}
+                  >
+                    <ModuleComponent courseID={id} dispatch={dispatch} setPopUpStat={setPopUpStat}/>
+                  </Resizable>
+                }
+                {
+                  (activeSection === 1 && subPage === "modules") &&
+                    <CoursePlanner activityData={ActivityPlanningData} activityFunction={ActivityPlanningFunction}/>
+                }
+                
+                {
+                  (activeSection === 2 && subPage === "modules") && <Dashboard />
+                }
 
                 {
-                    activityWindow === true 
-                    && 
-                    <ActivityWindow 
-                        type={activityType}
-                        leftActivities={leftActivities}
-                        setLeftActivities={setLeftActivities}
-                        rightActivities={rightActivities}
-                        setRightActivities={setRightActivities}
-                        setActivityWindow={setActivityWindow}
-                        editedData={handleEditedData}
-                        tabName={activeTabs}
-                    />
+                  (activeSection === 3 && subPage === "modules") && <ModuleInfo data={moduleItem} width={width2}/>
                 }
+                  
+              </div>
 
-                <div className={`course_planner_popup_form ${popUpStat === true ? 'active' : ''}`}>
-                    <div className="overlay"></div>
-                    <div className="form_content">
-                    <form onSubmit={handleSubmitForm}>
-                        <div className="form_header mb-4">
-                            <div className=" d-flex justify-content-between">
-                                <p>Add Module</p>
-                                <span style={{cursor: 'pointer'}}><IoClose onClick={handleClosePopUp}/></span>
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div className="mb-4">
-                            <input type="text" className="form-control" 
-                                id="inputModuleName" 
-                                aria-describedby="inputModuleName" 
-                                name="moduleName" 
-                                value={moduleData.moduleName}
-                                onChange={handleChangeInput}
-                            />
-                        </div>
-                        <div className="form_bottom d-flex justify-content-end">
-                            <span className="btn" onClick={handleClosePopUp}>Cancel</span>
-                            <button className="btn btn-outline-primary ms-2">Add Module</button>
-                        </div>
-                    </form>
-                    </div>
-                    
-                </div>
-            </div>
-        </DragDropContext>
-    )
+              <PopUpForm activityData={PopUpFormData} activityFunction={PopUpFormFunction}/>
+          </div>
+      </DragDropContext>
+  )
 }
 
 export default PlannerComponent

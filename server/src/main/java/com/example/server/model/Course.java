@@ -40,10 +40,6 @@ public class Course {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "course")
     private List<Module> moduleList;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<Activity> activityList = new ArrayList<>();
-
     public Course(String courseName, String courseCode, String semester, String clos) {
         this.courseName = courseName;
         this.courseCode = courseCode;

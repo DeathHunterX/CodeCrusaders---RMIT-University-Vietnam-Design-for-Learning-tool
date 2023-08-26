@@ -17,8 +17,5 @@ public interface CourseService {
     Course createCourse(CourseRequest courseRequest, User user);
     void deleteCourse(UUID id);
 
-    void removeActivityFromCouse(Course course, Activity activity);
-
-    void addActivityToCourse(Course course, Activity activity);
     ResponseEntity<?> updateCourse(CourseUpdateRequest courseUpdateRequest, UUID id);
 }

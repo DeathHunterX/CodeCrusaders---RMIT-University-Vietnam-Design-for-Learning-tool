@@ -69,18 +69,6 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.deleteById(id);
     }
 
-    @Override
-    public void removeActivityFromCouse(Course course, Activity activity) {
-        course.getActivityList().remove(activity);
-        activity.setCourse(null);
-        courseRepository.save(course);
-    }
-
-    @Override
-    public void addActivityToCourse(Course course, Activity activity) {
-        activity.setCourse(course);
-        course.getActivityList().add(activity);
-    }
 
     @Override
     @Transactional

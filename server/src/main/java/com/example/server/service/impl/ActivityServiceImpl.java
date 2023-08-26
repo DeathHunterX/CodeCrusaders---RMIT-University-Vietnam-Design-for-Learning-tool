@@ -1,5 +1,6 @@
 package com.example.server.service.impl;
 
+import com.example.server.api.request.ActivityListRequest;
 import com.example.server.api.request.ActivityRequest;
 import com.example.server.api.response.ApiResponse;
 import com.example.server.exception.ObjectNotFoundException;
@@ -16,7 +17,6 @@ import com.example.server.service.CourseService;
 import com.example.server.service.SessionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -49,302 +49,163 @@ public class ActivityServiceImpl implements ActivityService {
     @Transactional
     public Activity createActivity(ActivityRequest activityRequest, Course course, Session session) {
         switch (activityRequest.getActivityID()) {
-            case "warm_up":
+            case "warm_up" -> {
                 WarmUp warmUp = new WarmUp();
                 warmUp.setActivityID(ActivityID.WARM_UP);
                 warmUp.setDuration(activityRequest.getDuration());
                 warmUp.setActivityName(activityRequest.getActivityName());
                 warmUp.setWarmUpOption(activityRequest.getWarmUpOption());
                 warmUp.setEngagementOption(activityRequest.getEngagementOption());
-                warmUp.setCourse(course);
                 warmUp.setSession(session);
                 return activityRepository.save(warmUp);
-            case "read_watch_listen":
+            }
+            case "read_watch_listen" -> {
                 ReadWatchListen readWatchListen = new ReadWatchListen();
                 readWatchListen.setActivityID(ActivityID.READ_WATCH_LISTEN);
                 readWatchListen.setDuration(activityRequest.getDuration());
                 readWatchListen.setActivityName(activityRequest.getActivityName());
-                readWatchListen.setCourse(course);
                 readWatchListen.setSession(session);
                 return activityRepository.save(readWatchListen);
-            case "reflect":
+            }
+            case "reflect" -> {
                 Reflect reflect = new Reflect();
                 reflect.setActivityID(ActivityID.REFLECT);
                 reflect.setDuration(activityRequest.getDuration());
                 reflect.setActivityName(activityRequest.getActivityName());
                 reflect.setReflectionType(activityRequest.getReflectionType());
-                reflect.setCourse(course);
                 reflect.setSession(session);
                 return activityRepository.save(reflect);
-            case "discuss":
+            }
+            case "discuss" -> {
                 Discuss discuss = new Discuss();
                 discuss.setActivityID(ActivityID.DISCUSS);
                 discuss.setDuration(activityRequest.getDuration());
                 discuss.setActivityName(activityRequest.getActivityName());
                 discuss.setGroupType(activityRequest.getGroupType());
-                discuss.setCourse(course);
                 discuss.setSession(session);
                 return activityRepository.save(discuss);
-            case "collaborate":
+            }
+            case "collaborate" -> {
                 Collaborate collaborate = new Collaborate();
                 collaborate.setActivityID(ActivityID.COLLABORATE);
                 collaborate.setDuration(activityRequest.getDuration());
                 collaborate.setActivityName(activityRequest.getActivityName());
                 collaborate.setCollaborateType(activityRequest.getCollaborateType());
-                collaborate.setCourse(course);
                 collaborate.setSession(session);
                 return activityRepository.save(collaborate);
-            case "assess":
+            }
+            case "assess" -> {
                 Assess assess = new Assess();
                 assess.setActivityID(ActivityID.ASSESS);
                 assess.setDuration(activityRequest.getDuration());
                 assess.setActivityName(activityRequest.getActivityName());
                 assess.setAccessType(activityRequest.getAccessType());
-                assess.setCourse(course);
                 assess.setSession(session);
                 return activityRepository.save(assess);
-            case "break":
+            }
+            case "break" -> {
                 Break breakAct = new Break();
                 breakAct.setActivityID(ActivityID.BREAK);
                 breakAct.setDuration(breakAct.getDuration());
                 breakAct.setActivityName(breakAct.getActivityName());
-                breakAct.setCourse(course);
                 breakAct.setSession(session);
                 return activityRepository.save(breakAct);
-            default:
-                break;
+            }
+            default -> {
+                throw new ObjectNotFoundException("Activity","format");
+            }
         }
-        return null;
     }
 
     @Override
     public Activity updateActivity(UUID activityId, ActivityRequest activityRequest) {
         switch (activityRequest.getActivityID()) {
-            case "warm_up":
+            case "warm_up" -> {
                 WarmUp warmUp = (WarmUp) getActivityById(activityId);
                 warmUp.setDuration(activityRequest.getDuration());
                 warmUp.setActivityName(activityRequest.getActivityName());
                 warmUp.setWarmUpOption(activityRequest.getWarmUpOption());
                 warmUp.setEngagementOption(activityRequest.getEngagementOption());
                 return activityRepository.save(warmUp);
-            case "read_watch_listen":
+            }
+            case "read_watch_listen" -> {
                 ReadWatchListen readWatchListen = (ReadWatchListen) getActivityById(activityId);
                 readWatchListen.setDuration(activityRequest.getDuration());
                 readWatchListen.setActivityName(activityRequest.getActivityName());
                 return activityRepository.save(readWatchListen);
-            case "reflect":
+            }
+            case "reflect" -> {
                 Reflect reflect = (Reflect) getActivityById(activityId);
                 reflect.setDuration(activityRequest.getDuration());
                 reflect.setActivityName(activityRequest.getActivityName());
                 reflect.setReflectionType(activityRequest.getReflectionType());
                 return activityRepository.save(reflect);
-            case "discuss":
+            }
+            case "discuss" -> {
                 Discuss discuss = (Discuss) getActivityById(activityId);
                 discuss.setDuration(activityRequest.getDuration());
                 discuss.setActivityName(activityRequest.getActivityName());
                 discuss.setGroupType(activityRequest.getGroupType());
                 return activityRepository.save(discuss);
-            case "collaborate":
+            }
+            case "collaborate" -> {
                 Collaborate collaborate = (Collaborate) getActivityById(activityId);
                 collaborate.setDuration(activityRequest.getDuration());
                 collaborate.setActivityName(activityRequest.getActivityName());
                 collaborate.setCollaborateType(activityRequest.getCollaborateType());
                 return activityRepository.save(collaborate);
-            case "assess":
+            }
+            case "assess" -> {
                 Assess assess = (Assess) getActivityById(activityId);
                 assess.setDuration(activityRequest.getDuration());
                 assess.setActivityName(activityRequest.getActivityName());
                 assess.setAccessType(activityRequest.getAccessType());
                 return activityRepository.save(assess);
-            case "break":
+            }
+            case "break" -> {
                 Break breakAct = (Break) getActivityById(activityId);
                 breakAct.setDuration(breakAct.getDuration());
                 breakAct.setActivityName(breakAct.getActivityName());
                 return activityRepository.save(breakAct);
-            default:
-                break;
+            }
+            default -> {
+                throw new ObjectNotFoundException("Activity","format");
+            }
         }
-        return null;
     }
 
 
     @Override
     @Transactional
-    public ResponseEntity<?> moveActivityToSession(UUID courseId, UUID sessionId, UUID activityId) {
+    public ResponseEntity<?> dragAndDropActivities(UUID courseId, ActivityListRequest activityListRequest) {
         var user = userDetailsService.getCurrentUser();
         var course = courseService.getCourseById(courseId);
         if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
             return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
         }
-        var session = sessionService.getSessionById(sessionId);
-        var activity = activityRepository.findById(activityId)
-                .orElseThrow(() -> new ObjectNotFoundException("Activity", "id"));
-        session.getActivityList().add(activity);
-        activity.setSession(session);
-        courseService.removeActivityFromCouse(course, activity);
-        sessionRepository.save(session);
-        return new ResponseEntity<>(session, HttpStatus.OK);
+        var preClass = sessionService.getSessionById(activityListRequest.getPreClassId());
+        var inClass = sessionService.getSessionById(activityListRequest.getInClassId());
+        var postClass = sessionService.getSessionById(activityListRequest.getPostClassId());
+        var preClassActReq = activityListRequest.getPreClassActivities();
+        var inClassActReq = activityListRequest.getInClassActivities();
+        var postClassActReq = activityListRequest.getPostClassActivities();
+
+        preClass.getActivityList().clear();
+        preClass.getActivityList().addAll(preClassActReq);
+        preClassActReq.forEach(e->e.setSession(preClass));
+        sessionRepository.save(preClass);
+
+        inClass.getActivityList().clear();
+        inClass.getActivityList().addAll(inClassActReq);
+        inClassActReq.forEach(e->e.setSession(inClass));
+        sessionRepository.save(inClass);
+
+        postClass.getActivityList().clear();
+        postClass.getActivityList().addAll(postClassActReq);
+        postClassActReq.forEach(e->e.setSession(postClass));
+        sessionRepository.save(postClass);
+        return new ResponseEntity<>("Successfully update activity list",HttpStatus.OK);
     }
-
-    @Override
-    @Transactional
-    public ResponseEntity<?> dragAndDropActivities(UUID courseId, UUID sessionId, List<Activity> leftActivities, List<Activity> rightActivities) {
-        var user = userDetailsService.getCurrentUser();
-        var course = courseService.getCourseById(courseId);
-        if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
-            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
-        }
-        var session = sessionService.getSessionById(sessionId);
-        course.getActivityList().clear();
-        course.getActivityList().addAll(leftActivities);
-        leftActivities.stream().forEach(e->e.setCourse(course));
-
-        session.getActivityList().clear();
-        session.getActivityList().addAll(rightActivities);
-        rightActivities.stream().forEach(e->e.setSession(session));
-
-        courseRepository.save(course);
-        sessionRepository.save(session);
-        return null;
-    }
-
-    @Override
-    @Transactional
-    public ResponseEntity<?> moveActivityBetweenSessions(UUID sessionId, UUID targetSessionId, UUID activityId) {
-        var session = sessionService.getSessionById(sessionId);
-        var targetSession = sessionService.getSessionById(targetSessionId);
-        var activity = getActivityById(activityId);
-        session.getActivityList().remove(activity);
-        activity.setSession(null);
-        targetSession.getActivityList().add(activity);
-        activity.setSession(targetSession);
-        sessionRepository.save(session);
-        sessionRepository.save(targetSession);
-        return new ResponseEntity<>(session, HttpStatus.OK);
-    }
-
-    @Override
-    @Transactional
-    public ResponseEntity<?> removeActivityToSession(UUID courseId, UUID sessionId, UUID activityId) {
-        var user = userDetailsService.getCurrentUser();
-        var course = courseService.getCourseById(courseId);
-        if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
-            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
-        }
-        var session = sessionService.getSessionById(sessionId);
-        var activity = activityRepository.findById(activityId)
-                .orElseThrow(() -> new ObjectNotFoundException("Activity", "id"));
-        courseService.addActivityToCourse(course, activity);
-        session.getActivityList().remove(activity);
-        activity.setSession(null);
-        sessionRepository.save(session);
-        courseRepository.save(course);
-        return new ResponseEntity<>(session, HttpStatus.OK);
-    }
-
-
-//    @Override
-//    public WarmUp createWarmUp(WarmUpRequest warmUpRequest, Course course) {
-//        WarmUp warmUp = modelMapper.map(warmUpRequest, WarmUp.class);
-//        warmUp.setCourse(course);
-//        return activityRepository.save(warmUp);
-//    }
-//
-//    @Override
-//    public ReadWatchListen createReadWatchListen(ReadWatchListenRequest readWatchListenRequest, Course course) {
-//        ReadWatchListen readWatchListen = modelMapper.map(readWatchListenRequest, ReadWatchListen.class);
-//        readWatchListen.setCourse(course);
-//        return activityRepository.save(readWatchListen);
-//    }
-//
-//    @Override
-//    public Assess createAssess(AssessRequest assessRequest, Course course) {
-//        Assess assess = modelMapper.map(assessRequest, Assess.class);
-//        assess.setCourse(course);
-//        return activityRepository.save(assess);
-//    }
-//
-//    @Override
-//    public Break createBreak(BreakRequest breakRequest, Course course) {
-//        Break breakAct = modelMapper.map(breakRequest, Break.class);
-//        breakAct.setCourse(course);
-//        return activityRepository.save(breakAct);
-//    }
-//
-//    @Override
-//    public Collaborate createCollaborate(CollaborateRequest collaborateRequest, Course course) {
-//        Collaborate collaborate = modelMapper.map(collaborateRequest, Collaborate.class);
-//        collaborate.setCourse(course);
-//        return activityRepository.save(collaborate);
-//    }
-//
-//    @Override
-//    public Discuss createDiscuss(DiscussRequest discussRequest, Course course) {
-//        Discuss discuss = modelMapper.map(discussRequest, Discuss.class);
-//        discuss.setCourse(course);
-//        return activityRepository.save(discuss);
-//    }
-//
-//    @Override
-//    public Reflect createReflect(ReflectRequest reflectRequest, Course course) {
-//        Reflect reflect = modelMapper.map(reflectRequest, Reflect.class);
-//        reflect.setCourse(course);
-//        return activityRepository.save(reflect);
-//    }
-//
-//    @Override
-//    public WarmUp updateWarmUp(UUID activityId, WarmUpRequest warmUpRequest) {
-//        var warmUp = (WarmUp) getActivityById(activityId);
-//        warmUp.setWarmUpOption(warmUpRequest.getWarmUpOption());
-//        warmUp.setDuration(warmUpRequest.getDuration());
-//        warmUp.setEngagementOption(warmUpRequest.getEngagementOption());
-//        return activityRepository.save(warmUp);
-//    }
-//
-//    @Override
-//    public ReadWatchListen updateReadWatchListen(UUID activityId, ReadWatchListenRequest readWatchListenRequest) {
-//        var readWatchListen = (ReadWatchListen) getActivityById(activityId);
-//        readWatchListen.setDuration(readWatchListenRequest.getDuration());
-//        return activityRepository.save(readWatchListen);
-//    }
-//
-//    @Override
-//    public Reflect updateReflect(UUID activityId, ReflectRequest reflectRequest) {
-//        var reflect = (Reflect) getActivityById(activityId);
-//        reflect.setReflectionType(reflectRequest.getReflectionType());
-//        reflect.setDuration(reflectRequest.getDuration());
-//        return activityRepository.save(reflect);
-//    }
-//    @Override
-//    public Discuss updateDiscuss(UUID activityId, DiscussRequest discussRequest) {
-//        var discuss = (Discuss) getActivityById(activityId);
-//        discuss.setGroupType(discussRequest.getGroupType());
-//        discuss.setDuration(discussRequest.getDuration());
-//        return activityRepository.save(discuss);
-//    }
-//
-//    @Override
-//    public Collaborate updateCollaborate(UUID activityId, CollaborateRequest collaborateRequest) {
-//        var collaborate = (Collaborate) getActivityById(activityId);
-//        collaborate.setCollaborateType(collaborateRequest.getCollaborateType());
-//        collaborate.setDuration(collaborateRequest.getDuration());
-//        return activityRepository.save(collaborate);
-//    }
-//
-//    @Override
-//    public Break updateBreak(UUID activityId, BreakRequest breakRequest) {
-//        var breakAct = (Break) getActivityById(activityId);
-//        breakAct.setDuration(breakRequest.getDuration());
-//        return activityRepository.save(breakAct);
-//    }
-//
-//    @Override
-//    public Assess updateAssess(UUID activityId, AssessRequest assessRequest) {
-//        var assess = (Assess) getActivityById(activityId);
-//        assess.setAccessType(assessRequest.getAccessType());
-//        assess.setDuration(assessRequest.getDuration());
-//        return activityRepository.save(assess);
-//    }
 
     @Override
     @Transactional
@@ -356,8 +217,6 @@ public class ActivityServiceImpl implements ActivityService {
         }
         var session = sessionService.getSessionById(sessionId);
         var activity = getActivityById(activityId);
-        course.getActivityList().remove(activity);
-        activity.setCourse(null);
         session.getActivityList().remove(activity);
         activity.setSession(null);
         courseRepository.save(course);

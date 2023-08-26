@@ -21,7 +21,7 @@ public interface ActivityService {
 
     Activity updateActivity(UUID activityId, ActivityRequest activityRequest);
 
-    ResponseEntity<?> dragAndDropActivities(UUID courseId, ActivityListRequest activityListRequest);
+    ResponseEntity<?> dragAndDropActivities(UUID courseId, UUID moduleId, ActivityListRequest activityListRequest);
 
 
     ResponseEntity<?> deleteActivity(UUID courseId, UUID sessionId, UUID activityId);

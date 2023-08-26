@@ -181,7 +181,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     @Transactional
-    public ResponseEntity<?> dragAndDropActivities(UUID courseId, ActivityListRequest activityListRequest) {
+    public ResponseEntity<?> dragAndDropActivities(UUID courseId, UUID moduleId, ActivityListRequest activityListRequest) {
         var user = userDetailsService.getCurrentUser();
         var course = courseService.getCourseById(courseId);
         if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {

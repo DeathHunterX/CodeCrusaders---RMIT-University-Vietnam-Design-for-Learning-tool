@@ -1,6 +1,5 @@
 
 import {BsShareFill} from 'react-icons/bs'
-import { FaEye} from "react-icons/fa"
 import { ImBooks } from "react-icons/im"
 import { IconSetting } from '../../../utils/IconSetting'
 
@@ -43,14 +42,8 @@ const CoursePlannerHeader = ({activityData, activityFunction}) => {
                 </div>
 
                 <div className="d-flex align-items-center">
-                    <div className="me-4">
-                        <span className="btn">
-                            {IconSetting(<FaEye/>, "", "", "me-1")}
-                            Preview
-                        </span>
-                    </div>
                     <div className="">
-                        <span className="btn btn-primary" onClick={handlePreviewData}>
+                        <span className="btn btn-outline-primary" onClick={handlePreviewData}>
                             {IconSetting(<BsShareFill/>, "", "", "me-1")}     
                             Share
                         </span>

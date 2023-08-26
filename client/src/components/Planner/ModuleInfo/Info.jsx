@@ -3,7 +3,7 @@ import {AiOutlineQuestionCircle} from 'react-icons/ai'
 import TextEditor from '../../TextEditor/TextEditor'
 
 
-const BasicInformation = ({data, width}) => {
+const ModuleInfo = ({data, width}) => {
     const initialState = {
         name: "",
         los: "",
@@ -168,4 +168,4 @@ const BasicInformation = ({data, width}) => {
     )
 }
 
-export default BasicInformation
+export default ModuleInfo

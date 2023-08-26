@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { AiOutlineClose } from 'react-icons/ai'
 import {toast} from 'react-toastify'
@@ -6,33 +6,40 @@ import {toast} from 'react-toastify'
 import { ActivityCardList} from '../../Activity/Map/ActivityCardList'
 import ActivityCard from '../../Activity/Card/ActivityCard'
 import ActivityTypeList from './ActivityTypeList'
+import { useDispatch } from 'react-redux'
+import { createActivity } from '../../../../redux/slices/sessionSlice'
 
 
 const ActivityWindow = ({compData, compFunction}) => {
-  const {popUpStat, activityType, activitiesData} = compData;
-  const {handleClosePopUp, setActivitiesData, handleEditedData} = compFunction;
+  const {popUpStat, activityType, editedItm, activitiesData} = compData;
+  const {handleClosePopUp, setActivitiesData} = compFunction;
 
   const [activityData, setActivityData] = useState({})
   
+
+
   const {id, activityID} = activityData
 
-  // console.log(activitiesData.filter(name))
-
-  // useEffect(() => {
-  //   if (activityType === 'edit' && editedData) {
-  //     setActivityData(editedData)
-  //   }
-  // }, [editedData, type])
+  useEffect(() => {
+    if (activityType.state === 'edit' && editedItm) {
+      setActivityData(editedItm)
+    }
+  }, [activityType, editedItm])
   
+  const dispatch = useDispatch()
 
   const removeActivityFromDroppable = () => {
     setActivityData({});
   };
 
-
+  const activitiesDataCloned = [...activitiesData]
 
   const handleCreateActivity = () => {
     if (activityID){
+      const findSession = activitiesDataCloned.find(session => session.sessionName === activityType.board)
+      
+      // dispatch(createActivity())
+
       setActivitiesData(prevSession => 
         prevSession.map(session => {
           if (session.sessionName === activityType.board) {
@@ -41,7 +48,9 @@ const ActivityWindow = ({compData, compFunction}) => {
               activityList: [...session.activityList, activityData]
             }
           }
+
           return session;
+          
         })
       )
       handleClose()
@@ -51,21 +60,21 @@ const ActivityWindow = ({compData, compFunction}) => {
     }
   }
 
-  // const handleSaveActivity = () => {
-  //   if (leftActivities.find((item) => item.id === id)) {
-  //     setLeftActivities(prevLeftActivities => {
-  //       return prevLeftActivities.map((board) => board.id === id ? activityData : board)
-  //     })
-  //   } else {
-  //     setRightActivities(prevRightActivities => {
-  //       return prevRightActivities.map(board =>
-  //         board.name === tabName
-  //           ? { ...board, data: board.data.map(activity => activity.id === id ? { ...activity, ...activityData } : activity) }
-  //           : board
-  //       );
-  //     });
-  //   }
-  // }
+  const handleSaveActivity = () => {
+    setActivitiesData(prevSession => {
+      return prevSession.map(session => 
+        session.sessionName === activityType.board ?
+          
+          {
+            ...session,
+            activityList: session.activityList.map(activity => activity.id === id ? {...activity, ...activityData} : activity)
+          }
+          :
+          session
+      )
+    })
+    handleClose()
+  }
 
   const handleClose = () => {
     handleClosePopUp()
@@ -127,7 +136,7 @@ const ActivityWindow = ({compData, compFunction}) => {
           data={activityData} 
           setData={setActivityData} 
           createActivity={handleCreateActivity} 
-          // saveActivity={handleSaveActivity}
+          saveActivity={handleSaveActivity}
           />
         )}
           

@@ -3,7 +3,10 @@ import { deleteDataAPI, getDataAPI, postDataAPI } from "../../api/fetchData";
 
 const initialState = {
     isLoading: false,
-    isSuccess: false,
+    isCreated: false,
+    isEdited: false,
+    isDeleted: false,
+    isError: false,
     moduleList: [],
     moduleItem: {},
     moduleMessage: "",
@@ -71,7 +74,12 @@ const moduleSlice = createSlice({
     name: 'module',
     initialState,
     reducers: {
-        
+        resetModuleState: (state) => {
+            state.isCreated = false;
+            state.isEdited = false;
+            state.isDeleted = false;
+            state.isError = false;
+        }
     },
     extraReducers: (builders) => {
         builders
@@ -81,7 +89,6 @@ const moduleSlice = createSlice({
             })
             .addCase(getModules.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
                 state.moduleList = action.payload.message ? [] : action.payload;
                 state.moduleMessage = action.payload.message
             })
@@ -96,7 +103,6 @@ const moduleSlice = createSlice({
             })
             .addCase(getModuleInfo.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
                 state.moduleItem = action.payload;
             })
             .addCase(getModuleInfo.rejected, (state, action) => {
@@ -104,17 +110,20 @@ const moduleSlice = createSlice({
                 state.message = action.payload;
             })
 
+
             // Create Module
             .addCase(createModule.pending, (state) => {
                 state.isLoading = true
             })
             .addCase(createModule.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isCreated = true;
                 state.moduleList = [...state.moduleList, action.payload];
                 state.message = ""
             })
             .addCase(createModule.rejected, (state, action) => {
                 state.isLoading = false;
+                state.isError = true;
                 state.message = action.payload;
             })
 
@@ -124,11 +133,12 @@ const moduleSlice = createSlice({
             })
             .addCase(editModule.fulfilled, (state, action) => {
                 state.isLoading = false;
-                
+                state.isEdited = true;
                 state.message = ""
             })
             .addCase(editModule.rejected, (state, action) => {
                 state.isLoading = false;
+                state.isError = true;
                 state.message = action.payload;
             })
 
@@ -138,11 +148,13 @@ const moduleSlice = createSlice({
             })
             .addCase(deleteModule.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isDeleted = true
                 state.moduleList = state.moduleList.filter((item) => item.id !== action.payload.idToRemove)
                 state.message = action.payload.message
             })
             .addCase(deleteModule.rejected, (state, action) => {
                 state.isLoading = false;
+                state.isError = true
                 state.message = action.payload;
             })
     }

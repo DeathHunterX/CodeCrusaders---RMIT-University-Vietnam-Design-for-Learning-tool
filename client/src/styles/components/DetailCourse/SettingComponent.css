@@ -1,13 +1,4 @@
-/* Tabs */
-.detail_course_body .right_side .tabs_header {
-    height: 50px;
-}
-
-.detail_course_body .right_side .tabs_header .tabs {
-    height: 100%;
-}
-
-.detail_course_body .popup_form .overlay {
+.course_edited .popup_form .overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -18,9 +9,9 @@
     display: none;
 }
 
-.detail_course_body .popup_form .form_content {
+.course_edited .popup_form .form_content {
     position: absolute;
-    bottom: 35px;
+    top: 0;
     left: 50%;
     transform: translate(-50%, 50%) scale(0);
     background: #fff;
@@ -28,11 +19,11 @@
     z-index: 2001;
 }
 
-.detail_course_body .popup_form.active .overlay {
+.course_edited .popup_form.active .overlay {
     display: block;
 }
 
-.detail_course_body .popup_form.active .form_content {
+.course_edited .popup_form.active .form_content {
     transition: all 500ms ease-in-out;
-    transform: translate(-50%, 50%) scale(1);
+    transform: translate(-50%, 35%) scale(1);
 }

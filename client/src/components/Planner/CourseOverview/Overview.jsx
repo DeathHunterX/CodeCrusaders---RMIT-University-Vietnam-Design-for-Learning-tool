@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import TextEditor from '../../TextEditor/TextEditor'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
 import { resetState, updateCourse } from '../../../redux/slices/courseSlice'
@@ -26,9 +26,8 @@ const CourseOverview = () => {
     const {course, isEdited, isError, message} = useSelector(state => state.course)
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        setCourseData((prevState) => ({
-            ...prevState,
+    const getCourseData = (course) => {
+        return {
             courseName: course.courseName ? course.courseName : "",
             courseCode: course.courseCode ? course.courseCode : "",
             courseSemester: course.courseSemester ? course.courseSemester : "",
@@ -40,8 +39,14 @@ const CourseOverview = () => {
                 { assignmentNo: 3, assignmentName: "", startDate: "", endDate: "" },
             ],
             clos: course.clos ? course.clos : ""
-        }))
-    }, [course.assignmentList, course.clos, course.courseCode, course.courseName, course.courseSemester])
+        }
+
+    }
+
+    useEffect(() => {
+        const courseData = getCourseData(course);
+        setCourseData(courseData);
+    }, [course])
     
     const [courseData, setCourseData] = useState(initialCourseState)
     const {courseCode, courseName, courseSemester, clos, assignmentList} = courseData
@@ -184,7 +189,7 @@ const CourseOverview = () => {
                         <hr />
                         <div className="submit_btn">
                             <div className="mt-3 d-flex justify-content-between">
-                                <Link className="btn btn-primary w-25" to="/courses" reloadDocument>Cancel</Link>
+                                <span className="btn btn-primary w-25" onClick={() => setCourseData(getCourseData(course))}>Cancel</span>
                                 <button className="btn btn-success w-25" type='submit'>Save</button>
                             </div>
                         </div>

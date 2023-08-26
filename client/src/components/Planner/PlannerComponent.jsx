@@ -288,7 +288,7 @@ const PlannerComponent = () => {
                 }
 
                 {
-                  (activeSection === 3 && subPage === "modules") && <ModuleInfo data={moduleItem} width={width2}/>
+                  (activeSection === 3 && subPage === "modules") && <ModuleInfo width={width2}/>
                 }
                   
               </div>

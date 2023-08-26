@@ -2,10 +2,10 @@ import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 // Import Icons
 import {AiFillFolder} from 'react-icons/ai'
-import {HiOutlineDotsVertical} from 'react-icons/hi'
+import {ImBin2} from 'react-icons/im'
 
 import { IconSetting } from '../../../utils/IconSetting'
-import { getModuleInfo } from '../../../redux/slices/moduleSlice'
+import { deleteModule, getModuleInfo } from '../../../redux/slices/moduleSlice'
 
 
 
@@ -14,7 +14,7 @@ const ModuleComponent = ({courseID, dispatch, setPopUpStat, setFormName}) => {
     const {moduleList} = useSelector(state => state.module)
     const {accessToken} = useSelector(state => state.auth.token)
 
-    const {subId} = useParams()
+    const {id, subId} = useParams()
 
     const navigate = useNavigate()
 
@@ -29,6 +29,10 @@ const ModuleComponent = ({courseID, dispatch, setPopUpStat, setFormName}) => {
             state: !prevState.state,
             formName: "module"
         }))
+    }
+
+    const handleDeleteModule = (moduleId) => {
+        dispatch(deleteModule({courseId: id, moduleId: moduleId, token: accessToken}))
     }
 
     return (
@@ -55,12 +59,12 @@ const ModuleComponent = ({courseID, dispatch, setPopUpStat, setFormName}) => {
                                 style={{cursor: "pointer"}}
                                 key={moduleItm.id}
                                 onClick={() => handleSelectModule(moduleItm.id)}>
-                                    <div className={`module_item_container ${moduleItm.id === subId ? "active" : ""} ps-2`}>
+                                    <div className={`module_item_container ${moduleItm.id === subId ? "active" : ""} ps-2 py-1`}>
                                         <div className="">
                                             <span className="text-capitalize">{moduleItm.name}</span>
                                         </div>
-                                        <div className="px-2">
-                                            {IconSetting(<HiOutlineDotsVertical/>, 'black', '14px')}
+                                        <div className="px-2" onClick={() => handleDeleteModule(moduleItm.id)}>
+                                            {IconSetting(<ImBin2/>, 'black', '14px')}
                                         </div>
                                     </div>
                                 </div>

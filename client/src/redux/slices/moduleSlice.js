@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { deleteDataAPI, getDataAPI, postDataAPI } from "../../api/fetchData";
+import { deleteDataAPI, getDataAPI, postDataAPI, putDataAPI } from "../../api/fetchData";
 
 const initialState = {
     isLoading: false,
@@ -45,9 +45,11 @@ export const createModule = createAsyncThunk('module/createModule', async({modul
     }
 })
 
-export const editModule = createAsyncThunk('module/editModule', async(token, thunkAPI) => {
+export const editModule = createAsyncThunk('module/editModule', async({moduleData, id, token}, thunkAPI) => {
     try {
+        const res = await putDataAPI(`update-module/${id}`, moduleData, token)
         
+        return res.data
 
     } catch (err) {
         const errMessage = err.response?.data?.message || err.message;
@@ -55,12 +57,12 @@ export const editModule = createAsyncThunk('module/editModule', async(token, thu
     }
 })
 
-export const deleteModule = createAsyncThunk('module/deleteModule', async({id, token}, thunkAPI) => {
+export const deleteModule = createAsyncThunk('module/deleteModule', async({courseId, moduleId, token}, thunkAPI) => {
     try {
-        const res = await deleteDataAPI(`/delete-module/${id}`, token)
+        const res = await deleteDataAPI(`course/${courseId}/delete-module/${moduleId}`, token)
         console.log(res)
 
-        return {message: res.data, idToRemove: id}
+        return {message: res.data, idToRemove: moduleId}
 
     } catch (err) {
         const errMessage = err.response?.data?.message || err.message;

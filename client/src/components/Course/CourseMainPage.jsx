@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import { useEffect} from 'react'
 import {Link} from 'react-router-dom'
 
 import {IoIosAddCircleOutline} from 'react-icons/io'
@@ -7,10 +7,6 @@ import CourseCard from './CourseCard'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCourses} from '../../redux/slices/courseSlice'
-
-import CourseImgBg from '../../images/Courses/courses_01.jpg'
-
-import {BsShareFill} from 'react-icons/bs'
 
 const CourseMainPage = () => {
     const {accessToken} = useSelector(state => state.auth.token)
@@ -50,22 +46,6 @@ const CourseMainPage = () => {
                             :
                             <></>
                         }
-                        
-                        <div className="course_item">
-                            <Link to="/courses/01/home" className="text-decoration-none">
-                            <div className="card h-100">
-                                <img src={CourseImgBg} className="card-img-top" alt='' />
-                                <div className="card-body">
-                                    <h6 className="card_title">Engineering Capstone Project Part A</h6>
-                                    <p className="card_text text-uppercase">OENG1183</p>
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <small className="">Semester 1, 2023</small>
-                                        <div className=""><BsShareFill/></div>
-                                    </div>
-                                </div>
-                            </div>
-                            </Link>
-                        </div>
                         
                     </div>
                 </div>

@@ -3,8 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useSelector, useDispatch } from "react-redux";
-import { loginUser, reset } from "../../redux/slices/authSlice";
-import { usePreventAccess } from "../../hook/usePreventAccess";
+import { loginUser, resetState} from "../../redux/slices/authSlice";
 
 const SignIn = () => {
   const SignInState = {
@@ -14,7 +13,7 @@ const SignIn = () => {
   const [loginData, setLoginData] = useState(SignInState);
   const { username, password } = loginData;
 
-  const { user, isError, isSuccess, isLoading, message } = useSelector(
+  const { user, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
   const dispatch = useDispatch();
@@ -26,27 +25,21 @@ const SignIn = () => {
     setLoginData((state) => ({ ...state, [name]: value }));
   };
 
-  usePreventAccess();
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    if (isSuccess || user) {
-      navigate("/");
-    }
-
-    dispatch(reset());
-  }, [user, isError, isSuccess, navigate, dispatch, message]);
-
-  if (isLoading) {
-  }
-
   const handleLogin = (e) => {
     e.preventDefault();
 
     dispatch(loginUser(loginData));
   };
+
+  useEffect(() => {
+    if (isSuccess || user) {
+      navigate("/")
+      dispatch(resetState())
+    } else if (isError) {
+      toast.error(message)
+      dispatch(resetState())
+    }
+  }, [dispatch, isError, isSuccess, message, navigate, user])
 
   return (
     <div className="login_center">

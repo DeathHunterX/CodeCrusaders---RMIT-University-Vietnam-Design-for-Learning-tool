@@ -4,24 +4,21 @@
 
 .course_planner_wrapper .planner_header .planner_item_list  {}
 
-.course_planner_wrapper .planner_header .planner_item_list .planner_itm {}
+.course_planner_wrapper .planner_header .planner_item_list .planner_itm.active,
+.course_planner_wrapper .planner_header .planner_item_list .planner_itm:hover{
+    box-shadow: inset 0 -2px #6d6e6f;
 
-.course_planner_wrapper .planner_header .planner_item_list .planner_itm::before {
-    content: '';
-    position: absolute;
-    bottom: 10px;
-    width: 25px;
-    height: 3px;
-    border-radius: 8px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
 }
 
-.course_planner_wrapper .planner_header .planner_item_list .planner_itm.active::before{
-    background: #4439f1;
+.course_planner_wrapper .planner_header .planner_item_list .planner_itm.active {
+    background-color: rgba(13,110,253,.25);
 }
 
-
-.course_planner_wrapper .planner_container {
-    height: calc(100vh - var(--topNavBarHeight) - 46px);
+.course_planner_wrapper .course_planner_container {
+    min-height: calc(100vh - var(--topNavBarHeight) - 46px);
     display: flex;
     flex-direction: row;
 
@@ -30,7 +27,7 @@
 
 
 /* Activity Container */
-.planner_container .activity_list_wrapper {
+.course_planner_container .activity_list_wrapper {
     display: inline-block;
     height: 100%;
     scroll-margin: 8px;
@@ -38,36 +35,30 @@
     white-space: nowrap;
 
     flex: 0 0 auto;
-    width: 26%;
+    width: 32%;
 }
 
-.planner_container .activity_list_wrapper .activity_list_content {
+.course_planner_container .activity_list_wrapper .activity_list_content {
     display: flex;
     flex-direction: column;
-
-    border-radius: 12px;
     position: relative;
     white-space: normal;
     width: 100%;
     max-height: 100%;
-
-    border: 1px solid gray;
+    border: 1px solid black;
+    border-radius: 6px;
 }
 
 .activity_list_content .activity_list_header {
     display: flex;
     justify-content: space-between;
     padding: 14px 4px 14px 10px;
-    background-color: rgb(238, 238, 238);
     align-items: center;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    border-bottom: 1px solid gray;;
 }
 
 .activity_list_content .activity_list_header h6{
     margin: 0;
-    font: 600 17px/17px roboto, "Open Sans", Helvetica, sans-serif;
+    font-family: monospace;
     color: black;
     text-align: center;
     font-weight: 600;
@@ -76,32 +67,37 @@
 .activity_list_content .activity_list_body {
     overflow-y: auto;
     height: 100%;
+    background-color: #c9d6f7a3;
+}
+
+.activity_list_content .activity_list_body .activity_time_list {
+    margin: 0 10px 0 0;
+    padding: 10px 0 0 0;
+    min-width: 60px;
+    list-style-type: none;
 }
 
 .activity_list_content .activity_list_body .activity_list_cards {
     list-style: none;
-    min-height: calc(100vh - var(--topNavBarHeight) - 121px );
+    min-height: calc(100vh - var(--topNavBarHeight) - 160px );
     margin: 0;
-    background-color: #c9d6f7a3;
-    border-bottom-right-radius: 16px;
-    border-bottom-left-radius: 16px;
 }
 
 
 /* ==================== Module Session Tabs ====================*/
-.planner_container .activity_list_tabs {
+.course_planner_container .activity_list_tabs {
     flex: 0 0 auto;
     width: 74%;
     padding-left: 15px;
 }
 
-.planner_container .activity_list_tabs .activity_tabbed_round {
+.course_planner_container .activity_list_tabs .activity_tabbed_round {
     display: flex;
     flex-direction: column;
 }
 
 /* Header */
-.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header {
+.course_planner_container .activity_list_tabs .activity_tabbed_round .tabs_header {
     width: 100%;
     min-width: 400px;
     margin: 0 auto;
@@ -110,7 +106,7 @@
     transition: border 250ms ease;
 }
 
-.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul {
+.course_planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul {
     margin: 0px;
     padding: 0px;
     overflow: hidden;
@@ -121,7 +117,7 @@
     flex-direction: row;
 }
 
-.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li {
+.course_planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li {
     display: block;
     padding: 10px 24px 8px;
     margin-right: 54px;
@@ -136,8 +132,8 @@
     color: #666;
 }
 
-.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::before,
-.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::after {
+.course_planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::before,
+.course_planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::after {
     display: block;
     content: " ";
     position: absolute;
@@ -150,28 +146,28 @@
     color: #666;
 }
 
-.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::before {
+.course_planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::before {
     right: -24px;
     transform: skew(30deg, 0deg);
     box-shadow: rgba(0,0,0,.1) 3px 2px 5px, inset rgba(255,255,255,.09) -1px 0;
     border-radius: 0 8px 0 0
 }
 
-.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::after {
+.course_planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li::after {
     left: -24px;
     transform: skew(-30deg, 0deg);
     box-shadow: rgba(0,0,0,.1) -3px 2px 5px, inset rgba(255,255,255,.09) 1px 0;
     border-radius: 8px 0 0 0;
 }
 
-.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li.active_tabs {
+.course_planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li.active_tabs {
     background-color: #b8bdc1;
     color: #FFF;
     z-index: 4;
 }
 
-.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li.active_tabs::before,
-.planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li.active_tabs::after {
+.course_planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li.active_tabs::before,
+.course_planner_container .activity_list_tabs .activity_tabbed_round .tabs_header ul li.active_tabs::after {
     background-color: #b8bdc1;
     color: #FFF;
 }
@@ -179,7 +175,7 @@
 
 
 /* Body */
-.planner_container .activity_list_tabs .activity_tabbed_round .tabs_body{
+.course_planner_container .activity_list_tabs .activity_tabbed_round .tabs_body{
     height: calc(100vh - var(--topNavBarHeight) - 108px)
 }
 

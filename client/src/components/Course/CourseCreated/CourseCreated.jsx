@@ -7,11 +7,11 @@ import TextEditor from "../../TextEditor/TextEditor";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { createCourse, reset } from "../../../redux/slices/courseSlice";
+import { createCourse, resetState} from "../../../redux/slices/courseSlice";
 
 const CourseCreated = () => {
   const {accessToken} = useSelector(state => state.auth.token)
-  const {isSuccess} = useSelector(state => state.course)
+  const {isCreated} = useSelector(state => state.course)
   const dispatch = useDispatch()
 
   const navigate = useNavigate()
@@ -33,14 +33,13 @@ const CourseCreated = () => {
   const { courseCode, courseName, courseSemester, clos, assignmentList } = courseData;
 
   useEffect(() => {
-    if(isSuccess) {
+    if(isCreated) {
       toast.success("Create Course Successfully")
+      dispatch(resetState())
       navigate('/courses')
     }
 
-    dispatch(reset())
-
-  }, [dispatch, isSuccess, navigate])
+  }, [dispatch, isCreated, navigate])
   const handleInput = (e) => {
     const { name, value } = e.target;
     setCourseData((prevState) => ({ ...prevState, [name]: value }));

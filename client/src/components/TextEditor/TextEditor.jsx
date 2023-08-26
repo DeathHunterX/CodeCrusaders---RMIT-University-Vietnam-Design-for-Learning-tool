@@ -8,12 +8,12 @@ const TextEditor = (props) => {
         props.onSendValue(data)
     }
     return (
-        <>
+        <React.Fragment>
             <CKEditor editor={Editor}
             data={props.value}
             onChange={handleChange}
             />
-        </>
+        </React.Fragment>
     )
 }
 

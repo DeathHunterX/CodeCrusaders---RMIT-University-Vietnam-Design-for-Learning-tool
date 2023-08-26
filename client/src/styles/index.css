@@ -25,8 +25,7 @@
 @import url("./components/Course/coureseMainPage.css");
 
 /* ========== DETAIL COURSE PAGE ========== */
-/* ===LEFT SIDE=== */
-@import url("./components/DetailCourse/DetailCourse.css");
+
 
 /* ===RIGHT SIDE=== */
 /* MODULE PAGE*/
@@ -46,7 +45,7 @@
 /* Activity Planner Page */
 @import url("./components/Planner/ModuleInfo/info.css");
 @import url("./components/Planner/ActivityPlanner/ActivityPlanner.css");
-@import url("./components/Planner/ActivityPlanner/ActivityWindow.css");
+@import url("./components/Planner/ActivityWindow/ActivityWindow.css");
 
 /* ========== COMPONENTS ========== */
 

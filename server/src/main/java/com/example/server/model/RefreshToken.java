@@ -1,9 +1,12 @@
 package com.example.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Date;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -24,4 +27,6 @@ public class RefreshToken {
 
   private String token;
   private Instant expireDate;
+
+
 }

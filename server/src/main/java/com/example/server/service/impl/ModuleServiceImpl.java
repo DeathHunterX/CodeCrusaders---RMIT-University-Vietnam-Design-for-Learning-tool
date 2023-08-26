@@ -2,6 +2,7 @@ package com.example.server.service.impl;
 
 import com.example.server.api.request.ModuleCreateRequest;
 import com.example.server.api.request.ModuleRequest;
+import com.example.server.api.request.SessionRequest;
 import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
@@ -104,7 +105,19 @@ public class ModuleServiceImpl implements ModuleService {
         .orElseThrow(() -> new ObjectNotFoundException("Module", "id"));
     _module.setName(moduleRequest.getName());
     _module.setLos(moduleRequest.getLos());
-    _module.setSessionList(moduleRequest.getSessionList());
-    return new ResponseEntity<>(moduleRepository.save(_module), HttpStatus.OK);
+    List<Session> sessionList = _module.getSessionList();
+    List<SessionRequest> sessionRequestList = moduleRequest.getSessionRequests();
+    for (SessionRequest sessionRequest : sessionRequestList) {
+      for (Session existingSession : sessionList) {
+        if (existingSession.getSessionName() == sessionRequest.getSessionName()) {
+          existingSession.setGroupingType(sessionRequest.getGroupingType());
+          existingSession.setSessionOption(sessionRequest.getSessionOption());
+          existingSession.setInteractionType(sessionRequest.getInteractionType());
+          existingSession.setHasLecturer(sessionRequest.getHasLecturer());
+        }
+      }
+    }
+    Module updatedModule = moduleRepository.save(_module);
+    return new ResponseEntity<>(updatedModule, HttpStatus.OK);
   }
 }

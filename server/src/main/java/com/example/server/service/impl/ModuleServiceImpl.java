@@ -106,7 +106,7 @@ public class ModuleServiceImpl implements ModuleService {
     _module.setName(moduleRequest.getName());
     _module.setLos(moduleRequest.getLos());
     List<Session> sessionList = _module.getSessionList();
-    List<SessionRequest> sessionRequestList = moduleRequest.getSessionRequests();
+    List<SessionRequest> sessionRequestList = moduleRequest.getSessionList();
     for (SessionRequest sessionRequest : sessionRequestList) {
       for (Session existingSession : sessionList) {
         if (existingSession.getSessionName() == sessionRequest.getSessionName()) {

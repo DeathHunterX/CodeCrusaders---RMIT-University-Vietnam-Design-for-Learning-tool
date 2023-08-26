@@ -89,12 +89,4 @@ public class CourseController {
     }
     return new ResponseEntity<>(new ApiResponse("Successfully delete course"), HttpStatus.OK);
   }
-
-
-  @GetMapping("courses/{course_id}/activities")
-  @Transactional
-  public ResponseEntity<?> getAllActivities(@PathVariable UUID course_id) {
-    Course course = courseService.getCourseById(course_id);
-    return new ResponseEntity<>(course.getActivityList(), HttpStatus.OK);
-  }
 }

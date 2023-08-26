@@ -83,6 +83,7 @@ const ActivityWindow = ({compData, compFunction}) => {
 
   const activityFilter = ActivityCardList.find((activity) => activityID === activity.activityID)
 
+  console.log(activityData)
   return (
     <div className="dialog_container" style={{display: popUpStat.formName === "activity" ? "block" : "none"}}>
       <div className="dialog_close" onClick={handleClose}><AiOutlineClose/></div>

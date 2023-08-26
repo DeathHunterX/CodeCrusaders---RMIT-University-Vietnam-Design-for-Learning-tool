@@ -1,7 +1,5 @@
 import React from 'react'
 
-import {v4 as uuidv4} from 'uuid'
-
 import { ActivityCardList, ActivityTypeMap} from '../Map/ActivityCardList'
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 import { BiEditAlt } from 'react-icons/bi'
@@ -14,43 +12,68 @@ const ActivityCard = ({isEditable=false, data, board, setData, openAddEditDialog
     // console.log(findActivityType)
     const getCardData = (item) => {
         // handle state data base on activityID
-        const activityTypeResult = ActivityTypeMap.find((activity) => item === activity.activityID)
+        const getActivityType = ActivityTypeMap.find((activity) => item === activity.activityID)
+        const getActivityCard = ActivityCardList.find((activity) => item === activity.activityID)
+        console.log(getActivityType)
+        console.log(getActivityCard)
+        
         switch (item) {
             case 'warm_up':
                 setData({
-                    id: uuidv4(), 
-                    duration: 10,
                     activityID: item,
-                    activityType: activityTypeResult?.activityType[0].activityTypeID,
-                    engagementOption: activityTypeResult?.activityType[0]?.activityTypeOption[0].optionID
+                    activityName: getActivityCard.activityName,
+                    duration: 10,
+                    warmUpOption: getActivityType?.activityType[0].activityTypeID,
+                    engagementOption: getActivityType?.activityType[0]?.activityTypeOption[0].optionID
                 })
                 break;
             case 'read_watch_listen':
                 setData({
-                    id: uuidv4(), 
-                    duration: 10,
                     activityID: item,
-                    activityType: activityTypeResult.activityType[0].activityTypeID ,
-                    activityInstruction: ""
+                    activityName: getActivityCard.activityName,
+                    duration: 10,
+                    readWatchListenType: getActivityType.activityType[0].activityTypeID,
                 })
                 break;
             case 'reflect':
                 setData({
-                    id: uuidv4(), 
-                    duration: 10,
                     activityID: item,
-                    activityType: activityTypeResult.activityType[0].activityTypeID ,
-                    activityInput: []
+                    activityName: getActivityCard.activityName,
+                    duration: 10,
+                    reflectionType: getActivityType.activityType[0].activityTypeID,
                 })
                 break;
+            case 'discuss':
+                setData({
+                    activityID: item,
+                    activityName: getActivityCard.activityName,
+                    duration: 10,
+                    groupType: getActivityType.activityType[0].activityTypeID ,
+                })
+                break;
+            case 'collaborate':
+                setData({
+                    activityID: item,
+                    activityName: getActivityCard.activityName,
+                    duration: 10,
+                    collaborateType: getActivityType.activityType[0].activityTypeID ,
+                })
+                break;
+            case 'access':
+                setData({
+                    activityID: item,
+                    activityName: getActivityCard.activityName,
+                    duration: 10,
+                    accessType: getActivityType.activityType[0].activityTypeID ,
+                })
+                break
             default:
                 setData({
-                    id: uuidv4(), 
-                    duration: 10,
                     activityID: item,
-                    activityType: activityTypeResult.activityType[0].activityTypeID ,
-                    })
-                break;
+                    activityName: getActivityCard.activityName,
+                    duration: 10,
+                    breakType: getActivityType.activityType[0].activityTypeID ,
+                })
         }        
     }
 

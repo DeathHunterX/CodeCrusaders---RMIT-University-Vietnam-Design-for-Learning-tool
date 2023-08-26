@@ -36,7 +36,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseResponse> getAllCoursesByUsername(String username) {
         User user = userRepository.findByUsername(username);
-        List<CourseResponse> courseResponses = user.getCourses().stream().map(e -> modelMapper.map(e, CourseResponse.class)).collect(Collectors.toList());
+        List<CourseResponse> courseResponses = user.getCourses().stream()
+            .map(e -> modelMapper.map(e, CourseResponse.class))
+            .sorted(Comparator.comparing(CourseResponse::getCourseName)) // Sort by courseName
+            .collect(Collectors.toList());
         return courseResponses;
     }
 

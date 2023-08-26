@@ -7,11 +7,14 @@ import com.example.server.model.User;
 import com.example.server.repository.RefreshTokenRepository;
 import com.example.server.repository.UserRepository;
 import com.example.server.service.RefreshTokenService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,6 +29,11 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
   @Value("${codecrusaders.app.refreshTokenExpirationMs}")
   private Long refreshTokenDurationMs;
 
+  @Value("${codecrusaders.app.jwtSecret}")
+  private String jwtSecret;
+
+
+
   @Override
   public Optional<RefreshToken> findByToken(String token) {
     return refreshTokenRepository.findRefreshTokenByToken(token);
@@ -36,14 +44,22 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
   public RefreshToken createRefreshToken(UUID userId) {
     User user = userDetailsService.getUserById(userId).orElseThrow(() -> new ObjectNotFoundException("User", "id"));
     RefreshToken refreshToken = new RefreshToken();
-    refreshToken.setToken(UUID.randomUUID().toString());
+    String token = generateJwtFormatToken(user.getUsername(), refreshTokenDurationMs,jwtSecret);
+    System.out.println(token);
+    refreshToken.setToken(token);
     refreshToken.setExpireDate(Instant.now().plusMillis(refreshTokenDurationMs));
     refreshToken.setUser(user);
     user.setRefreshToken(refreshToken);
     refreshTokenRepository.save(refreshToken);
     return refreshToken;
   }
-
+  public String generateJwtFormatToken(String subject, long expirationMs, String secret) {
+    return Jwts.builder()
+        .setSubject(subject)
+        .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
+        .signWith(SignatureAlgorithm.HS512, secret)
+        .compact();
+  }
   @Override
   public RefreshToken verifyExpirationDate(RefreshToken refreshToken) {
     if (refreshToken.getExpireDate().compareTo(Instant.now()) < 0) {

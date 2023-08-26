@@ -29,7 +29,6 @@ import java.util.UUID;
 public class ActivityServiceImpl implements ActivityService {
     private final ActivityRepository activityRepository;
     private final SessionService sessionService;
-    private final ModelMapper modelMapper;
     private final CourseService courseService;
     private final UserDetailsServiceImpl userDetailsService;
     private final CourseRepository courseRepository;
@@ -50,7 +49,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Transactional
     public Activity createActivity(ActivityRequest activityRequest, Course course, Session session) {
         switch (activityRequest.getActivityID()) {
-            case "activity-01":
+            case "warm_up":
                 WarmUp warmUp = new WarmUp();
                 warmUp.setActivityID(ActivityID.WARM_UP);
                 warmUp.setDuration(activityRequest.getDuration());
@@ -60,7 +59,7 @@ public class ActivityServiceImpl implements ActivityService {
                 warmUp.setCourse(course);
                 warmUp.setSession(session);
                 return activityRepository.save(warmUp);
-            case "activity-02":
+            case "read_watch_listen":
                 ReadWatchListen readWatchListen = new ReadWatchListen();
                 readWatchListen.setActivityID(ActivityID.READ_WATCH_LISTEN);
                 readWatchListen.setDuration(activityRequest.getDuration());
@@ -68,7 +67,7 @@ public class ActivityServiceImpl implements ActivityService {
                 readWatchListen.setCourse(course);
                 readWatchListen.setSession(session);
                 return activityRepository.save(readWatchListen);
-            case "activity-03":
+            case "reflect":
                 Reflect reflect = new Reflect();
                 reflect.setActivityID(ActivityID.REFLECT);
                 reflect.setDuration(activityRequest.getDuration());
@@ -77,7 +76,7 @@ public class ActivityServiceImpl implements ActivityService {
                 reflect.setCourse(course);
                 reflect.setSession(session);
                 return activityRepository.save(reflect);
-            case "activity-04":
+            case "discuss":
                 Discuss discuss = new Discuss();
                 discuss.setActivityID(ActivityID.DISCUSS);
                 discuss.setDuration(activityRequest.getDuration());
@@ -86,7 +85,7 @@ public class ActivityServiceImpl implements ActivityService {
                 discuss.setCourse(course);
                 discuss.setSession(session);
                 return activityRepository.save(discuss);
-            case "activity-05":
+            case "collaborate":
                 Collaborate collaborate = new Collaborate();
                 collaborate.setActivityID(ActivityID.COLLABORATE);
                 collaborate.setDuration(activityRequest.getDuration());
@@ -95,7 +94,7 @@ public class ActivityServiceImpl implements ActivityService {
                 collaborate.setCourse(course);
                 collaborate.setSession(session);
                 return activityRepository.save(collaborate);
-            case "activity-06":
+            case "assess":
                 Assess assess = new Assess();
                 assess.setActivityID(ActivityID.ASSESS);
                 assess.setDuration(activityRequest.getDuration());
@@ -104,7 +103,7 @@ public class ActivityServiceImpl implements ActivityService {
                 assess.setCourse(course);
                 assess.setSession(session);
                 return activityRepository.save(assess);
-            case "activity-07":
+            case "break":
                 Break breakAct = new Break();
                 breakAct.setActivityID(ActivityID.BREAK);
                 breakAct.setDuration(breakAct.getDuration());
@@ -121,43 +120,43 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public Activity updateActivity(UUID activityId, ActivityRequest activityRequest) {
         switch (activityRequest.getActivityID()) {
-            case "activity-01":
+            case "warm_up":
                 WarmUp warmUp = (WarmUp) getActivityById(activityId);
                 warmUp.setDuration(activityRequest.getDuration());
                 warmUp.setActivityName(activityRequest.getActivityName());
                 warmUp.setWarmUpOption(activityRequest.getWarmUpOption());
                 warmUp.setEngagementOption(activityRequest.getEngagementOption());
                 return activityRepository.save(warmUp);
-            case "activity-02":
+            case "read_watch_listen":
                 ReadWatchListen readWatchListen = (ReadWatchListen) getActivityById(activityId);
                 readWatchListen.setDuration(activityRequest.getDuration());
                 readWatchListen.setActivityName(activityRequest.getActivityName());
                 return activityRepository.save(readWatchListen);
-            case "activity-03":
+            case "reflect":
                 Reflect reflect = (Reflect) getActivityById(activityId);
                 reflect.setDuration(activityRequest.getDuration());
                 reflect.setActivityName(activityRequest.getActivityName());
                 reflect.setReflectionType(activityRequest.getReflectionType());
                 return activityRepository.save(reflect);
-            case "activity-04":
+            case "discuss":
                 Discuss discuss = (Discuss) getActivityById(activityId);
                 discuss.setDuration(activityRequest.getDuration());
                 discuss.setActivityName(activityRequest.getActivityName());
                 discuss.setGroupType(activityRequest.getGroupType());
                 return activityRepository.save(discuss);
-            case "activity-05":
+            case "collaborate":
                 Collaborate collaborate = (Collaborate) getActivityById(activityId);
                 collaborate.setDuration(activityRequest.getDuration());
                 collaborate.setActivityName(activityRequest.getActivityName());
                 collaborate.setCollaborateType(activityRequest.getCollaborateType());
                 return activityRepository.save(collaborate);
-            case "activity-06":
+            case "assess":
                 Assess assess = (Assess) getActivityById(activityId);
                 assess.setDuration(activityRequest.getDuration());
                 assess.setActivityName(activityRequest.getActivityName());
                 assess.setAccessType(activityRequest.getAccessType());
                 return activityRepository.save(assess);
-            case "activity-07":
+            case "break":
                 Break breakAct = (Break) getActivityById(activityId);
                 breakAct.setDuration(breakAct.getDuration());
                 breakAct.setActivityName(breakAct.getActivityName());

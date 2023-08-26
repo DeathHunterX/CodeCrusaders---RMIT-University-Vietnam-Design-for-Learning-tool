@@ -26,10 +26,10 @@ public class CommentServiceImpl implements CommentService {
   private final UserDetailsServiceImpl userDetailsService;
 
   @Override
-  public List<Comment> getAllCommentsFromSharedLink(String link) {
+  public Set<Comment> getAllCommentsFromSharedLink(String link) {
     SharedCourseLink sharedCourseLink = sharedCourseLinkService.findDetailsByShareLink(link);
     List<Comment> comments = sharedCourseLink.getCommentList();
-    List<Comment> rootComments = new ArrayList<>();
+    Set<Comment> rootComments = new HashSet<>();
     Map<UUID, Comment> commentMap = new HashMap<>();
     for (Comment comment : comments) {
       commentMap.put(comment.getId(), comment);

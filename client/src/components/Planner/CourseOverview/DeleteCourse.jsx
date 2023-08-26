@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteCourse } from '../../../redux/slices/courseSlice'
-import { useParams } from 'react-router-dom'
+import { deleteCourse, resetState } from '../../../redux/slices/courseSlice'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-const MoreOptions = () => {
+const DeleteCourse = () => {
     const [popUpStat, setPopUpStat] = useState(false)
     const [confirmCourse, setConfirmCourse] = useState("")
 
     const {id} = useParams()
+    const navigate = useNavigate()
 
     const {accessToken} = useSelector(state => state.auth.token)
-    const {course} = useSelector(state => state.course)
+    const {course, isDeleted, isError, message} = useSelector(state => state.course)
     const dispatch = useDispatch()
 
     const togglePopUp = () => {
@@ -29,6 +31,17 @@ const MoreOptions = () => {
         }
     }
 
+    useEffect(() => {
+        if(isDeleted) {
+            toast.success(`Delete Course ${confirmCourse} Successfully`)
+            dispatch(resetState())
+            navigate("/courses")
+        } else if (isError){
+            toast.error(message)
+        }
+    }, [confirmCourse, dispatch, isError, isDeleted, message, navigate])
+    
+
     const handleCancelDelete = () => {
         setConfirmCourse("")
         setPopUpStat(state => !state)
@@ -38,7 +51,10 @@ const MoreOptions = () => {
     return (
         <div className='more_options_container'>
             <div className="">
-                <button className='btn btn-danger' onClick={togglePopUp}>Delete Course</button>
+                <h2>Delete</h2>
+            </div>
+            <div className="">
+                <button className='btn btn-danger w-100' onClick={togglePopUp}>Delete Course</button>
             </div>
 
             
@@ -83,4 +99,4 @@ const MoreOptions = () => {
     )
 }
 
-export default MoreOptions
+export default DeleteCourse

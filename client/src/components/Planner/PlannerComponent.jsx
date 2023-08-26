@@ -1,40 +1,46 @@
 // Import Library
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import {DragDropContext} from '@hello-pangea/dnd'
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {DragDropContext} from '@hello-pangea/dnd';
+import { Resizable } from 're-resizable';
+
 
 // Redux
-import { createModule, getModuleInfo, getModules } from '../../redux/slices/moduleSlice'
-import { getCourse } from '../../redux/slices/courseSlice';
+import { createModule} from '../../redux/slices/moduleSlice';
 
 // Import Components
+import CoursePlannerHeader from './Item/Header';
 
-import BasicInformation from './BasicInformation/BasicInformation'
-import CoursePlanner from './CoursePlanner'
+import PopUpForm from './PopUp/PopUpForm';
+
+
+import CoursePlanner from './CoursePlanner';
 
 // Icons
-import {FaClipboardList} from 'react-icons/fa'
+import {FaClipboardList} from 'react-icons/fa';
 
-// Icon Settings
-import SettingComponent from './Overview/SettingComponent';
-import CoursePlannerHeader from './Item/Header';
-import PopUpForm from './PopUp/PopUpForm'
-import { Resizable } from 're-resizable'
-import ModuleComponent from './Module/ModuleComponent'
+
+import ModuleComponent from './Module/ModuleComponent';
+import Dashboard from './ModuleDashboard/Dashboard';
+import ModuleInfo from './ModuleInfo/Info';
+import CourseOverview from './CourseOverview/Overview';
 
 
 const PlannerComponent = () => {
   const initialState = [
     { 
+      id:"",
       sessionName: 'Pre-class', 
       activityList: [] 
     },
     { 
+      id: "",
       sessionName: 'In-class', 
-      activityList: [] 
+      activityList: []
     },
     { 
+      id: "",
       sessionName: 'Post-class', 
       activityList: []
     }
@@ -48,54 +54,58 @@ const PlannerComponent = () => {
     formName: ""
   })
 
-  // const [sessionBoard, setSessionBoard] = useState(activitiesData[0].sessionName)
-  
+  // handle module data
   const [moduleData, setModuleData] = useState({moduleName: ""})
 
+  // handle activity windows add or edit state
   const [activityType, setActivityType] = useState({
     state: "",   // add or edit state
     board: ""
   })  
+  // handle card data for edit
+  const [editedItm, setEditedItm] = useState({})
 
-  // console.log(activitiesData)
-
-  useEffect(() => {
-
-  }, [])
-  // handle data
-
-  
   // handle state
   const [activeSection, setActiveSection] = useState(1)
-  const [editedItm, setEditedItm] = useState('')
 
   // fetch action
   const {accessToken} = useSelector(state => state.auth.token)
-  const {course} = useSelector(state => state.course)
   const {moduleItem} = useSelector(state => state.module)
+
+  
+  useEffect(() => {
+    const sessionList = moduleItem?.sessionList;
+    
+    if (!Array.isArray(sessionList)) {
+        return; // Return early if sessionList is not an array
+    }
+
+    const formattedSessions = sessionList.map(item => ({
+        id: item.id,
+        sessionName: item.sessionName,
+        activityList: item.activityList
+    }));
+
+    let desiredOrder = ['Pre_class', 'In_class', 'Post_class'];
+
+    // Reorder the sessions based on the desired order
+    let reorderedSessions = desiredOrder.map(sessionName => {
+        const session = formattedSessions.find(session => session.sessionName === sessionName);
+        return session !== undefined ? session : null; // Return null for undefined sessions
+    });
+
+    // Remove null values from the reorderedSessions array
+    reorderedSessions = reorderedSessions.filter(session => session !== null);
+
+    setActivitiesData(reorderedSessions);
+  }, [moduleItem?.sessionList]);
 
   const dispatch = useDispatch();
 
-  const {page, id, subPage, subId} = useParams();
+  const {id, subPage} = useParams();
   const navigate = useNavigate();
 
-  // Get Course
-  useEffect(() => {
-      dispatch(getCourse({id: id, token: accessToken}))
-  }, [accessToken, dispatch, id])
 
-  // Get All Modules
-  useEffect(() => {
-      dispatch(getModules({id: id, token: accessToken}))
-  }, [accessToken, dispatch, id])
-  
-  // Get Module
-  useEffect(() => {
-    if (Object.keys(moduleItem).length === 0){
-      dispatch(getModuleInfo({id: subId, token: accessToken}))   
-    }
-  }, [accessToken, dispatch, moduleItem, subId])
-  
 
   // Module CRUD Functions
   const handleChangeInput = (e) => {
@@ -138,58 +148,65 @@ const PlannerComponent = () => {
   }
 
   // functions
-  const deleteRightCard = (boardName, id) => {
-      const updatedActivitiesData = activitiesData.map((board) => {
-          if (board.name === boardName) {
-            const updatedData = board.data.filter((activity) => activity.id !== id);
-            return {
-              ...board,
-              data: updatedData,
-            };
-          }
-          return board;
-      });
-    
-      setActivitiesData(updatedActivitiesData);
+  const deleteCardInBoard = (boardName, id) => {
+    const updatedActivitiesData = activitiesData.map((board) => {
+        if (board.sessionName === boardName) {
+          const updatedData = board.activityList.filter((activity) => activity.id !== id);
+          return {
+            ...board,
+            activityList: updatedData,
+          };
+        }
+        return board;
+    });
+  
+    setActivitiesData(updatedActivitiesData);
 
   }
 
   const configMap = [
       {
           header: 'Course Overview', 
+          restricted: false,
           icon: <FaClipboardList/>
       }, 
       {
           header: 'Module Board', 
-          icon: <FaClipboardList/>
-      },
-      {
-          header: "Module Info", 
+          restricted: false,
           icon: <FaClipboardList/>
       },
       {
         header: "Module Dashboard", 
+        restricted: true,
         icon: <FaClipboardList/>
       },
+      {
+        header: "Module Info", 
+        restricted: true,
+        icon: <FaClipboardList/>
+    },
   ]
-
-
-
-  // const filteredBoards = activitiesData.filter((board) => board.name === activeTabs);
-
-  // const handleEditedData = (activitiesData.find((board) => board.name === activeTabs) || { data: [] }).data.find((activity) => activity.id === editedItm)
-  
-
-  const insertItemAtIndex = (array, item, index) => {
-      const newArray = [...array];
-      newArray.splice(index, 0, item);
-      return newArray;
-  };
 
   const onDragEnd = (result) => {
       if (!result.destination) return;
-  
       const { source, destination } = result;
+
+      const sourceBoardIndex = activitiesData.findIndex(board => board.sessionName === source.droppableId);
+      const destinationBoardIndex = activitiesData.findIndex(board => board.sessionName === destination.droppableId);
+
+      if (sourceBoardIndex === -1 || destinationBoardIndex === -1) {
+        return;
+      }
+
+      const updatedBoards = activitiesData.map(board => ({
+        ...board,
+        activityList: [...board.activityList]
+      }));
+      
+      const [movedItem] = updatedBoards[sourceBoardIndex].activityList.splice(source.index, 1);
+      updatedBoards[destinationBoardIndex].activityList.splice(destination.index, 0, movedItem);
+      
+      setActivitiesData(updatedBoards);
   };
 
   const handleGoBackToCoursePage = () => {
@@ -226,21 +243,18 @@ const PlannerComponent = () => {
       }
   }
 
-
-
-
-
-  const ActivityHeaderFunction = { setActiveSection, handleGoBackToCoursePage, handlePreviewData }
   const ActivityHeaderData = { subPage, configMap, activeSection }
+  const ActivityHeaderFunction = { setActiveSection, handleGoBackToCoursePage, handlePreviewData }
 
+  const ActivityPlanningData = {width2, activitiesData}
   const ActivityPlanningFunction = {
       openAddEditDialog, 
       setEditedItm, 
-      deleteRightCard
+      deleteCardInBoard,
+      setActivitiesData
   }
-  const ActivityPlanningData = {width2, activitiesData}
 
-  const PopUpFormData = {popUpStat, moduleData, activityType, activitiesData}
+  const PopUpFormData = {popUpStat, moduleData, activityType, editedItm, activitiesData}
   const PopUpFormFunction = {handleSubmitForm, handleClosePopUp, handleChangeInput, setActivitiesData}
 
   return (
@@ -249,10 +263,10 @@ const PlannerComponent = () => {
               <CoursePlannerHeader activityData={ActivityHeaderData} activityFunction={ActivityHeaderFunction} />
               <div className="course_planner_container">
                 {
-                  activeSection === 0 && <SettingComponent />
+                  activeSection === 0 && <CourseOverview />
                 }
                 {
-                  (activeSection === 1 || activeSection === 2) && 
+                  (activeSection === 1 || activeSection === 2 || activeSection === 3 ) && 
                   <Resizable
                     onResize={handleResize1}
                     defaultSize={{ width: `${width1}%` }}
@@ -268,9 +282,14 @@ const PlannerComponent = () => {
                   (activeSection === 1 && subPage === "modules") &&
                     <CoursePlanner activityData={ActivityPlanningData} activityFunction={ActivityPlanningFunction}/>
                 }
-                {/* {
-                  (activeSection === 2 && subPage === "modules") && <BasicInformation data={moduleItem} width={width2}/>
-                } */}
+                
+                {
+                  (activeSection === 2 && subPage === "modules") && <Dashboard />
+                }
+
+                {
+                  (activeSection === 3 && subPage === "modules") && <ModuleInfo data={moduleItem} width={width2}/>
+                }
                   
               </div>
 

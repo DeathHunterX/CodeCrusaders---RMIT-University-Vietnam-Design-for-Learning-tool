@@ -1,17 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import moment from 'moment'
-import jwt_decode from 'jwt-decode'
 import {postDataAPI} from '../../api/fetchData'
-import { clearTokens, getAccessToken, getRefreshToken,  setTokens } from "../../utils/CookieSetUp";
+
 
 const user = JSON.parse(localStorage.getItem('userInfo'))
 
+const token = JSON.parse(localStorage.getItem('token'))
+
 const initialState = {
   user: user ? user : null,
-  token: {
-    accessToken: getAccessToken() ? getAccessToken() : null,
-    refreshToken: getRefreshToken() ? getRefreshToken() : null
-  },
+  token: token ? token : null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -37,15 +34,11 @@ export const loginUser = createAsyncThunk('auth/login', async(userData, thunkAPI
 
     if(res.data) {
       localStorage.setItem('userInfo', JSON.stringify({id:res.data?.id, name: res.data?.name, username: res.data?.username}))
-      
-      const accessTokenDecoded = jwt_decode(res.data?.token)
 
-      const accessTokenExpiration = moment.unix(accessTokenDecoded.exp)
-      const refreshTokenExpiration = moment().clone().add(6, 'hours')
-      
       const combinedToken = `${res.data?.type ? res.data?.type : 'Bearer'} ${res.data?.token}`
 
-      setTokens(combinedToken, res.data?.refreshToken, accessTokenExpiration, refreshTokenExpiration)
+      localStorage.setItem("token", JSON.stringify({accessToken: combinedToken, refreshToken: res.data?.refreshToken}))
+      
     }
     return res.data;
 
@@ -54,6 +47,8 @@ export const loginUser = createAsyncThunk('auth/login', async(userData, thunkAPI
       return thunkAPI.rejectWithValue(message);
   }
 })
+
+
 
 // State
 const authSlice = createSlice({
@@ -70,10 +65,11 @@ const authSlice = createSlice({
       },
       logOutUser: (state) => {
         localStorage.removeItem('userInfo');
-        clearTokens();
+        localStorage.removeItem('token');
         state.user = null;
         state.token.accessToken = null;
         state.token.refreshToken = null;
+        window.location.href = "/login"
       }
 
       
@@ -105,9 +101,11 @@ const authSlice = createSlice({
         .addCase(loginUser.fulfilled, (state, action) => {
           state.isLoading = false;
           state.user = {id: action.payload.id, name: action.payload.name, username: action.payload.username};
-
-          state.token.accessToken = `${action.payload.type ? action.payload.type : 'Bearer'} ${action.payload.token}`;
-          state.token.refreshToken = action.payload.refreshToken;
+          console.log(action.payload)
+          state.token = {
+            accessToken: `${action.payload.type ? action.payload.type : 'Bearer'} ${action.payload.token}`,
+            refreshToken: action.payload.refreshToken,
+          }
         })
         .addCase(loginUser.rejected, (state, action) => {
           state.isLoading = false;

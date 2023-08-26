@@ -7,12 +7,15 @@
 .course_planner_wrapper .planner_header .planner_item_list .planner_itm.active,
 .course_planner_wrapper .planner_header .planner_item_list .planner_itm:hover{
     box-shadow: inset 0 -2px #6d6e6f;
-    background-color: rgba(13,110,253,.25);
+
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 
 }
 
+.course_planner_wrapper .planner_header .planner_item_list .planner_itm.active {
+    background-color: rgba(13,110,253,.25);
+}
 
 .course_planner_wrapper .course_planner_container {
     min-height: calc(100vh - var(--topNavBarHeight) - 46px);
@@ -32,7 +35,7 @@
     white-space: nowrap;
 
     flex: 0 0 auto;
-    width: 26%;
+    width: 32%;
 }
 
 .course_planner_container .activity_list_wrapper .activity_list_content {
@@ -64,13 +67,20 @@
 .activity_list_content .activity_list_body {
     overflow-y: auto;
     height: 100%;
+    background-color: #c9d6f7a3;
+}
+
+.activity_list_content .activity_list_body .activity_time_list {
+    margin: 0 10px 0 0;
+    padding: 10px 0 0 0;
+    min-width: 60px;
+    list-style-type: none;
 }
 
 .activity_list_content .activity_list_body .activity_list_cards {
     list-style: none;
     min-height: calc(100vh - var(--topNavBarHeight) - 160px );
     margin: 0;
-    background-color: #c9d6f7a3;
 }
 
 

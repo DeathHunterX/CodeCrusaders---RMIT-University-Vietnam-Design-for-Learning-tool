@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 // Import Icons
 import {AiFillFolder} from 'react-icons/ai'
 import {HiOutlineDotsVertical} from 'react-icons/hi'
@@ -13,6 +13,8 @@ const ModuleComponent = ({courseID, dispatch, setPopUpStat, setFormName}) => {
     const {courseCode, courseName} = useSelector(state => state.course.course)
     const {moduleList} = useSelector(state => state.module)
     const {accessToken} = useSelector(state => state.auth.token)
+
+    const {subId} = useParams()
 
     const navigate = useNavigate()
 
@@ -49,9 +51,11 @@ const ModuleComponent = ({courseID, dispatch, setPopUpStat, setFormName}) => {
                     ?
                         moduleList?.map((moduleItm) => {
                             return (
-                                <div className="module_item d-flex my-3" key={moduleItm.id}
+                                <div className="module_item_component d-flex my-3" 
+                                style={{cursor: "pointer"}}
+                                key={moduleItm.id}
                                 onClick={() => handleSelectModule(moduleItm.id)}>
-                                    <div className="d-flex justify-content-between w-100 ps-2">
+                                    <div className={`module_item_container ${moduleItm.id === subId ? "active" : ""} ps-2`}>
                                         <div className="">
                                             <span className="text-capitalize">{moduleItm.name}</span>
                                         </div>

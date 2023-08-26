@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link, useNavigate, useLocation} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import {RxHamburgerMenu} from 'react-icons/rx'
 
 import {BiLogOut, BiBell} from 'react-icons/bi'
@@ -10,20 +10,17 @@ import { NavBarData } from './navBarData'
 
 import AvatarImg from '../../images/Avatar/avatar.jpg'
 import Avatar from '../Avatar'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logOutUser} from '../../redux/slices/authSlice'
 
 
 const NavBar = ({isNavBarOpen, setNavBarOpen, setLocationStyle}) => {
-  const navigate = useNavigate()
 
-  // const { user } = useSelector(state => state.auth)
-  // console.log(user)
+  const { user } = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
   const logOut = () => {
     dispatch(logOutUser());
-    navigate('/login');
   }
 
   const {pathname} = useLocation();
@@ -93,7 +90,7 @@ const NavBar = ({isNavBarOpen, setNavBarOpen, setLocationStyle}) => {
                     <div className="d-flex justify-content-center">
                       <Avatar src={AvatarImg} size="medium-avatar"/>
                     </div>
-                    <p className="text-center mt-1">Loi Phan</p>
+                    <p className="text-center mt-1">{user?.name}</p>
                   </div>
                   <hr />
                   <Link className="dropdown-item" to={`/user/01/profile`} >My Profile</Link>

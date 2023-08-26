@@ -6,59 +6,57 @@ import { ActivityCardList, ActivityTypeMap} from '../Map/ActivityCardList'
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 import { BiEditAlt } from 'react-icons/bi'
 
-const ActivityCard = ({isEditable=false, data, setData, openAddEditDialog, setEditedItm, setDeleteItm, tabName}) => {
+const ActivityCard = ({isEditable=false, data, board, setData, openAddEditDialog, setEditedItm, setDeleteItm}) => {
     const ActivityFilter = ActivityCardList.find((activity) => data.activityID === activity.activityID)
     
     const findActivityType = (ActivityTypeMap.find((activity) => data.activityID === activity.activityID))?.activityType.find((type) => data.activityType === type.activityTypeID)
     
+    // console.log(findActivityType)
     const getCardData = (item) => {
         // handle state data base on activityID
-            const activityTypeResult = ActivityTypeMap.find((activity) => item === activity.activityID)
-            switch (item) {
-                case 'warm_up':
-                    setData({
-                        id: uuidv4(), 
-                        duration: 10,
-                        activityID: item,
-                        activityType: activityTypeResult?.activityType[0].activityTypeID,
-                        engagementOption: activityTypeResult?.activityType[0]?.activityTypeOption[0].optionID
+        const activityTypeResult = ActivityTypeMap.find((activity) => item === activity.activityID)
+        switch (item) {
+            case 'warm_up':
+                setData({
+                    id: uuidv4(), 
+                    duration: 10,
+                    activityID: item,
+                    activityType: activityTypeResult?.activityType[0].activityTypeID,
+                    engagementOption: activityTypeResult?.activityType[0]?.activityTypeOption[0].optionID
+                })
+                break;
+            case 'read_watch_listen':
+                setData({
+                    id: uuidv4(), 
+                    duration: 10,
+                    activityID: item,
+                    activityType: activityTypeResult.activityType[0].activityTypeID ,
+                    activityInstruction: ""
+                })
+                break;
+            case 'reflect':
+                setData({
+                    id: uuidv4(), 
+                    duration: 10,
+                    activityID: item,
+                    activityType: activityTypeResult.activityType[0].activityTypeID ,
+                    activityInput: []
+                })
+                break;
+            default:
+                setData({
+                    id: uuidv4(), 
+                    duration: 10,
+                    activityID: item,
+                    activityType: activityTypeResult.activityType[0].activityTypeID ,
                     })
-                    break;
-                case 'read_watch_listen':
-                    setData({
-                        id: uuidv4(), 
-                        duration: 10,
-                        activityID: item,
-                        activityType: activityTypeResult.activityType[0].activityTypeID ,
-                        activityInstruction: ""
-                    })
-                    break;
-                case 'reflect':
-                    setData({
-                        id: uuidv4(), 
-                        duration: 10,
-                        activityID: item,
-                        activityType: activityTypeResult.activityType[0].activityTypeID ,
-                        activityInput: []
-                    })
-                    break;
-                default:
-                    setData({
-                        id: uuidv4(), 
-                        duration: 10,
-                        activityID: item,
-                        activityType: activityTypeResult.activityType[0].activityTypeID ,
-                        })
-                    break;
-            }
-        
+                break;
+        }        
     }
 
-
-
-    const openAddEditDialogByID = (id) => {
-        openAddEditDialog("edit", )
-        setEditedItm(id)
+    const openAddEditDialogByID = (data) => {
+        openAddEditDialog("edit", board)
+        setEditedItm(data)  
     }
 
     if (isEditable) {
@@ -75,13 +73,15 @@ const ActivityCard = ({isEditable=false, data, setData, openAddEditDialog, setEd
                         <div className="activity_content">
                             <div className="content_body">
                                 <h5 className="activity_name">{ActivityFilter.activityName}</h5>
-                                <p className="activity_desc">{findActivityType.activityTypeName}</p>     
+                                {/* <p className="activity_desc">{findActivityType.activityTypeName}</p>      */}
                             </div>
                             <div className="content_status me-3">
-                                <div className="edit_status me-2" onClick={() => openAddEditDialogByID(data.id)}>
+                                <div className="edit_status me-2" onClick={() => openAddEditDialogByID(data)}>
                                     <BiEditAlt/>
                                 </div>
-                                <div className="delete_status" onClick={() => tabName? setDeleteItm(tabName, data.id) : setDeleteItm(data.id)}>
+                                <div className="delete_status" 
+                                onClick={() => setDeleteItm(board, data.id)}
+                                >
                                     <RiDeleteBin5Fill />
                                 </div>
                             </div>

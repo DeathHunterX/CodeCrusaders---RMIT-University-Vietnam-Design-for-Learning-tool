@@ -6,6 +6,7 @@ import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
 import com.example.server.model.Module;
+import com.example.server.model.Session;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public interface ModuleService {
   ModuleDetailsResponse getModuleDetailsById(UUID id);
 
   Module getModuleById(UUID id);
+
+  List<Session> getAllSessionFromModule(UUID moduleId);
 
   ResponseEntity<?> createModule(UUID courseID, ModuleCreateRequest moduleCreateRequest);
   ResponseEntity<?> deleteModule(UUID courseId, UUID moduleId);

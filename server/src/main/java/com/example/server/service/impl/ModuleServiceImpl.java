@@ -10,6 +10,7 @@ import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
 import com.example.server.model.Session;
+import com.example.server.model.SharedCourseLink;
 import com.example.server.model.enums.SessionName;
 import com.example.server.repository.CourseRepository;
 import com.example.server.repository.ModuleRepository;
@@ -35,9 +36,19 @@ public class ModuleServiceImpl implements ModuleService {
   @Override
   public ModuleDetailsResponse getModuleDetailsById(UUID id) {
     Module module = moduleRepository.findById(id)
-        .orElseThrow(() -> new ObjectNotFoundException("Module", "id", 404));
+        .orElseThrow(() -> new ObjectNotFoundException("Module", "id", 400));
     List<Session> sessionList = module.getSessionList();
-    ModuleDetailsResponse moduleDetailsResponse = new ModuleDetailsResponse(module.getName(), module.getLos(), module.getModuleWeek(), sessionList);
+    ModuleDetailsResponse moduleDetailsResponse = new ModuleDetailsResponse();
+    moduleDetailsResponse.setName(module.getName());
+    moduleDetailsResponse.setLos(module.getLos());
+    moduleDetailsResponse.setModuleWeek(module.getModuleWeek());
+    moduleDetailsResponse.setSessionList(sessionList);
+    SharedCourseLink sharedCourseLink = module.getSharedCourseLinks();
+    if(sharedCourseLink != null) {
+      moduleDetailsResponse.setShareLink(sharedCourseLink.getShareLink());
+    } else {
+      moduleDetailsResponse.setShareLink(null);
+    }
     return moduleDetailsResponse;
   }
 
@@ -45,6 +56,13 @@ public class ModuleServiceImpl implements ModuleService {
   public Module getModuleById(UUID id) {
     return moduleRepository.findById(id).orElseThrow(
         () -> new ObjectNotFoundException("module", "id"));
+  }
+
+  @Override
+  public List<Session> getAllSessionFromModule(UUID moduleId) {
+    Module module = moduleRepository.findById(moduleId)
+        .orElseThrow(() -> new ObjectNotFoundException("Module", "id", 400));
+    return module.getSessionList();
   }
 
   @Override

@@ -17,8 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -38,6 +37,18 @@ public class CourseController {
       return new ResponseEntity<>(new ApiResponse("You don't have permission to view courses"), HttpStatus.OK);
     }
     return new ResponseEntity<>(courseService.getAllCoursesByUsername(user.getUsername()), HttpStatus.OK);
+  }
+
+  @GetMapping("all-courses")
+  public ResponseEntity<?> getAllCoursesFromCurrentUser() {
+    User user = userDetailsService.getCurrentUser();
+    if (user == null) {
+      return new ResponseEntity<>(new ApiResponse("You don't have permission to view courses"), HttpStatus.OK);
+    }
+    Set<Course> courseSet = user.getCourses();
+    Map<String, Set<Course>> response = new HashMap<>();
+    response.put("courses", courseSet);
+    return ResponseEntity.ok(response);
   }
 
 

@@ -5,6 +5,7 @@ import com.example.server.api.request.ModuleRequest;
 import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
+import com.example.server.api.response.ModuleSessionListResponse;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
 import com.example.server.service.CourseService;
@@ -60,6 +61,13 @@ public class ModuleController {
     return new ResponseEntity<>(moduleDetailsResponse,HttpStatus.OK);
   }
 
+  @GetMapping("modules/{id}/sessions")
+  public ResponseEntity<ModuleSessionListResponse> getSessionListByModule(@PathVariable("id") UUID id) {
+    ModuleSessionListResponse moduleSessionListResponse = new ModuleSessionListResponse();
+    moduleSessionListResponse.setSessionList(moduleService.getAllSessionFromModule(id));
+    return new ResponseEntity<>(moduleSessionListResponse, HttpStatus.OK);
+  }
+
   @PostMapping("courses/{course_id}/create-module")
   public ResponseEntity<?> createModule(@PathVariable UUID course_id, @RequestBody ModuleCreateRequest moduleCreateRequest) {
     return moduleService.createModule(course_id, moduleCreateRequest);
@@ -75,4 +83,6 @@ public class ModuleController {
   public ResponseEntity<?> deleteModule(@PathVariable("id") UUID id, @PathVariable("course_id") UUID courseId) {
     return moduleService.deleteModule(courseId,id);
   }
+
+
 }

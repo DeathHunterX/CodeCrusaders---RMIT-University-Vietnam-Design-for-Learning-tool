@@ -32,8 +32,9 @@ public class Module {
   @JsonIgnore
   private Course course;
 
-  @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  private Set<SharedCourseLink> sharedCourseLinks = new HashSet<>();
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @JoinColumn(name = "share_link_id", referencedColumnName = "id")
+  private SharedCourseLink sharedCourseLinks;
 
 
   public Module(String name, String los) {

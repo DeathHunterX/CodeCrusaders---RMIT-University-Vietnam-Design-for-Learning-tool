@@ -64,6 +64,7 @@ public class ActivityServiceImpl implements ActivityService {
                 readWatchListen.setActivityID(ActivityID.READ_WATCH_LISTEN);
                 readWatchListen.setDuration(activityRequest.getDuration());
                 readWatchListen.setActivityName(activityRequest.getActivityName());
+                readWatchListen.setReadWatchListenType(activityRequest.getReadWatchListenType());
                 readWatchListen.setSession(session);
                 return activityRepository.save(readWatchListen);
             }
@@ -95,19 +96,20 @@ public class ActivityServiceImpl implements ActivityService {
                 return activityRepository.save(collaborate);
             }
             case "assess" -> {
-                Assess assess = new Assess();
-                assess.setActivityID(ActivityID.ASSESS);
-                assess.setDuration(activityRequest.getDuration());
-                assess.setActivityName(activityRequest.getActivityName());
-                assess.setAccessType(activityRequest.getAccessType());
-                assess.setSession(session);
-                return activityRepository.save(assess);
+                Access access = new Access();
+                access.setActivityID(ActivityID.ASSESS);
+                access.setDuration(activityRequest.getDuration());
+                access.setActivityName(activityRequest.getActivityName());
+                access.setAccessType(activityRequest.getAccessType());
+                access.setSession(session);
+                return activityRepository.save(access);
             }
             case "break" -> {
                 Break breakAct = new Break();
                 breakAct.setActivityID(ActivityID.BREAK);
-                breakAct.setDuration(breakAct.getDuration());
-                breakAct.setActivityName(breakAct.getActivityName());
+                breakAct.setDuration(activityRequest.getDuration());
+                breakAct.setActivityName(activityRequest.getActivityName());
+                breakAct.setBreakType(activityRequest.getBreakType());
                 breakAct.setSession(session);
                 return activityRepository.save(breakAct);
             }
@@ -132,6 +134,7 @@ public class ActivityServiceImpl implements ActivityService {
                 ReadWatchListen readWatchListen = (ReadWatchListen) getActivityById(activityId);
                 readWatchListen.setDuration(activityRequest.getDuration());
                 readWatchListen.setActivityName(activityRequest.getActivityName());
+                readWatchListen.setReadWatchListenType(activityRequest.getReadWatchListenType());
                 return activityRepository.save(readWatchListen);
             }
             case "reflect" -> {
@@ -156,16 +159,17 @@ public class ActivityServiceImpl implements ActivityService {
                 return activityRepository.save(collaborate);
             }
             case "assess" -> {
-                Assess assess = (Assess) getActivityById(activityId);
-                assess.setDuration(activityRequest.getDuration());
-                assess.setActivityName(activityRequest.getActivityName());
-                assess.setAccessType(activityRequest.getAccessType());
-                return activityRepository.save(assess);
+                Access access = (Access) getActivityById(activityId);
+                access.setDuration(activityRequest.getDuration());
+                access.setActivityName(activityRequest.getActivityName());
+                access.setAccessType(activityRequest.getAccessType());
+                return activityRepository.save(access);
             }
             case "break" -> {
                 Break breakAct = (Break) getActivityById(activityId);
-                breakAct.setDuration(breakAct.getDuration());
-                breakAct.setActivityName(breakAct.getActivityName());
+                breakAct.setDuration(activityRequest.getDuration());
+                breakAct.setActivityName(activityRequest.getActivityName());
+                breakAct.setBreakType(activityRequest.getBreakType());
                 return activityRepository.save(breakAct);
             }
             default -> {
@@ -177,11 +181,11 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     @Transactional
-    public ResponseEntity<?> dragAndDropActivities(UUID courseId, ActivityListRequest activityListRequest) {
+    public ApiResponse dragAndDropActivities(UUID courseId, UUID moduleId, ActivityListRequest activityListRequest) {
         var user = userDetailsService.getCurrentUser();
         var course = courseService.getCourseById(courseId);
         if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
-            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
+            return new ApiResponse("You don't have permission to view/modify this course!");
         }
         var preClass = sessionService.getSessionById(activityListRequest.getPreClassId());
         var inClass = sessionService.getSessionById(activityListRequest.getInClassId());
@@ -191,20 +195,20 @@ public class ActivityServiceImpl implements ActivityService {
         var postClassActReq = activityListRequest.getPostClassActivities();
 
         preClass.getActivityList().clear();
-        preClass.getActivityList().addAll(preClassActReq);
+        preClass.setActivityList(preClassActReq);
         preClassActReq.forEach(e->e.setSession(preClass));
         sessionRepository.save(preClass);
 
         inClass.getActivityList().clear();
-        inClass.getActivityList().addAll(inClassActReq);
+        inClass.setActivityList(inClassActReq);
         inClassActReq.forEach(e->e.setSession(inClass));
         sessionRepository.save(inClass);
 
         postClass.getActivityList().clear();
-        postClass.getActivityList().addAll(postClassActReq);
+        postClass.setActivityList(postClassActReq);
         postClassActReq.forEach(e->e.setSession(postClass));
         sessionRepository.save(postClass);
-        return new ResponseEntity<>("Successfully update activity list",HttpStatus.OK);
+        return new ApiResponse("Successfully update activity list");
     }
 
     @Override

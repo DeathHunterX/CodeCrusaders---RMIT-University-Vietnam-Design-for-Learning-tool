@@ -7,5 +7,5 @@ import lombok.Data;
 @Entity
 @Data
 public class Break extends Activity {
-
+  private String breakType;
 }

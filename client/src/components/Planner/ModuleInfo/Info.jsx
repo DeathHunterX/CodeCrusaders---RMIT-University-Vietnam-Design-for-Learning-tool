@@ -1,47 +1,84 @@
 import React, { useEffect, useState } from 'react'
+import {useParams} from "react-router-dom"
 import {AiOutlineQuestionCircle} from 'react-icons/ai'
 import TextEditor from '../../TextEditor/TextEditor'
+import { useDispatch, useSelector } from 'react-redux';
+import { editModule } from '../../../redux/slices/moduleSlice';
 
 
-const ModuleInfo = ({data, width}) => {
+const ModuleInfo = ({width}) => {
     const initialState = {
         name: "",
         los: "",
         sessionList: [
             {
+                id: "",
                 sessionName: "Pre_class",
                 sessionOption: "F2F",               //  F2F, Online, Hybrid
                 groupingType: "Individual",         //  Individual, Class
-                hasLecture: true,                  //  Yes, no
+                hasLecturer: true,                  //  Yes, no
                 interactionType: "Synchronous"
             },
             {
+                id: "",
                 sessionName: "In_class",
                 sessionOption: "F2F",               //  F2F, Online, Hybrid
                 groupingType: "Individual",         //  Individual, Class
-                hasLecture: true,                  //  Yes, no
+                hasLecturer: true,                  //  Yes, no
                 interactionType: "Synchronous"
             },
             {
-                sessionName: "Post_class",
+                id: "",
+                sessionName: "Post_class",          //  Pre_class, In_class, Post_class
                 sessionOption: "F2F",               //  F2F, Online, Hybrid
                 groupingType: "Individual",         //  Individual, Class
-                hasLecture: true,                  //  Yes, no
-                interactionType: "Synchronous"
+                hasLecturer: true,                  //  Yes, no
+                interactionType: "Asynchronous"     //   Synchronous, Asynchronous
             },
         ]
     };
 
+    const {moduleItem} = useSelector(state => state.module)
+    const {accessToken} = useSelector(state => state.auth.token)
+    const dispatch = useDispatch()
+
+    const {subId} = useParams();
+
     const [moduleInfo, setModuleInfo] = useState(initialState);
     const {name, los} = moduleInfo;
 
-    // useEffect(() => {
-    //     setModuleInfo({
-    //         name: data.name,
-    //         los: (data.los === "" || data.los === null) ? "" : data.los,
-    //     })
+    const getModuleData = (data) => {
+        const sessionListMap = data?.sessionList?.map(session => ({
+            id: session.id,
+            sessionName: session.sessionName,
+            sessionOption: session.sessionOption,
+            groupingType: session.groupingType,
+            hasLecturer: session.hasLecturer,
+            interactionType: session.interactionType
+        }))
+
+        console.log(sessionListMap)
+
+        let desiredOrder = ['Pre_class', 'In_class', 'Post_class'];
+
+        // Reorder the sessions based on the desired order
+        let reorderedSessions = desiredOrder.map(sessionName => {
+            const session = sessionListMap?.find(session => session.sessionName === sessionName);
+            return session !== undefined ? session : null; // Return null for undefined sessions
+        });
+
+        return {
+            name: data?.name,
+            los: data?.los === null ? "" : data?.los,
+            sessionList: reorderedSessions
+        }
+    }
+
+    useEffect(() => {
+        const moduleData = getModuleData(moduleItem);
+        setModuleInfo(moduleData)
+    }, [moduleItem])
         
-    // }, [data.los, data.name, initialState.sessionList])
 
     const handleChangeInput = (e) => {
         const {name, value} = e.target
@@ -52,7 +89,7 @@ const ModuleInfo = ({data, width}) => {
     const handleOptionChange = (sessionName, key, value) => {
         setModuleInfo((prevState) => ({
             ...prevState,
-            sessionList: prevState.sessions.map((session) =>
+            sessionList: prevState.sessionList.map((session) =>
                 session.sessionName === sessionName ? { ...session, [key]: value } : session
             ),
         }));
@@ -64,9 +101,10 @@ const ModuleInfo = ({data, width}) => {
 
     const handleeSaveInfo = (e) => {
         e.preventDefault()
+        dispatch(editModule({moduleData: moduleInfo, id: subId, token: accessToken}))
     }
 
-    const RadioButtonsList = ({ className, options, names, selectedOption, onChange }) => {
+    const RadioButtonsList = ({ className, options, selectedOption, onChange }) => {
         return (
             <div className={className}>
               {options.map((option, idx) => (
@@ -78,7 +116,9 @@ const ModuleInfo = ({data, width}) => {
                         onChange={onChange}
                     />
 
-                    <label className="form-check-label"> {option} </label>
+                    <label className="form-check-label">
+                        {option === true ? "Yes" : option === false ? "No" : option}
+                    </label>
                 </div>
               ))}
             </div>
@@ -134,7 +174,7 @@ const ModuleInfo = ({data, width}) => {
                                         <RadioButtonsList
                                             className={"d-flex justify-content-evenly"}
                                             options={[true, false]}
-                                            selectedOption={classItm.hasLecture}
+                                            selectedOption={classItm.hasLecturer}
                                             onChange={(event) => handleOptionChange(classItm.sessionName, 'hasLecture', event.target.value)}
                                         />
                                     </td>
@@ -161,6 +201,13 @@ const ModuleInfo = ({data, width}) => {
                         <AiOutlineQuestionCircle />
                     </div>
                     <TextEditor value={los} onSendValue={handleTextEditor} />
+                </div>
+
+                <div className="submit_btn">
+                    <div className="mt-3 d-flex justify-content-between">
+                        <span className="btn btn-primary w-25" onClick={() => setModuleInfo(getModuleData(moduleItem))}>Cancel</span>
+                        <button className="btn btn-success w-25" type='submit'>Save</button>
+                    </div>
                 </div>
                 
             </form>

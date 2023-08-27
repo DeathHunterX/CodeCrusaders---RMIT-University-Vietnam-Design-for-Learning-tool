@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class ActivityRequest {
   private String activityID;
   private String activityName;
+  private String readWatchListenType;
+  private String breakType;
   private Integer duration;
   private String accessType;
   private String collaborateType;

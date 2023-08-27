@@ -6,8 +6,9 @@ import {toast} from 'react-toastify'
 import { ActivityCardList} from '../../Activity/Map/ActivityCardList'
 import ActivityCard from '../../Activity/Card/ActivityCard'
 import ActivityTypeList from './ActivityTypeList'
-import { useDispatch } from 'react-redux'
-import { createActivity } from '../../../../redux/slices/sessionSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { createActivity, emptyActivityItem, resetSessionState, updateActivity } from '../../../../redux/slices/sessionSlice'
+import { useParams} from 'react-router-dom'
 
 
 const ActivityWindow = ({compData, compFunction}) => {
@@ -15,10 +16,13 @@ const ActivityWindow = ({compData, compFunction}) => {
   const {handleClosePopUp, setActivitiesData} = compFunction;
 
   const [activityData, setActivityData] = useState({})
+
+  const {activityID} = activityData
+
+  const {id} = useParams()
   
-
-
-  const {id, activityID} = activityData
+  const {accessToken} = useSelector(state => state.auth.token)
+  const {isCreated, isActivityUpdated, isError, activityItem, message} = useSelector(state => state.session)
 
   useEffect(() => {
     if (activityType.state === 'edit' && editedItm) {
@@ -32,27 +36,14 @@ const ActivityWindow = ({compData, compFunction}) => {
     setActivityData({});
   };
 
-  const activitiesDataCloned = [...activitiesData]
+
 
   const handleCreateActivity = () => {
     if (activityID){
-      const findSession = activitiesDataCloned.find(session => session.sessionName === activityType.board)
-      
-      // dispatch(createActivity())
+      const findSession = activitiesData.find(session => session.sessionName === activityType.board)
 
-      setActivitiesData(prevSession => 
-        prevSession.map(session => {
-          if (session.sessionName === activityType.board) {
-            return {
-              ...session,
-              activityList: [...session.activityList, activityData]
-            }
-          }
+      dispatch(createActivity({courseID: id, sessionID: findSession.id, activityData: activityData, token: accessToken}))
 
-          return session;
-          
-        })
-      )
       handleClose()
 
     } else {
@@ -60,21 +51,53 @@ const ActivityWindow = ({compData, compFunction}) => {
     }
   }
 
+  
   const handleSaveActivity = () => {
-    setActivitiesData(prevSession => {
-      return prevSession.map(session => 
-        session.sessionName === activityType.board ?
-          
-          {
-            ...session,
-            activityList: session.activityList.map(activity => activity.id === id ? {...activity, ...activityData} : activity)
-          }
-          :
-          session
-      )
-    })
+    const activityWithoutId = Object.fromEntries(Object.entries(activityData).filter(([key]) => key !== "id"));
+    dispatch(updateActivity({courseID: id, activityID: activityData.id, activityData: activityWithoutId, token: accessToken}))
+
+    
     handleClose()
   }
+
+  useEffect(() => {
+    if(isCreated) {
+      setActivitiesData(prevSession => 
+        prevSession.map(session => {
+          if (session.sessionName === activityType.board) {
+            return {
+              ...session,
+              activityList: [...session.activityList, activityItem]
+            }
+          }
+
+          return session;
+        })
+      )
+
+      dispatch(emptyActivityItem())
+      dispatch(resetSessionState())
+    } else if (isActivityUpdated) {
+      setActivitiesData(prevSession => 
+        prevSession.map(session => 
+          session.sessionName === activityType.board ?
+            {
+              ...session,
+              activityList: session.activityList.map(activity => activity.id === activityItem.id ? {...activity, ...activityItem} : activity)
+            }
+            :
+            session
+        )
+      )
+      dispatch(emptyActivityItem())
+      dispatch(resetSessionState())
+    } else if (isError) {
+      toast.error(message)
+      dispatch(resetSessionState())
+    }
+  } ,[activityData, activityItem, activityType.board, dispatch, isActivityUpdated, isCreated, isError, message, setActivitiesData])
+
+  
 
   const handleClose = () => {
     handleClosePopUp()
@@ -83,7 +106,7 @@ const ActivityWindow = ({compData, compFunction}) => {
 
   const activityFilter = ActivityCardList.find((activity) => activityID === activity.activityID)
 
-  console.log(activityData)
+
   return (
     <div className="dialog_container" style={{display: popUpStat.formName === "activity" ? "block" : "none"}}>
       <div className="dialog_close" onClick={handleClose}><AiOutlineClose/></div>

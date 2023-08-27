@@ -2,9 +2,9 @@ import React from 'react'
 import { IconSetting } from '../../../../utils/IconSetting';
 import { GoCheckCircleFill } from 'react-icons/go';
 
-const MiddleActivityForm = (activityType, compData, compFunction) => {
+const MiddleActivityForm = ({activityType, compData, compFunction}) => {
     const {item, activityCardData} = compData;
-    const {handleChangeOption,} = compFunction;
+    const {handleChangeOption} = compFunction;
     return (
         <button className={`activity_form_btn ${activityType === item.activityTypeID && 'btn_selected'}`}
         style={{

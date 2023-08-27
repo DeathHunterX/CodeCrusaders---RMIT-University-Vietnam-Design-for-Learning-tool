@@ -58,7 +58,7 @@ public class ActivityController {
 
     @PutMapping("courses/{course_id}/modules/{module_id}/save-activity-lists")
     public ResponseEntity<?> updateActivityList(@PathVariable("course_id") UUID courseId, @PathVariable("module_id") UUID moduleId, @RequestBody ActivityListRequest activityListRequest) {
-        return activityService.dragAndDropActivities(courseId, moduleId, activityListRequest);
+        return new ResponseEntity<>(activityService.dragAndDropActivities(courseId, moduleId, activityListRequest),HttpStatus.OK);
     }
 
     @DeleteMapping("courses/{course_id}/sessions/{session_id}/activities/{activity_id}")

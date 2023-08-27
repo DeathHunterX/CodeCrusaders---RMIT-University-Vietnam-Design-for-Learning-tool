@@ -2,6 +2,7 @@ package com.example.server.service;
 
 import com.example.server.api.request.ActivityListRequest;
 import com.example.server.api.request.ActivityRequest;
+import com.example.server.api.response.ApiResponse;
 import com.example.server.model.Activity;
 import com.example.server.model.Course;
 import com.example.server.model.Session;
@@ -21,7 +22,7 @@ public interface ActivityService {
 
     Activity updateActivity(UUID activityId, ActivityRequest activityRequest);
 
-    ResponseEntity<?> dragAndDropActivities(UUID courseId, UUID moduleId, ActivityListRequest activityListRequest);
+    ApiResponse dragAndDropActivities(UUID courseId, UUID moduleId, ActivityListRequest activityListRequest);
 
 
     ResponseEntity<?> deleteActivity(UUID courseId, UUID sessionId, UUID activityId);

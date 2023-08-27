@@ -181,11 +181,11 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     @Transactional
-    public ResponseEntity<?> dragAndDropActivities(UUID courseId, UUID moduleId, ActivityListRequest activityListRequest) {
+    public ApiResponse dragAndDropActivities(UUID courseId, UUID moduleId, ActivityListRequest activityListRequest) {
         var user = userDetailsService.getCurrentUser();
         var course = courseService.getCourseById(courseId);
         if (user == null || !userDetailsService.checkCourseOwnership(user, course)) {
-            return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
+            return new ApiResponse("You don't have permission to view/modify this course!");
         }
         var preClass = sessionService.getSessionById(activityListRequest.getPreClassId());
         var inClass = sessionService.getSessionById(activityListRequest.getInClassId());
@@ -208,7 +208,7 @@ public class ActivityServiceImpl implements ActivityService {
         postClass.setActivityList(postClassActReq);
         postClassActReq.forEach(e->e.setSession(postClass));
         sessionRepository.save(postClass);
-        return new ResponseEntity<>("Successfully update activity list",HttpStatus.OK);
+        return new ApiResponse("Successfully update activity list");
     }
 
     @Override

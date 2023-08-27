@@ -6,6 +6,7 @@ import {ImBin2} from 'react-icons/im'
 
 import { IconSetting } from '../../../utils/IconSetting'
 import { deleteModule, getModuleInfo } from '../../../redux/slices/moduleSlice'
+import { Fragment } from 'react'
 
 
 
@@ -71,11 +72,9 @@ const ModuleComponent = ({courseID, dispatch, setPopUpStat, setFormName}) => {
                             )
                         })
                     :
-                        <></>
+                        <Fragment></Fragment>
                     }
                 </div>
-                
-                <div className=""></div>
             </div>
         </div>
     )

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {DragDropContext} from '@hello-pangea/dnd';
 import { Resizable } from 're-resizable';
 
-
 // Redux
 import { createModule} from '../../redux/slices/moduleSlice';
 
@@ -13,7 +12,6 @@ import { createModule} from '../../redux/slices/moduleSlice';
 import CoursePlannerHeader from './Item/Header';
 
 import PopUpForm from './PopUp/PopUpForm';
-
 
 import CoursePlanner from './CoursePlanner';
 
@@ -25,6 +23,8 @@ import ModuleComponent from './Module/ModuleComponent';
 import Dashboard from './ModuleDashboard/Dashboard';
 import ModuleInfo from './ModuleInfo/Info';
 import CourseOverview from './CourseOverview/Overview';
+import { deleteActivity, resetSessionState, updateSessions } from '../../redux/slices/sessionSlice';
+import { toast } from 'react-toastify';
 
 
 const PlannerComponent = () => {
@@ -47,6 +47,7 @@ const PlannerComponent = () => {
   ] 
 
   const [activitiesData, setActivitiesData] = useState(initialState)
+  const [activitiesDataAfterUpdated, setActivitiesDataAfterUpdated] = useState({})
 
   // Handle pop up form
   const [popUpStat, setPopUpStat] = useState({
@@ -71,6 +72,8 @@ const PlannerComponent = () => {
   // fetch action
   const {accessToken} = useSelector(state => state.auth.token)
   const {moduleItem} = useSelector(state => state.module)
+  const {isDeleted, isSessionUpdated, isError, message} = useSelector(state => state.session)
+  const dispatch = useDispatch();
 
   
   useEffect(() => {
@@ -100,9 +103,8 @@ const PlannerComponent = () => {
     setActivitiesData(reorderedSessions);
   }, [moduleItem?.sessionList]);
 
-  const dispatch = useDispatch();
 
-  const {id, subPage} = useParams();
+  const {id, subPage, subId} = useParams();
   const navigate = useNavigate();
 
 
@@ -147,22 +149,66 @@ const PlannerComponent = () => {
     }))
   }
 
+  const [deletedCard, setDeletedCard] = useState({boardData: {}, activityID: ""})
+
   // functions
-  const deleteCardInBoard = (boardName, id) => {
-    const updatedActivitiesData = activitiesData.map((board) => {
-        if (board.sessionName === boardName) {
-          const updatedData = board.activityList.filter((activity) => activity.id !== id);
+  const deleteCardInBoard = (boardData, activityID) => {
+    setDeletedCard(prevState => ({...prevState, boardData: boardData, activityID: activityID}));
+
+    dispatch(deleteActivity({courseID: id, sessionID: boardData.id, activityID: activityID, token: accessToken}));
+  }
+
+  useEffect(() => {
+    if(isDeleted) {
+      setActivitiesData(prevState => prevState.map((board) => {
+        if (board.sessionName === deletedCard.boardData?.sessionName) {
+          const updatedData = board.activityList.filter((activity) => activity.id !== deletedCard.activityID);
           return {
             ...board,
             activityList: updatedData,
           };
         }
         return board;
-    });
-  
-    setActivitiesData(updatedActivitiesData);
+      }));
+      dispatch(resetSessionState())
+    } else if (isSessionUpdated) {
+      setActivitiesData(activitiesDataAfterUpdated)
+      // Empty object after transfer data into main sessions data
+      setActivitiesDataAfterUpdated({})
+      dispatch(resetSessionState())
+    } else if(isError) {
+      toast.error(message)
+      dispatch(resetSessionState())
+    }
+  }, [activitiesDataAfterUpdated, deletedCard.activityID, deletedCard.boardData?.sessionName, dispatch, isDeleted, isError, isSessionUpdated, message])
 
-  }
+  
+
+  const transformAndRename = (sessionData) => {
+    const transformedData = sessionData.reduce((result, session) => {
+      const { id, sessionName, activityList } = session;
+      const sessionKey = `${sessionName.toLowerCase()}Id`;
+      const activitiesKey = `${sessionName.toLowerCase()}Activities`;
+  
+      result[sessionKey] = id;
+      result[activitiesKey] = activityList;
+  
+      return result;
+    }, {});
+  
+    const finalTransformedData = {
+      preClassId: transformedData.pre_classId,
+      preClassActivities: transformedData.pre_classActivities,
+      inClassId: transformedData.in_classId,
+      inClassActivities: transformedData.in_classActivities,
+      postClassId: transformedData.post_classId,
+      postClassActivities: transformedData.post_classActivities,
+    };
+  
+    return finalTransformedData;
+  };
+
+  
 
   const configMap = [
       {
@@ -206,7 +252,11 @@ const PlannerComponent = () => {
       const [movedItem] = updatedBoards[sourceBoardIndex].activityList.splice(source.index, 1);
       updatedBoards[destinationBoardIndex].activityList.splice(destination.index, 0, movedItem);
       
-      setActivitiesData(updatedBoards);
+      const finalData = transformAndRename(updatedBoards);
+      
+      dispatch(updateSessions({courseID: id, moduleID: subId, sessionData: finalData, token: accessToken}))
+      
+      setActivitiesDataAfterUpdated(updatedBoards);
   };
 
   const handleGoBackToCoursePage = () => {

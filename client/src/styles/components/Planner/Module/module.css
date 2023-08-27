@@ -21,17 +21,15 @@
     align-items: center;
     width: 100%;
 }
-.module_wrapper .module_list .module_item_component .module_item_container:hover span {
+ 
+.module_wrapper .module_list .module_item_component .module_item_container.active span,
+.module_wrapper .module_list .module_item_component .module_item_container:hover span{
     border-bottom: 2px solid black;
-}
-.module_wrapper .module_list .module_item_component .module_item_container.active span{
-    border-bottom: 2px solid white;
 
 }
 .module_wrapper .module_list .module_item_component .module_item_container.active {
-    background-color: rgba(0,0,0,.2);
+    background-color: rgba(0, 0, 0, 0.05);
     border-radius: 4px;
-    color: white;
 }
 
 .module_wrapper .module_list .module_item_component .module_item_container span {

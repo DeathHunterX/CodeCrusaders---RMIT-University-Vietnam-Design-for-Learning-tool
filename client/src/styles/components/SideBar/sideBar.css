@@ -45,7 +45,6 @@
 }
 .navbar-vertical .nav-item.active {
     background: rgba(0, 0, 0, 0.05);
-    /* border-radius: 15px; */
     border-left: 3px solid red;
 
 }

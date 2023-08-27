@@ -24,6 +24,7 @@ import java.util.UUID;
     @JsonSubTypes.Type(value = Discuss.class, name = "discuss"),
     @JsonSubTypes.Type(value = Reflect.class, name = "reflect"),
     @JsonSubTypes.Type(value = Break.class, name = "break"),
+    @JsonSubTypes.Type(value = Break.class, name = "access"),
     @JsonSubTypes.Type(value = Collaborate.class, name = "collaborate"),
 })
 public abstract class Activity {

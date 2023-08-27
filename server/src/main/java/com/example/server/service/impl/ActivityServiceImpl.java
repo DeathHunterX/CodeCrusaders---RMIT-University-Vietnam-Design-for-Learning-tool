@@ -195,17 +195,17 @@ public class ActivityServiceImpl implements ActivityService {
         var postClassActReq = activityListRequest.getPostClassActivities();
 
         preClass.getActivityList().clear();
-        preClass.getActivityList().addAll(preClassActReq);
+        preClass.setActivityList(preClassActReq);
         preClassActReq.forEach(e->e.setSession(preClass));
         sessionRepository.save(preClass);
 
         inClass.getActivityList().clear();
-        inClass.getActivityList().addAll(inClassActReq);
+        inClass.setActivityList(inClassActReq);
         inClassActReq.forEach(e->e.setSession(inClass));
         sessionRepository.save(inClass);
 
         postClass.getActivityList().clear();
-        postClass.getActivityList().addAll(postClassActReq);
+        postClass.setActivityList(postClassActReq);
         postClassActReq.forEach(e->e.setSession(postClass));
         sessionRepository.save(postClass);
         return new ResponseEntity<>("Successfully update activity list",HttpStatus.OK);

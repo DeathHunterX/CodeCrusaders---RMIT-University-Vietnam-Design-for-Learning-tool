@@ -97,7 +97,7 @@ public class ActivityServiceImpl implements ActivityService {
             }
             case "access" -> {
                 Access access = new Access();
-                access.setActivityID(ActivityID.ASSESS);
+                access.setActivityID(ActivityID.ACCESS);
                 access.setDuration(activityRequest.getDuration());
                 access.setActivityName(activityRequest.getActivityName());
                 access.setAccessType(activityRequest.getAccessType());

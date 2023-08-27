@@ -79,12 +79,8 @@ public class CourseController {
       return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
     }
     if (course != null) {
-      System.out.println(course.getCourseName());
       Set<Course> newCourseSet = user.getCourses().stream().filter(e -> !e.getId().equals(course.getId())).collect(Collectors.toSet());
       user.setCourses(newCourseSet);
-//      for(Course e : newCourseSet) {
-//        System.out.println(e.getCourseName());
-//      }
       userRepository.save(user);
     }
     return new ResponseEntity<>(new ApiResponse("Successfully delete course"), HttpStatus.OK);

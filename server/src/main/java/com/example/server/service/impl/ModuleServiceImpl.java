@@ -33,23 +33,6 @@ public class ModuleServiceImpl implements ModuleService {
   private final CourseService courseService;
 
   @Override
-  @Transactional
-  public List<Module> getAllModules() {
-    return moduleRepository.findAll();
-  }
-
-  @Override
-  public List<ModuleNameResponse> getAllModuleNamesByCourseId(UUID id) {
-    Optional<Course> courseOptional = courseRepository.findById(id);
-    if (!courseOptional.isPresent()) {
-      return new ArrayList<>();
-    }
-    Course course = courseOptional.get();
-    List<Module> moduleList = course.getModuleList();
-    return new ArrayList<>();
-  }
-
-  @Override
   public ModuleDetailsResponse getModuleDetailsById(UUID id) {
     Module module = moduleRepository.findById(id)
         .orElseThrow(() -> new ObjectNotFoundException("Module", "id", 404));

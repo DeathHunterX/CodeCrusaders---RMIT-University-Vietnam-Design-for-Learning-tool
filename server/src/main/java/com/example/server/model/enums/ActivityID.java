@@ -6,7 +6,7 @@ public enum ActivityID {
     WARM_UP("warm_up"),
     READ_WATCH_LISTEN("read_watch_listen"),
     REFLECT("reflect"),
-    ASSESS("assess"),
+    ACCESS("access"),
     COLLABORATE("collaborate"),
     DISCUSS("discuss"),
     BREAK("break");

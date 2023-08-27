@@ -10,6 +10,7 @@ import com.example.server.model.Module;
 import com.example.server.service.CourseService;
 import com.example.server.service.ModuleService;
 import com.example.server.service.impl.UserDetailsServiceImpl;
+import com.example.server.utils.ComparatorUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,11 @@ public class ModuleController {
     }
     List<ModuleNameResponse> sortedModuleNames = moduleList.stream()
         .map(e -> new ModuleNameResponse(e.getId(), e.getName()))
-        .sorted(Comparator.comparing(ModuleNameResponse::getName))
+        .sorted((a,b)-> {
+          String name1 = a.getName();
+          String name2 = b.getName();
+          return ComparatorUtils.compareModuleNames(name1,name2);
+        })
         .collect(Collectors.toList());
     return new ResponseEntity<>(sortedModuleNames,HttpStatus.OK);
   }

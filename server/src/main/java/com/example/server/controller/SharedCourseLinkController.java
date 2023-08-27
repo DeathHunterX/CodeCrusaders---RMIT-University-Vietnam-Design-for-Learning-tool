@@ -47,27 +47,13 @@ public class SharedCourseLinkController {
     Module sharedModule = sharedCourseLink.getModule();
     Course sharedCourse = sharedModule.getCourse();
     Set<Comment> comments = commentService.getAllCommentsFromSharedLink(shareLink);
-//    User user = userDetailsService.getCurrentUser();
     CourseDetailsReponse courseDetailsReponse = modelMapper.map(sharedCourse, CourseDetailsReponse.class);
     ModuleDetailsResponse moduleDetailsResponse = modelMapper.map(sharedModule, ModuleDetailsResponse.class);
-    System.out.println(courseDetailsReponse);
-    System.out.println(moduleDetailsResponse);
     PDFResponse pdfResponse = PDFResponse.builder()
         .moduleDetailsResponse(moduleDetailsResponse)
         .courseDetailsReponse(courseDetailsReponse)
         .comments(comments.stream().toList())
         .build();
-    return new ResponseEntity<>(pdfResponse,HttpStatus.OK);
-
-    //This is test permission to view course via link, will improve this later
-//    if (userDetailsService.checkCourseOwnership(user,sharedCourse)) {
-//      return new ResponseEntity<>(courseDetailsResponse, HttpStatus.OK);
-//    }
-//    return new ResponseEntity<>("You have no permission to view this module info!",HttpStatus.FORBIDDEN);
+    return new ResponseEntity<>(pdfResponse, HttpStatus.OK);
   }
-
-
-//    return new ResponseEntity<>(new ApiResponse("No permission to view this course"), HttpStatus.FORBIDDEN);
-//  }
-
 }

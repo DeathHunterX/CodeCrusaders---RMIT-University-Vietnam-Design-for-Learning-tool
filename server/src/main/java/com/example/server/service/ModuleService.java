@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ModuleService {
-  List<Module> getAllModules();
-
-  List<ModuleNameResponse> getAllModuleNamesByCourseId(UUID id);
   ModuleDetailsResponse getModuleDetailsById(UUID id);
 
   Module getModuleById(UUID id);

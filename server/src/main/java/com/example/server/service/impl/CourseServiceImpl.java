@@ -4,7 +4,6 @@ import com.example.server.api.request.CourseRequest;
 import com.example.server.api.request.CourseUpdateRequest;
 import com.example.server.api.response.CourseResponse;
 import com.example.server.exception.ObjectNotFoundException;
-import com.example.server.model.Activity;
 import com.example.server.model.Assignment;
 import com.example.server.model.Course;
 import com.example.server.model.User;
@@ -76,6 +75,7 @@ public class CourseServiceImpl implements CourseService {
         var _course = courseRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Course", "id"));
         _course.setCourseCode(courseUpdateRequest.getCourseCode());
+        _course.setCourseName(courseUpdateRequest.getCourseName());
         _course.setCourseSemester(courseUpdateRequest.getCourseSemester());
         _course.setClos(courseUpdateRequest.getClos());
         _course.setAssignmentList(courseUpdateRequest.getAssignmentList());

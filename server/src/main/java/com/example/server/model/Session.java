@@ -41,7 +41,7 @@ public class Session {
 
   private Boolean hasLecturer = Boolean.TRUE;
 
-  private int totalDuration;
+  private int totalDuration = 90;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "module_id")

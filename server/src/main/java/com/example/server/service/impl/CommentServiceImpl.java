@@ -94,4 +94,19 @@ public class CommentServiceImpl implements CommentService {
     Comment updatedComment = commentRepository.save(comment);
     return new ResponseEntity<>(updatedComment, HttpStatus.OK);
   }
+
+  @Override
+  public ApiResponse deleteComment(UUID commentId) {
+    Comment comment = getCommentById(commentId);
+    comment.setShareLink(null);
+    comment.setReplyTo(null);
+    Set<Comment> replySet = comment.getReplies();
+    for(Comment c : replySet) {
+      c.setShareLink(null);
+      c.setReplyTo(null);
+      commentRepository.save(c);
+    }
+    commentRepository.save(comment);
+    return new ApiResponse("Successfully delete a comment");
+  }
 }

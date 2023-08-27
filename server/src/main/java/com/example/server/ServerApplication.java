@@ -56,20 +56,20 @@ public class ServerApplication implements CommandLineRunner {
     Assignment assignment8 = new Assignment(2,"Mid-term 3",  LocalDate.of(2023, 2, 6),LocalDate.of(2023, 6, 6));
     Assignment assignment9 = new Assignment(3,"Final 3",  LocalDate.of(2023, 3, 6),LocalDate.of(2023, 6, 6));
 
-    Module module1 = new Module("module1","");
-    Module module2 = new Module("module2","");
-    Module module3 = new Module("module3","");
+    Module module1 = new Module("Module 1","");
+    Module module2 = new Module("Module 2","");
+    Module module3 = new Module("Module 3","");
 
-    Module module4 = new Module("module4","");
-    Module module5 = new Module("module5","");
-    Module module6 = new Module("module6","");
+    Module module4 = new Module("Module 4","");
+    Module module5 = new Module("Module 5","");
+    Module module6 = new Module("Module 6","");
 
 
-    Course course1 = new Course("Course 01","BP0580","Semester 1 - 2020","<p>Hello World!</p>");
-    Course course2 = new Course("Course 02","BP0475","Semester 1 - 2021","<p>Hello World!</p>");
-    Course course3 = new Course("Course 03","BP0152","Semester 3 - 2022","<p>Hello World!</p>");
-    Course course4 = new Course("Course 04","BP0273","Semester 2 - 2023","<p>Hello World!</p>");
-    Course course5 = new Course("Course 05","BP0576","Semester 1 - 2019","<p>Hello World!</p>");
+    Course course1 = new Course("Android Development","BP0580","Semester 1 - 2020","<p>Hello World!</p>");
+    Course course2 = new Course("Digital Fundamentals","BP0475","Semester 1 - 2021","<p>Hello World!</p>");
+    Course course3 = new Course("Engineer Design 3","BP0152","Semester 3 - 2022","<p>Hello World!</p>");
+    Course course4 = new Course("Machine Learning","BP0273","Semester 2 - 2023","<p>Hello World!</p>");
+    Course course5 = new Course("IOS Development","BP0576","Semester 1 - 2019","<p>Hello World!</p>");
 
     assignment1.setCourse(course1);
     assignment2.setCourse(course1);

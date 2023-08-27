@@ -6,18 +6,18 @@ import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
 import com.example.server.model.Module;
+import com.example.server.model.Session;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ModuleService {
-  List<Module> getAllModules();
-
-  List<ModuleNameResponse> getAllModuleNamesByCourseId(UUID id);
   ModuleDetailsResponse getModuleDetailsById(UUID id);
 
   Module getModuleById(UUID id);
+
+  List<Session> getAllSessionFromModule(UUID moduleId);
 
   ResponseEntity<?> createModule(UUID courseID, ModuleCreateRequest moduleCreateRequest);
   ResponseEntity<?> deleteModule(UUID courseId, UUID moduleId);

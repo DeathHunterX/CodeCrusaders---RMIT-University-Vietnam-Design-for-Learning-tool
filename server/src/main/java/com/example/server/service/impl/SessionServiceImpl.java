@@ -81,6 +81,5 @@ public class SessionServiceImpl implements SessionService {
     session.setGroupingType(sessionUpdateRequest.getGroupingType());
     session.setInteractionType(sessionUpdateRequest.getInteractionType());
     sessionRepository.save(session);
-    System.out.println("Successfully update session!");
   }
 }

@@ -15,6 +15,5 @@ import java.util.List;
 @NoArgsConstructor
 public class PDFResponse {
   private ModuleDetailsResponse moduleDetailsResponse;
-  private CourseDetailsReponse courseDetailsReponse;
   private List<Comment> comments = new ArrayList<>();
 }

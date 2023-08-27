@@ -7,15 +7,38 @@ import { BiEditAlt } from 'react-icons/bi'
 const ActivityCard = ({isEditable=false, data, board, setData, openAddEditDialog, setEditedItm, setDeleteItm}) => {
     const ActivityFilter = ActivityCardList.find((activity) => data.activityID === activity.activityID)
     
-    const findActivityType = (ActivityTypeMap.find((activity) => data.activityID === activity.activityID))?.activityType.find((type) => data.activityType === type.activityTypeID)
-    
-    // console.log(findActivityType)
+    const findActivityType = 
+        data.warmUpOption 
+        ? 
+        ((ActivityTypeMap.find((activity) => data.activityID === activity.activityID))?.activityType.find((type) => data.warmUpOption === type.activityTypeID))
+        :
+        data.readWatchListenType
+        ?
+        ((ActivityTypeMap.find((activity) => data.activityID === activity.activityID))?.activityType.find((type) => data.readWatchListenType === type.activityTypeID))
+        :
+        data.reflectionType
+        ?
+        ((ActivityTypeMap.find((activity) => data.activityID === activity.activityID))?.activityType.find((type) => data.reflectionType === type.activityTypeID))
+        :
+        data.groupType
+        ?
+        ((ActivityTypeMap.find((activity) => data.activityID === activity.activityID))?.activityType.find((type) => data.groupType === type.activityTypeID))
+        :
+        data.collaborateType
+        ?
+        ((ActivityTypeMap.find((activity) => data.activityID === activity.activityID))?.activityType.find((type) => data.collaborateType === type.activityTypeID))
+        :
+        data.accessType
+        ?
+        ((ActivityTypeMap.find((activity) => data.activityID === activity.activityID))?.activityType.find((type) => data.accessType === type.activityTypeID))
+        :
+        ((ActivityTypeMap.find((activity) => data.activityID === activity.activityID))?.activityType.find((type) => data.breakType === type.activityTypeID))
+
     const getCardData = (item) => {
         // handle state data base on activityID
         const getActivityType = ActivityTypeMap.find((activity) => item === activity.activityID)
         const getActivityCard = ActivityCardList.find((activity) => item === activity.activityID)
-        console.log(getActivityType)
-        console.log(getActivityCard)
+
         
         switch (item) {
             case 'warm_up':
@@ -78,7 +101,7 @@ const ActivityCard = ({isEditable=false, data, board, setData, openAddEditDialog
     }
 
     const openAddEditDialogByID = (data) => {
-        openAddEditDialog("edit", board)
+        openAddEditDialog("edit", board.sessionName)
         setEditedItm(data)  
     }
 
@@ -96,7 +119,7 @@ const ActivityCard = ({isEditable=false, data, board, setData, openAddEditDialog
                         <div className="activity_content">
                             <div className="content_body">
                                 <h5 className="activity_name">{ActivityFilter.activityName}</h5>
-                                {/* <p className="activity_desc">{findActivityType.activityTypeName}</p>      */}
+                                <p className="activity_desc">{findActivityType.activityTypeName}</p>
                             </div>
                             <div className="content_status me-3">
                                 <div className="edit_status me-2" onClick={() => openAddEditDialogByID(data)}>

@@ -1,15 +1,13 @@
-import React, { useMemo} from 'react'
-
-
+import React, { Fragment, useMemo} from 'react'
 import { ActivityCardList, ActivityTypeMap } from '../../Activity/Map/ActivityCardList'
-import { IconSetting } from '../../../../utils/IconSetting'
-import { GoCheckCircleFill } from 'react-icons/go'
+
+import MiddleActivityForm from './MiddleActivityForm'
+import FinalActivityForm from './FinalActivityForm'
 
 
 const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) => {
     const {
-        activityID, 
-        activityName, 
+        activityID,  
         duration, 
         warmUpOption, 
         engagementOption,
@@ -72,8 +70,6 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
         }  
     }
 
-
-
     return (
         <div className="right_activity">
             {
@@ -88,31 +84,59 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
                             <div className="activity_form_btn_group_vertical">
                                 {
                                     activityTypeResult.activityType.map((item) => {
+                                        const MiddleActivityFormData = {item, activityCardData}
+                                        const MiddleActivityFormFunction = {handleChangeOption}
+
                                         
-                                        // return (
-                                        //     <button className={`activity_form_btn ${activityType === item.activityTypeID && 'btn_selected'}`}
-                                        //     style={{
-                                        //         borderColor: activityType === item.activityTypeID && activityCardData.activityIconBg
-                                        //     }}
-                                        //     onClick={() => handleChangeOption(item.activityTypeID)}
-                                        //     key={item.activityTypeID}
-                                        //     >
-                                        //         <span className="btn_label">
-                                        //             <span className="activity_form_name btn_label_subtitle">{item.activityTypeName}</span>
-                                        //             {
-                                        //                 activityType === item.activityTypeID && (
-                                        //                     <span className="btn_label_checked" >
-                                        //                         {IconSetting(<GoCheckCircleFill/>, activityCardData.activityIconBg)}
-                                        //                     </span>
-                                        //                 )
-                                        //             }
+                                        return (
+                                            <Fragment key={item.activityTypeID}>
+                                                {
+                                                    warmUpOption ?
+                                                    <MiddleActivityForm activityType={warmUpOption} 
+                                                        compData={MiddleActivityFormData} 
+                                                        compFunction={MiddleActivityFormFunction}
+                                                    />
+                                                    :
+                                                    readWatchListenType ?
+                                                    <MiddleActivityForm activityType={readWatchListenType} 
+                                                        compData={MiddleActivityFormData} 
+                                                        compFunction={MiddleActivityFormFunction}
+                                                    />
+                                                    :
+                                                    reflectionType ?
+                                                    <MiddleActivityForm activityType={reflectionType} 
+                                                        compData={MiddleActivityFormData} 
+                                                        compFunction={MiddleActivityFormFunction}
+                                                    />
+                                                    :
+                                                    groupType ?
+                                                    <MiddleActivityForm activityType={groupType} 
+                                                        compData={MiddleActivityFormData} 
+                                                        compFunction={MiddleActivityFormFunction}
+                                                    />
+                                                    :
+                                                    collaborateType ?
+                                                    <MiddleActivityForm activityType={collaborateType} 
+                                                        compData={MiddleActivityFormData} 
+                                                        compFunction={MiddleActivityFormFunction}
+                                                    />
+                                                    :
+                                                    accessType ?
+                                                    <MiddleActivityForm activityType={accessType} 
+                                                        compData={MiddleActivityFormData} 
+                                                        compFunction={MiddleActivityFormFunction}
+                                                    />
+                                                    :
+                                
+                                                    <MiddleActivityForm activityType={breakType} 
+                                                        compData={MiddleActivityFormData} 
+                                                        compFunction={MiddleActivityFormFunction}
+                                                    />
                                                     
-                                        //             <div className="btn_icon_middle">
-                                        //                 {IconSetting(item.activityTypeIcon, activityCardData.activityIconBg)}
-                                        //             </div>
-                                        //         </span>
-                                        //     </button>
-                                        // )
+                                                }
+                                            </Fragment>
+                                            
+                                        )
                                     }
                                 )}
                             
@@ -125,60 +149,59 @@ const ActivityTypeList = ({type, data, setData, createActivity , saveActivity}) 
                 <div className="w-100">
                 {
                     activityTypeResult.activityType && activityTypeResult.activityType.map((item) =>
-                        (
-                            <></>
-                            // activityType === item.activityTypeID && (
-                            //     <div className="activity_form_wrapper" style={{textAlign: 'center'}} key={item.activityTypeID}>
-                            //         <span className="activity_form_name" style={{color: activityCardData.activityIconBg}}>{item.activityTypeName}</span>
-                            //         <p className="activity_form_desc my-3">
-                            //             {item.activityTypeDesc}
-                            //         </p>
-                            //         <div className="activity_form_break" style={{width: "100%", border: `1px solid ${activityCardData.activityIconBg}`}}></div>
+                        {
+                            const FinalActivityFormData = {item, activityCardData, duration, engagementOption}
+                            const FinalActivityFormFunction = {setData}
 
-                            //         <div className="activity_duration">
-                            //             <span className="duration_text">Total Duration:</span>
-                            //             <div className="duration_box">
-                            //             <input type="number" className="duration_input" min={5} max={480} aria-label='min'
-                            //             name='duration' value={duration}
-                            //             onChange={(e) => setData((state) => ({...state, [e.target.name]: parseInt(e.target.value)}))}/>
-                            //             <div className="duration_subtitle_box">
-                            //                 <p className="duration_subtitle">mins</p>
-                            //             </div>
-                            //             </div>
-                            //         </div>
-
-                            //         {
-                            //             item.activityTypeFill === 'option' && (
-                            //                 <React.Fragment>
-                            //                 <div className="activity_subsection">
-                            //                     <span className="subsection_text">Choose an engagement option</span>
-                            //                     <span className="subsection_subtext ">How do you want learners to engage with the Do Now?</span>
-                            //                 </div>
-                            //                 <div className="activity_grid">
-                            //                     <div className="activity_grid_inner">
-                            //                         {
-                            //                         item.activityTypeOption.map((subItm) => {
-                            //                             return (
-                            //                             <button className={`grid_btn ${engagementOption === subItm.optionID && 'selected'}`} 
-                            //                             onClick={() => setData((state) => ({...state, engagementOption: subItm.optionID}))}
-                            //                             key={subItm.optionID}
-                            //                             >
-                            //                                 <span>{subItm.optionName}</span>
-                            //                             </button>
-                            //                         )})}
-                                                
-                            //                     </div>
-                            //                 </div>
-                            //                 </React.Fragment>
-                            //             )
-                            //         }
-
-                            //         {
-                            //             item.activityTypeFill === '' && (<React.Fragment></React.Fragment>)
-                            //         }
-                            //     </div>
-                            // )
-                        )             
+                            return (
+                                <Fragment key={item.activityTypeID}>
+                                    {
+                                        warmUpOption ?
+                                        <FinalActivityForm activityType={warmUpOption} 
+                                            compData={FinalActivityFormData} 
+                                            compFunction={FinalActivityFormFunction}
+                                        />
+                                        :
+                                        readWatchListenType ?
+                                        <FinalActivityForm activityType={readWatchListenType} 
+                                            compData={FinalActivityFormData} 
+                                            compFunction={FinalActivityFormFunction}
+                                        />
+                                        :
+                                        reflectionType ?
+                                        <FinalActivityForm activityType={reflectionType} 
+                                            compData={FinalActivityFormData} 
+                                            compFunction={FinalActivityFormFunction}
+                                        />
+                                        :
+                                        groupType ?
+                                        <FinalActivityForm activityType={groupType} 
+                                            compData={FinalActivityFormData} 
+                                            compFunction={FinalActivityFormFunction}
+                                        />
+                                        :
+                                        collaborateType ?
+                                        <FinalActivityForm activityType={collaborateType} 
+                                            compData={FinalActivityFormData} 
+                                            compFunction={FinalActivityFormFunction}
+                                        />
+                                        :
+                                        accessType ?
+                                        <FinalActivityForm activityType={accessType} 
+                                            compData={FinalActivityFormData} 
+                                            compFunction={FinalActivityFormFunction}
+                                        />
+                                        :
+                    
+                                        <FinalActivityForm activityType={breakType} 
+                                            compData={FinalActivityFormData} 
+                                            compFunction={FinalActivityFormFunction}
+                                        />
+                                        
+                                    }
+                                </Fragment>
+                            )
+                        }           
                     ) 
                 }
                 </div>

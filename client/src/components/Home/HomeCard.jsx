@@ -1,20 +1,29 @@
-import React from "react";
-import { AiOutlineArrowRight } from "react-icons/ai";
-export default function HomeCard({ title, number, name }) {
+const ModuleCard = ({ title, number, numberDuration, numTotal }) => {
   return (
-    <div className="home-card">
-      <div className="home-card-title">
-        <p>{title}</p>
-        <h4>
-          {number}
-          <span> {name}</span>
-        </h4>
-      </div>
-      <hr />
-      <div className="d-flex justify-content-between home-detail-card">
-        <p>View Detail</p>
-        <AiOutlineArrowRight />
+    <div className="module-card">
+      <h4>{title}</h4>
+      <div className="d-flex justify-content-between">
+        <div className="info-info">
+          <h6>Number of Activity:</h6>
+          <h6>{number}</h6>
+        </div>
+        <div className="info-info">
+          <h6>Duration:</h6>
+          <h6>
+            {numberDuration}
+            <span> mins</span>
+          </h6>
+        </div>
+        <div className="info-info">
+          <h6>Total Duration:</h6>
+          <h6>
+            {numTotal}
+            <span> mins</span>
+          </h6>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default ModuleCard;

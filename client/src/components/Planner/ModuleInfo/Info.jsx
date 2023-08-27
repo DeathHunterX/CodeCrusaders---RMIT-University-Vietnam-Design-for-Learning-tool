@@ -59,8 +59,6 @@ const ModuleInfo = ({width}) => {
             interactionType: session.interactionType
         }))
 
-        console.log(sessionListMap)
-
         let desiredOrder = ['Pre_class', 'In_class', 'Post_class'];
 
         // Reorder the sessions based on the desired order

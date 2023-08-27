@@ -1,6 +1,7 @@
 package com.example.server.model;
 
 import com.example.server.model.activities.*;
+import com.example.server.model.activities.Access;
 import com.example.server.model.enums.ActivityID;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -24,7 +25,7 @@ import java.util.UUID;
     @JsonSubTypes.Type(value = Discuss.class, name = "discuss"),
     @JsonSubTypes.Type(value = Reflect.class, name = "reflect"),
     @JsonSubTypes.Type(value = Break.class, name = "break"),
-    @JsonSubTypes.Type(value = Break.class, name = "access"),
+    @JsonSubTypes.Type(value = Access.class, name = "access"),
     @JsonSubTypes.Type(value = Collaborate.class, name = "collaborate"),
 })
 public abstract class Activity {

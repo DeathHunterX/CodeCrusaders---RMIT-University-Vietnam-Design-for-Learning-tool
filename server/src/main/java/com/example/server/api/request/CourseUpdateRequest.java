@@ -13,10 +13,8 @@ import java.util.UUID;
 @Data
 public class CourseUpdateRequest {
     private String courseCode;
-
+    private String courseName;
     private String courseSemester;
-
     private String clos;
-
     private List<Assignment> assignmentList;
 }

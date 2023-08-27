@@ -45,7 +45,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     User user = userDetailsService.getUserById(userId).orElseThrow(() -> new ObjectNotFoundException("User", "id"));
     RefreshToken refreshToken = new RefreshToken();
     String token = generateJwtFormatToken(user.getUsername(), refreshTokenDurationMs,jwtSecret);
-    System.out.println(token);
     refreshToken.setToken(token);
     refreshToken.setExpireDate(Instant.now().plusMillis(refreshTokenDurationMs));
     refreshToken.setUser(user);

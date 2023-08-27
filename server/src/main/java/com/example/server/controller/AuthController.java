@@ -100,7 +100,6 @@ public class AuthController {
   public ResponseEntity<UserResponse> getCurrentUser() {
     SecurityContext securityContext = SecurityContextHolder.getContext();
     Authentication authentication = securityContext.getAuthentication();
-    System.out.println(authentication);
     if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof CustomUserDetails) {
       CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
       return ResponseEntity.ok(modelMapper.map(userDetails.getUser(), UserResponse.class));

@@ -3,7 +3,8 @@ import {useParams} from "react-router-dom"
 import {AiOutlineQuestionCircle} from 'react-icons/ai'
 import TextEditor from '../../TextEditor/TextEditor'
 import { useDispatch, useSelector } from 'react-redux';
-import { editModule } from '../../../redux/slices/moduleSlice';
+import { editModule, resetModuleState } from '../../../redux/slices/moduleSlice';
+import { toast } from 'react-toastify';
 
 
 const ModuleInfo = ({width}) => {
@@ -38,8 +39,9 @@ const ModuleInfo = ({width}) => {
         ]
     };
 
-    const {moduleItem} = useSelector(state => state.module)
     const {accessToken} = useSelector(state => state.auth.token)
+    const {moduleItem, isEdited, isError, message} = useSelector(state => state.module)
+
     const dispatch = useDispatch()
 
     const {subId} = useParams();
@@ -96,13 +98,25 @@ const ModuleInfo = ({width}) => {
     };
 
     const handleTextEditor = (value) => {
-        setModuleInfo((prevState) => ({ ...prevState, moduleClos: value }));
+        setModuleInfo((prevState) => ({ ...prevState, los: value }));
     };
+
 
     const handleeSaveInfo = (e) => {
         e.preventDefault()
         dispatch(editModule({moduleData: moduleInfo, id: subId, token: accessToken}))
     }
+
+    useEffect(() => {
+        if(isEdited) {
+            toast.success(`Edit Module "${moduleItem.name}" Successfully`)
+            dispatch(resetModuleState())
+        } else if(isError) {
+            toast.error(message)
+            dispatch(resetModuleState())
+        }
+    }, [dispatch, isEdited, isError, message, moduleItem.name])
+
 
     const RadioButtonsList = ({ className, options, selectedOption, onChange }) => {
         return (

@@ -48,7 +48,6 @@ export const createModule = createAsyncThunk('module/createModule', async({modul
 export const editModule = createAsyncThunk('module/editModule', async({moduleData, id, token}, thunkAPI) => {
     try {
         const res = await putDataAPI(`update-module/${id}`, moduleData, token)
-        
         return res.data
 
     } catch (err) {
@@ -60,7 +59,6 @@ export const editModule = createAsyncThunk('module/editModule', async({moduleDat
 export const deleteModule = createAsyncThunk('module/deleteModule', async({courseId, moduleId, token}, thunkAPI) => {
     try {
         const res = await deleteDataAPI(`course/${courseId}/delete-module/${moduleId}`, token)
-        console.log(res)
 
         return {message: res.data, idToRemove: moduleId}
 
@@ -87,7 +85,7 @@ const moduleSlice = createSlice({
         builders
             // Get Modules
             .addCase(getModules.pending, (state) => {
-                state.isLoading = true
+                state.isLoading = true;
             })
             .addCase(getModules.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -101,7 +99,7 @@ const moduleSlice = createSlice({
 
             // Get Module by Id
             .addCase(getModuleInfo.pending, (state) => {
-                state.isLoading = true
+                state.isLoading = true;
             })
             .addCase(getModuleInfo.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -115,7 +113,7 @@ const moduleSlice = createSlice({
 
             // Create Module
             .addCase(createModule.pending, (state) => {
-                state.isLoading = true
+                state.isLoading = true;
             })
             .addCase(createModule.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -136,7 +134,18 @@ const moduleSlice = createSlice({
             .addCase(editModule.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isEdited = true;
-                state.message = ""
+                state.moduleList = state.moduleList?.map(obj => {
+                        if(obj.id === action.payload.id) {
+                            return {
+                                ...obj,
+                                name: action.payload.name
+                            }
+                        }
+                        return obj;
+                    }
+                )
+                state.moduleItem= action.payload;
+                state.message = "";
             })
             .addCase(editModule.rejected, (state, action) => {
                 state.isLoading = false;
@@ -146,20 +155,21 @@ const moduleSlice = createSlice({
 
             // Delete Course
             .addCase(deleteModule.pending, (state) => {
-                state.isLoading = true
+                state.isLoading = true;
             })
             .addCase(deleteModule.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isDeleted = true
-                state.moduleList = state.moduleList.filter((item) => item.id !== action.payload.idToRemove)
+                state.isDeleted = true;
+                state.moduleList = state.moduleList.filter((item) => item.id !== action.payload.idToRemove);
                 state.message = action.payload.message
             })
             .addCase(deleteModule.rejected, (state, action) => {
                 state.isLoading = false;
-                state.isError = true
+                state.isError = true;
                 state.message = action.payload;
             })
     }
 })
 
-export default moduleSlice.reducer
+export const {resetModuleState} = moduleSlice.actions;
+export default moduleSlice.reducer;

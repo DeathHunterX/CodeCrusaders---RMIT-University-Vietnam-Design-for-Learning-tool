@@ -77,7 +77,7 @@ const Board = ({compData, compFunction}) => {
                                         >
                                             <ActivityCard
                                                 data={activity_itm}
-                                                board={item.sessionName}
+                                                board={item}
                                                 isEditable={true}
                                                 openAddEditDialog={openAddEditDialog}
                                                 setEditedItm={setEditedItm}

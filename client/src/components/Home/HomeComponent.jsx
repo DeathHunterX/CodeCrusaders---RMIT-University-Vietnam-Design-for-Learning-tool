@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment, useState } from 'react'
 import HomeCard from './HomeCard'
 import HomePieChart from './HomePieChart'
 import HomeCourse from './HomeCourse'
@@ -6,9 +6,14 @@ import { useSelector } from 'react-redux'
 
 const HomeComponent = () => {
     const {allCourses} = useSelector(state => state.course);
-    const totalModuleListCount = allCourses?.reduce((total, obj) => total + obj.moduleList.length, 0);
 
-    const TotalDuration = allCourses?.reduce((total, course) => {
+    const [specificCourse, setSpecificData] = useState("");
+
+    const setHomePageData = (specificCourse === "" ? allCourses : [allCourses.find(course => course.id === specificCourse)])
+
+    const totalModuleListCount = setHomePageData?.reduce((total, obj) => total + obj.moduleList.length, 0);
+
+    const TotalDuration = setHomePageData?.reduce((total, course) => {
         return total + course.moduleList?.reduce((moduleTotal, module) => {
           return moduleTotal + module.sessionList?.reduce((sessionTotal, session) => {
             return sessionTotal + session.activityList?.reduce((activityTotal, activity) => {
@@ -18,7 +23,7 @@ const HomeComponent = () => {
         }, 0);
     }, 0);
 
-    const SessionOptionCounts = allCourses?.reduce((courseCounts, course) => {
+    const SessionOptionCounts = setHomePageData?.reduce((courseCounts, course) => {
         course.moduleList?.forEach(module => {
           module.sessionList?.forEach(session => {
             courseCounts[session?.sessionOption]++;
@@ -27,7 +32,7 @@ const HomeComponent = () => {
         return courseCounts;
     }, { F2F: 0, Online: 0, Hybrid: 0 });
 
-    const InteractionTypeCounts = allCourses?.reduce((courseCounts, course) => {
+    const InteractionTypeCounts = setHomePageData?.reduce((courseCounts, course) => {
         course.moduleList?.forEach(module => {
           module.sessionList?.forEach(session => {
             courseCounts[session?.interactionType]++;
@@ -81,6 +86,12 @@ const HomeComponent = () => {
         option.value = InteractionTypeCounts[option.id];
     });
 
+
+    const getSpecificCourseData = (id) => {
+      setSpecificData(id)
+    }
+
+
     return (
         <div className="home">
             <div className="home-1">
@@ -102,10 +113,24 @@ const HomeComponent = () => {
                     <HomePieChart data={InteractionTypeData} />
                 </div>
                 <div className="list-courses">
-                    <h5 className="home-course-allCourse">All Courses</h5>
-                    <HomeCourse title="Introduction to IT" />
-                    <HomeCourse title="Introduction to IT" />
-                    <HomeCourse title="Introduction to IT" />
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h5 className="home-course-allCourse my-0">All Courses</h5>
+                    <span className='text-primary text-underline'
+                    onClick={() => setSpecificData("")} style={{cursor: "pointer"}}> 
+                      All 
+                    </span>
+                  </div>
+                    
+                    <div className="" style={{height: "315px", overflowY:"auto"}}>
+                      {
+                        allCourses?.length > 0 && allCourses?.map((course) => (
+                          <Fragment key={course.id}>
+                            <HomeCourse title={course.courseName} id={course.id} compFunction={getSpecificCourseData}/>
+                          </Fragment>
+                        ))
+                      }
+                      
+                    </div>
                 </div>
             </div>
         </div>

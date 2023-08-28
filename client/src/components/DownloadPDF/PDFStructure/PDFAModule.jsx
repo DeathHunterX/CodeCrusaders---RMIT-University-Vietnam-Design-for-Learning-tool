@@ -2,14 +2,12 @@ import React from "react";
 import { Text, Document, StyleSheet, View } from "@react-pdf/renderer";
 const styles = StyleSheet.create({
   title: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: "left",
     fontWeight: "bold",
     marginBottom: 8,
   },
-  section: {
-    marginHorizontal: 52,
-  },
+
   sectionPreClass: {
     marginHorizontal: 54,
   },
@@ -65,457 +63,172 @@ const styles = StyleSheet.create({
   sectionClass: {
     marginBottom: 24,
   },
+
+  table: {
+    display: "table", 
+    width: "100%", 
+  },
+  tableRow: { 
+    margin: "auto", 
+    flexDirection: "row" 
+  }, 
+  tableCol: { 
+    width: "33%", 
+    borderStyle: "solid", 
+    // borderWidth: 1, 
+    // borderLeftWidth: 0, 
+    // borderTopWidth: 0 
+  },
+  tableCell: { 
+    // margin: "auto", 
+    marginTop: 5, 
+    fontSize: 12
+  }
 });
-const PDFAModule = () => {
+const PDFAModule = ({moduleData}) => {
+  const {moduleName, moduleLOs, sessionList} = moduleData
+  
+  let desiredOrder = ['Pre_class', 'In_class', 'Post_class'];
+
+  // Reorder the sessions based on the desired order
+  let reorderedSessions = desiredOrder.map(sessionName => {
+      const session = sessionList.find(session => session.sessionName === sessionName);
+      return session !== undefined ? session : null; // Return null for undefined sessions
+  });
+
+  // Remove null values from the reorderedSessions array
+  reorderedSessions = reorderedSessions.filter(session => session !== null);
+
+
   return (
     <Document>
-      <Text style={styles.title}>Module 1</Text>
+      <Text style={styles.title}>Module name: {moduleName}</Text>
       <View style={styles.sectionClass}>
         <Text style={styles.subtitle}>LOs:(Learning Objectives)</Text>
-        <Text style={styles.textClo}>
-          Demonstrate knowledge of basic concepts, syntax and control structures
-          in programming.
-        </Text>
-        <Text style={styles.textClo}>
-          Devise solutions to simple computing problems under specific
-          requirements.
-        </Text>
-        <Text style={styles.textClo}>
-          Encode the devised solutions into computer programs and test the
-          programs on a computer.
-        </Text>
-        <Text style={styles.textClo}>
-          Demonstrate an understanding of standard coding conventions and
-          ethical considerations in programming.
-        </Text>
-      </View>
-      <View style={styles.sectionClass}>
-        <Text style={styles.subtitle}>
-          Pre-class:
-          <Text> </Text>
-          <Text style={styles.subtitle}>
-            Grouping:
-            <Text style={styles.subtitle}>17 Group</Text>
-          </Text>
-        </Text>
-        <View style={styles.sectionPreClass}>
-          <Text style={styles.subtitle}>
-            F2F/Obline/hybrid:
-            <Text style={styles.subtitle}>Face Two Face</Text>
-          </Text>
-          <Text style={styles.subtitle}>
-            Async/Sync:
-            <Text style={styles.subtitle}>Async</Text>
-          </Text>
-        </View>
-        <View>
-          <Text style={styles.subtitle}>
-            Activities:
-            <Text> </Text>
-            <Text style={styles.subtitle}>
-              Read, watch, listen:
-              <Text style={styles.subtitle}>10 mins</Text>
+        {
+          moduleLOs.length > 0 && moduleLOs.map((content, idx) => (
+            <Text style={styles.textClo} key={idx}>
+              {content}
             </Text>
-          </Text>
-          <View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Collaboration:
-                  <Text>{"          "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Collaboration type:{" "}
-                  <Text style={styles.textActivities}>Collaboration type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Reflection:
-                  <Text>{"               "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Reflection type:{" "}
-                  <Text style={styles.textActivities}>Reflection type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Assess:
-                  <Text>{"                   "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Assess type:{" "}
-                  <Text style={styles.textActivities}>Assess type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Discussion:
-                  <Text>{"              "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.subtitle}>
-                  Discussion type:{" "}
-                  <Text style={styles.textActivities}>Discussion type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Break:
-                  <Text>{"                      "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Warm up:
-                  <Text>{"                 "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Warm up option:{" "}
-                  <Text style={styles.textActivities}>Warm up</Text>
-                </Text>
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.text}>
-          <Text>
-            Total Time:
-            <Text> 60 mins</Text>
-          </Text>
-        </View>
+          ))
+        }
       </View>
+      {
+        reorderedSessions.map((sessionContent) => {
+          const totalDuration = sessionContent?.activityList.reduce((total, activity) => total + activity.duration, 0);
 
-      <View style={styles.sectionClass}>
-        <Text style={styles.subtitle}>
-          In-class:
-          <Text> </Text>
-          <Text style={styles.subtitle}>
-            Grouping:
-            <Text style={styles.subtitle}>17 Group</Text>
-          </Text>
-        </Text>
-        <View style={styles.sectionPreClass}>
-          <Text style={styles.subtitle}>
-            F2F/Obline/hybrid:
-            <Text style={styles.subtitle}>Face Two Face</Text>
-          </Text>
-          <Text style={styles.subtitle}>
-            Async/Sync:
-            <Text style={styles.subtitle}>Async</Text>
-          </Text>
-        </View>
-        <View>
-          <Text style={styles.subtitle}>
-            Activities:
-            <Text> </Text>
+          return(
+          
+          <View style={styles.sectionClass} key={sessionContent.id}>
             <Text style={styles.subtitle}>
-              Read, watch, listen:
-              <Text style={styles.subtitle}>10 mins</Text>
+              {sessionContent.sessionName}:
             </Text>
-          </Text>
-          <View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Collaboration:
-                  <Text>{"          "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Collaboration type:{" "}
-                  <Text style={styles.textActivities}>Collaboration type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Reflection:
-                  <Text>{"               "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Reflection type:{" "}
-                  <Text style={styles.textActivities}>Reflection type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Assess:
-                  <Text>{"                   "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Assess type:{" "}
-                  <Text style={styles.textActivities}>Assess type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Discussion:
-                  <Text>{"              "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.subtitle}>
-                  Discussion type:{" "}
-                  <Text style={styles.textActivities}>Discussion type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Break:
-                  <Text>{"                      "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Warm up:
-                  <Text>{"                 "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Warm up option:{" "}
-                  <Text style={styles.textActivities}>Warm up</Text>
-                </Text>
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.text}>
-          <Text>
-            Total Time:
-            <Text> 60 mins</Text>
-          </Text>
-        </View>
-      </View>
-      <View style={styles.sectionClass}>
-        <Text style={styles.subtitle}>
-          Post-class:
-          <Text> </Text>
-          <Text style={styles.subtitle}>
-            Grouping:
-            <Text style={styles.subtitle}>17 Group</Text>
-          </Text>
-        </Text>
-        <View style={styles.sectionPreClass}>
-          <Text style={styles.subtitle}>
-            F2F/Obline/hybrid:
-            <Text style={styles.subtitle}>Face Two Face</Text>
-          </Text>
-          <Text style={styles.subtitle}>
-            Async/Sync:
-            <Text style={styles.subtitle}>Async</Text>
-          </Text>
-        </View>
-        <View>
-          <Text style={styles.subtitle}>
-            Activities:
-            <Text> </Text>
-            <Text style={styles.subtitle}>
-              Read, watch, listen:
-              <Text style={styles.subtitle}>10 mins</Text>
-            </Text>
-          </Text>
-          <View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Collaboration:
-                  <Text>{"          "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Collaboration type:{" "}
-                  <Text style={styles.textActivities}>Collaboration type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Reflection:
-                  <Text>{"               "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Reflection type:{" "}
-                  <Text style={styles.textActivities}>Reflection type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Assess:
-                  <Text>{"                   "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Assess type:{" "}
-                  <Text style={styles.textActivities}>Assess type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Discussion:
-                  <Text>{"              "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.subtitle}>
-                  Discussion type:{" "}
-                  <Text style={styles.textActivities}>Discussion type</Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Break:
-                  <Text>{"                      "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>
-                <Text style={styles.subtitle}>
-                  Warm up:
-                  <Text>{"                 "}</Text>
-                  <Text style={styles.textActivities}>10 mins</Text>
-                </Text>
-                <Text>{"      "}</Text>
-                <Text style={styles.text}>
-                  Warm up option:{" "}
-                  <Text style={styles.textActivities}>Warm up</Text>
-                </Text>
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.text}>
-          <Text>
-            Total Time:
-            <Text> 60 mins</Text>
-          </Text>
-        </View>
-      </View>
 
-      {/* <View style={styles.headerContainer}>
-        <View style={styles.leftColumn}>
-          <Text style={styles.subtitle}>Pre-Class</Text>
-          <Text style={styles.text}>
-            <Text>Grouping: </Text>
-            <Text>F2F/online:</Text>
-            <Text>Async/Sync:</Text>
-          </Text>
-          <View style={styles.activityType}>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
+            <View style={styles.sectionPreClass}>
+              <View>
+                {/* Info */}
+                <Text style={styles.subtitle}>Info: </Text>
+
+                {/* Grouping Type */}
+                <Text style={styles.subtitle}>
+                  - Grouping Type: {" "}
+                  <Text style={styles.subtitle}>{sessionContent.groupingType}</Text>
+                </Text>
+
+                {/* F2F/Online/Hybrid */}
+                <Text style={styles.subtitle}>
+                  - F2F/Online/Hybrid: {" "}
+                  <Text style={styles.subtitle}>{sessionContent.sessionOption}</Text>
+                </Text>
+
+                {/* Lecture Availability */}
+                <Text style={styles.subtitle}>
+                  - Lecture Availability: {" "}
+                  <Text style={styles.subtitle}>{sessionContent.hasLecturer === true ? "Yes" : "No"}</Text>
+                </Text>
+
+                {/* Interaction Type */}
+                <Text style={styles.subtitle}>
+                  - Interaction Type: {" "}
+                  <Text style={styles.subtitle}>{sessionContent.interactionType}</Text>
+                </Text>
+              </View>
+              
+
+              {/* Activities */}
+              <View>
+                <Text style={styles.subtitle}>
+                  Activities:
+                  <Text> </Text>
+                </Text>
+
+                {/* Activity Card */}
+                <View style={styles.table}>
+                  {
+                    sessionContent.activityList.map(activityContent => ( 
+                      <View style={styles.tableRow} key={activityContent.id}>
+
+                        <View style={styles.tableCol}> 
+                          <Text style={styles.tableCell}>
+                            - {activityContent.activityName}: 
+                          </Text>
+                        </View>
+
+                        <View style={styles.tableCol}>
+                          <Text style={styles.tableCell}>{activityContent.duration} mins</Text>
+                        </View>
+                        
+                        <View style={styles.tableCol}> 
+                          <Text style={styles.tableCell}>
+                            Type: {" "}
+                              {
+                                activityContent.activityID === "warm_up"
+                                ?
+                                activityContent.warmUpOption
+                                :
+                                activityContent.activityID === "read_watch_listen"
+                                ?
+                                activityContent.readWatchListenType
+                                :
+                                activityContent.activityID === "reflect"
+                                ?
+                                activityContent.reflectionType
+                                :
+                                activityContent.activityID === "discuss"
+                                ?
+                                activityContent.groupType
+                                :
+                                activityContent.activityID === "collaborate"
+                                ?
+                                activityContent.collaborateType
+                                :
+                                activityContent.activityID === "access"
+                                ?
+                                activityContent.accessType
+                                :
+                                activityContent.breakType   
+                              }
+                            </Text>
+                        </View>
+                      </View>
+                    
+                    ))
+                  }
+                </View>   
+              </View>
+            </View>
+
+            
+            <View style={styles.text}>
+              <Text>
+                Total Time:
+                <Text> {totalDuration} mins</Text>
+              </Text>
+            </View>
           </View>
-          <Text style={styles.text}> Total: {"75mins"}</Text>
-        </View>
-        <View style={styles.centerColumn}>
-          <Text style={styles.subtitle}>In-Class</Text>
-          <Text style={styles.text}>
-            <Text>Grouping: </Text>
-            <Text>F2F/online:</Text>
-            <Text>Async/Sync:</Text>
-          </Text>
-          <View style={styles.activityType}>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
-          </View>
-          <Text style={styles.text}> Total: {"75mins"}</Text>
-        </View>
-        <View style={styles.rightColumn}>
-          <Text style={styles.subtitle}>Post-Class</Text>
-          <Text style={styles.text}>
-            <Text>Grouping: </Text>
-            <Text>F2F/online:</Text>
-            <Text>Async/Sync:</Text>
-          </Text>
-          <View style={styles.activityType}>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
-            <Text style={styles.activityText}>
-              Read,Watch, Listen: <Text>15mins</Text>
-            </Text>
-          </View>
-          <Text style={styles.text}> Total: {"75mins"}</Text>
-        </View>
-      </View> */}
+        )})
+      }
+      
     </Document>
   );
 };

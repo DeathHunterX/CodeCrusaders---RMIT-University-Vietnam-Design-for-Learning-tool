@@ -265,10 +265,6 @@ const PlannerComponent = () => {
       navigate(`/courses`)
   }
 
-  const handlePreviewData = () => {
-      navigate(`/down-preview`)
-  }
-
   // Resizable
   // Initial widths
   const initialWidth1 = 15;
@@ -296,7 +292,7 @@ const PlannerComponent = () => {
   }
 
   const ActivityHeaderData = { subPage, configMap, activeSection }
-  const ActivityHeaderFunction = { setActiveSection, handleGoBackToCoursePage, handlePreviewData }
+  const ActivityHeaderFunction = { setActiveSection, handleGoBackToCoursePage }
 
   const ActivityPlanningData = {width2, activitiesData}
   const ActivityPlanningFunction = {

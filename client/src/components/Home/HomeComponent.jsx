@@ -9,9 +9,9 @@ const HomeComponent = () => {
     const totalModuleListCount = allCourses?.reduce((total, obj) => total + obj.moduleList.length, 0);
 
     const TotalDuration = allCourses?.reduce((total, course) => {
-        return total + course.moduleList.reduce((moduleTotal, module) => {
-          return moduleTotal + module.sessionList.reduce((sessionTotal, session) => {
-            return sessionTotal + session.activityList.reduce((activityTotal, activity) => {
+        return total + course.moduleList?.reduce((moduleTotal, module) => {
+          return moduleTotal + module.sessionList?.reduce((sessionTotal, session) => {
+            return sessionTotal + session.activityList?.reduce((activityTotal, activity) => {
               return activityTotal + activity.duration;
             }, 0);
           }, 0);
@@ -19,25 +19,23 @@ const HomeComponent = () => {
     }, 0);
 
     const SessionOptionCounts = allCourses?.reduce((courseCounts, course) => {
-        course.moduleList.forEach(module => {
-          module.sessionList.forEach(session => {
-            courseCounts[session.sessionOption]++;
+        course.moduleList?.forEach(module => {
+          module.sessionList?.forEach(session => {
+            courseCounts[session?.sessionOption]++;
           });
         });
         return courseCounts;
     }, { F2F: 0, Online: 0, Hybrid: 0 });
 
     const InteractionTypeCounts = allCourses?.reduce((courseCounts, course) => {
-        course.moduleList.forEach(module => {
-          module.sessionList.forEach(session => {
-            courseCounts[session.interactionType]++;
+        course.moduleList?.forEach(module => {
+          module.sessionList?.forEach(session => {
+            courseCounts[session?.interactionType]++;
           });
         });
         return courseCounts;
     }, { Synchronous: 0, Asynchronous: 0 });
 
-    console.log(InteractionTypeCounts)
-      
 
     const SessionOptionData = [
         {

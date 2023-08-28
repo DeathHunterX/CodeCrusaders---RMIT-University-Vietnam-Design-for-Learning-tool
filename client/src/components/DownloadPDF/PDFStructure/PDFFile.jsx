@@ -1,8 +1,10 @@
 import React from "react";
 import { Page, Text, Document, StyleSheet } from "@react-pdf/renderer";
-import PDFCourse from "./PDFCourse";
-import PDFAsg from "./PDFAsg";
+
 import PDFModule from "./PDFModule";
+import parse from "html-react-parser"
+import PDFAsg from "./PDFAsg";
+import PDFCourse from "./PDFCourse";
 
 const styles = StyleSheet.create({
   body: {
@@ -47,14 +49,41 @@ const styles = StyleSheet.create({
     color: "grey",
   },
 });
-const PDFFile = () => {
+const PDFFile = ({data}) => {
+  const {courseName, courseCode, courseSemester, moduleName, sessionList} = data
+
+  const courseCLOs = (
+    parse(data.courseCLOs).type === "ul" 
+    ? 
+    parse(data.courseCLOs).props.children.map((child) => {  
+      return child.props.children;
+    })
+    :
+    []
+  )
+  
+  const courseAsg = data?.courseAsg;
+  const sortAsg = (courseAsg?.length > 0 ? [...courseAsg].sort((a, b) => a.assignmentNo - b.assignmentNo) : [])
+
+  const moduleLOs = (
+    parse(data.courseCLOs).type === "ul" 
+    ? 
+    parse(data.courseCLOs).props.children.map((child) => {  
+      return child.props.children;
+    })
+    :
+    []
+  )
+
+  const courseData = {courseName, courseCode, courseSemester, courseCLOs}
+  const moduleData = {moduleName, moduleLOs, sessionList}
   return (
     <Document>
       <Page style={styles.body}>
         <Text />
-        <PDFCourse />
-        <PDFAsg />
-        <PDFModule />
+        <PDFCourse courseData={courseData} />
+        <PDFAsg courseAsg={sortAsg}/>
+        <PDFModule moduleData={moduleData}/>
         <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) =>

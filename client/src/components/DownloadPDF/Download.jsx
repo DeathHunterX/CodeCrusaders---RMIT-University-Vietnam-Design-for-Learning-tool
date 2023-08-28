@@ -48,6 +48,7 @@ const Download = () => {
     }))
   }, [sharingData.assignmentList, sharingData.clos, sharingData.courseCode, sharingData.courseName, sharingData.courseSemester, sharingData.los, sharingData.name, sharingData.sessionList])
 
+
   return (
     <div className="planner_pdf_container">
       <div className="pdf_top_bar">

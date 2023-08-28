@@ -106,11 +106,15 @@ const PDFAModule = ({moduleData}) => {
       <View style={styles.sectionClass}>
         <Text style={styles.subtitle}>LOs:(Learning Objectives)</Text>
         {
-          moduleLOs.length > 0 && moduleLOs.map((content, idx) => (
+          moduleLOs.length > 0 ? moduleLOs.map((content, idx) => (
             <Text style={styles.textClo} key={idx}>
               {content}
             </Text>
           ))
+          :
+          <Text style={styles.textClo}>
+            {moduleLOs}
+          </Text>
         }
       </View>
       {

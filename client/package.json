@@ -16,7 +16,6 @@
     "axios": "^1.4.0",
     "ckeditor5-custom-build": "file:CKEditor5Custom",
     "css-loader": "^6.8.1",
-    "html-react-parser": "^4.2.1",
     "http-proxy-middleware": "^2.0.6",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^3.1.2",

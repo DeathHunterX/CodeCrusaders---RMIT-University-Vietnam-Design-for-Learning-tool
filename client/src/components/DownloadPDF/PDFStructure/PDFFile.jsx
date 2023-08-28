@@ -2,7 +2,7 @@ import React from "react";
 import { Page, Text, Document, StyleSheet } from "@react-pdf/renderer";
 
 import PDFModule from "./PDFModule";
-import parse from "html-react-parser"
+
 import PDFAsg from "./PDFAsg";
 import PDFCourse from "./PDFCourse";
 
@@ -52,28 +52,39 @@ const styles = StyleSheet.create({
 const PDFFile = ({data}) => {
   const {courseName, courseCode, courseSemester, moduleName, sessionList} = data
 
-  const courseCLOs = (
-    parse(data.courseCLOs).type === "ul" 
-    ? 
-    parse(data.courseCLOs).props.children.map((child) => {  
-      return child.props.children;
-    })
-    :
-    []
-  )
-  
   const courseAsg = data?.courseAsg;
   const sortAsg = (courseAsg?.length > 0 ? [...courseAsg].sort((a, b) => a.assignmentNo - b.assignmentNo) : [])
 
-  const moduleLOs = (
-    parse(data.courseCLOs).type === "ul" 
-    ? 
-    parse(data.courseCLOs).props.children.map((child) => {  
-      return child.props.children;
-    })
-    :
-    []
-  )
+  const HtmlToTextComponent = (item) => {
+    const htmlString = item;
+  
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlString;
+  
+    const extractedTextArray = [];
+  
+    const extractTextFromNode = (node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const trimmedText = node.textContent.trim();
+        if (trimmedText !== "") {
+          extractedTextArray.push(trimmedText);
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        for (const childNode of node.childNodes) {
+          extractTextFromNode(childNode);
+        }
+      }
+    };
+  
+    extractTextFromNode(tempDiv);
+  
+    return extractedTextArray;
+  };
+
+  const courseCLOs = HtmlToTextComponent(data.courseCLOs)
+  const moduleLOs = HtmlToTextComponent(data.moduleLOs)
+  
+  
 
   const courseData = {courseName, courseCode, courseSemester, courseCLOs}
   const moduleData = {moduleName, moduleLOs, sessionList}

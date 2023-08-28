@@ -1,11 +1,43 @@
-
 import {BsShareFill} from 'react-icons/bs'
 import { ImBooks } from "react-icons/im"
 import { IconSetting } from '../../../utils/IconSetting'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { generateLinkSharing, getSharingAddress, resetSharingState } from '../../../redux/slices/sharingSlice'
+import { useEffect } from 'react'
+import {toast} from 'react-toastify'
+
 
 const CoursePlannerHeader = ({activityData, activityFunction}) => {
-    const {setActiveSection, handleGoBackToCoursePage, handlePreviewData} = activityFunction
+    const {setActiveSection, handleGoBackToCoursePage} = activityFunction
     const {subPage, configMap, activeSection} = activityData
+
+    const {accessToken} = useSelector(state => state.auth.token);
+    const {moduleItem} = useSelector(state => state.module);
+    const {isGenerated, isError, message, linkAddress} = useSelector(state => state.sharing)
+    const dispatch = useDispatch()
+
+    const {subId} = useParams();
+    const navigate = useNavigate();
+
+    const handlePreviewData = () => {
+        if(moduleItem?.shareLink === null || moduleItem?.shareLink === undefined){
+            dispatch(generateLinkSharing({moduleID: subId, token: accessToken}))
+        }
+        else {
+            dispatch(getSharingAddress(moduleItem?.shareLink))
+        }
+    }
+
+    useEffect(() => {
+        if(isGenerated || linkAddress){
+            navigate(`/planning_content/${linkAddress}`);
+            dispatch(resetSharingState());
+        } else if (isError) {
+            toast.error(message);
+            dispatch(resetSharingState());
+        }
+    } ,[dispatch, isError, isGenerated, linkAddress, message, navigate])
 
     return (
         <div className="planner_header navbar navbar-expand-lg bg-body-tertiary" style={{height: "46px"}}>
@@ -43,10 +75,20 @@ const CoursePlannerHeader = ({activityData, activityFunction}) => {
 
                 <div className="d-flex align-items-center">
                     <div className="">
-                        <span className="btn btn-outline-primary" onClick={handlePreviewData}>
-                            {IconSetting(<BsShareFill/>, "", "", "me-1")}     
-                            Share
-                        </span>
+                        {
+                            subPage === "modules" ? 
+                            (
+                                <span className="btn btn-outline-primary" onClick={handlePreviewData}>
+                                    {IconSetting(<BsShareFill/>, "", "", "me-1")}     
+                                    Share
+                                </span>
+                            )
+                            :
+                            (
+                                <div className="share_spacer"> </div>
+                            )
+                        }
+                        
                     </div> 
                 </div>
             </div>

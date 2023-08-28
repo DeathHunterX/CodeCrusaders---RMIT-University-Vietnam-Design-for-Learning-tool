@@ -143,11 +143,11 @@ const CourseOverview = () => {
                                 assignmentList.map((item, idx) => (
                                 <div className="accordion-item mt-2" key={item.assignmentNo}>
                                     <h2 className="accordion-header">
-                                        <button className={`accordion-button ${item.assignmentNo === 1 ? '' : 'collapsed'}`} type="button" data-bs-toggle="collapse" data-bs-target={`#panelsStayOpen-collapse${item.assignmentNo}`} aria-expanded="true" aria-controls={`panelsStayOpen-collapse${item.assignmentNo}`}>
+                                        <button className={`accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target={`#panelsStayOpen-collapse${item.assignmentNo}`} aria-expanded="true" aria-controls={`panelsStayOpen-collapse${item.assignmentNo}`}>
                                             Assessment {item.assignmentNo}
                                         </button>
                                     </h2>
-                                    <div id={`panelsStayOpen-collapse${item.assignmentNo}`} className={`accordion-collapse collapse ${item.assignmentNo === 1 ? 'show' : ''}`}>
+                                    <div id={`panelsStayOpen-collapse${item.assignmentNo}`} className={`accordion-collapse collapse show`}>
                                         <div className="accordion-body d-flex justify-content-between">
                                             <div className="mb-3 w-100">
                                                 <label htmlFor="assignmentName01" className="form-label">Name Assignment </label>

@@ -2,8 +2,6 @@ import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import HomePage from "./components/Home/home";
 import PageRender from "./customRouter/PageRender";
 
-import Download from "./components/DownloadPDF/Download";
-
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import { ToastContainer } from "react-toastify";
@@ -26,9 +24,6 @@ function App() {
 
               <Route exact path="/" element={<PrivateRouter />}>
                 <Route exact path="/" element={<HomePage />} />
-
-                <Route exact path="/down-preview" element={<Download />} />
-
                 <Route exact path="/:page" element={<PageRender />} />
                 <Route exact path="/:page/:id" element={<PageRender />} />
                 <Route

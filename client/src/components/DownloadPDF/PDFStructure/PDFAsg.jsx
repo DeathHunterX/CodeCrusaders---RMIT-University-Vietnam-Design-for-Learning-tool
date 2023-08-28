@@ -23,48 +23,31 @@ const styles = StyleSheet.create({
     marginHorizontal: 22,
   },
 });
-const PDFAsg = () => {
+const PDFAsg = ({courseAsg}) => {
+
   return (
     <Document>
+      
       <Text style={styles.title} fixed>
         Assessment Detail:
       </Text>
-      <View>
-        <Text style={styles.subtitle}>
-          Assessment 1:
-          <Text style={styles.subtitle}> Turtle Graphics</Text>
-        </Text>
-        <Text style={styles.subtitle}>
-          Date:
-          <Text style={styles.subtitle}> 01/12</Text>
-          {"-"}
-          <Text style={styles.subtitle}> 01/02</Text>
-        </Text>
-      </View>
-      <View>
-        <Text style={styles.subtitle}>
-          Assessment 1:
-          <Text style={styles.subtitle}> Turtle Graphics</Text>
-        </Text>
-        <Text style={styles.subtitle}>
-          Date:
-          <Text style={styles.subtitle}> 01/12</Text>
-          {"-"}
-          <Text style={styles.subtitle}> 01/02</Text>
-        </Text>
-      </View>
-      <View>
-        <Text style={styles.subtitle}>
-          Assessment 1:
-          <Text style={styles.subtitle}> Turtle Graphics</Text>
-        </Text>
-        <Text style={styles.subtitle}>
-          Date:
-          <Text style={styles.subtitle}> 01/12</Text>
-          {"-"}
-          <Text style={styles.subtitle}> 01/02</Text>
-        </Text>
-      </View>
+      {
+        courseAsg.length > 0 && courseAsg.map((content) => (
+          <View key={content.assignmentNo}>
+            <Text style={styles.subtitle}>
+              Assessment {content.assignmentNo}:
+              <Text style={styles.subtitle}> {content.assignmentName}</Text>
+            </Text>
+            <Text style={styles.subtitle}>
+              Date:
+              <Text style={styles.subtitle}> {content.startDate}</Text>
+              {"-"}
+              <Text style={styles.subtitle}> {content.endDate}</Text>
+            </Text>
+          </View>
+        ))
+      }
+      
     </Document>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { Page, Text, Document, StyleSheet, View } from "@react-pdf/renderer";
+import { Text, Document, StyleSheet, View } from "@react-pdf/renderer";
 import PDFAModule from "./PDFAModule";
 const styles = StyleSheet.create({
   title: {
@@ -25,16 +25,16 @@ const styles = StyleSheet.create({
     height: 10,
   },
 });
-const PDFModule = () => {
+const PDFModule = ({moduleData}) => {
   return (
     <Document>
       <Text style={styles.title}>Modules</Text>
-      <Text style={styles.subtitle}>Class size: 123</Text>
 
-      <PDFAModule />
+      <PDFAModule moduleData={moduleData}/>
+
       <View style={styles.line}></View>
-      <PDFAModule />
-      <PDFAModule />
+      {/* <PDFAModule />
+      <PDFAModule /> */}
     </Document>
   );
 };

@@ -4,9 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {DragDropContext} from '@hello-pangea/dnd';
 import { Resizable } from 're-resizable';
+import { toast } from 'react-toastify';
+
 
 // Redux
 import { createModule} from '../../redux/slices/moduleSlice';
+import { deleteActivity, resetSessionState, updateSessions } from '../../redux/slices/sessionSlice';
+
 
 // Import Components
 import CoursePlannerHeader from './Item/Header';
@@ -20,11 +24,9 @@ import {FaClipboardList} from 'react-icons/fa';
 
 
 import ModuleComponent from './Module/ModuleComponent';
-import Dashboard from './ModuleDashboard/Dashboard';
 import ModuleInfo from './ModuleInfo/Info';
 import CourseOverview from './CourseOverview/Overview';
-import { deleteActivity, resetSessionState, updateSessions } from '../../redux/slices/sessionSlice';
-import { toast } from 'react-toastify';
+import ModuleDashboard from './ModuleDashboard/Dashboard';
 
 
 const PlannerComponent = () => {
@@ -158,31 +160,6 @@ const PlannerComponent = () => {
     dispatch(deleteActivity({courseID: id, sessionID: boardData.id, activityID: activityID, token: accessToken}));
   }
 
-  useEffect(() => {
-    if(isDeleted) {
-      setActivitiesData(prevState => prevState.map((board) => {
-        if (board.sessionName === deletedCard.boardData?.sessionName) {
-          const updatedData = board.activityList.filter((activity) => activity.id !== deletedCard.activityID);
-          return {
-            ...board,
-            activityList: updatedData,
-          };
-        }
-        return board;
-      }));
-      dispatch(resetSessionState())
-    } else if (isSessionUpdated) {
-      setActivitiesData(activitiesDataAfterUpdated)
-      // Empty object after transfer data into main sessions data
-      setActivitiesDataAfterUpdated({})
-      dispatch(resetSessionState())
-    } else if(isError) {
-      toast.error(message)
-      dispatch(resetSessionState())
-    }
-  }, [activitiesDataAfterUpdated, deletedCard.activityID, deletedCard.boardData?.sessionName, dispatch, isDeleted, isError, isSessionUpdated, message])
-
-  
 
   const transformAndRename = (sessionData) => {
     const transformedData = sessionData.reduce((result, session) => {
@@ -259,12 +236,33 @@ const PlannerComponent = () => {
       setActivitiesDataAfterUpdated(updatedBoards);
   };
 
+  useEffect(() => {
+    if(isDeleted) {
+      setActivitiesData(prevState => prevState.map((board) => {
+        if (board.sessionName === deletedCard.boardData?.sessionName) {
+          const updatedData = board.activityList.filter((activity) => activity.id !== deletedCard.activityID);
+          return {
+            ...board,
+            activityList: updatedData,
+          };
+        }
+        return board;
+      }));
+      dispatch(resetSessionState())
+    } else if (isSessionUpdated) {
+      setActivitiesData(activitiesDataAfterUpdated)
+      // Empty object after transfer data into main sessions data
+      setActivitiesDataAfterUpdated({})
+      dispatch(resetSessionState())
+    } else if(isError) {
+      toast.error(message)
+      dispatch(resetSessionState())
+    }
+  }, [activitiesDataAfterUpdated, deletedCard.activityID, deletedCard.boardData?.sessionName, dispatch, isDeleted, isError, isSessionUpdated, message])
+
+
   const handleGoBackToCoursePage = () => {
       navigate(`/courses`)
-  }
-
-  const handlePreviewData = () => {
-      navigate(`/down-preview`)
   }
 
   // Resizable
@@ -294,7 +292,7 @@ const PlannerComponent = () => {
   }
 
   const ActivityHeaderData = { subPage, configMap, activeSection }
-  const ActivityHeaderFunction = { setActiveSection, handleGoBackToCoursePage, handlePreviewData }
+  const ActivityHeaderFunction = { setActiveSection, handleGoBackToCoursePage }
 
   const ActivityPlanningData = {width2, activitiesData}
   const ActivityPlanningFunction = {
@@ -334,7 +332,7 @@ const PlannerComponent = () => {
                 }
                 
                 {
-                  (activeSection === 2 && subPage === "modules") && <Dashboard />
+                  (activeSection === 2 && subPage === "modules") && <ModuleDashboard />
                 }
 
                 {

@@ -8,10 +8,22 @@ const initialState = {
     isEdited: false,
     isDeleted: false,
     isError: false,
+    allCourses: [],
     courses: [],
     course: {},
     message: ""
 }
+
+export const getEntireCourses = createAsyncThunk('courses/getEntireCourses', async({token}, thunkAPI) => {
+    try {
+        const res = await getDataAPI('all-courses', token)
+        return res.data
+
+    } catch (err) {
+        const errMessage = err.response?.data?.message || err.message;
+        return thunkAPI.rejectWithValue(errMessage);
+    }
+})
 
 export const getAllCourses = createAsyncThunk('courses/getCourses', async(token, thunkAPI) => {
     try {
@@ -23,6 +35,7 @@ export const getAllCourses = createAsyncThunk('courses/getCourses', async(token,
         return thunkAPI.rejectWithValue(errMessage);
     }
 })
+
 
 export const getCourse = createAsyncThunk('courses/getCourse', async({id, token}, thunkAPI) => {
     try {
@@ -81,6 +94,20 @@ const courseSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // Get All Courses
+            .addCase(getEntireCourses.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getEntireCourses.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.allCourses = action.payload?.courses;
+                state.message = ""
+            })
+            .addCase(getEntireCourses.rejected, (state, action) => {
+                state.isLoading = false;
+                state.message = action.payload;
+            })
+
             // Get All Courses
             .addCase(getAllCourses.pending, (state) => {
                 state.isLoading = true

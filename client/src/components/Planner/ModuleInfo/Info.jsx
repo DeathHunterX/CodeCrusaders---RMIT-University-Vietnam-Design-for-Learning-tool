@@ -59,8 +59,6 @@ const ModuleInfo = ({width}) => {
             interactionType: session.interactionType
         }))
 
-        console.log(sessionListMap)
-
         let desiredOrder = ['Pre_class', 'In_class', 'Post_class'];
 
         // Reorder the sessions based on the desired order
@@ -89,10 +87,16 @@ const ModuleInfo = ({width}) => {
     }
 
     const handleOptionChange = (sessionName, key, value) => {
+        let updatedValue = value;
+
+        if (key === 'hasLecturer') {
+            updatedValue = value === 'true';
+        }
+
         setModuleInfo((prevState) => ({
             ...prevState,
             sessionList: prevState.sessionList.map((session) =>
-                session.sessionName === sessionName ? { ...session, [key]: value } : session
+                session.sessionName === sessionName ? { ...session, [key]: updatedValue } : session
             ),
         }));
     };
@@ -129,7 +133,6 @@ const ModuleInfo = ({width}) => {
                         checked={selectedOption === option}
                         onChange={onChange}
                     />
-
                     <label className="form-check-label">
                         {option === true ? "Yes" : option === false ? "No" : option}
                     </label>
@@ -142,10 +145,7 @@ const ModuleInfo = ({width}) => {
         <div className="module_info_wrapper p-4" style={{width: `${width}%`}}>
             <form onSubmit={handleeSaveInfo}>
                 <div className="mb-3">
-                    <div className="d-flex justify-content-between">
-                        <label htmlFor="moduleNameInput" className="form-label">Module Name</label>
-                        <small>Edit</small>
-                    </div>
+                    <label htmlFor="moduleNameInput" className="form-label">Module Name</label>
                     <input type="text" className="form-control" id="moduleNameInput" name='name' value={name} onChange={handleChangeInput} />
                 </div>
 
@@ -189,7 +189,7 @@ const ModuleInfo = ({width}) => {
                                             className={"d-flex justify-content-evenly"}
                                             options={[true, false]}
                                             selectedOption={classItm.hasLecturer}
-                                            onChange={(event) => handleOptionChange(classItm.sessionName, 'hasLecture', event.target.value)}
+                                            onChange={(event) => handleOptionChange(classItm.sessionName, 'hasLecturer', event.target.value)}
                                         />
                                     </td>
 

@@ -1,8 +1,10 @@
 import React from "react";
 import { Page, Text, Document, StyleSheet } from "@react-pdf/renderer";
-import PDFCourse from "./PDFCourse";
-import PDFAsg from "./PDFAsg";
+
 import PDFModule from "./PDFModule";
+
+import PDFAsg from "./PDFAsg";
+import PDFCourse from "./PDFCourse";
 
 const styles = StyleSheet.create({
   body: {
@@ -47,14 +49,52 @@ const styles = StyleSheet.create({
     color: "grey",
   },
 });
-const PDFFile = () => {
+const PDFFile = ({data}) => {
+  const {courseName, courseCode, courseSemester, moduleName, sessionList} = data
+
+  const courseAsg = data?.courseAsg;
+  const sortAsg = (courseAsg?.length > 0 ? [...courseAsg].sort((a, b) => a.assignmentNo - b.assignmentNo) : [])
+
+  const HtmlToTextComponent = (item) => {
+    const htmlString = item;
+  
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlString;
+  
+    const extractedTextArray = [];
+  
+    const extractTextFromNode = (node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const trimmedText = node.textContent.trim();
+        if (trimmedText !== "") {
+          extractedTextArray.push(trimmedText);
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        for (const childNode of node.childNodes) {
+          extractTextFromNode(childNode);
+        }
+      }
+    };
+  
+    extractTextFromNode(tempDiv);
+  
+    return extractedTextArray;
+  };
+
+  const courseCLOs = HtmlToTextComponent(data.courseCLOs)
+  const moduleLOs = HtmlToTextComponent(data.moduleLOs)
+  
+  
+
+  const courseData = {courseName, courseCode, courseSemester, courseCLOs}
+  const moduleData = {moduleName, moduleLOs, sessionList}
   return (
     <Document>
       <Page style={styles.body}>
         <Text />
-        <PDFCourse />
-        <PDFAsg />
-        <PDFModule />
+        <PDFCourse courseData={courseData} />
+        <PDFAsg courseAsg={sortAsg}/>
+        <PDFModule moduleData={moduleData}/>
         <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) =>

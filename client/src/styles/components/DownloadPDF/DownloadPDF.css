@@ -26,6 +26,7 @@
   border: none;
 }
 
+.planner_pdf_container .pdf_top_bar .pdf_left_side button,
 .planner_pdf_container .pdf_top_bar .pdf_right_side button {
   background-color: transparent;
   color: white;

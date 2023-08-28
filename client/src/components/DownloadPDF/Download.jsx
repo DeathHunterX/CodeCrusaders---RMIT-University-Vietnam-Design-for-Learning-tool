@@ -3,13 +3,14 @@ import PDFFile from "./PDFStructure/PDFFile";
 import RightSide from "./RightSide/RightSide";
 
 import { HiDownload } from "react-icons/hi";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineLeft } from "react-icons/ai";
 import { BsWindowStack } from "react-icons/bs";
 import {IconSetting} from '../../utils/IconSetting'
 
 import { useSelector} from "react-redux";
 
 import { PDFDownloadLink, PDFViewer} from "@react-pdf/renderer";
+import { useNavigate } from "react-router-dom";
 
 
 const Download = () => {
@@ -48,26 +49,33 @@ const Download = () => {
     }))
   }, [sharingData.assignmentList, sharingData.clos, sharingData.courseCode, sharingData.courseName, sharingData.courseSemester, sharingData.los, sharingData.name, sharingData.sessionList])
 
+  const navigate = useNavigate();
+  const returnToModulePage = () => {
+    navigate(-1)
+  }
 
   return (
     <div className="planner_pdf_container">
       <div className="pdf_top_bar">
-        <div className="pdf_download_side">
-          <PDFDownloadLink document={<PDFFile data={pdfData}/>} filename={"FORM"} className="download_btn">
-            {({ loading }) =>
-              loading ? (
-                <span>Loading Document...</span>
-              ) : (
-                <span className="text-center">
-                  {IconSetting(<HiDownload />, '#fff', '19px')} Download
-                </span>
-              )
-            }
-          </PDFDownloadLink>
+        <div className="pdf_left_side">
+          <button onClick={returnToModulePage}> <AiOutlineLeft /></button>
         </div>
-        <div className="pdf_right_side">
+        <div className="pdf_right_side d-flex">
+          <div className="pdf_download_side me-2">
+            <PDFDownloadLink document={<PDFFile data={pdfData}/>} filename={"FORM"} className="download_btn">
+              {({ loading }) =>
+                loading ? (
+                  <span>Loading Document...</span>
+                ) : (
+                  <span className="text-center">
+                    {IconSetting(<HiDownload />, '#fff', '19px')} Download
+                  </span>
+                )
+              }
+            </PDFDownloadLink>
+          </div>
           <button className="me-4"> <BsWindowStack /> </button>
-          <button> <AiOutlineClose /></button>
+          
         </div>
       </div>
 

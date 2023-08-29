@@ -16,7 +16,7 @@ const ModuleDashboard = ({width}) => {
             const calculateDuration = session?.activityList.reduce((total, activity) => total + activity.duration, 0);
             return (
               <Fragment key={session.id}>
-                <ModuleCard title={session.sessionName} 
+                <ModuleCard title={session.sessionName.replace(/_/g, ' ')} 
                 number={session?.activityList?.length}
                 numberDuration={calculateDuration} 
                 totalDuration={session.totalDuration} />
@@ -33,13 +33,6 @@ const ModuleDashboard = ({width}) => {
             </div>
           ))
         }
-        
-        {/* <div className="module-pie-detail">
-          <ModulePieChart data={data} />
-        </div>
-        <div className="module-pie-detail">
-          <ModulePieChart data={data} />
-        </div> */}
       </div>
     </div>
   )

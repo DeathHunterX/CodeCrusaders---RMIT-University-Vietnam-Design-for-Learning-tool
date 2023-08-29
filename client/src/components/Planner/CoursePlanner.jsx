@@ -23,7 +23,7 @@ const CoursePlanner = ({activityData, activityFunction}) => {
                         <div className="activity_list_wrapper" style={{padding: "0 5px"}} key={item.sessionName}>
                             <div className="activity_list_content">
                                 <div className="activity_list_header">
-                                    <h6>{item.sessionName}</h6>
+                                    <h6>{item.sessionName.replace(/_/g, ' ')}</h6>
                                     <div className="">
                                         <span>{IconSetting(<HiOutlineDotsVertical/>, "black", "23px")}</span>
                                     </div>

@@ -33,7 +33,7 @@ public class SharedCourseLink {
   @Column(unique = true, nullable = false, length = 32)
   private String shareLink;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "shareLink")
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "shareLink", orphanRemoval = true)
   private List<Comment> commentList = new ArrayList<>();
 
   public SharedCourseLink(User user, Module module, String shareLink, List<Comment> commentList) {

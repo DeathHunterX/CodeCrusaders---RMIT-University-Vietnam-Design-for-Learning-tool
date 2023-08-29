@@ -15,7 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
+
+import static com.example.server.utils.FormatDateTimeUtils.getIsoDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -25,24 +28,10 @@ public class CommentServiceImpl implements CommentService {
   private final UserDetailsServiceImpl userDetailsService;
 
   @Override
-  public Set<Comment> getAllCommentsFromSharedLink(String link) {
+  public List<Comment> getAllCommentsFromSharedLink(String link) {
     SharedCourseLink sharedCourseLink = sharedCourseLinkService.findDetailsByShareLink(link);
     List<Comment> comments = sharedCourseLink.getCommentList();
-    Set<Comment> rootComments = new HashSet<>();
-    Map<UUID, Comment> commentMap = new HashMap<>();
-    for (Comment comment : comments) {
-      commentMap.put(comment.getId(), comment);
-    }
-    for (Comment comment : comments) {
-      Comment replyTo = comment.getReplyTo();
-      if (replyTo == null) {
-        rootComments.add(comment);
-      } else {
-        Comment parent = commentMap.get(replyTo.getId());
-        parent.getReplies().add(comment);
-      }
-    }
-    return rootComments;
+    return comments;
   }
 
   @Override
@@ -57,32 +46,14 @@ public class CommentServiceImpl implements CommentService {
       return new ResponseEntity<>(new ApiResponse("You don't have permission to view/modify this course!"), HttpStatus.OK);
     }
     SharedCourseLink sharedCourseLink = sharedCourseLinkService.findDetailsByShareLink(linkId);
-    Comment targetComment = null;
-    if (!(commentRequest.getReplyToId() == null)) {
-      targetComment = getCommentById(commentRequest.getReplyToId());
-    }
-
     Comment newComment = new Comment();
     newComment.setContent(commentRequest.getContent());
     newComment.setUser(user);
     newComment.setShareLink(sharedCourseLink);
-
-    if (targetComment != null) {
-      Comment replyComment = new Comment();
-      replyComment.setContent(newComment.getContent());
-      replyComment.setUser(newComment.getUser());
-      replyComment.setShareLink(newComment.getShareLink());
-      replyComment.setReplyTo(targetComment);
-
-      Comment savedReplyComment = commentRepository.save(replyComment);
-      targetComment.getReplies().add(savedReplyComment);
-      commentRepository.save(targetComment);
-      return new ResponseEntity<>(savedReplyComment, HttpStatus.OK);
-    } else {
-      sharedCourseLink.getCommentList().add(newComment);
-      commentRepository.save(newComment);
-      return new ResponseEntity<>(newComment, HttpStatus.OK);
-    }
+    newComment.setDateTime(getIsoDateTime(LocalDateTime.now()));
+    sharedCourseLink.getCommentList().add(newComment);
+    commentRepository.save(newComment);
+    return new ResponseEntity<>(newComment, HttpStatus.OK);
   }
 
   @Override
@@ -98,13 +69,6 @@ public class CommentServiceImpl implements CommentService {
   public ApiResponse deleteComment(UUID commentId) {
     Comment comment = getCommentById(commentId);
     comment.setShareLink(null);
-    comment.setReplyTo(null);
-    Set<Comment> replySet = comment.getReplies();
-    for(Comment c : replySet) {
-      c.setShareLink(null);
-      c.setReplyTo(null);
-      commentRepository.save(c);
-    }
     commentRepository.save(comment);
     return new ApiResponse("Successfully delete a comment");
   }

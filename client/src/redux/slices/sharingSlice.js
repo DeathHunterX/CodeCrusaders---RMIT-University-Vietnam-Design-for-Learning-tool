@@ -12,7 +12,6 @@ const initialState = {
 }
 
 export const generateLinkSharing = createAsyncThunk('sharing/generateLinkSharing', async({moduleID, token}, thunkAPI) => {
-    console.log({moduleID, token})
     try {
         const res = await postDataAPI(`${moduleID}/generateSharingID`, "", token)
 

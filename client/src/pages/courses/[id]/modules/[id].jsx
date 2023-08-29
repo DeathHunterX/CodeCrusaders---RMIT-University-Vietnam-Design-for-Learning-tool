@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCourse } from '../../../../redux/slices/courseSlice';
 import { getModuleInfo, getModules } from '../../../../redux/slices/moduleSlice';
 import { useParams } from 'react-router-dom';
+import { getSessions } from '../../../../redux/slices/sessionSlice';
 
 const ModulePage = () => {
   const {accessToken} = useSelector(state => state.auth.token)
@@ -12,6 +13,10 @@ const ModulePage = () => {
   const dispatch = useDispatch();
 
   const {id, subId} = useParams();
+
+  useEffect(() => {
+    dispatch(getSessions({moduleID: subId, token: accessToken}))
+  }, [accessToken, dispatch, moduleItem, subId])
 
   // Get Course
   useEffect(() => {
@@ -22,6 +27,7 @@ const ModulePage = () => {
   useEffect(() => {
       dispatch(getModules({id: id, token: accessToken}))
   }, [accessToken, dispatch, id])
+
 
   // Get Module
   useEffect(() => {

@@ -50,7 +50,7 @@ public class SessionController {
     return sessionService.updateSessionInfo(sessionInfo,id);
   }
 
-  @GetMapping("modules/{module_id}/sessions/{id}/total-duration")
+  @PutMapping("modules/{module_id}/sessions/{id}/total-duration")
   public ResponseEntity<?> getTotalDuration(@PathVariable("id") UUID sessionId, @PathVariable("module_id") UUID moduleId) {
     return sessionService.updateTotalDuration(moduleId,sessionId);
   }

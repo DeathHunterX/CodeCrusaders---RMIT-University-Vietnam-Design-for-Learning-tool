@@ -3,8 +3,7 @@ import { useLocation } from 'react-router-dom';
 import NavBar from './Navbar/navBar';
 
 const Layout = ({ children }) => {
-  const location = useLocation();
-  const { pathname } = location;
+  const { pathname, search } = useLocation();
 
   const pathNamePart = pathname.split('/')
 
@@ -12,15 +11,12 @@ const Layout = ({ children }) => {
   const isRegisterPage = pathNamePart[1] === 'register';
   const isPlannerPage = pathNamePart[1] === 'courses' && (pathNamePart.length > 3 && pathNamePart[3] === 'planner');
   const isCoursePlanner = pathNamePart[1] === 'courses'
+  const isPlanningContentPage = pathNamePart[1] === 'planning_content'
 
   const [isNavBarOpen, setIsNavBarOpen] = useState(true);
 
   const getPaddingLeft = () => {
-    if (isLoginPage || isRegisterPage) {
-      return 0;
-    }
-    
-    if (isPlannerPage || (isCoursePlanner && !!pathNamePart[2])) {
+    if (isLoginPage || isRegisterPage || isPlannerPage || (isCoursePlanner && !!pathNamePart[2]) || (isPlanningContentPage && search === "?viewPDF=true")) {
       return 0;
     }
 
@@ -48,7 +44,7 @@ const Layout = ({ children }) => {
 
   return (
     <div>
-      {!isLoginPage && !isRegisterPage && 
+      {!isLoginPage && !isRegisterPage && !(isPlanningContentPage && search === "?viewPDF=true") && 
         <NavBar isNavBarOpen={isNavBarOpen} setNavBarOpen={setIsNavBarOpen} setLocationStyle={verticalNavBarStyle}/>
       }
         <div id="mainScreen" style={mainStyle}>

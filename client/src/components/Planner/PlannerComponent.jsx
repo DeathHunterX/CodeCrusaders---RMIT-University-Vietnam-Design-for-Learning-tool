@@ -6,7 +6,6 @@ import {DragDropContext} from '@hello-pangea/dnd';
 import { Resizable } from 're-resizable';
 import { toast } from 'react-toastify';
 
-
 // Redux
 import { createModule} from '../../redux/slices/moduleSlice';
 import { deleteActivity, resetSessionState, updateSessions } from '../../redux/slices/sessionSlice';
@@ -33,16 +32,19 @@ const PlannerComponent = () => {
   const initialState = [
     { 
       id:"",
+      totalDuration: 0,
       sessionName: 'Pre-class', 
       activityList: [] 
     },
     { 
       id: "",
+      totalDuration: 0,
       sessionName: 'In-class', 
       activityList: []
     },
     { 
       id: "",
+      totalDuration: 0,
       sessionName: 'Post-class', 
       activityList: []
     }
@@ -73,37 +75,15 @@ const PlannerComponent = () => {
 
   // fetch action
   const {accessToken} = useSelector(state => state.auth.token)
-  const {moduleItem} = useSelector(state => state.module)
-  const {isDeleted, isSessionUpdated, isError, message} = useSelector(state => state.session)
+  const {sessions} = useSelector(state => state.session)
+  const {isCreated, isDeleted, isSessionUpdated, isError, message} = useSelector(state => state.session)
   const dispatch = useDispatch();
 
-  
+
   useEffect(() => {
-    const sessionList = moduleItem?.sessionList;
     
-    if (!Array.isArray(sessionList)) {
-        return; // Return early if sessionList is not an array
-    }
-
-    const formattedSessions = sessionList.map(item => ({
-        id: item.id,
-        sessionName: item.sessionName,
-        activityList: item.activityList
-    }));
-
-    let desiredOrder = ['Pre_class', 'In_class', 'Post_class'];
-
-    // Reorder the sessions based on the desired order
-    let reorderedSessions = desiredOrder.map(sessionName => {
-        const session = formattedSessions.find(session => session.sessionName === sessionName);
-        return session !== undefined ? session : null; // Return null for undefined sessions
-    });
-
-    // Remove null values from the reorderedSessions array
-    reorderedSessions = reorderedSessions.filter(session => session !== null);
-
-    setActivitiesData(reorderedSessions);
-  }, [moduleItem?.sessionList]);
+    setActivitiesData(sessions)
+  }, [sessions]);
 
 
   const {id, subPage, subId} = useParams();
@@ -139,7 +119,7 @@ const PlannerComponent = () => {
     }))
   }
 
-  const handleClosePopUp = (e) => {
+  const handleClosePopUp = () => {
     if (popUpStat.formName === "module") {
       setModuleData({moduleName: ""});
     };
@@ -258,8 +238,11 @@ const PlannerComponent = () => {
       toast.error(message)
       dispatch(resetSessionState())
     }
-  }, [activitiesDataAfterUpdated, deletedCard.activityID, deletedCard.boardData?.sessionName, dispatch, isDeleted, isError, isSessionUpdated, message])
+  }, [activitiesData, activitiesDataAfterUpdated, deletedCard.activityID, deletedCard.boardData?.sessionName, dispatch, isCreated, isDeleted, isError, isSessionUpdated, message])
 
+  useEffect(() => {
+    // dispatch(addUpdateSessionState(activitiesData))
+  }, [activitiesData, dispatch])
 
   const handleGoBackToCoursePage = () => {
       navigate(`/courses`)
@@ -291,7 +274,7 @@ const PlannerComponent = () => {
       }
   }
 
-  const ActivityHeaderData = { subPage, configMap, activeSection }
+  const ActivityHeaderData = { subPage, configMap, activeSection, activitiesData }
   const ActivityHeaderFunction = { setActiveSection, handleGoBackToCoursePage }
 
   const ActivityPlanningData = {width2, activitiesData}
@@ -332,7 +315,7 @@ const PlannerComponent = () => {
                 }
                 
                 {
-                  (activeSection === 2 && subPage === "modules") && <ModuleDashboard />
+                  (activeSection === 2 && subPage === "modules") && <ModuleDashboard width={width2}/>
                 }
 
                 {

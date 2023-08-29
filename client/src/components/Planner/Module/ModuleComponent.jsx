@@ -6,12 +6,12 @@ import {ImBin2} from 'react-icons/im'
 
 import { IconSetting } from '../../../utils/IconSetting'
 import { deleteModule, getModuleInfo, resetModuleState } from '../../../redux/slices/moduleSlice'
-import { Fragment, useEffect } from 'react'
+import { Fragment, useCallback, useEffect } from 'react'
 import { toast } from 'react-toastify'
 
 
 
-const ModuleComponent = ({courseID, setPopUpStat, setFormName}) => {
+const ModuleComponent = ({courseID, setPopUpStat}) => {
     const {courseCode, courseName} = useSelector(state => state.course.course)
     const {moduleList, isCreated, isDeleted, isError, message} = useSelector(state => state.module)
     const {accessToken} = useSelector(state => state.auth.token)
@@ -21,10 +21,10 @@ const ModuleComponent = ({courseID, setPopUpStat, setFormName}) => {
 
     const navigate = useNavigate()
 
-    const handleSelectModule = (moduleID) => {
+    const handleSelectModule = useCallback((moduleID) => {
         dispatch(getModuleInfo({id: moduleID , token: accessToken}))
         return navigate(`/courses/${courseID}/modules/${moduleID}`)
-    }
+    }, [accessToken, courseID, dispatch, navigate])
 
     const handlePopUpState = () => {
         setPopUpStat(prevState => ({
@@ -43,7 +43,7 @@ const ModuleComponent = ({courseID, setPopUpStat, setFormName}) => {
             toast.success("Create module Successfully");
             dispatch(resetModuleState());
         }
-        if(isDeleted) {
+        if (isDeleted) {
             toast.success("Delete module Successfully");
             if (moduleList.length > 0) {
                 handleSelectModule(moduleList[0].id)
@@ -52,12 +52,12 @@ const ModuleComponent = ({courseID, setPopUpStat, setFormName}) => {
             }
             dispatch(resetModuleState());
 
-        } else if(isError) {
+        } else if (isError) {
             toast.error(message);
             dispatch(resetModuleState());
         }
 
-    }, [dispatch, isCreated, isDeleted, isError, message, moduleList])
+    }, [courseID, dispatch, handleSelectModule, isCreated, isDeleted, isError, message, moduleList, navigate])
 
     return (
         <div className="module_wrapper w-100">

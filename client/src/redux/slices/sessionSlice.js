@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { deleteDataAPI, postDataAPI, putDataAPI } from "../../api/fetchData";
+import { deleteDataAPI, getDataAPI, postDataAPI, putDataAPI } from "../../api/fetchData";
 
 const initialState = {
     isLoading: false,
@@ -8,7 +8,7 @@ const initialState = {
     isActivityUpdated: false,
     isDeleted: false,
     isError: false,
-    session: {},
+    sessions: [],
     activityItem: {},
     message: ""
 }
@@ -16,6 +16,18 @@ const initialState = {
 export const createActivity = createAsyncThunk('session/createActivity', async({courseID, sessionID, activityData, token}, thunkAPI) => {
     try {
         const res = await postDataAPI(`courses/${courseID}/sessions/${sessionID}/create-activity`, activityData, token)
+
+        return res.data
+
+    } catch (err) {
+        const errMessage = err.response?.data?.message || err.message;
+        return thunkAPI.rejectWithValue(errMessage);
+    }
+})
+
+export const getSessions = createAsyncThunk('session/getSessions', async({moduleID, token}, thunkAPI) => {
+    try {
+        const res = await getDataAPI(`modules/${moduleID}/sessions`, token)
         return res.data
 
     } catch (err) {
@@ -25,7 +37,6 @@ export const createActivity = createAsyncThunk('session/createActivity', async({
 })
 
 export const updateActivity = createAsyncThunk('session/updateActivity', async({courseID, activityID, activityData, token}, thunkAPI) => {
-    console.log({courseID, activityID, activityData, token})
     try {
         const res = await putDataAPI(`courses/${courseID}/activities/${activityID}/update-activity`, activityData, token)
 
@@ -61,11 +72,38 @@ export const deleteActivity = createAsyncThunk('session/deleteActivity', async({
     }
 })
 
+const reorderSession = (sessionData) => {
+    if (!Array.isArray(sessionData)) {
+        return; // Return early if sessionList is not an array
+    }
+
+    const formattedSessions = sessionData.map(item => ({
+        id: item.id,
+        sessionName: item.sessionName,
+        totalDuration: item.totalDuration,
+        activityList: item.activityList,
+    }));
+
+    let desiredOrder = ['Pre_class', 'In_class', 'Post_class'];
+
+    // Reorder the sessions based on the desired order
+    let reorderedSessions = desiredOrder.map(sessionName => {
+        const session = formattedSessions.find(session => session.sessionName === sessionName);
+        return session !== undefined ? session : null; // Return null for undefined sessions
+    });
+
+    // Remove null values from the reorderedSessions array
+    return reorderedSessions.filter(session => session !== null);
+}
+
 
 const sessionSlice = createSlice({
     name: "session",
     initialState,
     reducers: {
+        addUpdateSessionState: (state, action) => {
+            state.sessions = action.payload;
+        },
         resetSessionState: (state) => {
             state.isCreated = false;
             state.isError = false;
@@ -90,6 +128,21 @@ const sessionSlice = createSlice({
                 state.message = "";
             })
             .addCase(createActivity.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+
+            // Get Sessions
+            .addCase(getSessions.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getSessions.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.sessions = reorderSession(action.payload?.sessionList);
+                state.message = "";
+            })
+            .addCase(getSessions.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;
@@ -143,5 +196,5 @@ const sessionSlice = createSlice({
     }
 })
 
-export const {resetSessionState, emptyActivityItem} = sessionSlice.actions
+export const {addUpdateSessionState, resetSessionState, emptyActivityItem} = sessionSlice.actions
 export default sessionSlice.reducer

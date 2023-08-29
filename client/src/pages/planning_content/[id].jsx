@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import Download from '../../components/DownloadPDF/Download'
 import { useDispatch, useSelector } from 'react-redux';
 import { getDataFromLinkSharing } from '../../redux/slices/sharingSlice';
 import { useParams } from 'react-router-dom';
+import PlanningContentComponent from '../../components/PlanningContent/PlanningContentComponent';
 
 const PlanningContentPage = () => {
   const {id} = useParams();
@@ -15,7 +15,7 @@ const PlanningContentPage = () => {
   }, [accessToken, dispatch, id])
   
   return (
-    <Download />
+    <PlanningContentComponent />
   )
 }
 

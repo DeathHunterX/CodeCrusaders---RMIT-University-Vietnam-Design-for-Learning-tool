@@ -9,6 +9,7 @@ import com.example.server.model.SharedCourseLink;
 import com.example.server.service.CommentService;
 import com.example.server.service.ModuleService;
 import com.example.server.service.SharedCourseLinkService;
+import com.example.server.service.impl.CommentServiceImpl;
 import com.example.server.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,11 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SharedCourseLinkController {
   private final SharedCourseLinkService sharedCourseLinkService;
-  private final ModuleService moduleService;
-  private final UserDetailsServiceImpl userDetailsService;
-  private final ModelMapper modelMapper;
   private final CommentService commentService;
-
   @PostMapping("/{module_id}/generateSharingID")
   public ResponseEntity<SharedCourseLink> shareCourse(@PathVariable("module_id") UUID moduleId) {
     return new ResponseEntity<>(sharedCourseLinkService.generateLink(moduleId), HttpStatus.OK);
@@ -57,5 +54,10 @@ public class SharedCourseLinkController {
         .comments(comments.stream().toList())
         .build();
     return new ResponseEntity<>(pdfResponse, HttpStatus.OK);
+  }
+
+  @GetMapping("{share_link}/get-id")
+  public ResponseEntity<?> getDataId(@PathVariable("share_link") String shareLink) {
+    return sharedCourseLinkService.getCourseModuleId(shareLink);
   }
 }

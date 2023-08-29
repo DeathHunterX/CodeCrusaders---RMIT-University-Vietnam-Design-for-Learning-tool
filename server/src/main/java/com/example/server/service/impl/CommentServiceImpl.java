@@ -22,7 +22,6 @@ import java.util.*;
 public class CommentServiceImpl implements CommentService {
   private final CommentRepository commentRepository;
   private final SharedCourseLinkService sharedCourseLinkService;
-  private final SharedLinkRepository sharedLinkRepository;
   private final UserDetailsServiceImpl userDetailsService;
 
   @Override

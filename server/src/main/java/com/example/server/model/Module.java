@@ -55,7 +55,7 @@ public class Module {
 
   public String generateShareLink() {
     String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    int length = 10; // You can adjust the length of the share link as needed
+    int length = 10;
     StringBuilder shareLinkBuilder = new StringBuilder();
     Random random = new Random();
     for (int i = 0; i < length; i++) {

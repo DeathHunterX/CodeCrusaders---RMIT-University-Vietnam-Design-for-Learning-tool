@@ -58,7 +58,6 @@ public class SessionServiceImpl implements SessionService {
       _session.setSessionOption(sessionInfo.getSessionOption());
       _session.setSessionName(sessionInfo.getSessionName());
       _session.setHasLecturer(sessionInfo.getHasLecturer());
-//      _session.setActivityList(sessionInfo.getActivityList());
       Session savedSession = sessionRepository.save(_session);
       return new ResponseEntity<>(modelMapper.map(savedSession, SessionResponse.class), HttpStatus.OK);
     } else {

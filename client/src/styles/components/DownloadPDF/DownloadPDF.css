@@ -1,3 +1,13 @@
+.pdf_show_only {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+.pdf_show_only iframe {
+  width: 100%;
+  height: 100%;
+}
+
 .planner_pdf_container {
   height: calc(100vh - var(--topNavBarHeight)) !important;
 }
@@ -26,6 +36,7 @@
   border: none;
 }
 
+.planner_pdf_container .pdf_top_bar .pdf_left_side button,
 .planner_pdf_container .pdf_top_bar .pdf_right_side button {
   background-color: transparent;
   color: white;
@@ -61,7 +72,7 @@
   line-height: 25px;
   margin-bottom: 5px;
   padding: 10px 0;
-  height: 15%;
+  height: 25%;
 }
 
 .pdf_page_inner_container .comment_result {
@@ -146,7 +157,7 @@
   padding: 10px;
 }
 .pdf_page_inner_container .commendation_box .box_comment textarea {
-  height: 60px;
+  height: 40px;
   padding: 0 6px;
   border-radius: 15px;
   background-color: #f0f2f5;

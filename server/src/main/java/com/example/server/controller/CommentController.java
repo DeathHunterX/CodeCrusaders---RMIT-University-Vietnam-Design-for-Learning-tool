@@ -7,6 +7,7 @@ import com.example.server.model.User;
 import com.example.server.service.CommentService;
 import com.example.server.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,11 @@ public class CommentController {
   @PutMapping("comments/{comment_id}")
   public ResponseEntity<?> updateComment(@PathVariable("comment_id") UUID id, @RequestBody CommentRequest commentRequest) {
     return commentService.updateComment(id, commentRequest);
+  }
+
+  @DeleteMapping("comments/{comment_id}")
+  public ResponseEntity<?> deleteComment(@PathVariable("comment_id") UUID id) {
+    return new ResponseEntity<>(commentService.deleteComment(id), HttpStatus.OK);
   }
 
 }

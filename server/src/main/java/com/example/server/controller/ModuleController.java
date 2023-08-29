@@ -5,11 +5,13 @@ import com.example.server.api.request.ModuleRequest;
 import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.ModuleDetailsResponse;
 import com.example.server.api.response.ModuleNameResponse;
+import com.example.server.api.response.ModuleSessionListResponse;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
 import com.example.server.service.CourseService;
 import com.example.server.service.ModuleService;
 import com.example.server.service.impl.UserDetailsServiceImpl;
+import com.example.server.utils.ComparatorUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +46,11 @@ public class ModuleController {
     }
     List<ModuleNameResponse> sortedModuleNames = moduleList.stream()
         .map(e -> new ModuleNameResponse(e.getId(), e.getName()))
-        .sorted(Comparator.comparing(ModuleNameResponse::getName))
+        .sorted((a,b)-> {
+          String name1 = a.getName();
+          String name2 = b.getName();
+          return ComparatorUtils.compareModuleNames(name1,name2);
+        })
         .collect(Collectors.toList());
     return new ResponseEntity<>(sortedModuleNames,HttpStatus.OK);
   }
@@ -53,6 +59,13 @@ public class ModuleController {
   public ResponseEntity<ModuleDetailsResponse> getModuleById(@PathVariable("id") UUID id) {
     ModuleDetailsResponse moduleDetailsResponse = moduleService.getModuleDetailsById(id);
     return new ResponseEntity<>(moduleDetailsResponse,HttpStatus.OK);
+  }
+
+  @GetMapping("modules/{id}/sessions")
+  public ResponseEntity<ModuleSessionListResponse> getSessionListByModule(@PathVariable("id") UUID id) {
+    ModuleSessionListResponse moduleSessionListResponse = new ModuleSessionListResponse();
+    moduleSessionListResponse.setSessionList(moduleService.getAllSessionFromModule(id));
+    return new ResponseEntity<>(moduleSessionListResponse, HttpStatus.OK);
   }
 
   @PostMapping("courses/{course_id}/create-module")
@@ -70,4 +83,6 @@ public class ModuleController {
   public ResponseEntity<?> deleteModule(@PathVariable("id") UUID id, @PathVariable("course_id") UUID courseId) {
     return moduleService.deleteModule(courseId,id);
   }
+
+
 }

@@ -33,7 +33,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
       throws ServletException, IOException, UsernameNotFoundException {
     String jwt = getJwtFromRequest(request);
     if(!StringUtils.isEmpty(jwt)){
-//      System.out.println("start validate token");
       jwtUtils.validateToken(jwt);
       String userName = jwtUtils.getUsernameFromToken(jwt);
       UserDetails userDetails = profileService.loadUserByUsername(userName);

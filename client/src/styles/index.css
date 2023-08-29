@@ -47,6 +47,8 @@
 @import url("./components/Planner/ActivityPlanner/ActivityPlanner.css");
 @import url("./components/Planner/ActivityWindow/ActivityWindow.css");
 
+@import url("./components/Planner/ModuleDashboard/dashboard.css");
+
 /* ========== COMPONENTS ========== */
 
 /* Side navigation bar */

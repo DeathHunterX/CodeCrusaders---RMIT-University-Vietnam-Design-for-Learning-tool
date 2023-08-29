@@ -3,6 +3,8 @@ import authReducer from './slices/authSlice'
 import courseReducer from './slices/courseSlice'
 import moduleReducer from './slices/moduleSlice'
 import sessionReducer from './slices/sessionSlice'
+import sharingReducer from './slices/sharingSlice'
+import commentReducer from './slices/commentSlice'
 
 
 const store = configureStore({
@@ -10,7 +12,9 @@ const store = configureStore({
       auth: authReducer,
       course: courseReducer,
       module: moduleReducer,
-      session: sessionReducer
+      session: sessionReducer,
+      sharing: sharingReducer,
+      comment: commentReducer
     },
 
 });

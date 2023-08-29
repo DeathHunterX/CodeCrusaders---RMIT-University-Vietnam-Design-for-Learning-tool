@@ -95,9 +95,9 @@ public class ActivityServiceImpl implements ActivityService {
                 collaborate.setSession(session);
                 return activityRepository.save(collaborate);
             }
-            case "assess" -> {
+            case "access" -> {
                 Access access = new Access();
-                access.setActivityID(ActivityID.ASSESS);
+                access.setActivityID(ActivityID.ACCESS);
                 access.setDuration(activityRequest.getDuration());
                 access.setActivityName(activityRequest.getActivityName());
                 access.setAccessType(activityRequest.getAccessType());
@@ -158,7 +158,7 @@ public class ActivityServiceImpl implements ActivityService {
                 collaborate.setCollaborateType(activityRequest.getCollaborateType());
                 return activityRepository.save(collaborate);
             }
-            case "assess" -> {
+            case "access" -> {
                 Access access = (Access) getActivityById(activityId);
                 access.setDuration(activityRequest.getDuration());
                 access.setActivityName(activityRequest.getActivityName());

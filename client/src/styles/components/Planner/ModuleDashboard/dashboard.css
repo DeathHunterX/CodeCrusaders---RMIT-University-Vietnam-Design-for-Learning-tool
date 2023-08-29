@@ -1,0 +1,45 @@
+.module_dashboard .module-card {
+    background-color: white;
+    padding: 20px 20px;
+    margin: 20px;
+    border: 1px solid black;
+    border-radius: 8px;
+    width: 30%;
+    text-align: center;
+}
+.module_dashboard .module-card table tr {
+    
+    border-color: white;
+
+}
+.module_dashboard .module-card table td {
+    border-bottom-width: inherit;
+    box-shadow: none
+}
+  
+.module_dashboard .module-pie {
+    width: 100%;
+}
+.module_dashboard .module-pie-detail {
+    background-color: white;
+    margin: 20px;
+    padding: 10px;
+    width: 30%;
+    height: 350px;
+    border-radius: 8px;
+}
+
+.module_dashboard .module-pie-detail .chart_text_center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 75px;
+    text-align: center;
+    pointer-events: none;
+    transform: translate(-135%, -80%);
+}
+
+.module_dashboard .module-pie-detail .chart_text_center h5 {
+    margin: 0;
+    font-size: 1rem;
+}

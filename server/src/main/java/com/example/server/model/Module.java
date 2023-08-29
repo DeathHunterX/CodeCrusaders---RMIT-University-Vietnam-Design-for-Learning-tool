@@ -32,8 +32,9 @@ public class Module {
   @JsonIgnore
   private Course course;
 
-  @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  private Set<SharedCourseLink> sharedCourseLinks = new HashSet<>();
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @JoinColumn(name = "share_link_id", referencedColumnName = "id")
+  private SharedCourseLink sharedCourseLinks;
 
 
   public Module(String name, String los) {
@@ -54,7 +55,7 @@ public class Module {
 
   public String generateShareLink() {
     String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    int length = 10; // You can adjust the length of the share link as needed
+    int length = 10;
     StringBuilder shareLinkBuilder = new StringBuilder();
     Random random = new Random();
     for (int i = 0; i < length; i++) {

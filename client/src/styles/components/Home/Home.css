@@ -1,8 +1,7 @@
 /* heading */
 .home-heading {
   margin-left: 32px;
-  padding-top: 32px;
-  padding-bottom: 32px;
+  padding: 25px 0;
   color: white;
 }
 
@@ -10,7 +9,7 @@
 .home-1 {
   background-color: #242256;
   height: 220px;
-  margin-bottom: 120px;
+  margin-bottom: 30px;
 }
 .home-card {
   margin: 32px;
@@ -41,18 +40,15 @@
   background-color: white;
   margin: 20px;
   padding: 20px;
-  width: 100%;
+  width: 40%;
   height: 400px;
   border-radius: 12px;
 }
 /* home course */
 .home-course {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   width: 100%;
-}
-.home-course-allCourse {
-  margin-bottom: 20px;
 }
 .home-course-button {
   border: none;
@@ -75,13 +71,16 @@
   background-color: white;
   margin: 20px;
   border-radius: 12px;
+  width: 20%;
+  height: 400px;
 }
 .home-img-course {
-  background-image: url(../../../images/Logo/passionplanner-86b0283fd91346c18d03c4e6ea3f9feb.jpeg);
-  background-repeat: no-repeat;
-  background-size: cover;
   height: 40px;
   width: 40px;
   border-radius: 8px;
   margin-right: 8px;
+}
+
+.home-course img {
+  width: 100%;
 }

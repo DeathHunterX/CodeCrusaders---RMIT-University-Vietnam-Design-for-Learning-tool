@@ -22,7 +22,6 @@ import java.util.*;
 public class CommentServiceImpl implements CommentService {
   private final CommentRepository commentRepository;
   private final SharedCourseLinkService sharedCourseLinkService;
-  private final SharedLinkRepository sharedLinkRepository;
   private final UserDetailsServiceImpl userDetailsService;
 
   @Override
@@ -93,5 +92,20 @@ public class CommentServiceImpl implements CommentService {
     comment.setContent(commentRequest.getContent());
     Comment updatedComment = commentRepository.save(comment);
     return new ResponseEntity<>(updatedComment, HttpStatus.OK);
+  }
+
+  @Override
+  public ApiResponse deleteComment(UUID commentId) {
+    Comment comment = getCommentById(commentId);
+    comment.setShareLink(null);
+    comment.setReplyTo(null);
+    Set<Comment> replySet = comment.getReplies();
+    for(Comment c : replySet) {
+      c.setShareLink(null);
+      c.setReplyTo(null);
+      commentRepository.save(c);
+    }
+    commentRepository.save(comment);
+    return new ApiResponse("Successfully delete a comment");
   }
 }

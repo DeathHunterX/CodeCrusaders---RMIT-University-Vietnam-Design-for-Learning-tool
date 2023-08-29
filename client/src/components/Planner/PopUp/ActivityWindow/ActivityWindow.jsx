@@ -74,7 +74,6 @@ const ActivityWindow = ({compData, compFunction}) => {
           return session;
         })
       )
-
       dispatch(emptyActivityItem())
       dispatch(resetSessionState())
     } else if (isActivityUpdated) {

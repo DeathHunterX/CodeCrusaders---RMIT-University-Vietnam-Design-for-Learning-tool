@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { generateLinkSharing, getSharingAddress, resetSharingState } from '../../../redux/slices/sharingSlice'
 import { useEffect } from 'react'
 import {toast} from 'react-toastify'
+import { addUpdateSessionState } from '../../../redux/slices/sessionSlice'
 
 
 const CoursePlannerHeader = ({activityData, activityFunction}) => {
     const {setActiveSection, handleGoBackToCoursePage} = activityFunction
-    const {subPage, configMap, activeSection} = activityData
+    const {subPage, configMap, activeSection, activitiesData} = activityData
 
     const {accessToken} = useSelector(state => state.auth.token);
     const {moduleItem} = useSelector(state => state.module);
@@ -39,6 +40,10 @@ const CoursePlannerHeader = ({activityData, activityFunction}) => {
         }
     } ,[dispatch, isError, isGenerated, linkAddress, message, navigate])
 
+    const handleChangeSection = (idx) => {
+        setActiveSection(idx)
+        dispatch(addUpdateSessionState(activitiesData))
+    }
     return (
         <div className="planner_header navbar navbar-expand-lg bg-body-tertiary" style={{height: "46px"}}>
             <div className="container-fluid">
@@ -64,7 +69,7 @@ const CoursePlannerHeader = ({activityData, activityFunction}) => {
                                             ) 
                                             ? "block" : "none"}`
                                         }}
-                                    onClick={() => setActiveSection(idx)} key={idx}
+                                    onClick={() => handleChangeSection(idx)} key={idx}
                                 >
                                     {entry.icon} {entry.header}
                                 </li>

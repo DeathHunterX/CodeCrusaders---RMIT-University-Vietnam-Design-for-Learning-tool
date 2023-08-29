@@ -1,29 +1,26 @@
 import React from 'react'
 
-const ModuleCard = ({ title, number, numberDuration, numTotal }) => {
+const ModuleCard = ({ title, number, numberDuration, totalDuration }) => {
   return (
     <div className="module-card">
       <h4>{title}</h4>
-      <div className="d-flex justify-content-between">
-        <div className="info-info">
-          <h6>Number of Activity:</h6>
-          <h6>{number}</h6>
-        </div>
-        <div className="info-info">
-          <h6>Duration:</h6>
-          <h6>
-            {numberDuration}
-            <span> mins</span>
-          </h6>
-        </div>
-        <div className="info-info">
-          <h6>Total Duration:</h6>
-          <h6>
-            {numTotal}
-            <span> mins</span>
-          </h6>
-        </div>
-      </div>
+      <table className="table">
+        <thead style={{verticalAlign: "middle"}}>
+          <tr>
+            <th scope="col">Number of Activity:</th>
+            <th scope="col">Duration:</th>
+            <th scope="col">Total Duration:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{number}</td>
+            <td>{numberDuration} mins</td>
+            <td>{totalDuration} mins</td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
   );
 };

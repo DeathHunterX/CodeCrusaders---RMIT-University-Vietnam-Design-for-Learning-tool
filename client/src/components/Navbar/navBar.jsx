@@ -2,7 +2,7 @@ import React from 'react'
 import {Link, useLocation} from 'react-router-dom'
 import {RxHamburgerMenu} from 'react-icons/rx'
 
-import {BiLogOut, BiBell} from 'react-icons/bi'
+import {BiLogOut} from 'react-icons/bi'
 
 import Logo from '../../images/Logo/RMIT-logo.jpg'
 
@@ -52,7 +52,7 @@ const NavBar = ({isNavBarOpen, setNavBarOpen, setLocationStyle}) => {
 
               <div className="navbar-bottom-content">
                 <ul className='navbar-nav flex-column mb-4'>
-                  <li className='nav-item'> <hr /></li>
+                  <li> <hr /></li>
                   <li className='nav-item' style={{cursor: 'pointer'}} onClick={logOut}>
                       <span className='nav-icon'><BiLogOut/></span>
                       <span className='nav-text ms-3'>Log out</span>
@@ -65,20 +65,14 @@ const NavBar = ({isNavBarOpen, setNavBarOpen, setLocationStyle}) => {
         <div className="navbar top-navbar">
           <div className="container-fluid">
             <div className="navbar-left d-flex align-items-center">
-              <button className='btn btn-default btn-circle-hover me-1' onClick={() => setNavBarOpen(state => !state)}>
+              <span className='btn btn-default btn-circle-hover me-1' onClick={() => setNavBarOpen(state => !state)}>
                 <RxHamburgerMenu />
-              </button>
+              </span>
               <Link to="/">
                 <img src={Logo} alt="rmit" style={{width:"150px"}}/>
               </Link> 
             </div>
             <ul className="navbar-right navbar-nav flex-row me-3">
-              <li className="nav-item px-2">
-                <Link to="/">
-                  <span className='nav-icon'><BiBell/></span>
-                </Link>
-              </li>
-
               <li className="nav-item px-2 dropdown">
                 <div className="d-flex" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span className="nav-link" >

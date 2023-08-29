@@ -116,7 +116,6 @@ const moduleSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(createModule.fulfilled, (state, action) => {
-                console.log(action.payload)
                 state.isLoading = false;
                 state.isCreated = true;
                 state.moduleList = [...state.moduleList, {id: action.payload.id, name: action.payload.name}].sort((a, b) => a.name.localeCompare(b.name));;

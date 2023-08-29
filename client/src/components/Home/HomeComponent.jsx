@@ -101,7 +101,7 @@ const HomeComponent = () => {
                 </div>
                 <div className="d-flex cards justify-content-between">
                     <HomeCard title="Total course" number={allCourses?.length} name="Courses" />
-                    <HomeCard title="Number of modules" number={totalModuleListCount} name="Modules" />
+                    <HomeCard title="Number of module(s)" number={totalModuleListCount} name="Modules" />
                     <HomeCard title="Total time" number={TotalDuration} name="Minutes" />
                 </div>
             </div>

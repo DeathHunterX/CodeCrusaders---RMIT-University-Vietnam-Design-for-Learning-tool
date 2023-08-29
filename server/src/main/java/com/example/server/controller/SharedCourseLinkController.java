@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -36,7 +37,7 @@ public class SharedCourseLinkController {
     SharedCourseLink sharedCourseLink = sharedCourseLinkService.findDetailsByShareLink(shareLink);
     Module sharedModule = sharedCourseLink.getModule();
     Course sharedCourse = sharedModule.getCourse();
-    Set<Comment> comments = commentService.getAllCommentsFromSharedLink(shareLink);
+    List<Comment> comments = commentService.getAllCommentsFromSharedLink(shareLink);
     ModuleDetailsResponse moduleDetailsResponse = ModuleDetailsResponse.builder()
         .name(sharedModule.getName())
         .los(sharedModule.getLos())

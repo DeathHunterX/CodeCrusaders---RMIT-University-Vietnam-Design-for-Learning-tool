@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import {ResponsivePie} from '@nivo/pie'
 
-import { ActivityCardList } from '../Activity/Map/ActivityCardList';
+import { ActivityCardList } from '../Item/ActivityCardList';
 
 
 const DoughnutChart = ({dataset, durationTime}) => {
@@ -91,9 +91,9 @@ const DoughnutChart = ({dataset, durationTime}) => {
                         data={updatedFormattedData}
                         margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
                         innerRadius={0.5}
-                        padAngle={1}
+                        padAngle={0.7}
                         cornerRadius={3}
-                        activeOuterRadiusOffset={10}
+                        activeOuterRadiusOffset={4}
                         colors={{ datum: "data.color" }}
                         borderWidth={1}
                         borderColor={{ theme: 'background' }}

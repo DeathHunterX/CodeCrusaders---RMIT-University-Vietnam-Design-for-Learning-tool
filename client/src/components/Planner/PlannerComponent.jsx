@@ -285,6 +285,9 @@ const PlannerComponent = () => {
       setActivitiesData
   }
 
+  const ModuleDashboardData = {width2, activitiesData}
+  const ModuleDashboardFunction = {setActivitiesData}
+
   const PopUpFormData = {popUpStat, moduleData, activityType, editedItm, activitiesData}
   const PopUpFormFunction = {handleSubmitForm, handleClosePopUp, handleChangeInput, setActivitiesData}
 
@@ -315,7 +318,7 @@ const PlannerComponent = () => {
                 }
                 
                 {
-                  (activeSection === 2 && subPage === "modules") && <ModuleDashboard width={width2}/>
+                  (activeSection === 2 && subPage === "modules") && <ModuleDashboard compData={ModuleDashboardData} compFunction={ModuleDashboardFunction}/>
                 }
 
                 {

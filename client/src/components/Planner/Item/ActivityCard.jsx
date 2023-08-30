@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ActivityCardList, ActivityTypeMap} from '../Map/ActivityCardList'
+import { ActivityCardList, ActivityTypeMap} from './ActivityCardList'
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 import { BiEditAlt } from 'react-icons/bi'
 

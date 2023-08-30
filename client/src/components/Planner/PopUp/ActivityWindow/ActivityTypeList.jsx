@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo} from 'react'
-import { ActivityCardList, ActivityTypeMap } from '../../Activity/Map/ActivityCardList'
+import { ActivityCardList, ActivityTypeMap } from '../../Item/ActivityCardList'
 
 import MiddleActivityForm from './MiddleActivityForm'
 import FinalActivityForm from './FinalActivityForm'

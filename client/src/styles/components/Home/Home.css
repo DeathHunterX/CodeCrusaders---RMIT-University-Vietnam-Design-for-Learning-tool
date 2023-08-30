@@ -75,11 +75,12 @@
   height: 400px;
 }
 .home-img-course {
-  background-image: url(../../../images/Logo/passionplanner-86b0283fd91346c18d03c4e6ea3f9feb.jpeg);
-  background-repeat: no-repeat;
-  background-size: cover;
   height: 40px;
   width: 40px;
   border-radius: 8px;
   margin-right: 8px;
+}
+
+.home-course img {
+  width: 100%;
 }

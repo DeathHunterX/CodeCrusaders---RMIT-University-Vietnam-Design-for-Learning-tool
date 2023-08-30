@@ -11,10 +11,11 @@ import { useSelector} from "react-redux";
 
 import { PDFDownloadLink, PDFViewer} from "@react-pdf/renderer";
 import { useLocation, useNavigate, useParams} from "react-router-dom";
+import HTMLGenerator from "./HTMLGenerator/HTMLGenerator";
 
 
 const PlanningContentComponent = () => {
-  const {sharingData} = useSelector(state => state.sharing)
+  const {idData, sharingData} = useSelector(state => state.sharing)
 
   const initialState = {
     // Course
@@ -51,7 +52,9 @@ const PlanningContentComponent = () => {
 
   const navigate = useNavigate();
   const returnToModulePage = () => {
-    navigate(-1)
+    if (idData?.courseId && idData?.moduleId) {
+      navigate(`/courses/${idData?.courseId}/modules/${idData?.moduleId}`)
+    }
   }
 
   const {id} = useParams();
@@ -91,7 +94,8 @@ const PlanningContentComponent = () => {
             <div className="pdf_left_side">
               <button onClick={returnToModulePage}> <AiOutlineLeft /></button>
             </div>
-            <div className="pdf_right_side d-flex">
+            <div className="pdf_right_side d-flex align-items-center">
+              <HTMLGenerator data={pdfData}/>
               <div className="pdf_download_side me-2">
                 <PDFDownloadLink document={<PDFFile data={pdfData}/>} filename={"FORM"} className="download_btn">
                   {({ loading }) =>

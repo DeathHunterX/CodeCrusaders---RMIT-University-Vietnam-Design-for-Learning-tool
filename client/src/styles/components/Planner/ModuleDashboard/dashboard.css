@@ -1,4 +1,5 @@
 .module_dashboard .module-card {
+    position: relative;
     background-color: white;
     padding: 20px 20px;
     margin: 20px;
@@ -42,4 +43,10 @@
 .module_dashboard .module-pie-detail .chart_text_center h5 {
     margin: 0;
     font-size: 1rem;
+}
+
+.module_dashboard .module-card .edit_total_duration {
+    position: absolute;
+    top: 10px;
+    right: 20px;
 }

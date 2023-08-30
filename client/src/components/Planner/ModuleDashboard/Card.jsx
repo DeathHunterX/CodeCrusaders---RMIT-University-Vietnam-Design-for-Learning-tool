@@ -1,4 +1,5 @@
 import React from 'react'
+import {AiOutlineEdit} from "react-icons/ai"
 
 const ModuleCard = ({ title, number, numberDuration, totalDuration }) => {
   return (
@@ -20,7 +21,9 @@ const ModuleCard = ({ title, number, numberDuration, totalDuration }) => {
           </tr>
         </tbody>
       </table>
-
+      <div className="edit_total_duration">
+        <span><AiOutlineEdit/></span>
+      </div>
     </div>
   );
 };

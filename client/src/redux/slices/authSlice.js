@@ -101,7 +101,6 @@ const authSlice = createSlice({
         .addCase(loginUser.fulfilled, (state, action) => {
           state.isLoading = false;
           state.user = {id: action.payload.id, name: action.payload.name, username: action.payload.username};
-          console.log(action.payload)
           state.token = {
             accessToken: `${action.payload.type ? action.payload.type : 'Bearer'} ${action.payload.token}`,
             refreshToken: action.payload.refreshToken,

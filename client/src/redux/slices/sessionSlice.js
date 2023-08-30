@@ -49,7 +49,6 @@ export const updateActivity = createAsyncThunk('session/updateActivity', async({
 })
 
 export const updateSessions = createAsyncThunk('session/updateSessions', async({courseID, moduleID, sessionData, token}, thunkAPI) => {
-    console.log({courseID, moduleID, sessionData, token})
     try {
         const res = await putDataAPI(`courses/${courseID}/modules/${moduleID}/save-activity-lists`, sessionData, token)
 
@@ -61,7 +60,6 @@ export const updateSessions = createAsyncThunk('session/updateSessions', async({
 })
 
 export const deleteActivity = createAsyncThunk('session/deleteActivity', async({courseID, sessionID, activityID, token}, thunkAPI) => {
-    console.log({courseID, sessionID, activityID, token})
     try {
         const res = await deleteDataAPI(`courses/${courseID}/sessions/${sessionID}/activities/${activityID}`, token)
 

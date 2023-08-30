@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Draggable, Droppable } from '@hello-pangea/dnd'
 
-import ActivityCard from '../Activity/Card/ActivityCard'
+import ActivityCard from './ActivityCard'
 
 
 const Board = ({compData, compFunction}) => {

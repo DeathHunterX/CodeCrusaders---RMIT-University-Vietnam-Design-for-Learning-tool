@@ -8,13 +8,13 @@ import { TfiAlarmClock } from 'react-icons/tfi'
 import { GiGiftOfKnowledge } from 'react-icons/gi'
 import {IoTimerOutline} from 'react-icons/io5'
 
-import FishBowlImg from '../../../../images/Icon/fishbowl.png' 
-import ThinkPairShareImg from '../../../../images/Icon/think_pair_share.png' 
-import FourCornersImg from '../../../../images/Icon/four_corners.png' 
-import DebateImg from '../../../../images/Icon/debate.png' 
-import BreakoutGroupsImg from '../../../../images/Icon/breakout_groups.png' 
-import GroupWorkImg from '../../../../images/Icon/group_work.png'
-import ReadWatchListenImg from '../../../../images/Icon/read_watch_listen.png'
+import FishBowlImg from '../../../images/Icon/fishbowl.png' 
+import ThinkPairShareImg from '../../../images/Icon/think_pair_share.png' 
+import FourCornersImg from '../../../images/Icon/four_corners.png' 
+import DebateImg from '../../../images/Icon/debate.png' 
+import BreakoutGroupsImg from '../../../images/Icon/breakout_groups.png' 
+import GroupWorkImg from '../../../images/Icon/group_work.png'
+import ReadWatchListenImg from '../../../images/Icon/read_watch_listen.png'
 
 
 

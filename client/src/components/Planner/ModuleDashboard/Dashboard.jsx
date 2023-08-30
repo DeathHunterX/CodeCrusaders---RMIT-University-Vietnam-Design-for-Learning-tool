@@ -1,25 +1,27 @@
 import { Fragment } from "react"
 import ModuleCard from "./Card"
 
-import {useSelector} from "react-redux"
 import DoughnutChart from "./DoughnutChart"
 
-const ModuleDashboard = ({width}) => {
-  const {sessions} = useSelector(state => state.session)
+const ModuleDashboard = ({compData, compFunction}) => {
+  const {width2, activitiesData} = compData;
+  const {setActivitiesData} = compFunction;
 
 
   return (
-    <div className="module_dashboard" style={{width: `${width}%`, overflow: "hidden"}}>
-      <div className="d-flex moudule-cards ">
+    <div className="module_dashboard" style={{width: `${width2}%`, overflow: "hidden"}}>
+      <div className="d-flex module-cards ">
         {
-          sessions?.map((session) => {
+          activitiesData?.map((session) => {
             const calculateDuration = session?.activityList.reduce((total, activity) => total + activity.duration, 0);
             return (
               <Fragment key={session.id}>
                 <ModuleCard title={session.sessionName.replace(/_/g, ' ')} 
+                sessionID={session.id}
                 number={session?.activityList?.length}
                 numberDuration={calculateDuration} 
-                totalDuration={session.totalDuration} />
+                totalDuration={session.totalDuration} 
+                setActivitiesData={setActivitiesData}/>
               </Fragment>
           )})
         }
@@ -27,9 +29,9 @@ const ModuleDashboard = ({width}) => {
 
       <div className="d-flex module-pie">
         {
-          sessions?.map((session) => (
-            <div className="module-pie-detail">
-              <DoughnutChart dataset={session.activityList} durationTime={session.totalDuration} key={session.id}/>
+          activitiesData?.map((session) => (
+            <div className="module-pie-detail" key={session.id}>
+              <DoughnutChart dataset={session.activityList} durationTime={session.totalDuration}/>
             </div>
           ))
         }

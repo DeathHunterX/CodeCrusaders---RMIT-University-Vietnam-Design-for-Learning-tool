@@ -127,6 +127,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    @Transactional
     public Activity updateActivity(UUID activityId, ActivityRequest activityRequest) {
         switch (activityRequest.getActivityID()) {
             case "warm_up" -> {

@@ -10,7 +10,7 @@ import {
 
 import AvatarImg from "../../../../images/Avatar/avatar.jpg";
 import { BASE_URL } from "../../../../utils/config";
-import { BsPencilSquare } from "react-icons/bs";
+
 const ProfileComponent = () => {
   const initialState = {
     firstName: "",
@@ -30,15 +30,11 @@ const ProfileComponent = () => {
   const {
     firstName,
     lastName,
-    emailAddress,
-    phone,
     fullName,
     displayName,
-    address,
     description,
     country,
     city,
-    detailAdd,
   } = userData;
 
   const [avatar, setAvatar] = useState("");
@@ -113,14 +109,14 @@ const ProfileComponent = () => {
                 </div>
               </div>
               <div className="form_group mb-3 col-md-6">
-                <label htmlFor="fullname">First Name</label>
+                <label htmlFor="firstName">First Name</label>
                 <div className="position-relative">
                   <input
                     type="text"
                     className="form-control"
-                    id="fullName"
-                    name="fullName"
-                    value={fullName}
+                    id="firstName"
+                    name="firstName"
+                    value={firstName}
                     onChange={handleInput}
                   />
                   <small
@@ -131,20 +127,20 @@ const ProfileComponent = () => {
                       transform: "translateY(-50%)",
                     }}
                   >
-                    {fullName.length ? fullName.length : 0}/25
+                    {firstName.length ? firstName.length : 0}/25
                   </small>
                 </div>
               </div>
 
               <div className="form_group mb-3 col-md-6">
-                <label htmlFor="fullname">Last Name</label>
+                <label htmlFor="lastName">Last Name</label>
                 <div className="position-relative">
                   <input
                     type="text"
                     className="form-control"
-                    id="fullName"
-                    name="fullName"
-                    value={fullName}
+                    id="lastName"
+                    name="lastName"
+                    value={lastName}
                     onChange={handleInput}
                   />
                   <small
@@ -155,7 +151,7 @@ const ProfileComponent = () => {
                       transform: "translateY(-50%)",
                     }}
                   >
-                    {fullName.length ? fullName.length : 0}/25
+                    {lastName.length ? lastName.length : 0}/25
                   </small>
                 </div>
               </div>
@@ -163,27 +159,27 @@ const ProfileComponent = () => {
 
 
               <div className="form_group mb-3 col-md-6">
-                <label htmlFor="address">Country</label>
+                <label htmlFor="country">Country</label>
                 <div className="position-relative">
                   <input
                     type="text"
                     className="form-control"
-                    id="address"
-                    name="address"
-                    value={address}
+                    id="country"
+                    name="country"
+                    value={country}
                     onChange={handleInput}
                   />
                 </div>
               </div>
               <div className="form_group mb-3 col-md-6">
-                <label htmlFor="address">City/State</label>
+                <label htmlFor="city">City/State</label>
                 <div className="position-relative">
                   <input
                     type="text"
                     className="form-control"
-                    id="address"
-                    name="address"
-                    value={address}
+                    id="city"
+                    name="city"
+                    value={city}
                     onChange={handleInput}
                   />
                 </div>

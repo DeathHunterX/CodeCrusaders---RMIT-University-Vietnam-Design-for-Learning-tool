@@ -1,4 +1,4 @@
-import { AiOutlineArrowRight } from "react-icons/ai";
+// import { AiOutlineArrowRight } from "react-icons/ai";
 const HomeCard = ({ title, number, name }) => {
   return (
     <div className="home-card">

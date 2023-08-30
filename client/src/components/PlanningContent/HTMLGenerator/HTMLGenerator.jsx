@@ -1,5 +1,5 @@
 import {toast} from "react-toastify"
-
+import clipboardCopy from "clipboard-copy"
 const HTMLGenerator = ({data}) => {
     const HtmlToTextComponent = (item) => {
         const htmlString = item;
@@ -70,7 +70,7 @@ const HTMLGenerator = ({data}) => {
                 sortAsg.length > 0 && sortAsg.map((content) => (
                     `
                     <li>
-                        <p>Assessment ${content.assignmentNo}: ${content.assignmentName}</p><br>
+                        <p>Assessment ${content.assignmentNo}: ${content.assignmentName}</p>
                         <p>Date: ${content.startDate} - ${content.endDate}</p>
                     </li> 
                     `
@@ -83,7 +83,7 @@ const HTMLGenerator = ({data}) => {
         <h5>LOs:(Learning Objectives)</h5>
         ${
             moduleLOs.length > 0 
-            &&
+            ?
             `
             <ul>
             ${moduleLOs.map((content) => (    
@@ -91,6 +91,8 @@ const HTMLGenerator = ({data}) => {
             ))}
             </ul>
             `
+            :
+            `<p></p>` 
         }
 
         ${
@@ -101,15 +103,15 @@ const HTMLGenerator = ({data}) => {
                     <h5>${sessionContent.sessionName.replace(/_/g, ' ')}:</h5>
                     <ul>
                         <li>
-                            <p>Info: </p> <br>
-                            <p>- Grouping Type: ${sessionContent.groupingType} </p> <br>
-                            <p>- F2F/Online/Hybrid: ${sessionContent.sessionOption} </p> <br>
-                            <p>- Lecture Availability: ${sessionContent.hasLecturer === true ? "Yes" : "No"} </p> <br>
-                            <p>- Interaction Type: ${sessionContent.interactionType} </p> <br>
+                            <p>Info: </p>
+                            <p>- Grouping Type: ${sessionContent.groupingType} </p>
+                            <p>- F2F/Online/Hybrid: ${sessionContent.sessionOption} </p>
+                            <p>- Lecture Availability: ${sessionContent.hasLecturer === true ? "Yes" : "No"} </p>
+                            <p>- Interaction Type: ${sessionContent.interactionType} </p>
                         </li>
 
                         <li>
-                            <p>Activities: </p> <br>
+                            <p>Activities: </p>
                             <table>
                                 <thead>
                                     <tr>
@@ -124,7 +126,7 @@ const HTMLGenerator = ({data}) => {
                                             `
                                             <tr>
                                                 <td>${activityContent.activityName}</td>
-                                                <td>${activityContent.duration}Header 2</td>
+                                                <td>${activityContent.duration} mins</td>
                                                 <td>
                                                     ${
                                                         
@@ -160,11 +162,6 @@ const HTMLGenerator = ({data}) => {
                                             `
                                         ))
                                     }
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
                                 </tbody>
 
                                 <tfoot>
@@ -183,14 +180,23 @@ const HTMLGenerator = ({data}) => {
         }
     `
     const generateAndCopyHTML = () => {
-        navigator.clipboard.writeText(HTMLCourse)
-        .then(() => {
-            toast.success("Copy HTML code successfully")
-        })
-        .catch((error) => {
-            toast.success("There is an error while generating HTML code")
-        });
-    }
+       
+        const cleanedHTML = HTMLCourse
+        .replace(/,\s*</g, '<') // Remove comma before opening tag
+        .replace(/>\s*,/g, '>') // Remove comma after closing tag
+        .replace(/,\s*/g, ',') // Remove spaces after commas
+        .replace(/\s*,/g, ',') // Remove spaces before commas
+
+        clipboardCopy(cleanedHTML)
+            .then(() => {
+                toast.success("Copy HTML code successfully");
+            })
+            .catch(() => {
+                toast.error("There was an error while generating HTML code");
+            });
+        
+    };
+    
 
     
   return (

@@ -6,6 +6,7 @@ const initialState = {
     isCreated: false,
     isSessionUpdated: false,
     isActivityUpdated: false,
+    isDurationUpdated: false,
     isDeleted: false,
     isError: false,
     sessions: [],
@@ -53,6 +54,17 @@ export const updateSessions = createAsyncThunk('session/updateSessions', async({
         const res = await putDataAPI(`courses/${courseID}/modules/${moduleID}/save-activity-lists`, sessionData, token)
 
         console.log(res)
+    } catch (err) {
+        const errMessage = err.response?.data?.message || err.message;
+        return thunkAPI.rejectWithValue(errMessage);
+    }
+})
+
+export const updateSessionDuration = createAsyncThunk('session/updateSessionDuration', async({moduleID, sessionID, durationData, token}, thunkAPI) => {
+    try {
+        const res = await putDataAPI(`modules/${moduleID}/sessions/${sessionID}/total-duration`, durationData, token)
+        console.log(res)
+        return res.data;
     } catch (err) {
         const errMessage = err.response?.data?.message || err.message;
         return thunkAPI.rejectWithValue(errMessage);
@@ -107,6 +119,7 @@ const sessionSlice = createSlice({
             state.isError = false;
             state.isSessionUpdated = false;
             state.isActivityUpdated = false;
+            state.isDurationUpdated = false;
             state.isDeleted = false;
         },
         emptyActivityItem: (state) => {
@@ -177,7 +190,22 @@ const sessionSlice = createSlice({
                 state.message = action.payload;
             })
 
-            // Update Sessions
+            // Update session duration
+            .addCase(updateSessionDuration.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(updateSessionDuration.fulfilled, (state) => {
+                state.isLoading = false;
+                state.isDurationUpdated = true;
+                state.message = "";
+            })
+            .addCase(updateSessionDuration.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+
+            // Delete Activity
             .addCase(deleteActivity.pending, (state) => {
                 state.isLoading = true
             })

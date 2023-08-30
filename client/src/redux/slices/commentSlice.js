@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { getDataAPI, postDataAPI, putDataAPI } from "../../api/fetchData";
+import { deleteDataAPI, getDataAPI, postDataAPI, putDataAPI } from "../../api/fetchData";
 
 const initialState = {
     isLoading: false,
     isCreated: false,
     isEdited: false,
-    isReplied: false,
     isDeleted: false,
     isError: false,
     commentData: [],
@@ -36,9 +35,8 @@ export const getComment = createAsyncThunk('comment/getComment', async({sharingI
 })
 
 export const editComment = createAsyncThunk('comment/editComment', async({commentID, commentData, token}, thunkAPI) => {
-    console.log({commentID, commentData, token})
     try {
-        const res = putDataAPI(`comments/${commentID}`, commentData, token)
+        const res = await putDataAPI(`comments/${commentID}`, commentData, token);
         console.log(res.data)
         return res.data
     } catch (err) {
@@ -47,18 +45,11 @@ export const editComment = createAsyncThunk('comment/editComment', async({commen
     }
 })
 
-export const replyComment = createAsyncThunk('comment/replyComment', async({token}, thunkAPI) => {
-    try {
-        
-    } catch (err) {
-        const errMessage = err.response?.data?.message || err.message;
-        return thunkAPI.rejectWithValue(errMessage);
-    }
-})
 
-export const deleteComment = createAsyncThunk('comment/deleteComment', async({token}, thunkAPI) => {
+export const deleteComment = createAsyncThunk('comment/deleteComment', async({commentID, token}, thunkAPI) => {
     try {
-        
+        const res = await deleteDataAPI(`comments/${commentID}`, token);
+        return res.data
     } catch (err) {
         const errMessage = err.response?.data?.message || err.message;
         return thunkAPI.rejectWithValue(errMessage);
@@ -120,24 +111,10 @@ const commentSlice = createSlice({
             .addCase(editComment.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isEdited = true;
+                state.commentValue = action.payload;
                 state.message = "";
             })
             .addCase(editComment.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
-                state.message = action.payload;
-            })
-
-            // Reply Comment
-            .addCase(replyComment.pending, (state) => {
-                state.isLoading = true
-            })
-            .addCase(replyComment.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isReplied = true;
-                state.message = "";
-            })
-            .addCase(replyComment.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

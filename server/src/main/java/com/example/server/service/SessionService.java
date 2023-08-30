@@ -17,6 +17,7 @@ public interface SessionService {
   Session createSession(Session session);
   void deleteSession(UUID id);
 
+  ResponseEntity<?> updateTotalDuration(UUID moduleId, UUID sessionId);
   ResponseEntity<?> updateSessionInfo(Session sessionInfo, UUID id);
 
   void updateSessionBySessionType(List<SessionUpdateRequest> sessionUpdateRequests, List<Session> oldModuleList, SessionName sessionName);

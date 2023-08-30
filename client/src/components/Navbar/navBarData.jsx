@@ -1,6 +1,6 @@
-import {BiSupport} from 'react-icons/bi'
-import {BsFillPeopleFill} from 'react-icons/bs'
-import {MdReport} from 'react-icons/md'
+// import {BiSupport} from 'react-icons/bi'
+// import {BsFillPeopleFill} from 'react-icons/bs'
+// import {MdReport} from 'react-icons/md'
 import {GiBookCover} from 'react-icons/gi'
 import {AiFillHome} from 'react-icons/ai'
 

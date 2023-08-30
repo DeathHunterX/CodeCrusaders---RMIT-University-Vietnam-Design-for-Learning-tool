@@ -7,7 +7,7 @@ import {toast} from "react-toastify"
 
 // import {IconSetting} from '../../../utils/IconSetting';
 import { useDispatch, useSelector } from "react-redux";
-import { createComment, editComment, emptyCommentValue, resetCommentState } from "../../../redux/slices/commentSlice";
+import { createComment, deleteComment, editComment, emptyCommentValue, resetCommentState } from "../../../redux/slices/commentSlice";
 import CommentCard from "./CommentCard";
 
 const RightSide = () => {
@@ -45,28 +45,15 @@ const RightSide = () => {
 
   const handleEditComment = (commentID, dataChanged, data) => {
     if (dataChanged !== data) {
-        dispatch(editComment({commentID: commentID, commentData: dataChanged, token: accessToken}))
+      dispatch(editComment({commentID: commentID, commentData: dataChanged, token: accessToken}))
     }
   }
 
-  function findAndReplaceById(array, targetId, newContent) {
-  return array.map(item => {
-    if (item.id === targetId) {
-      return {
-        ...item,
-        content: newContent
-      };
-    } else if (item.children) {
-      return {
-        ...item,
-        children: findAndReplaceById(item.children, targetId, newContent)
-      };
-    }
-    return item;
-  });
-}
-
-// const updatedNestedArray = findAndReplaceById(nestedArray, "1.1.1", "New content");
+  const [deletedCommentID, setDeletedCommentID] = useState("")
+  const handleDeleteComment = (commentID) => {
+    setDeletedCommentID(commentID)
+    dispatch(deleteComment({commentID: commentID, token: accessToken}))
+  }
 
   useEffect(() => {
     if (isCreated) {
@@ -75,16 +62,25 @@ const RightSide = () => {
       dispatch(emptyCommentValue())
       dispatch(resetCommentState())
     } else if (isEdited) {
-
-    } else if (isReplied) {
-
+      setComments(prevData => prevData.map(obj => {
+          if(obj.id === commentValue.id) {
+              return {
+                  ...obj,
+                  content: commentValue.content
+              }
+          }
+          return obj;
+        }
+      ))
+      dispatch(emptyCommentValue())
+      dispatch(resetCommentState())
     } else if (isDeleted) {
-
+      setComments(prevData => prevData.filter((item) => item.id !== deletedCommentID))
     } else if (isError) {
       toast.error(message);
       dispatch(resetCommentState())
     }
-  }, [addComment, commentValue, dispatch, isCreated, isDeleted, isEdited, isError, isReplied, message])
+  }, [addComment, commentValue, deletedCommentID, dispatch, isCreated, isDeleted, isEdited, isError, isReplied, message])
 
 
   return (
@@ -105,7 +101,7 @@ const RightSide = () => {
           {
             comments.length > 0 && comments?.map((comment) => {
               const CommentCardData = {comment, textareaRef}
-              const CommentCardFunction = {handleChangeTextareaHeight, handleEditComment}
+              const CommentCardFunction = {handleChangeTextareaHeight, handleEditComment, handleDeleteComment}
               return(
                 <CommentCard compData={CommentCardData} compFunction={CommentCardFunction} key={comment.id}/>
               )}
@@ -122,7 +118,7 @@ const RightSide = () => {
           <div className="box_comment_inner">
             <textarea ref={textareaRef}
               placeholder="Add a comment..."
-              onChange={(e) => handleChangeInput("add", e)}
+              onChange={handleChangeInput}
               value={addComment.content}
             />
             

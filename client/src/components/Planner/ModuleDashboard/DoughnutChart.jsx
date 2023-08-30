@@ -66,9 +66,6 @@ const DoughnutChart = ({dataset, durationTime}) => {
         } 
     }
     
-
-    // console.log(formattedData)
-    // console.log(durationTime)
     const [isTabletView, setIsTabletView] = useState(window.innerWidth <= 1100);
 
     const handleResize = () => {

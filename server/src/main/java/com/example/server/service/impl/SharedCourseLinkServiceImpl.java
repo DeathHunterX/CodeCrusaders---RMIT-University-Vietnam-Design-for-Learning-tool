@@ -1,8 +1,6 @@
 package com.example.server.service.impl;
 
 import com.example.server.api.response.ApiResponse;
-import com.example.server.api.response.ModuleDetailsResponse;
-import com.example.server.api.response.PDFResponse;
 import com.example.server.api.response.SharedLinkResponse;
 import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.*;
@@ -71,6 +69,7 @@ public class SharedCourseLinkServiceImpl implements SharedCourseLinkService {
     SharedLinkResponse sharedLinkResponse = SharedLinkResponse.builder()
         .courseId(sharedCourse.getId())
         .moduleId(sharedModule.getId())
+        .userId(user.getId())
         .build();
     return new ResponseEntity<>(sharedLinkResponse, HttpStatus.OK);
   }

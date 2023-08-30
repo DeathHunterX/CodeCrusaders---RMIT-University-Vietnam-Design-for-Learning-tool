@@ -1,11 +1,15 @@
 package com.example.server.service.impl;
 
 import com.example.server.api.request.SessionUpdateRequest;
+import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.SessionResponse;
 import com.example.server.exception.ObjectNotFoundException;
+import com.example.server.model.Activity;
+import com.example.server.model.Module;
 import com.example.server.model.Session;
 import com.example.server.model.enums.SessionName;
 import com.example.server.repository.SessionRepository;
+import com.example.server.service.ModuleService;
 import com.example.server.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,6 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SessionServiceImpl implements SessionService {
   private final SessionRepository sessionRepository;
+  private final ModuleService moduleService;
   private final ModelMapper modelMapper;
   @Override
   public List<Session> getAllSession() {
@@ -48,6 +53,19 @@ public class SessionServiceImpl implements SessionService {
   public void deleteSession(UUID id) {
     sessionRepository.deleteById(id);
 
+  }
+
+  @Override
+  public ResponseEntity<?> updateTotalDuration(UUID moduleId, UUID sessionId) {
+    Module module = moduleService.getModuleById(moduleId);
+    if(!(module.getSessionList().stream().anyMatch(e->e.getId().equals(sessionId)))){
+      return new ResponseEntity<>(new ApiResponse("No session found with this module"), HttpStatus.BAD_REQUEST);
+    }
+    Session session = getSessionById(sessionId);
+    int res = session.getActivityList().stream().mapToInt(Activity::getDuration).sum();
+    session.setTotalDuration(res);
+    Session savedSession = sessionRepository.save(session);
+    return new ResponseEntity<>(savedSession,HttpStatus.OK);
   }
 
   @Override

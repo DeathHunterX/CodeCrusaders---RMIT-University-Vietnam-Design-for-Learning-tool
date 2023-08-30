@@ -4,33 +4,29 @@ import { FiMoreVertical } from "react-icons/fi";
 import { MdModeEdit } from "react-icons/md";
 import { ImBin2 } from "react-icons/im";
 import { Fragment, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 const CommentCard = ({compData, compFunction}) => {
     const {comment, textareaRef} = compData
-    const {handleChangeTextareaHeight, handleEditComment} = compFunction
-
-    const {accessToken} = useSelector(state => state.auth.token)
-    const dispatch = useDispatch()
+    const {handleChangeTextareaHeight, handleEditComment, handleDeleteComment} = compFunction
 
     const [editCommentState, setEditCommentState] = useState(false)
     const [editedData, setEditedData] = useState({content: comment.content})
 
     const handleChangeInput = (e) => {
+        handleChangeTextareaHeight();
         setEditedData(prevData => ({...prevData, content: e.target.value}))
     }
     
-
     const handleOpenCancelEditComment = () => {
         setEditCommentState(prevState => !prevState);
-        setEditedData(comment.content);
+        setEditedData({content: comment.content});
     }
 
-    const [replyState, setReplyState] = useState(false);
-    const [reply, setReply] = useState({
-        content: "",
-        replyToId: "",
-    });
+    const handleUpdateComment = () => {
+        setEditCommentState(prevState => !prevState);
+        handleEditComment(comment.id, editedData, comment.content)
+    }
+
     return (
         <li className="comment_box d-flex">
             <div className="avatar_comment me-2">
@@ -46,7 +42,7 @@ const CommentCard = ({compData, compFunction}) => {
                                     <div className="box_comment_inner">
                                         <textarea ref={textareaRef} className="bg-white"
                                         onChange={handleChangeInput}
-                                        value={editedData}
+                                        value={editedData.content}
                                         />
                                     </div>
                                 </div>  
@@ -71,7 +67,8 @@ const CommentCard = ({compData, compFunction}) => {
                     onClick={handleOpenCancelEditComment}>
                         <MdModeEdit/> Edit
                     </span>
-                    <span className="px-3 my-2 text-danger" style={{cursor: "pointer"}}>
+                    <span className="px-3 my-2 text-danger" style={{cursor: "pointer"}}
+                    onClick={() => handleDeleteComment(comment.id)}>
                         <ImBin2/> Delete
                     </span>
                     </div>
@@ -83,16 +80,16 @@ const CommentCard = ({compData, compFunction}) => {
             <div className="tools_comment d-flex ms-3 mt-2">
                 {/* <span className="tool_btn me-3">Like</span> */}
                 {
-                    editCommentState === true ? (
+                    editCommentState === true && (
                         <Fragment>
-                            <span className="tool_btn me-3" onClick={() => handleEditComment(comment.id, editedData, comment.content)}>Update</span>
+                            <span className="tool_btn me-3" onClick={handleUpdateComment}>Update</span>
                             <span className="tool_btn me-3" onClick={handleOpenCancelEditComment}>Cancel</span>
                         </Fragment>
                     )
-                    :
-                    (
-                        <span className="tool_btn me-3" onClick={() => setReplyState(prevState => !prevState)}>Reply</span>
-                    )
+                    
+                    // (
+                    //     <span className="tool_btn me-3" onClick={() => setReplyState(prevState => !prevState)}>Reply</span>
+                    // )
                 }
                 {/* <span className="comment_post_time me-3">26m</span>
                 <div className="like_status d-flex align-items-center ms-4">
@@ -123,7 +120,7 @@ const CommentCard = ({compData, compFunction}) => {
             } */}
             
                 
-                <ul className="reply_list">
+                {/* <ul className="reply_list">
                     {
                     comment?.replies.length > 0 && comment?.replies.map((reply) => (
                         <li className="comment_box d-flex" key={reply.id}>
@@ -137,19 +134,19 @@ const CommentCard = ({compData, compFunction}) => {
                             </div>
 
                             <div className="tools_comment d-flex ms-3 mt-2">
-                            {/* <span className="tool_btn">Like</span> */}
+                            <span className="tool_btn">Like</span>
                             <span className="tool_btn ms-3">Reply</span>
-                            {/* <span className="comment_post_time ms-3">26m</span>
+                            <span className="comment_post_time ms-3">26m</span>
                             <div className="like_status d-flex align-items-center ms-4">
                                 {IconSetting(<FaThumbsUp />, 'blue', '12px')}
                                 <span className="count ms-1">1</span>
-                            </div> */} 
+                            </div> 
                             </div>                 
                         </div>
                         </li>
                     ))
                     }
-                </ul>
+                </ul> */}
             </div>
         </li>
     )

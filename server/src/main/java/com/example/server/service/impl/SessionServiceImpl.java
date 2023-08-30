@@ -1,5 +1,6 @@
 package com.example.server.service.impl;
 
+import com.example.server.api.request.SessionDurationRequest;
 import com.example.server.api.request.SessionUpdateRequest;
 import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.SessionResponse;
@@ -56,14 +57,13 @@ public class SessionServiceImpl implements SessionService {
   }
 
   @Override
-  public ResponseEntity<?> updateTotalDuration(UUID moduleId, UUID sessionId) {
+  public ResponseEntity<?> updateTotalDuration(UUID moduleId, UUID sessionId, SessionDurationRequest sessionDurationRequest) {
     Module module = moduleService.getModuleById(moduleId);
     if(!(module.getSessionList().stream().anyMatch(e->e.getId().equals(sessionId)))){
       return new ResponseEntity<>(new ApiResponse("No session found with this module"), HttpStatus.BAD_REQUEST);
     }
     Session session = getSessionById(sessionId);
-    int res = session.getActivityList().stream().mapToInt(Activity::getDuration).sum();
-    session.setTotalDuration(res);
+    session.setTotalDuration(sessionDurationRequest.getTotalDuration());
     Session savedSession = sessionRepository.save(session);
     return new ResponseEntity<>(savedSession,HttpStatus.OK);
   }

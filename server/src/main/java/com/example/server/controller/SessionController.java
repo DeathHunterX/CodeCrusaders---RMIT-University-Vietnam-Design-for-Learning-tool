@@ -1,5 +1,6 @@
 package com.example.server.controller;
 
+import com.example.server.api.request.SessionDurationRequest;
 import com.example.server.api.response.ApiResponse;
 import com.example.server.model.Activity;
 import com.example.server.model.Module;
@@ -51,7 +52,7 @@ public class SessionController {
   }
 
   @PutMapping("modules/{module_id}/sessions/{id}/total-duration")
-  public ResponseEntity<?> getTotalDuration(@PathVariable("id") UUID sessionId, @PathVariable("module_id") UUID moduleId) {
-    return sessionService.updateTotalDuration(moduleId,sessionId);
+  public ResponseEntity<?> getTotalDuration(@PathVariable("id") UUID sessionId, @PathVariable("module_id") UUID moduleId, @RequestBody SessionDurationRequest sessionDurationRequest) {
+    return sessionService.updateTotalDuration(moduleId,sessionId,sessionDurationRequest);
   }
 }

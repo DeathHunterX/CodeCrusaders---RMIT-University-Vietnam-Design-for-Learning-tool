@@ -5,7 +5,6 @@ import com.example.server.api.request.ModuleRequest;
 import com.example.server.api.request.SessionRequest;
 import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.ModuleDetailsResponse;
-import com.example.server.api.response.ModuleSessionListResponse;
 import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
@@ -15,7 +14,6 @@ import com.example.server.model.enums.SessionName;
 import com.example.server.repository.ActivityRepository;
 import com.example.server.repository.CourseRepository;
 import com.example.server.repository.ModuleRepository;
-import com.example.server.repository.SessionRepository;
 import com.example.server.service.CourseService;
 import com.example.server.service.ModuleService;
 import jakarta.transaction.Transactional;
@@ -24,7 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

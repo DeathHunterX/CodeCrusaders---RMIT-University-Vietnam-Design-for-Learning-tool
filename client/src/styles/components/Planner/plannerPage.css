@@ -1,9 +1,3 @@
-.course_planner_wrapper {}
-
-.course_planner_wrapper .planner_header {}
-
-.course_planner_wrapper .planner_header .planner_item_list  {}
-
 .course_planner_wrapper .planner_header .planner_item_list .planner_itm.active,
 .course_planner_wrapper .planner_header .planner_item_list .planner_itm:hover{
     box-shadow: inset 0 -2px #6d6e6f;
@@ -51,7 +45,7 @@
 
 .activity_list_content .activity_list_header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     padding: 14px 4px 14px 10px;
     align-items: center;
 }

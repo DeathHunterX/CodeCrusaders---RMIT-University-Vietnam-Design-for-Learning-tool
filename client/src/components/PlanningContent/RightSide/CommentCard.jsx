@@ -1,9 +1,11 @@
+import { Fragment, useState } from "react";
+import {useSelector} from "react-redux"
+
 import Avatar from "../../Avatar";
 import AvatarImg from "../../../images/Avatar/avatar.jpg";
 import { FiMoreVertical } from "react-icons/fi";
 import { MdModeEdit } from "react-icons/md";
 import { ImBin2 } from "react-icons/im";
-import { Fragment, useState } from "react";
 
 const CommentCard = ({ compData, compFunction }) => {
   const { comment, textareaRef } = compData;
@@ -27,6 +29,9 @@ const CommentCard = ({ compData, compFunction }) => {
     setEditCommentState((prevState) => !prevState);
     handleEditComment(comment.id, editedData, comment.content);
   };
+
+  const {user} = useSelector(state => state.auth)
+
 
   return (
     <li className="comment_box d-flex">
@@ -56,40 +61,43 @@ const CommentCard = ({ compData, compFunction }) => {
               </Fragment>
             )}
           </div>
-          <div
-            className=""
-            id="commentDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <span>
-              <FiMoreVertical />
-            </span>
-          </div>
-          <div
-            className="dropdown-menu"
-            aria-labelledby="commentDropdown"
-            style={{ minWidth: "50px" }}
-          >
-            <div className="d-flex flex-column">
-              <span
-                className="px-3 my-2"
-                style={{ cursor: "pointer" }}
-                onClick={handleOpenCancelEditComment}
+
+          {
+            user.name === comment.user.name 
+            ?
+            <Fragment>
+              <div className="" id="commentDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span>
+                  <FiMoreVertical />
+                </span>
+              </div>
+              <div
+                className="dropdown-menu"
+                aria-labelledby="commentDropdown"
+                style={{ minWidth: "50px" }}
               >
-                <MdModeEdit /> Edit
-              </span>
-              <span
-                className="px-3 my-2 text-danger"
-                style={{ cursor: "pointer" }}
-                onClick={() => handleDeleteComment(comment.id)}
-              >
-                <ImBin2 /> Delete
-              </span>
-            </div>
-          </div>
+                <div className="d-flex flex-column">
+                  <span
+                    className="px-3 my-2"
+                    style={{ cursor: "pointer" }}
+                    onClick={handleOpenCancelEditComment}
+                  >
+                    <MdModeEdit /> Edit
+                  </span>
+                  <span
+                    className="px-3 my-2 text-danger"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleDeleteComment(comment.id)}
+                  >
+                    <ImBin2 /> Delete
+                  </span>
+                </div>
+              </div>
+            </Fragment>
+            :
+            <Fragment></Fragment>
+          }
+          
         </div>
 
         <div className="tools_comment d-flex ms-3 mt-2">

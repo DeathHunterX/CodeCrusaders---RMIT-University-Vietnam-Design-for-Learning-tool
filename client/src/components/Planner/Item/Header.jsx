@@ -1,12 +1,15 @@
-import {BsShareFill} from 'react-icons/bs'
-import { ImBooks } from "react-icons/im"
-import { IconSetting } from '../../../utils/IconSetting'
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { generateLinkSharing, getSharingAddress, resetSharingState } from '../../../redux/slices/sharingSlice'
-import { useEffect } from 'react'
-import {toast} from 'react-toastify'
 import { addUpdateSessionState } from '../../../redux/slices/sessionSlice'
+
+import {toast} from 'react-toastify'
+
+import { ImBooks } from "react-icons/im"
+import {BsShareFill} from 'react-icons/bs'
+import { IconSetting } from '../../../utils/IconSetting'
+
 
 
 const CoursePlannerHeader = ({activityData, activityFunction}) => {

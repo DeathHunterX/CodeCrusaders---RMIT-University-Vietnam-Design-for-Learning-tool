@@ -9,6 +9,7 @@ import PlanningContentComponent from "../../components/PlanningContent/PlanningC
 import { getComment } from "../../redux/slices/commentSlice";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
+import { BACKEND_PROXY } from "../../proxy";
 
 const PlanningContentPage = () => {
   const { id } = useParams();
@@ -32,7 +33,7 @@ const PlanningContentPage = () => {
   // };
 
   useEffect(() => {
-    const socket = new SockJS("http://localhost:8080/ws");
+    const socket = new SockJS(`${BACKEND_PROXY}/ws`);
     const stompClient = new Client({
       webSocketFactory: () => socket,
     });

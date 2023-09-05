@@ -12,6 +12,7 @@ import { useSelector} from "react-redux";
 import { PDFDownloadLink, PDFViewer} from "@react-pdf/renderer";
 import { useLocation, useNavigate, useParams} from "react-router-dom";
 import HTMLGenerator from "./HTMLGenerator/HTMLGenerator";
+import { FRONT_END_URL } from "../../proxy";
 
 
 const PlanningContentComponent = () => {
@@ -70,7 +71,7 @@ const PlanningContentComponent = () => {
 
   const openNewWindow = () => {
     // URL of the page you want to open in the new window
-    const url = `http://localhost:3000/planning_content/${id}?viewPDF=true`;
+    const url = `${FRONT_END_URL}/planning_content/${id}?viewPDF=true`;
 
     // Options for the new window
     const windowOptions = 'width=800,height=600';

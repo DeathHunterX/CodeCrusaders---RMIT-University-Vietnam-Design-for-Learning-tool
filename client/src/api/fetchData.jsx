@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { BACKEND_PROXY } from '../proxy';
 
-const setUpProxy =  process.env.NODE_ENV === 'development' ? '' : BACKEND_PROXY
+const setUpProxy =  process.env.NODE_ENV === 'development' ? '' : `${BACKEND_PROXY}/v1`
 
 export const getDataAPI = async(url, token) => {
     const res = await axios.get(`${setUpProxy}/api/${url}`, {

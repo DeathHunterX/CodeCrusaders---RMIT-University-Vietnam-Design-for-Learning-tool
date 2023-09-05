@@ -56,7 +56,7 @@ public class ActivityServiceImpl implements ActivityService {
                 warmUp.setActivityName(activityRequest.getActivityName());
                 warmUp.setWarmUpOption(activityRequest.getWarmUpOption());
                 warmUp.setEngagementOption(activityRequest.getEngagementOption());
-                session.getActivityList().add(warmUp);
+                warmUp.setOrderIndex(session.getActivityList().size());
                 warmUp.setSession(session);
                 return activityRepository.save(warmUp);
             }
@@ -66,7 +66,7 @@ public class ActivityServiceImpl implements ActivityService {
                 readWatchListen.setDuration(activityRequest.getDuration());
                 readWatchListen.setActivityName(activityRequest.getActivityName());
                 readWatchListen.setReadWatchListenType(activityRequest.getReadWatchListenType());
-                session.getActivityList().add(readWatchListen);
+                readWatchListen.setOrderIndex(session.getActivityList().size());
                 readWatchListen.setSession(session);
                 return activityRepository.save(readWatchListen);
             }
@@ -76,7 +76,7 @@ public class ActivityServiceImpl implements ActivityService {
                 reflect.setDuration(activityRequest.getDuration());
                 reflect.setActivityName(activityRequest.getActivityName());
                 reflect.setReflectionType(activityRequest.getReflectionType());
-                session.getActivityList().add(reflect);
+                reflect.setOrderIndex(session.getActivityList().size());
                 reflect.setSession(session);
                 return activityRepository.save(reflect);
             }
@@ -86,7 +86,7 @@ public class ActivityServiceImpl implements ActivityService {
                 discuss.setDuration(activityRequest.getDuration());
                 discuss.setActivityName(activityRequest.getActivityName());
                 discuss.setGroupType(activityRequest.getGroupType());
-                session.getActivityList().add(discuss);
+                discuss.setOrderIndex(session.getActivityList().size());
                 discuss.setSession(session);
                 return activityRepository.save(discuss);
             }
@@ -96,7 +96,7 @@ public class ActivityServiceImpl implements ActivityService {
                 collaborate.setDuration(activityRequest.getDuration());
                 collaborate.setActivityName(activityRequest.getActivityName());
                 collaborate.setCollaborateType(activityRequest.getCollaborateType());
-                session.getActivityList().add(collaborate);
+                collaborate.setOrderIndex(session.getActivityList().size());
                 collaborate.setSession(session);
                 return activityRepository.save(collaborate);
             }
@@ -106,7 +106,7 @@ public class ActivityServiceImpl implements ActivityService {
                 access.setDuration(activityRequest.getDuration());
                 access.setActivityName(activityRequest.getActivityName());
                 access.setAccessType(activityRequest.getAccessType());
-                session.getActivityList().add(access);
+                access.setOrderIndex(session.getActivityList().size());
                 access.setSession(session);
                 return activityRepository.save(access);
             }
@@ -116,7 +116,7 @@ public class ActivityServiceImpl implements ActivityService {
                 breakAct.setDuration(activityRequest.getDuration());
                 breakAct.setActivityName(activityRequest.getActivityName());
                 breakAct.setBreakType(activityRequest.getBreakType());
-                session.getActivityList().add(breakAct);
+                breakAct.setOrderIndex(session.getActivityList().size());
                 breakAct.setSession(session);
                 return activityRepository.save(breakAct);
             }
@@ -198,6 +198,7 @@ public class ActivityServiceImpl implements ActivityService {
         var preClass = sessionService.getSessionById(activityListRequest.getPreClassId());
         var inClass = sessionService.getSessionById(activityListRequest.getInClassId());
         var postClass = sessionService.getSessionById(activityListRequest.getPostClassId());
+        activityListRequest.organizeActivities();
         var preClassActReq = activityListRequest.getPreClassActivities();
         var inClassActReq = activityListRequest.getInClassActivities();
         var postClassActReq = activityListRequest.getPostClassActivities();

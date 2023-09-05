@@ -28,6 +28,7 @@ import java.util.UUID;
     @JsonSubTypes.Type(value = Access.class, name = "access"),
     @JsonSubTypes.Type(value = Collaborate.class, name = "collaborate"),
 })
+@Table(indexes = @Index(columnList = "orderIndex"))
 public abstract class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -44,6 +45,8 @@ public abstract class Activity {
     @JoinColumn(name = "session_id")
     @JsonIgnore
     private Session session;
+
+    private Integer orderIndex;
 
 }
 

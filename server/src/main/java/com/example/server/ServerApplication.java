@@ -118,9 +118,9 @@ public class ServerApplication implements CommandLineRunner {
     inClass1.setModule(module2);
     postClass1.setModule(module2);
 
-    preClass1.setModule(module3);
-    inClass1.setModule(module3);
-    postClass1.setModule(module3);
+    preClass2.setModule(module3);
+    inClass2.setModule(module3);
+    postClass2.setModule(module3);
 
     preClass3.setModule(module4);
     inClass3.setModule(module4);

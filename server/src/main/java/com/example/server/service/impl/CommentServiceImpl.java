@@ -6,7 +6,6 @@ import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Comment;
 import com.example.server.model.SharedCourseLink;
 import com.example.server.repository.CommentRepository;
-import com.example.server.repository.SharedLinkRepository;
 import com.example.server.service.CommentService;
 import com.example.server.service.SharedCourseLinkService;
 import jakarta.transaction.Transactional;
@@ -16,7 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 import static com.example.server.utils.FormatDateTimeUtils.getIsoDateTime;
 
@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public List<Comment> getAllCommentsFromSharedLink(String link) {
     SharedCourseLink sharedCourseLink = sharedCourseLinkService.findDetailsByShareLink(link);
-    List<Comment> comments = sharedCourseLink.getCommentList();
+    List<Comment> comments = commentRepository.findByShareLink_ShareLinkOrderByDateTime(sharedCourseLink.getShareLink());
     return comments;
   }
 

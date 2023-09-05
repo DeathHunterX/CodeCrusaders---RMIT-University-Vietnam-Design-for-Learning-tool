@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class CommentController {
    private final CommentService commentService;
    private final UserDetailsServiceImpl userDetailsService;
+  private final SimpMessagingTemplate simpMessagingTemplate;
 
   @GetMapping("links/{link_id}/comments")
   public ResponseEntity<?> getAllComments(@PathVariable("link_id") String linkId) {
@@ -32,16 +34,19 @@ public class CommentController {
 
   @PostMapping("links/{link_id}/comments")
   public ResponseEntity<?> createComment(@PathVariable("link_id") String id, @RequestBody CommentRequest commentRequest) {
+    simpMessagingTemplate.convertAndSend("/topic/comments","update");
     return commentService.createComment(commentRequest, id);
   }
 
   @PutMapping("comments/{comment_id}")
   public ResponseEntity<?> updateComment(@PathVariable("comment_id") UUID id, @RequestBody CommentRequest commentRequest) {
+    simpMessagingTemplate.convertAndSend("/topic/comments","update");
     return commentService.updateComment(id, commentRequest);
   }
 
   @DeleteMapping("comments/{comment_id}")
   public ResponseEntity<?> deleteComment(@PathVariable("comment_id") UUID id) {
+    simpMessagingTemplate.convertAndSend("/topic/comments","update");
     return new ResponseEntity<>(commentService.deleteComment(id), HttpStatus.OK);
   }
 

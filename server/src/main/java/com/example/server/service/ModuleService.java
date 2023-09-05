@@ -17,11 +17,14 @@ public interface ModuleService {
 
   Module getModuleById(UUID id);
 
-  List<Session> getAllSessionFromModule(UUID moduleId);
-
   ResponseEntity<?> createModule(UUID courseID, ModuleCreateRequest moduleCreateRequest);
+
   ResponseEntity<?> deleteModule(UUID courseId, UUID moduleId);
 
   ResponseEntity<Module> updateModule(ModuleRequest moduleRequest, UUID id);
+
+  List<Session> getAllSessionList(UUID moduleId);
+
+  List<Session> formatSessionList(List<Session> sessionList);
 }
 

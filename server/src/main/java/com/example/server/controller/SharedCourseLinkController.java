@@ -6,6 +6,7 @@ import com.example.server.model.Comment;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
 import com.example.server.model.SharedCourseLink;
+import com.example.server.service.ActivityService;
 import com.example.server.service.CommentService;
 import com.example.server.service.ModuleService;
 import com.example.server.service.SharedCourseLinkService;
@@ -27,6 +28,7 @@ import java.util.UUID;
 public class SharedCourseLinkController {
   private final SharedCourseLinkService sharedCourseLinkService;
   private final CommentService commentService;
+  private final ModuleService moduleService;
   @PostMapping("/{module_id}/generateSharingID")
   public ResponseEntity<SharedCourseLink> shareCourse(@PathVariable("module_id") UUID moduleId) {
     return new ResponseEntity<>(sharedCourseLinkService.generateLink(moduleId), HttpStatus.OK);
@@ -42,7 +44,7 @@ public class SharedCourseLinkController {
         .name(sharedModule.getName())
         .los(sharedModule.getLos())
         .moduleWeek(sharedModule.getModuleWeek())
-        .sessionList(sharedModule.getSessionList())
+        .sessionList(moduleService.formatSessionList(sharedModule.getSessionList()))
         .shareLink(sharedCourseLink.getShareLink())
         .courseName(sharedCourse.getCourseName())
         .courseCode(sharedCourse.getCourseCode())

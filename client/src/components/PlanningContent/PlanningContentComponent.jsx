@@ -16,6 +16,8 @@ import HTMLGenerator from "./HTMLGenerator/HTMLGenerator";
 
 const PlanningContentComponent = () => {
   const {idData, sharingData} = useSelector(state => state.sharing)
+  const {user} = useSelector(state => state.auth)
+
 
   const initialState = {
     // Course
@@ -52,9 +54,12 @@ const PlanningContentComponent = () => {
 
   const navigate = useNavigate();
   const returnToModulePage = () => {
-    if (idData?.courseId && idData?.moduleId) {
+    if (idData?.courseId && idData?.moduleId && idData?.userId === user.id) {
       navigate(`/courses/${idData?.courseId}/modules/${idData?.moduleId}`)
     }
+    else (
+      navigate('/')
+    )
   }
 
   const {id} = useParams();

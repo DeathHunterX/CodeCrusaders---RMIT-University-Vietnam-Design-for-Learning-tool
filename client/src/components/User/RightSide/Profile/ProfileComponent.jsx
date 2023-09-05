@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 
 import AvatarImg from "../../../../images/Avatar/avatar.jpg";
-import { BASE_URL } from "../../../../utils/config";
+import { FRONT_END_URL } from "../../../../proxy";
 
 const ProfileComponent = () => {
   const initialState = {
@@ -252,7 +252,7 @@ const ProfileComponent = () => {
                     style={{ backgroundColor: "none" }}
                   >
                     {" "}
-                    <span>{BASE_URL}/profile/01</span>{" "}
+                    <span>{FRONT_END_URL}/profile/01</span>{" "}
                   </div>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-.course_edited .popup_form .overlay {
+body .course_edited .popup_form .overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -7,11 +7,12 @@
     background: rgba(0, 0, 0, 0.7);
     z-index: 2000;
     display: none;
+    overflow: hidden;
 }
 
 .course_edited .popup_form .form_content {
     position: absolute;
-    top: 0;
+    bottom: 100%;
     left: 50%;
     transform: translate(-50%, 50%) scale(0);
     background: #fff;
@@ -25,5 +26,5 @@
 
 .course_edited .popup_form.active .form_content {
     transition: all 500ms ease-in-out;
-    transform: translate(-50%, 35%) scale(1);
+    transform: translate(-45%, -10%) scale(1);
 }

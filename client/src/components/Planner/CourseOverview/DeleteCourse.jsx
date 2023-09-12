@@ -32,6 +32,14 @@ const DeleteCourse = () => {
     }
 
     useEffect(() => {
+        if (popUpStat) {
+            document.body.style.overflow = "hidden"
+        } else {
+            document.body.style.overflow = ""
+        }
+    }, [popUpStat])
+
+    useEffect(() => {
         if(isDeleted) {
             toast.success(`Delete Course ${confirmCourse} Successfully`)
             dispatch(resetState())
@@ -49,12 +57,18 @@ const DeleteCourse = () => {
 
 
     return (
-        <div className='more_options_container'>
-            <div className="">
-                <h2>Delete</h2>
+        <div className='more_options_container position-relative'>
+            <div className="mb-1">
+                <p className="fs-4 text fw-medium">Danger Zone</p>
             </div>
-            <div className="">
-                <button className='btn btn-danger w-100' onClick={togglePopUp}>Delete Course</button>
+            <div className="d-flex justify-content-between align-items-center border border-2 border-danger p-3">
+                <div className="col-10">
+                    <p className="fw-medium">Delete this course</p>
+                    <span>Once you delete a course, there is no going back. Please be certain.</span>
+                </div>
+                <div className="col-2">
+                    <button className='btn btn-danger w-100' onClick={togglePopUp}>Delete Course</button>
+                </div>
             </div>
 
             

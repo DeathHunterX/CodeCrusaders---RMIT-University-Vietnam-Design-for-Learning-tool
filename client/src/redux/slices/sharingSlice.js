@@ -6,6 +6,7 @@ const initialState = {
     isGenerated: false,
     isError: false,
     linkAddress: "",
+    idData: {},
     sharingData: {},
     commentData: [],
     message: "",
@@ -22,6 +23,19 @@ export const generateLinkSharing = createAsyncThunk('sharing/generateLinkSharing
         return thunkAPI.rejectWithValue(errMessage);
     }
 })
+
+export const getIdFromLinkSharing = createAsyncThunk('sharing/getID', async({sharedID, token}, thunkAPI) => {
+    try {
+        const res = await getDataAPI(`${sharedID}/get-id`, token)
+
+        return res.data
+
+    } catch (err) {
+        const errMessage = err.response?.data?.message || err.message;
+        return thunkAPI.rejectWithValue(errMessage);
+    }
+})
+
 
 export const getDataFromLinkSharing = createAsyncThunk('sharing/getDataFromLinkSharing', async({sharedID, token}, thunkAPI) => {
     try {
@@ -62,6 +76,21 @@ const sharingSlice = createSlice({
                 state.message = "";
             })
             .addCase(generateLinkSharing.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+
+            // Get Id from link sharing
+            .addCase(getIdFromLinkSharing.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getIdFromLinkSharing.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.idData = action.payload;                ;
+                state.message = "";
+            })
+            .addCase(getIdFromLinkSharing.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

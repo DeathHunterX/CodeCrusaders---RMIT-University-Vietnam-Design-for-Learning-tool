@@ -1,5 +1,6 @@
 package com.example.server.service;
 
+import com.example.server.api.request.SessionDurationRequest;
 import com.example.server.api.request.SessionUpdateRequest;
 import com.example.server.model.Session;
 import com.example.server.model.enums.SessionName;
@@ -17,6 +18,7 @@ public interface SessionService {
   Session createSession(Session session);
   void deleteSession(UUID id);
 
+  ResponseEntity<?> updateTotalDuration(UUID moduleId, UUID sessionId, SessionDurationRequest sessionDurationRequest);
   ResponseEntity<?> updateSessionInfo(Session sessionInfo, UUID id);
 
   void updateSessionBySessionType(List<SessionUpdateRequest> sessionUpdateRequests, List<Session> oldModuleList, SessionName sessionName);

@@ -41,7 +41,22 @@ const HomeComponent = () => {
         return courseCounts;
     }, { Synchronous: 0, Asynchronous: 0 });
 
+    function calculatePercentage(counts) {
+      const total = Object.values(counts).reduce((acc, val) => acc + val, 0);
+    
+      // Convert counts to percentages
+      const percentages = {};
+      for (const key in counts) {
+        percentages[key] = ((counts[key] / total) * 100).toFixed(2);
+      }
+    
+      return percentages;
+    }
 
+    const SessionOptionPercentages = calculatePercentage(SessionOptionCounts);
+    const InteractionTypePercentages = calculatePercentage(InteractionTypeCounts);
+
+    console.log(SessionOptionPercentages)
     const SessionOptionData = [
         {
           id: "F2F",
@@ -64,7 +79,7 @@ const HomeComponent = () => {
     ];
     
     SessionOptionData.forEach(option => {
-        option.value = SessionOptionCounts[option.id];
+        option.value = SessionOptionPercentages[option.id];
     });
 
     const InteractionTypeData = [
@@ -83,7 +98,7 @@ const HomeComponent = () => {
     ];
 
     InteractionTypeData.forEach(option => {
-        option.value = InteractionTypeCounts[option.id];
+        option.value = InteractionTypePercentages[option.id];
     });
 
 

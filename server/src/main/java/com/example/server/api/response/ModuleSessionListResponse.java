@@ -1,16 +1,14 @@
 package com.example.server.api.response;
 
 import com.example.server.model.Session;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ModuleSessionListResponse {
   private List<Session> sessionList;
 }

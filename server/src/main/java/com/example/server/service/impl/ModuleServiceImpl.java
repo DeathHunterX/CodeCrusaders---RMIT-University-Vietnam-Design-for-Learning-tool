@@ -5,13 +5,13 @@ import com.example.server.api.request.ModuleRequest;
 import com.example.server.api.request.SessionRequest;
 import com.example.server.api.response.ApiResponse;
 import com.example.server.api.response.ModuleDetailsResponse;
-import com.example.server.api.response.ModuleNameResponse;
 import com.example.server.exception.ObjectNotFoundException;
 import com.example.server.model.Course;
 import com.example.server.model.Module;
 import com.example.server.model.Session;
 import com.example.server.model.SharedCourseLink;
 import com.example.server.model.enums.SessionName;
+import com.example.server.repository.ActivityRepository;
 import com.example.server.repository.CourseRepository;
 import com.example.server.repository.ModuleRepository;
 import com.example.server.service.CourseService;
@@ -22,7 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class ModuleServiceImpl implements ModuleService {
 
   private final ModuleRepository moduleRepository;
   private final CourseRepository courseRepository;
+  private final ActivityRepository activityRepository;
   private final UserDetailsServiceImpl userDetailsService;
   private final CourseService courseService;
 
@@ -38,11 +41,12 @@ public class ModuleServiceImpl implements ModuleService {
     Module module = moduleRepository.findById(id)
         .orElseThrow(() -> new ObjectNotFoundException("Module", "id", 400));
     List<Session> sessionList = module.getSessionList();
+    List<Session> formatedSessionList = formatSessionList(sessionList);
     ModuleDetailsResponse moduleDetailsResponse = new ModuleDetailsResponse();
     moduleDetailsResponse.setName(module.getName());
     moduleDetailsResponse.setLos(module.getLos());
     moduleDetailsResponse.setModuleWeek(module.getModuleWeek());
-    moduleDetailsResponse.setSessionList(sessionList);
+    moduleDetailsResponse.setSessionList(formatedSessionList);
     SharedCourseLink sharedCourseLink = module.getSharedCourseLinks();
     if(sharedCourseLink != null) {
       moduleDetailsResponse.setShareLink(sharedCourseLink.getShareLink());
@@ -56,13 +60,6 @@ public class ModuleServiceImpl implements ModuleService {
   public Module getModuleById(UUID id) {
     return moduleRepository.findById(id).orElseThrow(
         () -> new ObjectNotFoundException("module", "id"));
-  }
-
-  @Override
-  public List<Session> getAllSessionFromModule(UUID moduleId) {
-    Module module = moduleRepository.findById(moduleId)
-        .orElseThrow(() -> new ObjectNotFoundException("Module", "id", 400));
-    return module.getSessionList();
   }
 
   @Override
@@ -120,5 +117,23 @@ public class ModuleServiceImpl implements ModuleService {
     }
     Module updatedModule = moduleRepository.save(_module);
     return new ResponseEntity<>(updatedModule, HttpStatus.OK);
+  }
+
+  @Override
+  public List<Session> getAllSessionList(UUID moduleId) {
+    Module module =getModuleById(moduleId);
+    List<Session> sessionList = module.getSessionList();
+    return formatSessionList(sessionList);
+  }
+
+  @Override
+  public List<Session> formatSessionList(List<Session> sessionList) {
+    List<Session> formatedSessionList = new ArrayList<>();
+    for(Session session : sessionList) {
+      session.setActivityList(activityRepository.findBySession_IdOrderByOrderIndex(session.getId()));
+      formatedSessionList.add(session);
+    }
+    return formatedSessionList;
+
   }
 }

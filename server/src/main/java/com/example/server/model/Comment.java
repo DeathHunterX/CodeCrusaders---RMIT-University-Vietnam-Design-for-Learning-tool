@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Entity
@@ -22,14 +24,6 @@ public class Comment {
 
   private String content;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "replyTo")
-  @JsonManagedReference
-  private Set<Comment> replies = new HashSet<>();
-
-  @ManyToOne
-  @JsonBackReference
-  private Comment replyTo;
-
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   @JsonIgnoreProperties({"username", "password", "refreshToken", "courses", "sharedCourseLinks", "commentList", "id", "enabled", "accountNonExpired", "accountNonLocked", "credentialsNonExpired", "authorities"})
@@ -40,9 +34,7 @@ public class Comment {
   @JsonIgnore
   private SharedCourseLink shareLink;
 
-  public Comment(String content, List<Comment> replies, User user, SharedCourseLink sharedCourseLink) {
-    this.content = content;
-    this.user = user;
-    this.shareLink = sharedCourseLink;
-  }
+  private String dateTime;
+
+
 }

@@ -12,7 +12,6 @@ export default function HomeCourse({ title, id, compFunction}) {
         <div className="col-6">
           <div className="home-course-info w-100">
             <h5>{title}</h5>
-            <h6>August 5th 2023</h6>
           </div>
         </div>
 

@@ -125,7 +125,7 @@ const PDFAModule = ({moduleData}) => {
           
           <View style={styles.sectionClass} key={sessionContent.id}>
             <Text style={styles.subtitle}>
-              {sessionContent.sessionName}:
+              {sessionContent.sessionName.replace(/_/g, ' ')}:
             </Text>
 
             <View style={styles.sectionPreClass}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -19,6 +19,9 @@ const SignIn = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -33,13 +36,13 @@ const SignIn = () => {
 
   useEffect(() => {
     if (isSuccess || user) {
-      navigate("/")
-      dispatch(resetState())
+      navigate(`${from}`, {replace: true});
+      dispatch(resetState());
     } else if (isError) {
       toast.error(message)
       dispatch(resetState())
     }
-  }, [dispatch, isError, isSuccess, message, navigate, user])
+  }, [dispatch, from, isError, isSuccess, message, navigate, user])
 
   return (
     <div className="login_center">

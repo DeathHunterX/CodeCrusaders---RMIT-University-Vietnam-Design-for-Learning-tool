@@ -1,4 +1,3 @@
-import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IconSetting } from "../../utils/IconSetting";
 import Board from "./Item/Board";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -24,9 +23,6 @@ const CoursePlanner = ({activityData, activityFunction}) => {
                             <div className="activity_list_content">
                                 <div className="activity_list_header">
                                     <h6>{item.sessionName.replace(/_/g, ' ')}</h6>
-                                    <div className="">
-                                        <span>{IconSetting(<HiOutlineDotsVertical/>, "black", "23px")}</span>
-                                    </div>
                                 </div>
 
                                 <Board compData={ActivityBoardData} compFunction={ActivityBoardFunction}/>

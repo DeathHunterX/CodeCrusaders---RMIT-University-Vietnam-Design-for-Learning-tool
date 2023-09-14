@@ -63,8 +63,7 @@ public class ModuleController {
 
   @GetMapping("modules/{id}/sessions")
   public ResponseEntity<ModuleSessionListResponse> getSessionListByModule(@PathVariable("id") UUID id) {
-    ModuleSessionListResponse moduleSessionListResponse = new ModuleSessionListResponse();
-    moduleSessionListResponse.setSessionList(moduleService.getAllSessionFromModule(id));
+    ModuleSessionListResponse moduleSessionListResponse = new ModuleSessionListResponse(moduleService.getAllSessionList(id));
     return new ResponseEntity<>(moduleSessionListResponse, HttpStatus.OK);
   }
 

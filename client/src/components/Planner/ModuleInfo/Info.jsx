@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {useParams} from "react-router-dom"
-import {AiOutlineQuestionCircle} from 'react-icons/ai'
 import TextEditor from '../../TextEditor/TextEditor'
 import { useDispatch, useSelector } from 'react-redux';
 import { editModule, resetModuleState } from '../../../redux/slices/moduleSlice';
@@ -154,7 +153,7 @@ const ModuleInfo = ({width}) => {
                     <table className="class_table table ">
                         <thead>
                             <tr>
-                            <th scope="col" className="class_col p-2">Class Name</th>
+                            <th scope="col" className="class_col p-2">Session</th>
                             <th scope="col" className="modality_col p-2">Modality</th>
                             <th scope="col" className="grouping_col p-2">Grouping</th>
                             <th scope="col" className="availability_col p-2">Lecture Availability</th>
@@ -165,7 +164,7 @@ const ModuleInfo = ({width}) => {
                             {
                             moduleInfo.sessionList.map((classItm, idx) => (
                                 <tr className="fw-normal" key={idx}>
-                                    <td className="text-center p-2">{classItm.sessionName}</td>
+                                    <td className="text-center p-2">{classItm.sessionName.replace(/_/g, ' ')}</td>
                                     <td>
                                         <RadioButtonsList
                                             className={"d-flex justify-content-evenly"}
@@ -211,8 +210,7 @@ const ModuleInfo = ({width}) => {
 
                 <div className="mb-3">
                     <div className="">
-                        <label htmlFor="exampleFormControlTextarea1" className="form-label me-4">Module Learning Object</label>
-                        <AiOutlineQuestionCircle />
+                        <label htmlFor="exampleFormControlTextarea1" className="form-label me-4">Module Learning Outcomes</label>
                     </div>
                     <TextEditor value={los} onSendValue={handleTextEditor} />
                 </div>

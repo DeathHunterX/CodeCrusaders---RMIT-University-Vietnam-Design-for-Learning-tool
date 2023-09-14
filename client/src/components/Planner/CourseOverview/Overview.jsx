@@ -106,7 +106,7 @@ const CourseOverview = () => {
         
         <div className="course_edited">
             <div className="row m-5">
-                <div className="col-10 col-md-10">
+                <div className="col-12 col-md-12">
                     <form className="course_form" onSubmit={handleSubmitForm}>
                         <div className="d-flex mb-3">
                             <label htmlFor="courseNameInput" className="form-label" style={{width: '15%'}}>Course Name</label>
@@ -177,7 +177,7 @@ const CourseOverview = () => {
 
                         <div className="mt-3">
                             <div className="">
-                                <h3>Course Learning Object</h3>
+                                <h3>Course Learning Outcome</h3>
                                 <p>What do you want learners to take away with after this class?</p>
                             </div>
 
@@ -188,15 +188,16 @@ const CourseOverview = () => {
                         
                         <hr />
                         <div className="submit_btn">
-                            <div className="mt-3 d-flex justify-content-between">
-                                <span className="btn btn-primary w-25" onClick={() => setCourseData(getCourseData(course))}>Cancel</span>
-                                <button className="btn btn-success w-25" type='submit'>Save</button>
+                            <div className="" style={{float: "right"}}>
+                                <span className="btn btn-primary" onClick={() => setCourseData(getCourseData(course))}>Cancel</span>
+                                <button className="btn btn-success ms-2" type='submit'>Save</button>
                             </div>
                         </div>
                     
                     </form>
                 </div>
-                <div className="col-2 col-md-2">
+
+                <div className="col-12 mt-5">
                     <DeleteCourse />
                 </div>
             </div>

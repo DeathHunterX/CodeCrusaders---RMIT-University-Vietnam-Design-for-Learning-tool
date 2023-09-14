@@ -177,7 +177,7 @@ const CourseOverview = () => {
 
                         <div className="mt-3">
                             <div className="">
-                                <h3>Course Learning Outcomes</h3>
+                                <h3>Course Learning Outcome</h3>
                                 <p>What do you want learners to take away with after this class?</p>
                             </div>
 

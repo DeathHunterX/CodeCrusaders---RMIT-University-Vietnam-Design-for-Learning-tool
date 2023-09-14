@@ -50,7 +50,7 @@ const PDFCourse = ({courseData}) => {
         Semester:
         <Text style={styles.text}> {courseSemester}</Text>
       </Text>
-      <Text style={styles.subtitle}>CLOs(Course Learning Objectives):</Text>
+      <Text style={styles.subtitle}>CLOs(Course Learning Outcome):</Text>
       {
         courseCLOs.length > 0 && courseCLOs.map((content, idx) => (
           <Text style={styles.textClo} key={idx}>

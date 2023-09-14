@@ -51,7 +51,7 @@ const HTMLGenerator = ({data}) => {
         <p>Course name: ${data?.courseName}</p>
         <p>Semester: ${data?.courseSemester}</p>
       
-        <p>CLOs (Course Learning Objectives)</p>
+        <p>CLOs (Course Learning Outcome)</p>
         ${
             courseCLOs.length > 0 
             &&

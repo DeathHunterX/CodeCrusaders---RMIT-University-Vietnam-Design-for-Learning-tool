@@ -1,10 +1,21 @@
 import React from 'react'
-import { UserLeftMap } from './LeftSideMap'
 import { Link, useParams } from 'react-router-dom'
 
 const LeftSide = () => {
-    const {subPage} = useParams()
+    const {id, subPage} = useParams()
 
+    const UserLeftMap = [
+        {
+            itemNo: '1',
+            itemName: 'Profile',
+            itemLink: `/user/${id}/profile`
+        },
+        {
+            itemNo: '2',
+            itemName: 'Setting',
+            itemLink: `/user/${id}/setting`
+        },
+    ]
     return (
       <div className="sticky_sidebar d-block">
           <ul className='section_tabs'>

@@ -87,8 +87,8 @@ const NavBar = ({isNavBarOpen, setNavBarOpen, setLocationStyle}) => {
                     <p className="text-center mt-1">{user?.name}</p>
                   </div>
                   <hr />
-                  <Link className="dropdown-item" to={`/user/01/profile`} >My Profile</Link>
-                  <Link className="dropdown-item" to={`/user/01/setting/`} >Settings</Link>
+                  <Link className="dropdown-item" to={`/user/${user?.id}/profile`} >My Profile</Link>
+                  <Link className="dropdown-item" to={`/user/${user?.id}/setting`} >Settings</Link>
                 </div>
               </li>
             </ul>

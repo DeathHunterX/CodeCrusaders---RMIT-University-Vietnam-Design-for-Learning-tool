@@ -16,7 +16,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/ws").setAllowedOrigins("http://localhost:3000").withSockJS();
-    // registry.addEndpoint("/ws").setAllowedOrigins("http://rmit-learning-tool.s3-website-ap-northeast-1.amazonaws.com").withSockJS();
+    registry.addEndpoint("/ws").setAllowedOrigins("http://rmit-learning-tool.s3-website-ap-northeast-1.amazonaws.com").withSockJS();
   }
 }

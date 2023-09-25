@@ -1,14 +1,18 @@
+![header image](assets/header.jpg)
+
 # CodeCrusaders---RMIT-University-Vietnam-Design-for-Learning-tool
 
 RMIT Capstone Project
 
-Development tools:
+Technology Development tools:
+- Front-end: ReactJS (https://react.dev),
+- Back-end: Spring Boot (https://start.spring.io/),
+- Database: MySQL (Info: https://www.mysql.com),
 
-- Front-end: ReactJS
-- Back-end: Spring Boot (https://start.spring.io/)
-- Database: MySQL
+- API Testing: Postman (Info: https://www.postman.com/company/about-postman/)
 
 How to set up?
+---
 
 - For Database (MySQL):
 
@@ -53,4 +57,36 @@ How to set up?
     npm run production
     ```
 
-Note that: before you start the client, you should start with the database first, server second to avoid unnecessary error related to connection
+Note: 
+---
+- In the client/src/proxy.js, I have already set up 2 addresses, one for local, one for deploy in AWS or any deployment tools such as Vercel, Azure
+![header image](assets/address.jpg)
+If you want to use local part, change it into usable code, else, change into comment one, same with deployed.
+
+```bash
+  // --- Local
+  export const BACKEND_PROXY = "http://localhost:8080"
+  export const FRONT_END_URL = "http://localhost:3000"
+```
+
+```bash
+  // --- Deployed (AWS - Front-end S3, Back-end EC2, Route53 For HTTPS Protocol)
+  export const BACKEND_PROXY = "http://35.76.125.226:8080"
+  export const FRONT_END_URL = "http://rmit-learning-tool.s3-website-ap-northeast-1.amazonaws.com"
+```
+
+Also, in server/src/main/java/com/example/server/config/WebSocketConfig.java, 
+![header image](assets/websocketaddress.jpg)
+change code in line 19 into code below if you want to use real time comment feature:
+
+```bash
+// --- Local 
+registry.addEndpoint("/ws").setAllowedOrigins("http://localhost:3000").withSockJS();
+```
+
+```bash
+// --- Deployed
+registry.addEndpoint("/ws").setAllowedOrigins("http://rmit-learning-tool.s3-website-ap-northeast-1.amazonaws.com").withSockJS();
+```
+
+- Before you start the client, you should start with the database first, server second to avoid unnecessary error related to connection

@@ -85,7 +85,7 @@ registry.addEndpoint("/ws").setAllowedOrigins("http://localhost:3000").withSockJ
 ```
 
 ```bash
-// --- Deployed
+// --- Deployed (AWS)
 registry.addEndpoint("/ws").setAllowedOrigins("http://rmit-learning-tool.s3-website-ap-northeast-1.amazonaws.com").withSockJS();
 ```
 
